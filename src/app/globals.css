@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --gold-grad-start: #f1b31a;
+  --gold-grad-end: #e48f0f;
+  --dis-grad-start: #888888;
+  --dis-grad-end: #353535;
+  --shine-grad-start: rgba(255, 232, 175, 0.74);
+  --shine-grad-end: rgba(255, 255, 255, 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(0, 0, 0)) rgb(0, 0, 0);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/*  CUSTOM STYLING BY CHAIN CHIEF */
+
+@layer componentes {
+  .shine {
+    @apply absolute w-full h-full top-0 left-0;
+  }
+}
+
+.innerBlack {
+  box-shadow: inset 0 2px 6px -1px rgb(0 0 0 / 0.48);
+}
+
+.dropBlack {
+  box-shadow: 0 1px 3px -2px rgb(255 255 255 / 0.55);
+}
+
+.innerGold {
+  box-shadow: inset 0 4px 3px -2px rgb(255 255 255 / 0.52);
+}
+
+.dropGold {
+  box-shadow: 0 0 1px 1px rgb(233 156 19 / 0.1);
+}
+
+.innerDis {
+  box-shadow: inset 0 0 3px -2px rgb(255 255 255 / 0.52);
+}
+
+.gold-btn-drop {
+  box-shadow: 0 1px 0 1px rgb(147 85 12);
+}
+
+.gold-btn-drop-hover {
+  box-shadow: 0 1px 0 1px rgb(192 117 28);
+}
+
+.gold-btn-inner {
+  box-shadow: inset 0 4px 3px -2px rgb(255 255 255);
+}
+
+.gold-btn-hover {
+  box-shadow: 0 -1px 2px 1px rgb(252 227 170 / 0.55);
+}
+
+.primary-btn:hover span {
+  color: #50350b !important;
+}
+
+.nav-btn {
+  background-color: rgba(30, 30, 30, 0.2);
+}
+
+.nav-btn-hover {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0.04)
+  );
+}
+
+.nav-btn-active {
+  background-image: radial-gradient(
+    rgba(233, 174, 21, 0.16),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.gold-drop-active {
+  box-shadow: 0px 2px 4px -1px #0000008c;
+}
+
+.gold-inner-active {
+  box-shadow: 0px 2px 7px -1px #e9ae1526 inset;
+}
+
+.new-btn {
+  background-image: linear-gradient(
+    270deg,
+    rgba(87, 87, 87, 0.21) 15.89%,
+    rgba(229, 165, 0, 0.21) 49.62%,
+    rgba(87, 87, 87, 0.21) 88.54%
+  );
+  border: 0.5px solid;
+  border-image: linear-gradient(
+      90deg,
+      rgba(43, 43, 43, 0) 20%,
+      #e9ae15 50%,
+      rgba(43, 43, 43, 0) 80%
+    )
+    100% 1;
+  box-shadow: 0px 0.76px 2.29px -0.76px #0000006e;
+}
+
+.new-btn:hover {
+  background-color: #e7af1d;
+  border: 1px solid #ffe9ae;
+  box-shadow: 0px 0px 7.76px 0px #e7af1dad;
+}
+
+.new-btn:hover span {
+  color: black !important;
+}
+
+.locked {
+  background: linear-gradient(180deg, #c29118 0%, #ae6c09 100%),
+    radial-gradient(
+      120.08% 100% at 50% 0%,
+      rgba(255, 232, 175, 0.2) 0%,
+      rgba(216, 148, 16, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(126, 83, 14, 0.2), rgba(126, 83, 14, 0.2));
+}
+
+.done {
+  background: linear-gradient(180deg, #403f3f 0%, #2a2a2a 100%),
+    radial-gradient(
+      120.08% 100% at 50% 0%,
+      rgba(189, 189, 189, 0.25) 0%,
+      rgba(31, 31, 31, 0) 100%
+    );
+  box-shadow: 0px 1px 0px 1px #1b1b1b;
+}
+
+.normal-btn {
+  background: linear-gradient(0deg, #2e2e2e, #2e2e2e),
+    linear-gradient(180deg, rgba(63, 63, 63, 0.58) 0%, rgba(35, 35, 35, 0) 100%);
+  box-shadow: 0px 4px 4px -4px rgba(255, 255, 255, 0.08) inset;
+}
+
+.dropdown-btn {
+  background: rgba(96, 96, 96, 0.12);
+  box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.43);
+  box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.24);
+}
+
+.message-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+.message-list::-webkit-scrollbar-thumb {
+  background: #2e2e2e;
+}
+
+/* Handle on hover */
+.message-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.steam {
+  background-color: #00c04c;
+}
+
+.steam-btn-drop {
+  box-shadow: 0 1px 0 1px #006629;
+}
+
+header {
+  border-bottom: 1px solid;
+  border-image: radial-gradient(#393939 0%, rgba(57, 57, 57, 0) 100%) 100% 1;
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  background-image: url("/assets/images/crown.svg");
+  background-repeat: no-repeat;
+}
