@@ -7,6 +7,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/preline/preline.js"
   ],
   theme: {
     backgroundImage: {
@@ -15,14 +16,16 @@ const config: Config = {
       shine: "radial-gradient(var(--shine-grad-start),var(--shine-grad-end))"
     },
     colors: {
-      transparent: "transparent",
+      transparent: colors.transparent,
       current: "currentColor",
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
+      green: colors.green,
+      red: colors.red,
       main: "#202020",
       innerBlack: "#0D0D0D",
-      font: "#714A04",
+      font: "#D1D1D1",
       brown: "#50350B",
       gold: "#E9AE15"
     },
@@ -34,6 +37,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('preline/plugin')],
 };
 export default config;

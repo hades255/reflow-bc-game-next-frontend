@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import Image from "next/image";
-import upgradeItem1 from "@/assets/images/upgrade-item-1.png";
-import selectCrown from "@/assets/images/upgrade-select.svg";
 import IconCoin from "@/utils/icons/Coin";
-import { title } from "process";
 
 interface Props {
   select?: boolean;
@@ -15,7 +12,7 @@ interface Props {
 const CaseItem: FC<Props> = ({ select, id, title, amount }) => {
   return (
     <div
-      className="h-[220px] w-[171px] bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer"
+      className="h-[220px] w-full bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
     >
       <div

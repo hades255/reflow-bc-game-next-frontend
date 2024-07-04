@@ -14,7 +14,11 @@ const boxList = [
   { title: "Gold", level: 100 },
 ];
 
-const CaseBox: FC = () => {
+interface Props {
+  onClick?: () => void;
+}
+
+const CaseBox: FC<Props> = ({ onClick }) => {
   const [current, setCurrent] = useState(1);
 
   return (
@@ -28,7 +32,7 @@ const CaseBox: FC = () => {
         </p>
         <div className="flex flex-row gap-[6px] mt-[8px]">
           <Image src={lock} alt="logo" />
-          <p className="text-[14px] font-normal">
+          <p className="text-[14px] font-normal text-[#D1D1D1]">
             Unlocks at{" "}
             <span className="font-medium">Level {boxList[current].level}</span>
           </p>
@@ -51,7 +55,7 @@ const CaseBox: FC = () => {
         </div>
 
         <div className="w-[120px] mt-6">
-          <Button text="Open Case" />
+          <Button text="Open Case" clicked={onClick} />
         </div>
       </div>
 

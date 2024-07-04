@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import PrelineScript from "@/components/PrelineScript";
 import "./globals.css";
 import MainLayout from "@/components/layouts/MainLayout";
 
@@ -17,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <PrelineScript />
       <body className={inter.className}>
         <MainLayout>{children}</MainLayout>
       </body>

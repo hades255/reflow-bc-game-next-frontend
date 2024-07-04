@@ -16,14 +16,14 @@ const SteamLoginButton: React.FC<Props> = ({ text, clicked }) => {
 
   return (
     <button
-      className="steam max-w-40 py-2 px-6 rounded-sm relative primary-btn steam-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90"
+      className="steam w-24 py-2 px-4 rounded-sm relative primary-btn steam-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={handleClick}
     >
       <div className="shine rounded-t-sm gold-btn-inner"></div>
       {hover && <div className="shine gold-btn-hover rounded-sm"></div>}
-      <div className="flex justify-center items-center">
+      <div className="flex w-16 justify-center items-center">
         <p className="text-black font-semibold text-xs flex items-center gap-2">
           <FaSteam />
           {text}

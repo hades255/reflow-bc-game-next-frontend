@@ -15,14 +15,14 @@ const UserArea = () => {
       <Button text={"Deposit"} disabled={false} clicked={handleClick} />
       <NavButton
         Icon={PiCoinsLight}
-        text={"24.86"}
+        text={"524.86"}
         clicked={handleClick}
         active={false}
         other={true}
       />
       <UserCard
         avatar={"/assets/images/default.png"}
-        name={"Zakc"}
+        name={"Zack"}
         lvl={54}
         progress={30}
       />

@@ -17,7 +17,7 @@ const Breakdown: FC = () => {
     <div className="flex flex-col gap-4">
       <p className="text-[18px] font-bold text-[#D1D1D1]">XP Breakdown</p>
 
-      <div className="w-[1000px]">
+      <div className="w-full">
         <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
           <thead className="">
             <tr className="w-full h-[33px] bg-[#1F1F1F] rounded-[5px]">

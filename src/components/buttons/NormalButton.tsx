@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Props {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
-  clicked: () => void;
+  clicked?: () => void;
 }
 
 const NormalButton: React.FC<Props> = ({ icon, text, clicked }) => {

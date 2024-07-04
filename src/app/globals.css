@@ -22,9 +22,21 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
+  height: 100vh;
+  box-sizing: border-box;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(0, 0, 0)) rgb(0, 0, 0);
+  background: #121212;
+  overflow-x: hidden;
 }
 
 @layer utilities {
@@ -35,9 +47,15 @@ body {
 
 /*  CUSTOM STYLING BY CHAIN CHIEF */
 
-@layer componentes {
+@layer components {
   .shine {
     @apply absolute w-full h-full top-0 left-0;
+  }
+  .small-btn {
+    @apply bg-[#252525] text-[#707070] hover:text-[#c9c9c9] py-1 px-2 text-sm rounded-sm;
+  }
+  .small-coin {
+    @apply w-8 h-8 flex items-center justify-center;
   }
 }
 
@@ -194,6 +212,57 @@ header {
   border-image: radial-gradient(#393939 0%, rgba(57, 57, 57, 0) 100%) 100% 1;
 }
 
+.black-input:focus {
+  outline: none !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.black-input {
+  background: rgba(0, 0, 0, 0) !important;
+}
+
+.dropdown {
+  background: transparent !important;
+  height: 38px !important;
+}
+
+.dropdown .btn {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.game-card {
+  background: linear-gradient(0deg, #1e1e1e, #1e1e1e),
+    linear-gradient(180deg, rgba(40, 40, 40, 0.58) 0%, rgba(30, 30, 30, 0) 100%);
+  border: 1px solid;
+  border-image: radial-gradient(
+    64.91% 64.91% at 18.35% 0%,
+    #393939 0%,
+    rgba(57, 57, 57, 0) 100%
+  ) 1 100%;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.14);
+}
+
+.inner-green {
+  box-shadow: inset 0 0 12px 1px rgba(21,192,89,0.34);
+}
+
+.inner-red {
+  box-shadow: inset 0 0 12px 1px rgba(198,54,63,0.48);
+}
+
+#hs-overlay-backdrop-with-scrolling-backdrop {
+  background: rgba(0,0,0,.6) !important;
+  backdrop-filter: blur(1px) !important;
+}
+
+.token-hover:hover {
+  background-image: linear-gradient(270deg, rgba(229, 149, 19, 0.14), rgba(229, 149, 19, 0.0406)) !important;
+  border-style: solid;
+  border-width: 0 2px 0 0;
+  border-color: #E59513;
+}
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -201,4 +270,65 @@ header {
   width: 18px;
   background-image: url("/assets/images/crown.svg");
   background-repeat: no-repeat;
+}
+
+.white-coin-gif {
+  width: 200px;
+  height: 200px;
+  left: 50px;
+  top: -4px;
+  background-image: url("/assets/coinflip/a.png");
+  background-size: 100% 5100%;
+  background-repeat: no-repeat;
+  background-position: top;
+  animation-name: coinGif;
+  animation-duration: 2s;
+  animation-timing-function: steps(50);
+  animation-iteration-count: initial;
+}
+
+.black-coin-gif {
+  width: 200px;
+  height: 200px;
+  left: 50px;
+  top: -4px;
+  background-image: url("/assets/coinflip/b.png");
+  background-size: 100% 5100%;
+  background-repeat: no-repeat;
+  background-position: top;
+  animation-name: coinGif;
+  animation-duration: 2s;
+  animation-timing-function: steps(50);
+  animation-iteration-count: initial;
+}
+
+@keyframes coinGif {
+  from {
+    background-position: top;
+  }
+  to {
+    background-position: bottom;
+  }
+}
+
+.white-coin-back {
+  width: 200px;
+  height: 200px;
+  left: 50px;
+  top: -4px;
+  background-image: url("/assets/coinflip/a.png");
+  background-size: 100% 5100%;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+}
+
+.black-coin-back {
+  width: 200px;
+  height: 200px;
+  left: 50px;
+  top: -4px;
+  background-image: url("/assets/coinflip/b.png");
+  background-size: 100% 5100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }

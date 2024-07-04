@@ -11,9 +11,9 @@ interface Props {
 const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
   return (
     <div className="h-full flex rounded-sm relative">
-      <div className="p-2 flex items-center gap-2 rounded-l-sm normal-btn">
+      <div className="p-2 flex min-w-20 items-center gap-2 rounded-l-sm normal-btn">
         <Image
-          className="w-full h-full rounded-sm"
+          className="rounded-sm"
           width={18}
           height={18}
           alt=""

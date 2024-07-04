@@ -24,7 +24,7 @@ const NavButton: React.FC<Props> = ({ Icon, active, text, other, clicked }) => {
     <>
       {active ? (
         <button
-          className="max-w-48 px-4 h-full nav-btn rounded-sm gold-drop-active relative flex justify-center items-center"
+          className="max-w-48 px-2 h-full nav-btn rounded-sm gold-drop-active relative flex justify-center items-center"
           onClick={handleClick}
         >
           <div className="shine rounded-sm gold-inner-active"></div>
@@ -36,7 +36,7 @@ const NavButton: React.FC<Props> = ({ Icon, active, text, other, clicked }) => {
         </button>
       ) : (
         <button
-          className="max-w-48 px-4 h-full nav-btn rounded-sm dropBlack relative flex justify-center items-center"
+          className="max-w-48 px-2 h-full nav-btn rounded-sm dropBlack relative flex justify-center items-center"
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           onClick={handleClick}

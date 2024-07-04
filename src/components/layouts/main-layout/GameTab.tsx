@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import NavButton from "@/components/buttons/NavButton";
 
@@ -7,7 +8,6 @@ import IconSportsBet from "@/utils/icons/SportsBet";
 import IconCoinFlip from "@/utils/icons/CoinFlip";
 import IconCrown from "@/utils/icons/Crown";
 import IconDuel from "@/utils/icons/Duel";
-import { useRouter } from "next/navigation";
 
 type TabType = {
   active: boolean;
@@ -28,16 +28,31 @@ const GameTab = () => {
         idx === index ? { ...tab, active: true } : { ...tab, active: false }
       )
     );
-
-    if (idx === 3) {
-      router.push("/upgrade");
+    switch (idx) {
+      case 0:
+        router.push("/roulette");
+        break;
+      case 1:
+        router.push("/roulette");
+        break;
+      case 2:
+        router.push("/coinflip");
+        break;
+      case 3:
+        router.push("/upgrade");
+        break;
+      case 4:
+        router.push("/upgrade");
+        break;
+      default:
+        break;
     }
   };
 
   const [tabs, setTabs] = useState<TabType[]>([
-    { active: true, text: "ROULETTE", Icon: IconRoulette },
+    { active: false, text: "ROULETTE", Icon: IconRoulette },
     { active: false, text: "SPORTS BETTING", Icon: IconSportsBet },
-    { active: false, text: "ROYAL FLIP", Icon: IconCoinFlip },
+    { active: true, text: "ROYAL FLIP", Icon: IconCoinFlip },
     { active: false, text: "CROWN & KING", Icon: IconCrown },
     { active: false, text: "PRICE PREDICTION", Icon: IconDuel },
   ]);
