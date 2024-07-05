@@ -8,7 +8,7 @@ import { PiCoinsLight } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa6";
 
 interface Props {
-  setMyGames: (side: boolean, bet: number, count: number ) => void;
+  setMyGames: (side: boolean, bet: number, count: number) => void;
 }
 
 const Header: React.FC<Props> = ({ setMyGames }) => {

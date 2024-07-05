@@ -8,13 +8,9 @@ import WhiteCoin from "@/utils/icons/WhiteCoin";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import { UserType, PlayerType, GameType } from "@/utils/types";
 
-import coinb from "@/assets/coinflip/b.gif";
-
 interface Props {
-  blank: boolean;
-  g_id: number;
   game: GameType;
-  setGames: (game_id: number, games: GameType) => void;
+  setGames: (game_id: string, games: GameType) => void;
 }
 
 const user: UserType = {
@@ -24,7 +20,7 @@ const user: UserType = {
   level: 54,
 };
 
-const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
+const MatchCard: React.FC<Props> = ({ game, setGames }) => {
   const [timer, setTimer] = useState<number>(6);
 
   const [side, setSide] = useState<boolean | null>(game.side);
@@ -32,7 +28,7 @@ const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
   const [show, setShow] = useState<boolean>(false);
 
   const handlePlay = () => {
-    setGames(g_id, {
+    setGames(game.game_id, {
       ...game,
       players: game["players"].concat([
         {
@@ -47,7 +43,7 @@ const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
   const handleCall = () => {
     setSide(true);
 
-    setGames(g_id, {
+    setGames(game.game_id, {
       ...game,
       players: game["players"].concat([
         {
@@ -74,8 +70,8 @@ const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
             budget:
               index === 0
                 ? players[0]["user_id"] === -1 || players[1]["user_id"] === -1
-                  ? player.budget * 2
-                  : (player.budget * 2 * 99) / 100
+                  ? player.budget
+                  : (player.budget * 99) / 100
                 : -player.budget,
           };
         });
@@ -86,22 +82,22 @@ const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
             budget:
               index === 1
                 ? players[0]["user_id"] === -1 || players[1]["user_id"] === -1
-                  ? player.budget * 2
-                  : (player.budget * 2 * 99) / 100
+                  ? player.budget
+                  : (player.budget * 99) / 100
                 : -player.budget,
           };
         });
       }
     };
 
-    setGames(g_id, {
+    setGames(game.game_id, {
       ...game,
       players: changeBudget(game.players),
     });
   }, [side]);
 
   const deleteGame = useCallback(() => {
-    setGames(g_id, {
+    setGames(game.game_id, {
       ...game,
       bet: 0,
     });
@@ -132,18 +128,7 @@ const MatchCard: React.FC<Props> = ({ blank, g_id, game, setGames }) => {
     }
   }, [timer, showResult, deleteGame]);
 
-  return blank ? (
-    <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
-      <div className="h-full w-full rounded-md innerBlack bg-[#191919] flex justify-center items-center">
-        <Image
-          width={104}
-          height={81}
-          src={"/assets/images/crown.png"}
-          alt=""
-        />
-      </div>
-    </div>
-  ) : (
+  return (
     <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
       <div className="relative h-full w-28 flex gap-2 flex-col justify-center items-center rounded-md innerBlack bg-[#191919]">
         <div className="relative">

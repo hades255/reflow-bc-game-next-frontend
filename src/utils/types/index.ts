@@ -15,7 +15,7 @@ export type PlayerType = {
 }
 
 export type GameType = {
-  game_id: number;
+  game_id: string;
   players: PlayerType[];
   side: boolean | null;
   bet: number | null;
