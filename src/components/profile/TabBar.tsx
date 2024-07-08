@@ -7,17 +7,34 @@ import IconAccount from "@/utils/icons/Account";
 import IconTransactions from "@/utils/icons/Transactions";
 import IconMystery from "@/utils/icons/Mystery";
 import IconSocials from "@/utils/icons/Socials";
+import { useRouter } from "next/navigation";
 
 interface Props {
   select?: number;
 }
 
 const TabBar: FC<Props> = ({ select }) => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState(1);
 
   useEffect(() => {
     setActiveTab(select ?? 1);
   }, [select]);
+
+  const handleClick = (id: number) => {
+    setActiveTab(id);
+    if (id === 1) {
+      router.push("/profile/details");
+    } else if (id === 2) {
+      router.push("/profile/account");
+    } else if (id === 3) {
+      router.push("/profile/transactions");
+    } else if (id === 4) {
+      router.push("/profile/mystery");
+    } else if (id === 5) {
+      router.push("/profile/socials");
+    }
+  };
 
   return (
     <div className="w-[240px] h-auto bg-[#0F0F0FAD] dropBlack rounded-[5px] py-3 px-[2px] flex flex-col gap-3">
@@ -31,7 +48,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Details"
-        onClick={() => setActiveTab(1)}
+        onClick={() => handleClick(1)}
       />
       <TabItem
         select={activeTab === 2}
@@ -43,7 +60,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Account"
-        onClick={() => setActiveTab(2)}
+        onClick={() => handleClick(2)}
       />
       <TabItem
         select={activeTab === 3}
@@ -55,7 +72,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Transactions"
-        onClick={() => setActiveTab(3)}
+        onClick={() => handleClick(3)}
       />
       <TabItem
         select={activeTab === 4}
@@ -67,7 +84,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Mystery Box"
-        onClick={() => setActiveTab(4)}
+        onClick={() => handleClick(4)}
       />
       <TabItem
         select={activeTab === 5}
@@ -79,7 +96,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Socials"
-        onClick={() => setActiveTab(5)}
+        onClick={() => handleClick(5)}
       />
     </div>
   );

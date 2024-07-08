@@ -7,7 +7,7 @@ const BlankCard = () => {
         <Image
           width={104}
           height={81}
-          src={"/assets/images/Crown.png"}
+          src={"/assets/images/crown.png"}
           alt=""
         />
       </div>
