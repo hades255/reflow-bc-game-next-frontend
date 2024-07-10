@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 
 interface Props {
   text: string;
   disabled?: boolean;
   clicked?: () => void;
+  className?: string;
 }
 
-const Button: React.FC<Props> = ({ text, disabled, clicked }) => {
+const Button: React.FC<Props> = ({ text, disabled, clicked, className }) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -16,7 +18,10 @@ const Button: React.FC<Props> = ({ text, disabled, clicked }) => {
 
   return disabled ? (
     <button
-      className="w-full locked py-2 px-6 rounded-sm gold-btn-drop relative cursor-not-allowed"
+      className={clsx(
+        `w-full locked py-2 px-6 rounded-sm gold-btn-drop relative cursor-not-allowed`,
+        className
+      )}
       onClick={clicked}
     >
       <div className="shine rounded-sm"></div>
@@ -26,7 +31,10 @@ const Button: React.FC<Props> = ({ text, disabled, clicked }) => {
     </button>
   ) : (
     <button
-      className="bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90"
+      className={clsx(
+        `bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90`,
+        className
+      )}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={handleClick}
