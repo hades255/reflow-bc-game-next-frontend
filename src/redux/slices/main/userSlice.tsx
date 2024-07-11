@@ -29,11 +29,21 @@ export const userSlice = createSlice({
         prev_balance: Number({...state.user}.balance),
         balance: Number(state.user.balance) + action.payload.balance
       })
+    },
+    balanceBackup: (state) => {
+      if (state.user) {
+        let prev = state.user.prev_balance;
+        state.user = {
+          ...state.user,
+          prev_balance: state.user.balance,
+          balance: prev
+        }
+      }     
     }
   },
 });
 
-export const { setUser, deleteUser, updateBalance } = userSlice.actions;
+export const { setUser, deleteUser, updateBalance, balanceBackup } = userSlice.actions;
 
 export const useUser = () => useSelector((state: RootState) => state.user.user);
 
