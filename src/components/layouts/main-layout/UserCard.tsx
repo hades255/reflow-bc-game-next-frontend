@@ -19,7 +19,7 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
           alt=""
           src={avatar}
         />
-        <span className="text-sm font-semibold text-[#9c9c9c]">{name}</span>
+        <span className="text-sm font-semibold text-[#9c9c9c] mr-4">{name}</span>
       </div>
       <div className="bg-gold rounded-r-sm py-1 px-2 flex items-center gold-btn-inner">
         <p className="text-black text-sm font-semibold flex">

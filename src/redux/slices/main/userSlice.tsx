@@ -26,7 +26,7 @@ export const userSlice = createSlice({
     updateBalance: (state, action: PayloadAction<{ balance: number }>) => {
       state.user = state.user && ({
         ...state.user,
-        prev_balance: Number(state.user.balance),
+        prev_balance: Number({...state.user}.balance),
         balance: Number(state.user.balance) + action.payload.balance
       })
     }

@@ -9,6 +9,8 @@ import {
   deleteALiveGame,
 } from "@/redux/slices/coinflip/liveGamesSlice";
 import { updateBalance } from "@/redux/slices/main/userSlice";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame } from "@/services/coinflip";
 import Button from "../buttons/Button";
 import { PiCoinsLight } from "react-icons/pi";
@@ -33,42 +35,68 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
 
   const handlePlay = async () => {
     if (user) {
-      let data = await joinGame(Number(game.game_id));
-      if (data.status === 200) {
-        dispatch(
-          playAGame({
-            round: game.round,
-            data: data.data.game,
-          })
-        );
-        dispatch(
-          updateBalance({
-            balance: -Number(game.bet),
-          })
-        );
-      }
+      if (game.bet <= Number(user.balance)) {
+        let data = await joinGame(Number(game.game_id));
+        if (data.status === 200) {
+          dispatch(
+            playAGame({
+              round: game.round,
+              data: data.data.game,
+            })
+          );
+          dispatch(
+            updateBalance({
+              balance: -Number(game.bet),
+            })
+          );
+        } else {
+          dispatch(setToast({
+            type: 3,
+            message: "Server internal error."
+          }))
+        }
+      } else {
+        dispatch(setModal({
+          status: true,
+          title: "No enough balance",
+          content: "Please deposit the money to start playing.",
+          name: "Deposit",
+          type: 3,
+          parameter: ""
+        }))
+      }   
     } else {
-      alert("Please sign in at first.");
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in to start playing.",
+          name: "Steam Sign In",
+          type: 1,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
     }
   };
 
   const showResult = useCallback(() => {
     setShow((prev) => !prev);
-
     dispatch(
       updateBudget({
         round: game.round,
       })
     );
-
-    dispatch(
-      updateBalance({
-        balance:
-          game.side === game.players[0].side
-            ? -Number(game.bet)
-            : Number(game.bet * 1.99),
-      })
-    );
+    if (game.round && game.players[1]?.user_id === user?.id) {
+      dispatch(
+        updateBalance({
+          balance:
+            game.side
+              ? 0
+              : Number(game.bet * 1.99),
+        })
+      );
+    }
+    setTimer(10);
   }, [dispatch, game.bet, game.round, game.side, game.players]);
 
   const deleteGame = useCallback(() => {
@@ -144,7 +172,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
 
       {timer === 6 ? (
         <h4 className="text-font">VS.</h4>
-      ) : timer !== 0 ? (
+      ) : timer !== 0 && timer < 6 ? (
         <h4 className="text-font innerBlack bg-[#191919] py-1 px-2 rounded-md">
           {timer}
         </h4>
@@ -169,9 +197,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               <WhiteCoin width={54} height={54} />
             )}
           </div>
-          {/* {!show && ( */}
           <Button text={"Play Now"} disabled={false} clicked={handlePlay} />
-          {/* )} */}
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
             <PiCoinsLight />
             <span className={"text-gold"}>

@@ -117,7 +117,7 @@ export const {
   cacheDelete,
   updateBudget,
   filterAmount,
-  sortAmount
+  sortAmount,
 } = liveGamesSlice.actions;
 
 export const useLiveGames = () =>

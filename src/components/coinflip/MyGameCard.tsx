@@ -3,8 +3,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useUser } from "@/redux/slices/main/userSlice";
-import { callHouse, updateBudget, deleteAGame } from "@/redux/slices/coinflip/myGamesSlice";
+import {
+  callHouse,
+  updateBudget,
+  deleteAGame,
+} from "@/redux/slices/coinflip/myGamesSlice";
 import { updateBalance } from "@/redux/slices/main/userSlice";
+import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame, cancelGame } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
 import { TfiCup } from "react-icons/tfi";
@@ -23,7 +28,6 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
 
   const [timer, setTimer] = useState<number>(6);
 
-
   const [show, setShow] = useState<boolean>(false);
 
   const handleCall = async () => {
@@ -33,11 +37,16 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
         dispatch(
           callHouse({
             round: game.round,
-            side: data.data.game.winner
+            side: data.data.game.winner,
           })
         );
       } else {
-        alert("Error calling house.");
+        dispatch(
+          setToast({
+            type: 3,
+            message: "Server internal error.",
+          })
+        );
       }
     }
   };
@@ -46,22 +55,22 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     setShow((prev) => !prev);
     dispatch(
       updateBudget({
-        round: game.round
+        round: game.round,
       })
     );
     dispatch(
       updateBalance({
-        balance: game.side === game.players[0].side ? Number(game.bet) * 1.99 : -Number(game.bet)
+        balance: game.side ? Number(game.bet) * 1.99 : 0,
       })
-    )
-  }, [dispatch, game.bet, game.round, game.side, game.players]);
+    );
+  }, [dispatch, game.bet, game.round, game.side]);
 
   const cancelMyGame = useCallback(async () => {
-    let data = await cancelGame(Number(game.id));
+    let data = await cancelGame(Number(game.game_id));
     if (data.status === 200) {
       dispatch(deleteAGame({ round: game.round }));
     }
-  }, [dispatch, game.id, game.round]);
+  }, [dispatch, game.game_id, game.round]);
 
   const deleteGame = useCallback(async () => {
     dispatch(deleteAGame({ round: game.round }));
