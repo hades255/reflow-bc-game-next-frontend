@@ -49,7 +49,6 @@ const AppHeader: FC = () => {
           {token === "" ? (
             <>
               <NormalButton
-                icon={<></>}
                 text={"Withdraw"}
                 clicked={handleClick}
               />
