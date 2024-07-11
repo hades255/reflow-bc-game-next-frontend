@@ -1,17 +1,38 @@
+"use client";
 import React, { FC, PropsWithChildren } from "react";
+import { useModal } from "@/redux/slices/main/modalSlice";
+import { useToast } from "@/redux/slices/main/toastSlice";
 import AppHeader from "./main-layout/AppHeader";
 import AppSidebar from "./main-layout/AppSidebar";
-import TokenBar from "./main-layout/TokenBar";
+import ModernModal from "../Modal/ModernModal";
+import Toast from "../Modal/Toast";
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
+  const modal = useModal();
+  const toast = useToast();
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <AppHeader />
-      <div className="flex flex-col w-full">
-        <AppSidebar />
-        <div className="ml-[280px] mt-[84px] h-[calc(100%-84px)] min-h-[calc(100vh-84px)] bg-[#121212]">{children}</div>
+    <>
+      <div className="flex flex-col min-h-screen">
+        <AppHeader />
+        <div className="flex flex-col w-full">
+          <AppSidebar />
+          <div className="ml-[280px] mt-[84px] h-[calc(100%-84px)] min-h-[calc(100vh-84px)] bg-[#121212]">
+            {children}
+          </div>
+        </div>
       </div>
-    </div>
+      {modal.status && (
+        <ModernModal
+          content={modal.content}
+          title={modal.title}
+          name={modal.name}
+          type={modal.type}
+          parameter={modal.parameter}
+        />
+      )}
+      {toast.status && <Toast type={toast.type} message={toast.message} />}
+    </>
   );
 };
 

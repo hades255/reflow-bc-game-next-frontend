@@ -1,33 +1,69 @@
 "use client";
-import React, { useState } from "react";
-
-import MatchCard from "./MatchCard";
+import { useState, useEffect } from "react";
+import myEcho from "@/hooks/myEcho";
+import { useDispatch } from "react-redux";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { getHistory } from "@/services/coinflip";
+import {
+  useMyGames,
+  setAMyGame,
+  dismissAllGames,
+} from "@/redux/slices/coinflip/myGamesSlice";
+import MyGameCard from "./MyGameCard";
 import BlankCard from "./BlankCard";
-import { GameType } from "@/utils/types";
+import HistoryCard from "./HistoryCard";
+import { HistoryType } from "@/utils/types";
 
-interface Props {
-  games: GameType[];
-  dismissAll: (games: (prev: GameType[]) => GameType[]) => void;
-  setGames: (game_id: string, game: GameType) => void;
-}
-
-const MyGames: React.FC<Props> = ({ games, setGames, dismissAll }) => {
+const MyGames = () => {
   const [isCurrent, setIsCurrent] = useState<boolean>(true);
+
+  const [historyList, setHistoryList] = useState([]);
+
+  const [historyTotal, setHistoryTotal] = useState(0);
+
+  const user = useUser();
+
+  const myGames = useMyGames();
+
+  const dispatch = useDispatch();
 
   const changePeriod = (current: boolean) => {
     setIsCurrent(current);
   };
 
-  const updateSide = (game_id: string, side: boolean) => {
-    setGames(game_id, {
-      ...games.filter((gm) => gm.game_id === game_id)[0],
-      side: side,
-    });
+  const dismiss = () => {
+    dispatch(dismissAllGames());
   };
 
-  const dismiss = () => {
-    dismissAll((prev) => prev.filter((gm) => gm.players.length === 2));
-  };
+  useEffect(() => {
+    myEcho();
+    const channel = window.Echo.channel("RoyalFlipGameChannel");
+    channel.listen("RoyalFlipGameEvent", (e: any) => {
+      if (e.type === "join") {
+        if (user && e.data.userId === user.id) {
+          dispatch(
+            setAMyGame({
+              round: e.data.round,
+              game: e.data,
+            })
+          );
+        }
+      }
+    });
+    return () => {
+      channel.stopListening("RoyalFlipGameEvent");
+    };
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    (async () => {
+      if (!isCurrent && user) {
+        let { total, data } = await getHistory(user);
+        setHistoryList(data);
+        setHistoryTotal(total);
+      }
+    })();
+  }, [isCurrent, user]);
 
   return (
     <>
@@ -35,7 +71,7 @@ const MyGames: React.FC<Props> = ({ games, setGames, dismissAll }) => {
         <div className="flex items-center text-font font-xl font-semibold gap-4">
           <span>
             <span>My Games</span>&nbsp;
-            <span className="text-gold">{games.length}</span>
+            <span className="text-gold">{isCurrent ? (myGames && myGames.length) : historyTotal}</span>
           </span>
           <button
             className="py-0.5 px-2 bg-[#252525] rounded-sm text-sm font-normal"
@@ -60,17 +96,21 @@ const MyGames: React.FC<Props> = ({ games, setGames, dismissAll }) => {
         </div>
       </div>
       <div className="w-full mt-4 grid 2xl:grid-cols-4 grid-cols-3 justify-items-center gap-y-8">
-        {games.map((game) => (
-          <MatchCard
-            key={`Matchcard-${game.game_id}`}
-            game={game}
-            setGames={setGames}
-          />
-        ))}
-        {games.length < 4 &&
-          [...Array(4 - games.length)].map((a, index) => (
-            <BlankCard key={`Matchcard-blank-${index}`} />
-          ))}
+        {isCurrent ? (
+          <>
+            {myGames &&
+              myGames.map((game) => (
+                <MyGameCard key={`Matchcard-MyGames-${game.id}`} game={game} />
+              ))}
+            {!myGames ||
+              (myGames.length < 4 &&
+                [...Array(4 - myGames.length)].map((a, index) => (
+                  <BlankCard key={`Matchcard-blank-${index}`} />
+                )))}
+          </>
+        ) : (
+          historyList.map((history: HistoryType) => <HistoryCard key={`history-${history.round}`} game={history} />)
+        )}
       </div>
     </>
   );
