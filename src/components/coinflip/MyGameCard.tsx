@@ -126,7 +126,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               )}
             </div>
           </div>
-          <h5 className="text-center text-md text-font mt-1">
+          <h5 className="text-center text-md text-font mt-1 truncate w-20">
             {game["players"][0]["name"]}
           </h5>
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-gold text-sm bg-[#121212] rounded-md text-bold">
@@ -213,7 +213,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
                 )}
               </div>
             </div>
-            <h5 className="text-center text-md text-font mt-1">
+            <h5 className="text-center text-md text-font mt-1 truncate w-20">
               {game["players"][1]["name"]}
             </h5>
             <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
