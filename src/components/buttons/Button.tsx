@@ -26,7 +26,7 @@ const Button: React.FC<Props> = ({ text, disabled, clicked }) => {
     </button>
   ) : (
     <button
-      className="bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90"
+      className="bg-gold py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={handleClick}
