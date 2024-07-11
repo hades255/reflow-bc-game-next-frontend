@@ -20,8 +20,12 @@ const config: Config = {
       current: "currentColor",
       black: colors.black,
       white: colors.white,
+      yellow: colors.yellow,
       gray: colors.gray,
       green: colors.green,
+      neutral: colors.neutral,
+      teal: colors.teal,
+      blue: colors.blue,
       red: colors.red,
       main: "#202020",
       innerBlack: "#0D0D0D",
@@ -35,6 +39,29 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        toast: {
+          "0%": {
+            right: "-32px",
+            opacity: "0"
+          },
+          "20%": {
+            right: "32px",
+            opacity: "1"
+          },
+          "80%": {
+            right: "32px",
+            opacity: "1"
+          },
+          "100%": {
+            right: "-32px",
+            opacity: "0"
+          }
+        }
+      },
+      animation: {
+        "toast-animation": "toast 5s 1"
+      }
     },
   },
   plugins: [require('preline/plugin')],

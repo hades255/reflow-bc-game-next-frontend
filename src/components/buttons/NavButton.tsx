@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CountUp from "react-countup";
 
 interface Props {
   Icon: React.ComponentType<{
@@ -7,12 +8,15 @@ interface Props {
     color: string;
   }>;
   active: boolean;
-  text: string;
+  text?: string | number;
   other: boolean;
+  counter?: boolean;
+  start?: number;
+  end?: number;
   clicked: () => void;
 }
 
-const NavButton: React.FC<Props> = ({ Icon, active, text, other, clicked }) => {
+const NavButton: React.FC<Props> = ({ Icon, active, text, other, counter, start, end, clicked }) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -36,7 +40,7 @@ const NavButton: React.FC<Props> = ({ Icon, active, text, other, clicked }) => {
         </button>
       ) : (
         <button
-          className="max-w-48 px-2 h-full nav-btn rounded-sm dropBlack relative flex justify-center items-center"
+          className="max-w-48 !min-w-20 px-2 h-full nav-btn rounded-sm dropBlack relative flex justify-center items-center"
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           onClick={handleClick}
@@ -58,7 +62,11 @@ const NavButton: React.FC<Props> = ({ Icon, active, text, other, clicked }) => {
                   : "text-[#717171]"
               }
             >
-              {text}
+              {
+                counter ?
+                <CountUp start={Number(start)} end={Number(end)} duration={2} decimals={2} />
+                : text
+              }
             </span>
           </span>
         </button>

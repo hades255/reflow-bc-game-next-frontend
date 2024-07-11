@@ -1,22 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "../buttons/Button";
+import { useToken } from "@/redux/slices/main/authSlice";
+import { useDispatch } from "react-redux";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { setToast } from "@/redux/slices/main/toastSlice";
+import { useBalance } from "@/redux/slices/main/userSlice";
+import { updateBalance } from "@/redux/slices/main/userSlice";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { setMyGames } from "@/redux/slices/coinflip/myGamesSlice";
+import { createNewGames } from "@/services/coinflip";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
 import { PiCoinsLight } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa6";
 
-interface Props {
-  setMyGames: (side: boolean, bet: number, count: number) => void;
-}
-
-const Header: React.FC<Props> = ({ setMyGames }) => {
+const Header = () => {
   const [isUp, setIsUp] = useState<boolean>(true);
 
   const [bet, setBet] = useState<number>(1.0);
 
   const [counts, setCounts] = useState<number>(1);
+
+  const token = useToken();
+
+  const balance = useBalance();
+
+  const user = useUser();
+
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBet(parseFloat(e.target.value));
@@ -26,9 +39,64 @@ const Header: React.FC<Props> = ({ setMyGames }) => {
     setCounts(count);
   };
 
-  const handleCreate = () => {
-    setMyGames(isUp, bet, counts);
+  const createMyGames = async (side: boolean, bet: number, count: number) => {
+    const data = await createNewGames(side, bet, count);
+    if (data.status === 200) {
+      dispatch(updateBalance({ balance: -bet * count }));
+      dispatch(setMyGames({ user, side, bet, count, data: data.data.data }));
+    }
   };
+
+  const handleCreate = () => {
+    (async () => {
+      if (token === "") {
+        dispatch(
+          setModal({
+            status: true,
+            title: "Sign In",
+            content: "Please sign in to start playing.",
+            name: "Steam Sign In",
+            type: 1,
+            parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+          })
+        );
+      } else {
+        if (bet * counts <= Number(balance)) {
+          if (bet === 0) {
+            dispatch(
+              setModal({
+                status: true,
+                title: "0 betted",
+                content: "Please choose the budget over 0",
+                name: "Okay",
+                type: 3,
+                parameter: ``,
+              })
+            );
+          } else {
+            await createMyGames(isUp, bet, counts);
+          }
+        } else {
+          dispatch(
+            setModal({
+              status: true,
+              title: "No enough balance",
+              content: "Please deposit the money to start playing.",
+              name: "Deposit",
+              type: 2,
+              parameter: ``,
+            })
+          );
+        }
+      }
+    })();
+  };
+
+  useEffect(() => {
+    if (token !== "") {
+      dispatch(setToast({ type: 2, message: "Logged in successfully." }));
+    }
+  }, [dispatch]);
 
   return (
     <div className="w-full h-12 rounded-md innerBlack relative !z-30">
