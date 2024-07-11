@@ -4,6 +4,7 @@ import React, { FC, useState } from "react";
 import InfoPage from "@/components/fairness/info";
 import RoulettePage from "@/components/fairness/roulette";
 import IconInfo from "@/utils/icons/Info";
+import CoinflipPage from "@/components/fairness/coinflip";
 
 const Fairness: FC = () => {
   const [tab, setTab] = useState<number>(1);
@@ -80,6 +81,7 @@ const Fairness: FC = () => {
       </div>
       {tab === 1 && <InfoPage />}
       {tab === 2 && <RoulettePage />}
+      {tab === 3 && <CoinflipPage />}
     </div>
   );
 };
