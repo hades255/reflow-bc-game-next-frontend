@@ -8,7 +8,7 @@ import {
   updateBudget,
   deleteAGame,
 } from "@/redux/slices/coinflip/myGamesSlice";
-import { updateBalance } from "@/redux/slices/main/userSlice";
+import { updateBalance, balanceBackup } from "@/redux/slices/main/userSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame, cancelGame } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
@@ -65,12 +65,13 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     );
   }, [dispatch, game.bet, game.round, game.side]);
 
-  const cancelMyGame = useCallback(async () => {
+  const cancelMyGame = async () => {
     let data = await cancelGame(Number(game.game_id));
     if (data.status === 200) {
-      dispatch(deleteAGame({ round: game.round }));
+      dispatch(balanceBackup())
+      dispatch(deleteAGame({ round: game.round }));     
     }
-  }, [dispatch, game.game_id, game.round]);
+  };
 
   const deleteGame = useCallback(async () => {
     dispatch(deleteAGame({ round: game.round }));
@@ -125,7 +126,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               )}
             </div>
           </div>
-          <h5 className="text-center text-md text-font mt-1">
+          <h5 className="text-center text-md text-font mt-1 truncate w-20">
             {game["players"][0]["name"]}
           </h5>
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-gold text-sm bg-[#121212] rounded-md text-bold">
@@ -212,7 +213,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
                 )}
               </div>
             </div>
-            <h5 className="text-center text-md text-font mt-1">
+            <h5 className="text-center text-md text-font mt-1 truncate w-20">
               {game["players"][1]["name"]}
             </h5>
             <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
