@@ -83,6 +83,14 @@ export const liveGamesSlice = createSlice({
         game.round === action.payload.round ? { ...game, round: null } : game
       );
     },
+    deleteALiveGameById: (
+      state,
+      action: PayloadAction<{ id: string | null }>
+    ) => {
+      state.livegames = state.livegames.map((game) =>
+        game.game_id === action.payload.id ? { ...game, round: null } : game
+      );
+    },
     cacheDelete: (state) => {
       state.livegames = state.livegames.filter((game) => game.round !== null);
     },
@@ -114,6 +122,7 @@ export const {
   playAGame,
   addLiveGames,
   deleteALiveGame,
+  deleteALiveGameById,
   cacheDelete,
   updateBudget,
   filterAmount,

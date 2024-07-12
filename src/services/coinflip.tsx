@@ -43,7 +43,7 @@ export const getNewGames = (
           },
         ],
         side: null,
-        bet: 0,
+        bet: bet,
       });
     });
   } else {
@@ -64,7 +64,7 @@ export const getNewGames = (
           },
         ],
         side: null,
-        bet: 0,
+        bet: bet,
       });
     });
   }
