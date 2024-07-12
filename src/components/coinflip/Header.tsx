@@ -175,7 +175,7 @@ const Header = () => {
               >
                 2X
               </button>
-              <button className="small-btn" onClick={() => setBet(500)}>
+              <button className="small-btn" onClick={() => setBet(Number(user?.balance))}>
                 MAX
               </button>
             </div>

@@ -20,7 +20,6 @@ import { GameType } from "@/utils/types";
 interface Props {
   game: GameType;
 }
-
 const MyGameCard: React.FC<Props> = ({ game }) => {
   const user = useUser();
 
@@ -65,11 +64,13 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     );
   }, [dispatch, game.bet, game.round, game.side]);
 
-  const cancelMyGame = async () => {
+  const cancelMyGame = async () =>  {
     let data = await cancelGame(Number(game.game_id));
     if (data.status === 200) {
-      dispatch(balanceBackup())
-      dispatch(deleteAGame({ round: game.round }));     
+      dispatch(updateBalance({
+        balance: Number(game.bet)
+      }));
+      dispatch(deleteAGame({ round: game.round }));
     }
   };
 
