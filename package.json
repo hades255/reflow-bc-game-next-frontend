@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "laravel-echo": "^1.16.1",
+    "moment": "^2.30.1",
     "next": "14.2.4",
     "next-redux-wrapper": "^8.1.0",
     "punycode": "^2.3.1",
@@ -18,6 +19,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-roulette-pro": "^3.2.2",
+    "recharts": "^2.12.7",
+    "redux-persist": "^6.0.0",
     "sharp": "^0.33.4",
     "uuid": "^10.0.0"
   },
