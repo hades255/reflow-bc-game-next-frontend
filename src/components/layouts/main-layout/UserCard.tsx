@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Props {
   avatar: string;
@@ -9,8 +10,17 @@ interface Props {
 }
 
 const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
+  const router = useRouter();
+
+  const handleClickUserArea = useCallback(() => {
+    router.push("/proflie/details");
+  }, [router]);
+
   return (
-    <div className="h-full flex rounded-sm relative">
+    <div
+      className="h-full flex rounded-sm relative"
+      onClick={handleClickUserArea}
+    >
       <div className="p-2 flex min-w-24 items-center gap-2 rounded-l-sm normal-btn">
         <Image
           className="rounded-sm"
@@ -19,11 +29,14 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
           alt=""
           src={avatar}
         />
-        <span className="text-sm font-semibold text-[#9c9c9c] mr-4">{name}</span>
+        <span className="text-sm font-semibold text-[#9c9c9c] mr-4">
+          {name}
+        </span>
       </div>
       <div className="bg-gold rounded-r-sm py-1 px-2 flex items-center gold-btn-inner">
         <p className="text-black text-sm font-semibold flex">
-          <span>{lvl}</span><span>&nbsp;Lvl.</span>
+          <span>{lvl}</span>
+          <span>&nbsp;Lvl.</span>
         </p>
       </div>
       <div className="absolute w-full h-[3px] bg-[rgba(0,0,0,.9)] rounded-b-sm bottom-0"></div>
