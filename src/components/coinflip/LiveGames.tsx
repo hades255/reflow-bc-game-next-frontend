@@ -6,7 +6,7 @@ import {
   useLiveGames,
   setLiveGames,
   setALiveGame,
-  deleteALiveGame,
+  deleteALiveGameById,
   cacheDelete,
   filterAmount,
   sortAmount,
@@ -34,7 +34,6 @@ const LiveGames = () => {
     channel.listen("RoyalFlipGameEvent", (e: any) => {
       if (e.type === "create") {
         if ((user && e.data[0].userId !== user.id) || !user) {
-          console.log(user, e);
           dispatch(setLiveGames({ games: e.data, count: cards }));
         }
       } else if (e.type === "join") {
@@ -43,8 +42,6 @@ const LiveGames = () => {
           (user && e.data.competitorId !== user.id) ||
           !user
         ) {
-          console.log(user, e);
-
           dispatch(
             setALiveGame({
               round: e.data.round,
@@ -53,7 +50,7 @@ const LiveGames = () => {
           );
         }
       } else {
-        dispatch(deleteALiveGame(e.data.round));
+        dispatch(deleteALiveGameById({ id: e.data }));
       }
     });
     return () => {

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import TabItem from "./TabItem";
 import IconDetails from "@/utils/icons/Details";
 import IconAccount from "@/utils/icons/Account";
@@ -14,10 +15,18 @@ interface Props {
 
 const TabBar: FC<Props> = ({ select }) => {
   const [activeTab, setActiveTab] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     setActiveTab(select ?? 1);
   }, [select]);
+
+  const handleClickActiveTab = useCallback(
+    (url: String) => {
+      router.push(`/profile/${url}`);
+    },
+    [router]
+  );
 
   return (
     <div className="w-[240px] h-auto bg-[#0F0F0FAD] dropBlack rounded-[5px] py-3 px-[2px] flex flex-col gap-3">
@@ -31,7 +40,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Details"
-        onClick={() => setActiveTab(1)}
+        onClick={() => handleClickActiveTab("details")}
       />
       <TabItem
         select={activeTab === 2}
@@ -43,7 +52,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Account"
-        onClick={() => setActiveTab(2)}
+        onClick={() => handleClickActiveTab("account")}
       />
       <TabItem
         select={activeTab === 3}
@@ -55,7 +64,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Transactions"
-        onClick={() => setActiveTab(3)}
+        onClick={() => handleClickActiveTab("transactions")}
       />
       <TabItem
         select={activeTab === 4}
@@ -67,7 +76,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Mystery Box"
-        onClick={() => setActiveTab(4)}
+        onClick={() => handleClickActiveTab("mystery")}
       />
       <TabItem
         select={activeTab === 5}
@@ -79,7 +88,7 @@ const TabBar: FC<Props> = ({ select }) => {
           />
         }
         text="Socials"
-        onClick={() => setActiveTab(5)}
+        onClick={() => handleClickActiveTab("socials")}
       />
     </div>
   );

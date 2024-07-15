@@ -5,11 +5,11 @@ import { UserType } from "@/utils/types";
 
 const user: UserType | null = null;
 
-interface StateType {
+export interface UserStateType {
   user: UserType | null
 }
 
-const initialState: StateType = {
+const initialState: UserStateType = {
   user,
 };
 
@@ -24,16 +24,30 @@ export const userSlice = createSlice({
       state.user = null;
     },
     updateBalance: (state, action: PayloadAction<{ balance: number }>) => {
-      state.user = state.user && ({
-        ...state.user,
-        prev_balance: Number({...state.user}.balance),
-        balance: Number(state.user.balance) + action.payload.balance
-      })
+      console.log(action.payload.balance);
+      if (state.user) {
+        let currentBalance = state.user.balance;
+        state.user = {
+          ...state.user,
+          prev_balance: Number(currentBalance),
+          balance: Number(currentBalance) + Number(action.payload.balance),
+        };
+      }
+    },
+    balanceBackup: (state) => {
+      if (state.user) {
+        let prev = state.user.prev_balance;
+        state.user = {
+          ...state.user,
+          prev_balance: state.user.balance,
+          balance: prev
+        }
+      }     
     }
   },
 });
 
-export const { setUser, deleteUser, updateBalance } = userSlice.actions;
+export const { setUser, deleteUser, updateBalance, balanceBackup } = userSlice.actions;
 
 export const useUser = () => useSelector((state: RootState) => state.user.user);
 

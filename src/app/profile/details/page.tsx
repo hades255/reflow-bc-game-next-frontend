@@ -3,13 +3,14 @@
 import React, { FC } from "react";
 import ProfileLayout from "@/components/profile/ProfileLayout";
 import Account from "@/components/profile/details/Account";
-import KeyBox from "@/components/profile/details/KeyBox";
-import TokenBox from "@/components/profile/details/TokenBox";
+// import KeyBox from "@/components/profile/details/KeyBox";
+// import TokenBox from "@/components/profile/details/TokenBox";
 import ProfitLoss from "@/components/profile/details/ProfitLoss";
 import Button from "@/components/buttons/Button";
 import Shield from "@/utils/icons/Shield";
 import Clock from "@/utils/icons/Clock";
 import History from "@/utils/icons/History";
+// import { useFetch } from "@/hooks/useFetch";
 
 const ProfileDetails: FC = () => {
   return (
@@ -17,12 +18,8 @@ const ProfileDetails: FC = () => {
       <div className="w-full flex flex-col gap-6">
         <Account />
         <div className="flex flex-row gap-6">
-          <div className="flex-1 w-32">
-            <KeyBox />
-          </div>
-          <div className="flex-1 w-32">
-            <TokenBox />
-          </div>
+          <div className="flex-1 w-32">{/* <KeyBox /> */}</div>
+          <div className="flex-1 w-32">{/* <TokenBox /> */}</div>
         </div>
         <ProfitLoss />
         <div className="flex flex-row gap-6">
