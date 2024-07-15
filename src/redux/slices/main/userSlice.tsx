@@ -5,6 +5,10 @@ import { UserType } from "@/utils/types";
 
 const user: UserType | null = null;
 
+interface StateType {
+  user: UserType | null;
+};
+
 export interface UserStateType {
   user: UserType | null
 }
@@ -17,7 +21,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserType>) => {
+    setUser: (state, action: PayloadAction<UserType | null>) => {
       state.user = action.payload;
     },
     deleteUser: (state) => {
@@ -51,6 +55,7 @@ export const { setUser, deleteUser, updateBalance, balanceBackup } = userSlice.a
 
 export const useUser = () => useSelector((state: RootState) => state.user.user);
 
-export const useBalance = () => useSelector((state: RootState) => state.user.user?.balance);
+export const useBalance = () =>
+  useSelector((state: RootState) => state.user.user?.balance);
 
 export default userSlice.reducer;

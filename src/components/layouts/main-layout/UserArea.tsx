@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useUserInfo } from "@/services/useUserInfo";
 import { setUser, useUser } from "@/redux/slices/main/userSlice";
@@ -7,12 +7,13 @@ import NormalButton from "@/components/buttons/NormalButton";
 import NavButton from "@/components/buttons/NavButton";
 import UserCard from "./UserCard";
 import { PiCoinsLight } from "react-icons/pi";
+import SignOut from "@/utils/icons/Signout";
+import { signout } from "@/redux/slices/main/authSlice";
 
 const UserArea = () => {
-
   const handleClick = () => {
     console.log("Clicked");
-  };  
+  };
 
   const user = useUserInfo();
 
@@ -23,6 +24,11 @@ const UserArea = () => {
   useEffect(() => {
     dispatch(setUser(user));
   }, [dispatch, user]);
+
+  const handleSignOut = useCallback(() => {
+    dispatch(setUser(null));
+    dispatch(signout());
+  }, [dispatch]);
 
   return (
     <div className="flex gap-4">
@@ -46,6 +52,11 @@ const UserArea = () => {
           progress={30}
         />
       )}
+      <div className="flex justify-center align-middle">
+        <span className="hover:cursor-pointer pt-2" onClick={handleSignOut}>
+          <SignOut width={20} height={20} color="#a0a0aa" />
+        </span>
+      </div>
     </div>
   );
 };
