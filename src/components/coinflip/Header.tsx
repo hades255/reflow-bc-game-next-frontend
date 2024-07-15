@@ -19,7 +19,7 @@ import { FaChevronDown } from "react-icons/fa6";
 const Header = () => {
   const [isUp, setIsUp] = useState<boolean>(true);
 
-  const [bet, setBet] = useState<number>(1.0);
+  const [bet, setBet] = useState<number>(0.0);
 
   const [counts, setCounts] = useState<number>(1);
 
@@ -34,6 +34,27 @@ const Header = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBet(parseFloat(e.target.value));
   };
+
+  const changeBet = (betted: number) => {
+    if (user) {
+      if (bet + betted <= Number(user.balance)) {
+        setBet(bet + betted);
+      } else {
+        setBet(Number(user.balance));
+      }
+    } else {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in to start playing.",
+          name: "Steam Sign In",
+          type: 1,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
+  }
 
   const handleCounts = (count: number) => {
     setCounts(count);
@@ -141,41 +162,41 @@ const Header = () => {
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev + 0.5)}
+                onClick={() => changeBet(0.5)}
               >
                 +0.5
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev + 1)}
+                onClick={() => changeBet(1)}
               >
                 +1
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev + 10)}
+                onClick={() => changeBet(10)}
               >
                 +10
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev + 100)}
+                onClick={() => changeBet(100)}
               >
                 +100
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev / 2)}
+                onClick={() => changeBet(-bet / 2)}
               >
                 1/2
               </button>
               <button
                 className="small-btn"
-                onClick={() => setBet((prev) => prev * 2)}
+                onClick={() => changeBet(bet)}
               >
                 2X
               </button>
-              <button className="small-btn" onClick={() => setBet(500)}>
+              <button className="small-btn" onClick={() => changeBet(Number(user?.balance))}>
                 MAX
               </button>
             </div>

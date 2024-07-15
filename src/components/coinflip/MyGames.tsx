@@ -9,6 +9,7 @@ import {
   setAMyGame,
   dismissAllGames,
 } from "@/redux/slices/coinflip/myGamesSlice";
+import { balanceBackup } from "@/redux/slices/main/userSlice";
 import MyGameCard from "./MyGameCard";
 import BlankCard from "./BlankCard";
 import HistoryCard from "./HistoryCard";
@@ -32,6 +33,7 @@ const MyGames = () => {
   };
 
   const dismiss = () => {
+    dispatch(balanceBackup());
     dispatch(dismissAllGames());
   };
 
