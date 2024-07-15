@@ -1,11 +1,12 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import BetAmount from "@/components/upgrade/BetAmount";
-import Chance from "@/components/upgrade/Chance";
 import SelectItem from "@/components/upgrade/SelectItem";
 import IconCrown from "@/utils/icons/Crown";
 import SearchInput from "@/components/upgrade/SearchInput";
 import UpgradeItem from "@/components/upgrade/Item";
+import CircularProgressBar from "@/components/upgrade/Circular-Progress";
+import Button from "@/components/buttons/Button";
 
 const items = [
   { id: 1, title: "zagabond", amount: 10000 },
@@ -18,6 +19,12 @@ const items = [
 const UpgradePage: FC = () => {
   const [selectItems, setSelectItems] = useState<number[]>([]);
   const [allAmount, setAllAmount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
+
+  const handleBet = async () => {
+    setIsLoading(true);
+  };
 
   const handleSelectItem = (id: number) => {
     const tempItem = selectItems;
@@ -49,7 +56,19 @@ const UpgradePage: FC = () => {
       </div>
       <div className="flex flex-row justify-between">
         <BetAmount />
-        <Chance />
+        <div>
+          <CircularProgressBar
+            key={1}
+            betAmount={10}
+            assetValue={100}
+            betResult={true}
+            isLoading={true}
+          />
+          <div className="flex justify-center mt-[18px]">
+            <Button className="!w-[250px]" text="Upgrade"></Button>
+          </div>
+        </div>
+
         <SelectItem allAmount={allAmount} />
       </div>
 
