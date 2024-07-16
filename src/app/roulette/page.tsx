@@ -1,6 +1,10 @@
+import Rolling from "@/components/roulette/Rolling"
+
 const Roulette = () => {
   return (
-    <>Roulette Page</>
+    <div className="w-full h-full p-6">
+      <Rolling />
+    </div>
   )
 }
 

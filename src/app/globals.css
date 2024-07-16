@@ -342,3 +342,25 @@ header {
 .modal {
   z-index: 100 !important;
 }
+
+.roulette-pro-wrapper {
+  margin-top: 48px !important;
+  width: 972px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.roulette-pro-regular-prize-item {
+  width: 108px !important;
+  height: 108px !important;
+}
+
+.roulette-pro-regular-prize-item-wrapper {
+  border-width: 0 !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.black-ground {
+  background-image: linear-gradient(to right, rgba(18,18,18,1), rgba(18,18,18,0.3), rgba(18,18,18,1));
+}
