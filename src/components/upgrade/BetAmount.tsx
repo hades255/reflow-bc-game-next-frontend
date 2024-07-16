@@ -1,11 +1,98 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import IconCoin from "@/utils/icons/Coin";
 
-const BetAmount: FC = () => {
-  const [value, setValue] = useState<number>(0);
+interface Props {
+  value: number;
+  allValue: number;
+  myValue: number;
+  onChangeValue: (value: any) => void;
+}
+
+const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
+  // const [value, setValue] = useState<number>(0);
   const [btnTab, setBtnTab] = useState<number>(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (value > 0) {
+      if (allValue > myValue) {
+        if ((value / allValue) * 100 > myValue) {
+          setProgress(100);
+        } else {
+          let temp = (value / allValue) * 100;
+          setProgress(temp);
+        }
+      } else {
+        let temp = (value / allValue) * 100;
+        setProgress(temp);
+      }
+    }
+  }, [value]);
+
+  const handleClickBtn = (id: any) => {
+    // onChangeValue && onChangeValue(100);
+    setBtnTab(id);
+    if (id === 1) {
+      let temp = allValue / 10;
+      if (temp > myValue) {
+        onChangeValue(myValue);
+      } else {
+        onChangeValue(temp);
+      }
+    } else if (id === 2) {
+      let temp = allValue / 4;
+      if (temp > myValue) {
+        onChangeValue(myValue);
+      } else {
+        onChangeValue(temp);
+      }
+    } else if (id === 3) {
+      let temp = allValue / 2;
+      if (temp > myValue) {
+        onChangeValue(myValue);
+      } else {
+        onChangeValue(temp);
+      }
+    } else if (id === 4) {
+      let temp = allValue - 0.01;
+      if (temp > myValue) {
+        onChangeValue(myValue);
+      } else {
+        onChangeValue(temp);
+      }
+    }
+  };
+
+  const handleChange = (amount: number) => {
+    if (amount > myValue) {
+      onChangeValue(myValue);
+    } else {
+      onChangeValue(amount);
+    }
+
+    if (amount > allValue || amount === allValue) {
+      onChangeValue(allValue - 0.01);
+      return;
+    } else {
+      onChangeValue(amount);
+    }
+  };
+
+  const handleChangeProgress = (p: number) => {
+    if (allValue > myValue) {
+      if ((allValue / 100) * p > myValue) {
+        onChangeValue(myValue.toFixed(2));
+      } else {
+        let temp = (allValue / 100) * p;
+        onChangeValue(temp.toFixed(2));
+      }
+    } else {
+      let temp = (allValue / 100) * p;
+      onChangeValue(temp.toFixed(2));
+    }
+  };
 
   return (
     <div
@@ -22,9 +109,9 @@ const BetAmount: FC = () => {
           </div>
 
           <input
-            type="text"
+            type="number"
             value={value}
-            onChange={(e) => setValue(Number(e.target.value))}
+            onChange={(e: any) => handleChange(Number(e.target.value))}
             className="bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold text-[#D1D1D1] outline-none"
           />
         </div>
@@ -32,11 +119,11 @@ const BetAmount: FC = () => {
         <div className="dropBlack bg-[#121212] w-[253px] h-[10px] px-[6px] rounded-[15px] flex items-center">
           <input
             type="range"
-            value={value}
-            onChange={(e) => setValue(Number(e.target.value))}
+            value={progress}
+            onChange={(e) => handleChangeProgress(Number(e.target.value))}
             className="w-full h-[3px] appearance-none rounded-[15px] range-input"
             style={{
-              background: `linear-gradient(to right, #E9AE15 ${value}%, #121212 0%)`,
+              background: `linear-gradient(to right, #E9AE15 ${progress}%, #121212 0%)`,
             }}
           />
         </div>
@@ -49,10 +136,7 @@ const BetAmount: FC = () => {
                 btnTab === 1 ? "linear-gradient(#F1B31A, #E48F0F)" : "#2F2F2F",
               color: btnTab === 1 ? "#121212" : "#8D8D8D",
             }}
-            onClick={() => {
-              setBtnTab(1);
-              setValue(10);
-            }}
+            onClick={() => handleClickBtn(1)}
           >
             10%
           </button>
@@ -63,10 +147,7 @@ const BetAmount: FC = () => {
                 btnTab === 2 ? "linear-gradient(#F1B31A, #E48F0F)" : "#2F2F2F",
               color: btnTab === 2 ? "#121212" : "#8D8D8D",
             }}
-            onClick={() => {
-              setBtnTab(2);
-              setValue(25);
-            }}
+            onClick={() => handleClickBtn(2)}
           >
             25%
           </button>
@@ -77,10 +158,7 @@ const BetAmount: FC = () => {
                 btnTab === 3 ? "linear-gradient(#F1B31A, #E48F0F)" : "#2F2F2F",
               color: btnTab === 3 ? "#121212" : "#8D8D8D",
             }}
-            onClick={() => {
-              setBtnTab(3);
-              setValue(50);
-            }}
+            onClick={() => handleClickBtn(3)}
           >
             50%
           </button>
@@ -91,10 +169,7 @@ const BetAmount: FC = () => {
                 btnTab === 4 ? "linear-gradient(#F1B31A, #E48F0F)" : "#2F2F2F",
               color: btnTab === 4 ? "#121212" : "#8D8D8D",
             }}
-            onClick={() => {
-              setBtnTab(4);
-              setValue(100);
-            }}
+            onClick={() => handleClickBtn(4)}
           >
             Max
           </button>

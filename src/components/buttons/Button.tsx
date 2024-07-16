@@ -19,13 +19,13 @@ const Button: React.FC<Props> = ({ text, disabled, clicked, className }) => {
   return disabled ? (
     <button
       className={clsx(
-        `w-full locked py-2 px-6 rounded-sm gold-btn-drop relative cursor-not-allowed`,
+        `w-full locked py-2 px-4 rounded-sm gold-btn-drop relative cursor-not-allowed`,
         className
       )}
       onClick={clicked}
     >
       <div className="shine rounded-sm"></div>
-      <div className="shine flex justify-center items-center">
+      <div className="flex justify-center items-center">
         <p className="text-[#77510E] font-semibold text-xs">{text}</p>
       </div>
     </button>

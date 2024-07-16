@@ -7,46 +7,72 @@ import SearchInput from "@/components/upgrade/SearchInput";
 import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
-
-const items = [
-  { id: 1, title: "zagabond", amount: 10000 },
-  { id: 2, title: "zagabond", amount: 10000 },
-  { id: 3, title: "zagabond", amount: 10000 },
-  { id: 4, title: "zagabond", amount: 10000 },
-  { id: 5, title: "zagabond", amount: 10000 },
-];
+import { apiGetItems, apiPlayGame } from "@/services/upgrader";
 
 const UpgradePage: FC = () => {
-  const [selectItems, setSelectItems] = useState<number[]>([]);
+  const [items, setItems] = useState<any[]>([]);
+  const [selectItems, setSelectItems] = useState<any>(null);
   const [allAmount, setAllAmount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isWinner, setIsWinner] = useState<boolean>(false);
+  const [isWinner, setIsWinner] = useState<boolean | null>(null);
+  const [gameResult, setGameResult] = useState<any>();
+  const [renderKey, setRenderKey] = useState(1);
+  const [btnActive, setBtnActive] = useState<boolean>(true);
+  const [betAmount, setBetAmount] = useState(0);
+  const [myAmount, setMyAmount] = useState(200000000);
 
   const handleBet = async () => {
-    setIsLoading(true);
-  };
+    try {
+      setIsLoading(true);
+      setBtnActive(true);
+      setIsWinner(false);
+      const data = await apiPlayGame(selectItems?.id, 100000);
 
-  const handleSelectItem = (id: number) => {
-    const tempItem = selectItems;
-    if (tempItem.indexOf(id) > -1) {
-      tempItem.splice(tempItem.indexOf(id), 1);
-      setSelectItems([...tempItem]);
-    } else {
-      setSelectItems([...selectItems, id]);
+      if (data.data) {
+        console.log(data.data);
+        setGameResult(data.data);
+        setIsWinner(data.data.win);
+
+        setTimeout(() => {
+          setIsLoading(false);
+          setRenderKey((prevKey) => prevKey + 1);
+        }, 3000);
+      }
+    } catch (error) {
+      setRenderKey((prevKey) => prevKey + 1);
+      setIsLoading(false);
     }
   };
 
+  const handleSelectItem = (id: number) => {
+    const index = items.find((item) => item.id === id);
+    setSelectItems(index);
+    if (betAmount === 0) {
+      setBetAmount(0.01);
+    }
+    setBtnActive(false);
+  };
+
   useEffect(() => {
-    let sum = 0;
+    (async () => {
+      const data = await apiGetItems("desc", "Knife");
+      setItems(data.data.items);
+    })();
+  }, []);
 
-    items.forEach((element) => {
-      if (selectItems.indexOf(element.id) > -1) {
-        sum = sum + element.amount;
-      }
-    });
+  useEffect(() => {
+    if (isLoading === false && selectItems) {
+      setTimeout(() => {
+        setBtnActive(false);
+      }, 5000);
+    }
+  }, [isLoading, selectItems]);
 
-    setAllAmount(sum);
-  }, [selectItems]);
+  // useEffect(() => {
+  //   if (selectItems && betAmount > 0) {
+  //     setBtnActive(false);
+  //   }
+  // }, [selectItems, betAmount]);
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -55,21 +81,35 @@ const UpgradePage: FC = () => {
         <p className="text-[18px] text-[#D1D1D1] font-bold">Crown & King</p>
       </div>
       <div className="flex flex-row justify-between">
-        <BetAmount />
+        <BetAmount
+          value={betAmount}
+          onChangeValue={(value: any) => setBetAmount(value)}
+          allValue={selectItems?.price || 0}
+          myValue={myAmount}
+        />
         <div>
           <CircularProgressBar
-            key={1}
-            betAmount={10}
-            assetValue={100}
-            betResult={true}
-            isLoading={true}
+            key={renderKey}
+            betAmount={betAmount}
+            assetValue={selectItems?.price || 1}
+            betResult={isWinner}
+            isLoading={isLoading}
           />
           <div className="flex justify-center mt-[18px]">
-            <Button className="!w-[250px]" text="Upgrade"></Button>
+            <Button
+              className="!w-[250px]"
+              text="Upgrade"
+              clicked={handleBet}
+              disabled={btnActive}
+            ></Button>
           </div>
         </div>
 
-        <SelectItem allAmount={allAmount} />
+        <SelectItem
+          allAmount={selectItems?.price}
+          imgUrl={selectItems?.img}
+          title={selectItems?.name}
+        />
       </div>
 
       <div className="flex flex-col mt-6">
@@ -98,11 +138,12 @@ const UpgradePage: FC = () => {
         <div className="grid grid-cols-6 gap-4 mt-[17px]">
           {items.map((item, index) => (
             <UpgradeItem
-              select={selectItems.indexOf(item.id) > -1}
+              select={selectItems?.id === item.id}
               key={index}
               id={item.id}
-              title={item.title}
-              amount={item.amount}
+              title={item.name}
+              image={item.img}
+              amount={item.price}
               onClick={(id) => handleSelectItem(id)}
             />
           ))}
