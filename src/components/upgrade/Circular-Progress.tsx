@@ -8,7 +8,7 @@ const CircularProgressBar: React.FC<{
   betAmount: number;
   assetValue: number;
   betResult: boolean | null;
-  isLoading: boolean;
+  isLoading: boolean | null;
 }> = ({ betAmount, assetValue, betResult, isLoading }) => {
   const radius = 36 * 3;
   const strokeWidth = 3;
