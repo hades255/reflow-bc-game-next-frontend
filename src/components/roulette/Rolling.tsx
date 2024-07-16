@@ -88,8 +88,8 @@ const Rolling = () => {
       {!start && (
         <div className="text-xl text-center absolute top-7 w-full z-50">
           <p>ROLLING</p>
-          <p className="text-2xl font-bold">
-            {second}&nbsp;.&nbsp;
+          <div className="text-2xl font-bold">
+            <span>{second}&nbsp;.&nbsp;</span>
             <CountUp
               key={`counter-${second}`}
               start={99}
@@ -101,7 +101,7 @@ const Rolling = () => {
               }
               formattingFn={(val: number) => (val > 9 ? `${val}` : `0${val}`)}
             />
-          </p>
+          </div>
         </div>
       )}
       <div className="absolute top-0 left-0 w-full h-full black-ground z-40"></div>
