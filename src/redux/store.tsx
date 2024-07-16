@@ -26,18 +26,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 export const persistor = persistStore(store);
-// export const store = configureStore({
-//   reducer: {
-//     auth: authSlice.reducer,
-//     user: userSlice.reducer,
-//     myGames: myGamesSlice.reducer,
-//     liveGames: liveGamesSlice.reducer,
-//     modal: modalSlice.reducer,
-//     toast: toastSlice.reducer,
-//   },
-// });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
