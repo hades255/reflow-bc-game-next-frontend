@@ -13,7 +13,7 @@ const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectItems, setSelectItems] = useState<any>(null);
   const [allAmount, setAllAmount] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const [isWinner, setIsWinner] = useState<boolean | null>(null);
   const [gameResult, setGameResult] = useState<any>();
   const [renderKey, setRenderKey] = useState(1);
@@ -23,12 +23,11 @@ const UpgradePage: FC = () => {
 
   const handleBet = async () => {
     try {
-      setIsLoading(true);
       setBtnActive(true);
-      setIsWinner(false);
-      const data = await apiPlayGame(selectItems?.id, 100000);
+      const data = await apiPlayGame(selectItems?.id, betAmount);
 
       if (data.data) {
+        setIsLoading(true);
         console.log(data.data);
         setGameResult(data.data);
         setIsWinner(data.data.win);
@@ -36,7 +35,7 @@ const UpgradePage: FC = () => {
         setTimeout(() => {
           setIsLoading(false);
           setRenderKey((prevKey) => prevKey + 1);
-        }, 3000);
+        }, 5000);
       }
     } catch (error) {
       setRenderKey((prevKey) => prevKey + 1);
@@ -46,11 +45,13 @@ const UpgradePage: FC = () => {
 
   const handleSelectItem = (id: number) => {
     const index = items.find((item) => item.id === id);
+    if (selectItems === null) {
+      setBtnActive(false);
+    }
     setSelectItems(index);
     if (betAmount === 0) {
       setBetAmount(0.01);
     }
-    setBtnActive(false);
   };
 
   useEffect(() => {
@@ -67,12 +68,6 @@ const UpgradePage: FC = () => {
       }, 5000);
     }
   }, [isLoading, selectItems]);
-
-  // useEffect(() => {
-  //   if (selectItems && betAmount > 0) {
-  //     setBtnActive(false);
-  //   }
-  // }, [selectItems, betAmount]);
 
   return (
     <div className="p-6 flex flex-col gap-6">
