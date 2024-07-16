@@ -13,7 +13,7 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
   const router = useRouter();
 
   const handleClickUserArea = useCallback(() => {
-    router.push("/proflie/details");
+    router.push("/profile/details");
   }, [router]);
 
   return (

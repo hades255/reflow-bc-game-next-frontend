@@ -18,9 +18,9 @@ const SignOut: React.FC<Props> = ({ width, height, color }) => {
     >
       <path d="M8 1.8A.8.8 0 1 0 8 .2zm0 12a.8.8 0 0 0 0-1.6zM8 .2H3v1.6h5zM.2 3v8h1.6V3zM3 13.8h5v-1.6H3zM.2 11A2.8 2.8 0 0 0 3 13.8v-1.6A1.2 1.2 0 0 1 1.8 11zM3 .2A2.8 2.8 0 0 0 .2 3h1.6A1.2 1.2 0 0 1 3 1.8z"></path>
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.6"
         d="M5.5 7H13m0 0-3-3m3 3-3 3"
       ></path>
     </svg>
