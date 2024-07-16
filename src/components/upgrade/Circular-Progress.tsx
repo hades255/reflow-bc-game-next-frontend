@@ -8,20 +8,20 @@ const CircularProgressBar: React.FC<{
   betAmount: number;
   assetValue: number;
   betResult: boolean | null;
-  isLoading: boolean; // Receive isLoading as a prop.
+  isLoading: boolean;
 }> = ({ betAmount, assetValue, betResult, isLoading }) => {
   const radius = 36 * 3;
   const strokeWidth = 3;
   const circumference = 2 * Math.PI * radius;
-  const fontSize = 12 * 3; // Multiplied by 4 to make the fontSize 4 times bigger
-  const percentage = Math.min(Math.max(betAmount / assetValue, 0), 0.95); // Ensure we're between 0 and 1
+  const fontSize = 12 * 3;
+  const percentage = Math.min(Math.max(betAmount / assetValue, 0), 0.95);
   const offset = circumference - percentage * circumference;
   const betResultString = betResult?.toString();
   const [visibleCircle, setVisibleCircle] = useState(false);
-  const [renderKey, setRenderKey] = useState(0);
+  const [renderKey, setRenderKey] = useState(1);
   const [shouldSpin, setShouldSpin] = useState(false);
   const circleRef = useRef<SVGCircleElement | null>(null);
-  const activeStrokeLengthInDegrees = percentage * 360; // Calculated from the given percentage
+  const activeStrokeLengthInDegrees = percentage * 360;
   const [spinStopDegree, setSpinStopDegree] = useState(0);
 
   const calculateSpinStopDegree = async (
@@ -34,14 +34,14 @@ const CircularProgressBar: React.FC<{
     } else {
       let degree = Math.random() * 360;
       if (degree < activeStrokeLengthInDegrees) {
-        degree += activeStrokeLengthInDegrees; // adjust the degree to be outside the invalid range
+        degree += activeStrokeLengthInDegrees;
       }
-      setSpinStopDegree(degree % 360); // ensure the degree is between 0 and 359
+      setSpinStopDegree(degree % 360);
       setShouldSpin(true);
     }
   };
 
-  const totalRotations = 5 * 360 - 90 - activeStrokeLengthInDegrees; // 5 full spins, or adjust as needed
+  const totalRotations = 5 * 360 - 90 - activeStrokeLengthInDegrees;
   const finalSpinDegree = totalRotations + spinStopDegree;
 
   useEffect(() => {
@@ -73,9 +73,11 @@ const CircularProgressBar: React.FC<{
       setVisibleCircle(true);
       setRenderKey((prevKey) => prevKey + 1);
 
+      console.log("dfdfdf");
+
       const timerId = setTimeout(() => {
         setVisibleCircle(false);
-        setSpinStopDegree(0);
+        // setSpinStopDegree(0);
       }, 4000);
 
       return () => clearTimeout(timerId);
@@ -100,6 +102,7 @@ const CircularProgressBar: React.FC<{
     animation: ${fadeOut} 1s forwards;
     animation-delay: 3s;
   `;
+
   const spin = keyframes`
   0% { transform: rotate(90deg); }
   100% { transform: rotate(${finalSpinDegree}deg); }

@@ -23,13 +23,13 @@ const SelectItem: FC<Props> = ({ allAmount, imgUrl, title }) => {
         <div className="absolute top-[17px] left-[34px]">
           <Image src={selectCrown} alt="logo" />
         </div>
-        <Image src={upgradeItem1} alt="logo" className="z-10" />
+        <img src={imgUrl} alt="" />
       </div>
 
       <div className="w-full flex flex-col gap-1 bg-[#1212127A] dropBlack rounded-[5px] p-3">
         <div className="flex justify-between">
-          <p className="text-[16px] font-semibold text-white">ZAGABOND</p>
-          <p className="text-[14px] font-semibold text-[#6D6D6D]">Human Bean</p>
+          <p className="text-[16px] font-semibold text-white">{title}</p>
+          {/* <p className="text-[14px] font-semibold text-[#6D6D6D]">Human Bean</p> */}
         </div>
         <div className="flex gap-[5px] items-center">
           <IconCoin width={30} height={30} color="#E9AE15" />
