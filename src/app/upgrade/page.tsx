@@ -69,6 +69,12 @@ const UpgradePage: FC = () => {
     }
   }, [isLoading, selectItems]);
 
+  useEffect(() => {
+    if (Number(betAmount) === Number(0)) {
+      setBtnActive(true);
+    }
+  }, [betAmount]);
+
   return (
     <div className="p-6 flex flex-col gap-6">
       <div className="flex gap-1 items-center">
