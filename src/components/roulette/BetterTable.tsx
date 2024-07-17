@@ -17,7 +17,7 @@ interface Props {
 const BetterTable: FC<Props> = ({ type, betters }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="w-full bg-[#313131] rounded-md h-12 p-2 px-4 shine-gray flex justify-between items-center">
+      <div className="w-full bg-[#313131] text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Image
             width={28}

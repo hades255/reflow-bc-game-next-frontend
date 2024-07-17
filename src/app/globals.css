@@ -179,6 +179,10 @@ body {
   box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.24);
 }
 
+.btn-active {
+  box-shadow: 0 0 6px 0 rgba(255, 255, 255, .6) !important;
+}
+
 .dropdown-btn {
   background: rgba(96, 96, 96, 0.12);
   box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.43);

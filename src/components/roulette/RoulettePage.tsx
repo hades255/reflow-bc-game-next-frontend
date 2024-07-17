@@ -2,7 +2,7 @@ import Rolling from "./Rolling";
 import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
-import DailyTable from "./DailyTable";
+// import DailyTable from "./DailyTable";
 
 const betters1 = [
   { user_id: 1, name: "Zack", level: 1, avatar: "/assets/avatar/avatar-1.png", bet: 24.84 },
@@ -51,7 +51,7 @@ const RoulettePage = () => {
         <BetterTable type={3} betters={betters3} />
         <BetterTable type={2} betters={betters2} />
       </div>
-      <DailyTable list={dailyList} />
+      {/* <DailyTable list={dailyList} /> */}
     </>
   )
 }

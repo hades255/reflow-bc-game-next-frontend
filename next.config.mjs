@@ -15,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/coinflip',
+        destination: '/roulette',
         permanent: true,
       },
     ]

@@ -13,7 +13,7 @@ interface Props {
   counter?: boolean;
   start?: number;
   end?: number;
-  clicked: () => void;
+  clicked?: () => void;
 }
 
 const NavButton: React.FC<Props> = ({ Icon, active, text, other, counter, start, end, clicked }) => {
@@ -21,7 +21,7 @@ const NavButton: React.FC<Props> = ({ Icon, active, text, other, counter, start,
 
   const handleClick = () => {
     setHover(false);
-    clicked();
+    clicked && clicked();
   };
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-
+import { useDispatch } from "react-redux";
+import { changePage } from "@/redux/slices/main/pageSlice";
 import NavButton from "@/components/buttons/NavButton";
-
 import IconRoulette from "@/utils/icons/Roulette";
 import IconSportsBet from "@/utils/icons/SportsBet";
 import IconCoinFlip from "@/utils/icons/CoinFlip";
@@ -22,11 +22,15 @@ type TabType = {
 const GameTab = () => {
   const router = useRouter();
   const pathname = usePathname();
-
+  const dispatch = useDispatch();
 
   const setStatus = (idx: number) => {
-    setTabs((prev) => prev.map((tab, id) => id === idx ? ({...tab, active: true}) : ({...tab, active: false})));
-  }
+    setTabs((prev) =>
+      prev.map((tab, id) =>
+        id === idx ? { ...tab, active: true } : { ...tab, active: false }
+      )
+    );
+  };
 
   const handleClick = (idx: number) => {
     setStatus(idx);
@@ -35,7 +39,7 @@ const GameTab = () => {
         router.push("/roulette");
         break;
       case 1:
-        router.push("/roulette");
+        router.push("/sports");
         break;
       case 2:
         router.push("/coinflip");
@@ -44,7 +48,7 @@ const GameTab = () => {
         router.push("/upgrade");
         break;
       case 4:
-        router.push("/upgrade");
+        router.push("/price");
         break;
       default:
         break;
@@ -54,26 +58,40 @@ const GameTab = () => {
   const [tabs, setTabs] = useState<TabType[]>([
     { active: false, text: "ROULETTE", Icon: IconRoulette },
     { active: false, text: "SPORTS BETTING", Icon: IconSportsBet },
-    { active: true, text: "ROYAL FLIP", Icon: IconCoinFlip },
+    { active: false, text: "ROYAL FLIP", Icon: IconCoinFlip },
     { active: false, text: "CROWN & KING", Icon: IconCrown },
     { active: false, text: "PRICE PREDICTION", Icon: IconDuel },
   ]);
 
   useEffect(() => {
     switch (pathname) {
-      case '/coinflip':
-        setStatus(2);
-        break;
-      case '/roulette':
+      case "/roulette":
+        dispatch(changePage("/roulette"));
         setStatus(0);
         break;
-      case '/upgrade':
+      case "/sports":
+        dispatch(changePage("/sports"));
+        setStatus(1);
+        break;
+      case "/coinflip":
+        dispatch(changePage("/coinflip"));
+        setStatus(2);
+        break;
+      case "/upgrade":
+        dispatch(changePage("/upgrade"));
         setStatus(3);
         break;
+      case "/price":
+        dispatch(changePage("/price"));
+        setStatus(4);
+        break; 
       default:
+        setStatus(5);
         break;
     }
-  }, [pathname])
+    if (pathname.includes("/profile"))
+      dispatch(changePage("/profile"));
+  }, [pathname]);
 
   return (
     <div className="flex gap-4">

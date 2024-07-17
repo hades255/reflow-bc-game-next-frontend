@@ -4,11 +4,12 @@ import clsx from "clsx";
 interface Props {
   text: string;
   disabled?: boolean;
+  active?: boolean;
   clicked?: () => void;
   className?: string;
 }
 
-const Button: React.FC<Props> = ({ text, disabled, clicked, className }) => {
+const Button: React.FC<Props> = ({ text, disabled, active, clicked, className }) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -32,7 +33,7 @@ const Button: React.FC<Props> = ({ text, disabled, clicked, className }) => {
   ) : (
     <button
       className={clsx(
-        `bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown active:opacity-90`,
+        `bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown ${active ? 'btn-active' : ''}`,
         className
       )}
       onMouseEnter={() => setHover(true)}

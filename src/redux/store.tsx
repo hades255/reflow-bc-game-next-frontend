@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { pageSlice } from "./slices/main/pageSlice";
 import { authSlice } from "./slices/main/authSlice";
 import { userSlice } from "./slices/main/userSlice";
 import { myGamesSlice } from "./slices/coinflip/myGamesSlice";
@@ -14,6 +15,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  page: pageSlice.reducer,
   auth: authSlice.reducer,
   user: userSlice.reducer,
   myGames: myGamesSlice.reducer,

@@ -11,6 +11,8 @@ import Image from "next/image";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { signin } from "@/redux/slices/main/authSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
+import { changePage } from "@/redux/slices/main/pageSlice";
+import { usePage } from "@/redux/slices/main/pageSlice";
 import logo from "@/assets/logos/logo.png";
 
 const AppHeader: FC = () => {
@@ -18,9 +20,19 @@ const AppHeader: FC = () => {
 
   const router = useRouter();
 
-  const handleClick = () => {
-    console.log("Withdraw");
+  const page = usePage();
+
+  const dispatch = useDispatch();
+
+  const gotoDeposit = () => {
+    dispatch(changePage("/deposit"));
+    router.push("/deposit");
   };
+
+  const gotoWithdraw = () => {
+    dispatch(changePage("/withdraw"));
+    router.push("/withdraw");
+  }
 
   const handleLogin = async () => {
     router.push(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`);
@@ -28,14 +40,12 @@ const AppHeader: FC = () => {
 
   const searchParams = useSearchParams();
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (searchParams.get("token") != null) {
       dispatch(signin(searchParams.get("token") ?? ""));
       localStorage.setItem("token", searchParams.get("token") ?? "");
       dispatch(setToast({ type: 2, message: "Logged in successfully."}))
-      router.replace("/coinflip");
+      router.replace(page);
     }
   }, [token, router, searchParams]);
 
@@ -51,9 +61,10 @@ const AppHeader: FC = () => {
             <>
               <NormalButton
                 text={"Withdraw"}
-                clicked={handleClick}
+                clicked={gotoWithdraw}
+                active={page === "/withdraw"}
               />
-              <Button text={"Deposit"} disabled={false} clicked={handleClick} />
+              <Button text={"Deposit"} disabled={false} clicked={gotoDeposit} active={page === "/deposit"} />
               <SteamLoginButton text={"Sign In"} clicked={handleLogin} />
             </>
           ) : (
