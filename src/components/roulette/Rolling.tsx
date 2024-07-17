@@ -59,7 +59,7 @@ const Rolling = () => {
     setTimeout(() => {
       setCenterDelimiter(false);
       setStart(true);
-    }, 15500);
+    }, 15400);
   }, []);
 
   useEffect(() => {
@@ -86,9 +86,9 @@ const Rolling = () => {
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
       {!start && (
-        <div className="text-xl text-center absolute top-7 w-full z-50">
+        <div className="text-xl text-center absolute top-8 w-full z-50">
           <p>ROLLING</p>
-          <div className="text-2xl font-bold">
+          <div className="text-2xl font-bold text-start pl-[calc(50%-36px)]">
             <span>{second}&nbsp;.&nbsp;</span>
             <CountUp
               key={`counter-${second}`}
@@ -104,7 +104,7 @@ const Rolling = () => {
           </div>
         </div>
       )}
-      <div className="absolute top-0 left-0 w-full h-full black-ground z-40"></div>
+      <div className="absolute top-0 left-0 w-full h-32 black-ground z-40"></div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 import NavButton from "@/components/buttons/NavButton";
 
@@ -21,13 +21,15 @@ type TabType = {
 
 const GameTab = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
+
+  const setStatus = (idx: number) => {
+    setTabs((prev) => prev.map((tab, id) => id === idx ? ({...tab, active: true}) : ({...tab, active: false})));
+  }
 
   const handleClick = (idx: number) => {
-    setTabs((prev) =>
-      prev.map((tab, index) =>
-        idx === index ? { ...tab, active: true } : { ...tab, active: false }
-      )
-    );
+    setStatus(idx);
     switch (idx) {
       case 0:
         router.push("/roulette");
@@ -56,6 +58,22 @@ const GameTab = () => {
     { active: false, text: "CROWN & KING", Icon: IconCrown },
     { active: false, text: "PRICE PREDICTION", Icon: IconDuel },
   ]);
+
+  useEffect(() => {
+    switch (pathname) {
+      case '/coinflip':
+        setStatus(2);
+        break;
+      case '/roulette':
+        setStatus(0);
+        break;
+      case '/upgrade':
+        setStatus(3);
+        break;
+      default:
+        break;
+    }
+  }, [pathname])
 
   return (
     <div className="flex gap-4">

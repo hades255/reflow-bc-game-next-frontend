@@ -10,6 +10,7 @@ import SteamLoginButton from "@/components/buttons/SteamLoginButton";
 import Image from "next/image";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { signin } from "@/redux/slices/main/authSlice";
+import { setToast } from "@/redux/slices/main/toastSlice";
 import logo from "@/assets/logos/logo.png";
 
 const AppHeader: FC = () => {
@@ -33,10 +34,10 @@ const AppHeader: FC = () => {
     if (searchParams.get("token") != null) {
       dispatch(signin(searchParams.get("token") ?? ""));
       localStorage.setItem("token", searchParams.get("token") ?? "");
+      dispatch(setToast({ type: 2, message: "Logged in successfully."}))
       router.replace("/coinflip");
     }
   }, [token, router, searchParams]);
-
 
   return (
     <header className="h-[84px] bg-[#1D1D1D] w-full fixed flex top-0 left-0 z-50">
