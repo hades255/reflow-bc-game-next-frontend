@@ -4,6 +4,7 @@ import IconCoin from "@/utils/icons/Coin";
 import moment from "moment";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
 import TransactionModal from "./transactionModal";
+import IconLoading from "@/utils/icons/Loading";
 
 interface Transaction {
   id: number;
@@ -15,7 +16,7 @@ interface Transaction {
 }
 
 export default function History() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[] | null>(null);
   const [selected, setSelected] = useState<Transaction | null>(null);
 
   const { data, isLoading, error } = useFetch("/api/profile/transactions", {
@@ -34,16 +35,24 @@ export default function History() {
         <p className="text-[#BBB] font-bold">Transactions</p>
       </div>
       <div className="space-y-[1px] w-full">
-        {transactions?.map((item, index) => (
-          <HistoryTab
-            key={index}
-            transaction={item}
-            firstOrLast={
-              index === 0 ? 0 : index === transactions.length - 1 ? 1 : 2
-            }
-            setSelected={setSelected}
-          />
-        ))}
+        {transactions ? (
+          transactions.length ? (
+            transactions.map((item, index) => (
+              <HistoryTab
+                key={index}
+                transaction={item}
+                firstOrLast={
+                  index === 0 ? 0 : index === transactions.length - 1 ? 1 : 2
+                }
+                setSelected={setSelected}
+              />
+            ))
+          ) : (
+            <p className="text-[#a8871a]">No Transactions</p>
+          )
+        ) : (
+          <IconLoading width={12} height={12} color="#E9AE15" />
+        )}
       </div>
       {selected && (
         <TransactionModal transaction={selected} setSelected={setSelected} />
