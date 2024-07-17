@@ -12,7 +12,9 @@ const TabItem: FC<Props> = ({ select = false, icon, text, onClick }) => {
     <div
       className={`w-full px-3 py-2 flex items-center border gap-1 cursor-pointer ${
         select ? "rounded-[5px] border-[#E9AE15]" : "border-[#0F0F0FAD]"
-      }`}
+      } ${
+        select ? "text-[#E9AE15]" : "text-[#787878]"
+      }  hover:text-[#e9ad1565] transition-colors`}
       style={{
         background: `${
           select
@@ -23,13 +25,7 @@ const TabItem: FC<Props> = ({ select = false, icon, text, onClick }) => {
       onClick={onClick}
     >
       {icon}
-      <p
-        className={`text-[12px] font-semibold ${
-          select ? "text-[#E9AE15]" : "text-[#787878]"
-        }`}
-      >
-        {text}
-      </p>
+      <p className={`text-[12px] font-semibold `}>{text}</p>
     </div>
   );
 };
