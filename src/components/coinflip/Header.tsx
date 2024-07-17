@@ -5,7 +5,6 @@ import Button from "../buttons/Button";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
-import { setToast } from "@/redux/slices/main/toastSlice";
 import { useBalance } from "@/redux/slices/main/userSlice";
 import { updateBalance } from "@/redux/slices/main/userSlice";
 import { useUser } from "@/redux/slices/main/userSlice";
@@ -112,12 +111,6 @@ const Header = () => {
       }
     })();
   };
-
-  useEffect(() => {
-    if (token !== "") {
-      dispatch(setToast({ type: 2, message: "Logged in successfully." }));
-    }
-  }, [dispatch]);
 
   return (
     <div className="w-full h-12 rounded-md innerBlack relative !z-30">

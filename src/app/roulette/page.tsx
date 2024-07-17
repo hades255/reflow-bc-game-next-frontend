@@ -1,6 +1,10 @@
+import RoulettePage from "@/components/roulette/RoulettePage"
+
 const Roulette = () => {
   return (
-    <>Roulette Page</>
+    <div className="w-full h-full p-6">
+      <RoulettePage />
+    </div>
   )
 }
 
