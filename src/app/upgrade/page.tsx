@@ -79,14 +79,16 @@ const UpgradePage: FC = () => {
         <BetAmount
           value={betAmount}
           onChangeValue={(value: any) => setBetAmount(value)}
-          allValue={selectItems?.price || 0}
+          allValue={selectItems?.price / 1000 || 0}
           myValue={myAmount}
         />
         <div>
           <CircularProgressBar
             key={renderKey}
             betAmount={betAmount}
-            assetValue={selectItems?.price || 1}
+            assetValue={
+              selectItems?.price / 1000 + selectItems?.price / 8000 || 1
+            }
             betResult={isWinner}
             isLoading={isLoading}
           />
@@ -130,7 +132,7 @@ const UpgradePage: FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-6 gap-4 mt-[17px]">
+        <div className="grid grid-cols-7 gap-4 mt-[17px]">
           {items.map((item, index) => (
             <UpgradeItem
               select={selectItems?.id === item.id}
@@ -138,7 +140,7 @@ const UpgradePage: FC = () => {
               id={item.id}
               title={item.name}
               image={item.img}
-              amount={item.price}
+              amount={item.price / 1000}
               onClick={(id) => handleSelectItem(id)}
             />
           ))}

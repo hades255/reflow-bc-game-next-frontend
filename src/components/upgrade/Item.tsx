@@ -24,7 +24,7 @@ const UpgradeItem: FC<Props> = ({
 }) => {
   return (
     <div
-      className="h-auto w-full bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer"
+      className="h-auto w-[200px] bg-[#1E1E1E] rounded-[5px] p-2 flex flex-col gap-2 cursor-pointer"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
       onClick={() => {
         if (id) {
@@ -34,26 +34,26 @@ const UpgradeItem: FC<Props> = ({
     >
       {select ? (
         <div
-          className="w-full h-[232px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
+          className="w-full h-[130px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
           style={{ background: "linear-gradient(#191A1900, #EAA62580)" }}
         >
-          <img src={image} alt="" />
+          <img src={image} alt="" className="h-[100px]" />
         </div>
       ) : (
-        <div className="w-full h-[232px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
-          <img src={image} alt="" />
+        <div className="w-full h-[130px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
+          <img src={image} alt="" className="h-[100px]" />
         </div>
       )}
 
-      <div className="w-full h-[35%] justify-between flex flex-col gap-1 bg-[#1212127A] dropBlack rounded-[5px] p-3">
+      <div className="w-full h-[90px] justify-between flex flex-col gap-1 bg-[#1212127A] dropBlack rounded-[5px] p-3">
         <div className="flex justify-between">
-          <p className="text-[16px] font-semibold text-white uppercase">
+          <p className="text-[10px] font-semibold text-white uppercase">
             {title}
           </p>
         </div>
         <div className="flex gap-[5px] items-center">
-          <IconCoin width={30} height={30} color="#E9AE15" />
-          <p className="text-[16px] font-semibold text-[#E9AE15] leading-[17.28px]">
+          <IconCoin width={20} height={20} color="#E9AE15" />
+          <p className="text-[12px] font-semibold text-[#E9AE15] leading-[17.28px]">
             {amount}
           </p>
         </div>

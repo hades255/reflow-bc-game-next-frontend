@@ -24,6 +24,8 @@ const CircularProgressBar: React.FC<{
   const activeStrokeLengthInDegrees = percentage * 360;
   const [spinStopDegree, setSpinStopDegree] = useState(0);
 
+  console.log(assetValue);
+
   const calculateSpinStopDegree = async (
     isWinner: boolean | null,
     percentage: number
@@ -72,12 +74,10 @@ const CircularProgressBar: React.FC<{
     if (betResult !== null && isLoading === false) {
       setVisibleCircle(true);
       setRenderKey((prevKey) => prevKey + 1);
-
-      console.log("dfdfdf");
+      // setSpinStopDegree(0);
 
       const timerId = setTimeout(() => {
         setVisibleCircle(false);
-        // setSpinStopDegree(0);
       }, 4000);
 
       return () => clearTimeout(timerId);

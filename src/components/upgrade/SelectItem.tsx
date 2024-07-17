@@ -23,7 +23,7 @@ const SelectItem: FC<Props> = ({ allAmount, imgUrl, title }) => {
         <div className="absolute top-[17px] left-[34px]">
           <Image src={selectCrown} alt="logo" />
         </div>
-        <img src={imgUrl} alt="" />
+        <img src={imgUrl} alt="" className="h-[160px]" />
       </div>
 
       <div className="w-full flex flex-col gap-1 bg-[#1212127A] dropBlack rounded-[5px] p-3">
