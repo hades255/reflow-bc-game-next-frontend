@@ -4,7 +4,8 @@ import Rolling from "./Rolling";
 import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
-// import DailyTable from "./DailyTable";
+import { useDispatch } from "react-redux";
+import { setModal } from "@/redux/slices/main/modalSlice";
 
 const betters1 = [
   {
@@ -141,84 +142,57 @@ const betters3 = [
   },
 ];
 
-const dailyList = [
-  {
-    id: 1,
-    name: "Loren",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 35000,
-    prize: 3000,
-  },
-  {
-    id: 2,
-    name: "Rovert",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 30000,
-    prize: 1500,
-  },
-  {
-    id: 3,
-    name: "Coline",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 32000,
-    prize: 1000,
-  },
-  {
-    id: 4,
-    name: "Nicole",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 15000,
-    prize: 500,
-  },
-  {
-    id: 5,
-    name: "Bell",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 10000,
-    prize: 300,
-  },
-  {
-    id: 6,
-    name: "Jessica",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 9000,
-    prize: 200,
-  },
-];
 
 const RoulettePage = () => {
-  const [betted, setBetted] = useState<number>(0);
+  const [betted, setBetted] = useState<number[]>([]);
+
+  const [bet, setBet] = useState<number>(0);
+
+  const dispatch = useDispatch();
 
   const handleBet = (val: number) => {
-    setBetted(val);
+    if (bet > 0.1) {
+      setBetted((prev) => prev.includes(val) ? prev.filter((pv) => pv !== val) : prev.concat([val]));
+    } else {
+      dispatch(setModal({
+        status: true,
+        title: "Error",
+        content: "The minimum bet amount is 0.1",
+        name: "Steam Sign In",
+        type: 3,
+        parameter: ""
+      }))
+    }
   };
   
   return (
     <>
       <Rolling />
       <RollingHistory />
-      <Betting />
+      <Betting bet={bet} setBet={setBet} />
       <div className="w-full grid grid-cols-3 gap-12 mt-8 px-6">
         <BetterTable
           type={1}
           betters={betters1}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
         <BetterTable
           type={3}
           betters={betters3}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
         <BetterTable
           type={2}
           betters={betters2}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
       </div>
-      {/* <DailyTable list={dailyList} /> */}
     </>
   );
 };
