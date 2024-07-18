@@ -78,7 +78,7 @@ export const getHistory = async (user: any) => {
     sort: "ASC",
   });
 
-  return ({
+  return {
     total: data.data.data.total,
     data: data.data.data.items.map((game: any) => ({
       id: uuidv4(),
@@ -110,7 +110,7 @@ export const getHistory = async (user: any) => {
       side: game.winner,
       bet: game.bet_amount,
     })),
-  });
+  };
 };
 
 export const joinGame = async (gameId: number) => {

@@ -1,24 +1,30 @@
 import React, { useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { changePage } from "@/redux/slices/main/pageSlice";
 
 interface Props {
   avatar: string;
   name: string;
   lvl: number;
   progress: number;
+  active?: boolean;
 }
 
-const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress }) => {
+const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
   const router = useRouter();
+
+  const dispatch = useDispatch();
 
   const handleClickUserArea = useCallback(() => {
     router.push("/profile/details");
+    dispatch(changePage("/profile"));
   }, [router]);
 
   return (
     <div
-      className="h-full flex rounded-sm relative hover:cursor-pointer"
+      className={`h-full flex rounded-sm relative cursor-pointer ${active ? 'btn-active' : ''}`}
       onClick={handleClickUserArea}
     >
       <div className="p-2 flex min-w-24 items-center gap-2 rounded-l-sm normal-btn">

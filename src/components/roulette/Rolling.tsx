@@ -86,9 +86,9 @@ const Rolling = () => {
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
       {!start && (
-        <div className="text-xl text-center absolute top-8 w-full z-50">
+        <div className="text-xl text-center text-white absolute top-8 w-full z-50">
           <p>ROLLING</p>
-          <div className="text-2xl font-bold text-start pl-[calc(50%-36px)]">
+          <div className="text-2xl font-bold text-white text-start pl-[calc(50%-36px)]">
             <span>{second}&nbsp;.&nbsp;</span>
             <CountUp
               key={`counter-${second}`}
