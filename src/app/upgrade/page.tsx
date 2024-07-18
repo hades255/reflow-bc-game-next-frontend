@@ -8,6 +8,7 @@ import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
 import { apiGetItems, apiPlayGame } from "@/services/upgrader";
+import { useBalance } from "@/redux/slices/main/userSlice";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -19,7 +20,7 @@ const UpgradePage: FC = () => {
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState(0);
-  const [myAmount, setMyAmount] = useState(200000000);
+  const balance = useBalance();
 
   const handleBet = async () => {
     try {
@@ -86,14 +87,14 @@ const UpgradePage: FC = () => {
           value={betAmount}
           onChangeValue={(value: any) => setBetAmount(value)}
           allValue={selectItems?.price / 1000 || 0}
-          myValue={myAmount}
+          myValue={Number(balance)}
         />
         <div>
           <CircularProgressBar
             key={renderKey}
             betAmount={betAmount}
             assetValue={
-              selectItems?.price / 1000 + selectItems?.price / 8000 || 1
+              selectItems?.price / 1000 + selectItems?.price / 18000 || 1
             }
             betResult={isWinner}
             isLoading={isLoading}
@@ -109,7 +110,7 @@ const UpgradePage: FC = () => {
         </div>
 
         <SelectItem
-          allAmount={selectItems?.price}
+          allAmount={selectItems?.price / 1000}
           imgUrl={selectItems?.img}
           title={selectItems?.name}
         />
@@ -138,7 +139,7 @@ const UpgradePage: FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-4 mt-[17px]">
+        <div className="flex-wrap flex flex-row justify-center gap-2 mt-6">
           {items.map((item, index) => (
             <UpgradeItem
               select={selectItems?.id === item.id}
