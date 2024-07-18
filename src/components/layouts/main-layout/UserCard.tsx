@@ -24,7 +24,7 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
 
   return (
     <div
-      className={`h-full flex rounded-sm relative cursor-pointer ${active ? 'btn-active' : ''}`}
+      className={`h-full flex rounded-sm relative cursor-pointer btn-hover ${active ? 'btn-active' : ''}`}
       onClick={handleClickUserArea}
     >
       <div className="p-2 flex min-w-24 items-center gap-2 rounded-l-sm normal-btn">

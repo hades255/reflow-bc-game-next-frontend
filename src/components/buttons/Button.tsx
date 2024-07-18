@@ -33,7 +33,7 @@ const Button: React.FC<Props> = ({ text, disabled, active, clicked, className })
   ) : (
     <button
       className={clsx(
-        `bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover !hover:text-brown ${active ? 'btn-active' : ''}`,
+        `bg-gold w-full py-2 px-4 rounded-sm relative primary-btn gold-btn-drop hover:gold-btn-drop-hover btn-hover !hover:text-brown ${active ? 'btn-active' : ''}`,
         className
       )}
       onMouseEnter={() => setHover(true)}
