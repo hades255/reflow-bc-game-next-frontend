@@ -12,12 +12,14 @@ interface Props {
     bet: number;
     name: string;
   }[];
+  bet: (val: number) => void;
+  betted: number
 }
 
-const BetterTable: FC<Props> = ({ type, betters }) => {
+const BetterTable: FC<Props> = ({ type, betters, bet, betted }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="w-full bg-[#313131] rounded-md h-12 p-2 px-4 shine-gray flex justify-between items-center">
+      <div className={`w-full bg-[#313131] text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center ${betted === type ? 'border border-gold' : ''}`} onClick={() => bet(type)}>
         <div className="flex items-center gap-2">
           <Image
             width={28}
@@ -29,7 +31,7 @@ const BetterTable: FC<Props> = ({ type, betters }) => {
           />
           {"Place Bet"}
         </div>
-        <span>{type === 3 ? "14" : "2"}x</span>
+        <span>Win {type === 3 ? "14" : "2"}x</span>
       </div>
       <div className="w-full rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
         <div className="h-full w-full rounded-md innerBlack bg-[#191919]">
