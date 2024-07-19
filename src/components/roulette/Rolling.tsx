@@ -3,46 +3,10 @@ import { useEffect, useState } from "react";
 
 import CountUp from "react-countup";
 import RoulettePro from "react-roulette-pro";
-import { v4 as uuidv4 } from "uuid";
+import { coinsTemplate } from "@/services/roulette";
 import "react-roulette-pro/dist/index.css";
 
-const coins = [1, 2, 1, 2, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2];
 
-const tempList = coins.map((coin) =>
-  coin === 1
-    ? {
-        value: coin,
-        image: "/assets/roulette/red.png",
-      }
-    : coin === 2
-    ? {
-        value: coin,
-        image: "/assets/roulette/black.png",
-      }
-    : {
-        value: coin,
-        image: "/assets/roulette/gold.png",
-      }
-);
-
-const coinsList = [
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-];
 
 const Rolling = () => {
   const [start, setStart] = useState(false);
@@ -77,10 +41,10 @@ const Rolling = () => {
   return (
     <div className="relative">
       <RoulettePro
-        prizes={coinsList}
-        prizeIndex={(30 * 108) / 209}
+        prizes={coinsTemplate()}
+        prizeIndex={(60 * 108) / 206}
         start={start}
-        spinningTime={3}
+        spinningTime={4}
         onPrizeDefined={handlePrizeDefined}
         defaultDesignOptions={{ hideCenterDelimiter: centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}

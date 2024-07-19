@@ -20,7 +20,14 @@ interface Props {
 const BetterTable: FC<Props> = ({ type, betters, bet, betted, amount }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center ${betted.includes(type) ? 'border border-gold bg-[#161616]' : 'bg-[#313131]'}`} onClick={() => bet(type)}>
+      <div
+        className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center ${
+          betted.includes(type)
+            ? "border border-gold bg-[#161616]"
+            : "bg-[#313131]"
+        }`}
+        onClick={() => bet(type)}
+      >
         <div className="flex items-center gap-2">
           <Image
             width={28}
@@ -30,9 +37,17 @@ const BetterTable: FC<Props> = ({ type, betters, bet, betted, amount }) => {
             }.png`}
             alt=""
           />
-          {betted.includes(type) ? 
-            <span className="flex items-center">Bet Placed:&nbsp;&nbsp;<span className="text-gold"><PiCoinsLight /></span>&nbsp;{amount}</span>
-          : <span>Place Bet</span>}
+          {betted.includes(type) ? (
+            <span className="flex items-center">
+              Bet Placed:&nbsp;&nbsp;
+              <span className="text-gold">
+                <PiCoinsLight />
+              </span>
+              &nbsp;{amount}
+            </span>
+          ) : (
+            <span>Place Bet</span>
+          )}
         </div>
         <span>Win {type === 3 ? "14" : "2"}x</span>
       </div>
@@ -48,7 +63,10 @@ const BetterTable: FC<Props> = ({ type, betters, bet, betted, amount }) => {
             </span>
           </div>
           {betters.map((better, idx) => (
-            <div className="w-full px-4 flex justify-between items-center my-2" key={`betters-table-${type}-${idx}`}>
+            <div
+              className="w-full px-4 flex justify-between items-center my-2"
+              key={`betters-table-${type}-${idx}`}
+            >
               <div className="flex items-center my-2 gap-2">
                 <Image
                   width={28}
