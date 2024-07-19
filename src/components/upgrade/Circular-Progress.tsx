@@ -72,12 +72,10 @@ const CircularProgressBar: React.FC<{
     if (betResult !== null && isLoading === false) {
       setVisibleCircle(true);
       setRenderKey((prevKey) => prevKey + 1);
-
-      console.log("dfdfdf");
+      // setSpinStopDegree(0);
 
       const timerId = setTimeout(() => {
         setVisibleCircle(false);
-        // setSpinStopDegree(0);
       }, 4000);
 
       return () => clearTimeout(timerId);
@@ -233,16 +231,6 @@ const CircularProgressBar: React.FC<{
         <tspan x="160" fill="#E9AE15" textAnchor="start">
           %
         </tspan>
-      </text>
-      <text
-        x="150"
-        y="195"
-        alignmentBaseline="middle"
-        textAnchor="middle"
-        fill="#484848"
-        fontSize={fontSize / 2}
-      >
-        1.000 - 1.000
       </text>
     </svg>
   );
