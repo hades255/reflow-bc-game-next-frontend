@@ -5,7 +5,6 @@ import MainLayout from "@/components/layouts/MainLayout";
 import ReduxProvider from "@/providers/ReduxProvider";
 import "@fontsource/quicksand";
 import "@fontsource/quicksand/400.css";
-import "@fontsource/quicksand/400-italic.css";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
