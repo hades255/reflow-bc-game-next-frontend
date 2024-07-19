@@ -18,16 +18,19 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   useEffect(() => {
     if (value > 0) {
       if (allValue > myValue) {
-        if ((value / allValue) * 100 > myValue) {
+        if (value > myValue) {
           setProgress(100);
+          onChangeValue(myValue);
         } else {
-          let temp = (value / allValue) * 100;
+          let temp = (value / myValue) * 100;
           setProgress(temp);
         }
       } else {
         let temp = (value / allValue) * 100;
         setProgress(temp);
       }
+    } else if (Number(value) === Number(0)) {
+      setProgress(0);
     }
   }, [value]);
 
@@ -35,32 +38,28 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     // onChangeValue && onChangeValue(100);
     setBtnTab(id);
     if (id === 1) {
-      let temp = allValue / 10;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 10);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 10);
       }
     } else if (id === 2) {
-      let temp = allValue / 4;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 4);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 4);
       }
     } else if (id === 3) {
-      let temp = allValue / 2;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 2);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 2);
       }
     } else if (id === 4) {
-      let temp = allValue - 0.01;
-      if (temp > myValue) {
+      if (allValue > myValue) {
         onChangeValue(myValue);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue - 0.01);
       }
     }
   };
@@ -82,12 +81,8 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
 
   const handleChangeProgress = (p: number) => {
     if (allValue > myValue) {
-      if ((allValue / 100) * p > myValue) {
-        onChangeValue(myValue.toFixed(2));
-      } else {
-        let temp = (allValue / 100) * p;
-        onChangeValue(temp.toFixed(2));
-      }
+      let temp = (myValue / 100) * p;
+      onChangeValue(temp.toFixed(2));
     } else {
       let temp = (allValue / 100) * p;
       onChangeValue(temp.toFixed(2));
