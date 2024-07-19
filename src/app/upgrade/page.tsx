@@ -70,13 +70,17 @@ const UpgradePage: FC = () => {
 
   const handleSelectItem = (id: number) => {
     const index = items.find((item) => item.id === id);
-    if (selectItems === null) {
-      setBtnActive(false);
-    }
-    setSelectItems(index);
-    if (betAmount === 0) {
-      if (token !== "") {
-        setBetAmount(0.01);
+    if (index === selectItems) {
+      handleClickSelectItem();
+    } else {
+      if (selectItems === null) {
+        setBtnActive(false);
+      }
+      setSelectItems(index);
+      if (betAmount === 0) {
+        if (token !== "") {
+          setBetAmount(0.01);
+        }
       }
     }
   };
