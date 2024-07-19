@@ -2,6 +2,7 @@
 
 import React, { FC, useState, useEffect } from "react";
 import IconCoin from "@/utils/icons/Coin";
+import { useUser } from "@/redux/slices/main/userSlice";
 
 interface Props {
   value: number;
@@ -14,19 +15,59 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   // const [value, setValue] = useState<number>(0);
   const [btnTab, setBtnTab] = useState<number>(0);
   const [progress, setProgress] = useState(0);
+  const [disable, setDisable] = useState(true);
+  const user = useUser();
 
   useEffect(() => {
+    if (user && allValue > 0) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [user, allValue]);
+
+  useEffect(() => {
+    setBtnTab(0);
     if (value > 0) {
       if (allValue > myValue) {
-        if ((value / allValue) * 100 > myValue) {
+        if (value > myValue) {
           setProgress(100);
+          onChangeValue(myValue);
         } else {
-          let temp = (value / allValue) * 100;
+          let temp = (value / myValue) * 100;
           setProgress(temp);
         }
       } else {
         let temp = (value / allValue) * 100;
+        console.log(temp);
         setProgress(temp);
+      }
+    } else if (Number(value) === Number(0)) {
+      setProgress(0);
+    }
+
+    if (value > 0) {
+      if (allValue > myValue) {
+        if (Number(value).toFixed(2) === (myValue / 10).toFixed(2)) {
+          setBtnTab(1);
+        } else if (Number(value).toFixed(2) === (myValue / 25).toFixed(2)) {
+          setBtnTab(2);
+        } else if (Number(value).toFixed(2) === (myValue / 50).toFixed(2)) {
+          setBtnTab(3);
+        } else if (Number(value).toFixed(2) === myValue.toFixed(2)) {
+          setBtnTab(4);
+        }
+      } else {
+        if (Number(value).toFixed(2) === (allValue / 10).toFixed(2)) {
+          setBtnTab(1);
+          console.log(value);
+        } else if (Number(value).toFixed(2) === (allValue / 4).toFixed(2)) {
+          setBtnTab(2);
+        } else if (Number(value).toFixed(2) === (allValue / 2).toFixed(2)) {
+          setBtnTab(3);
+        } else if (Number(value).toFixed(2) === (allValue - 0.01).toFixed(2)) {
+          setBtnTab(4);
+        }
       }
     }
   }, [value]);
@@ -35,32 +76,30 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     // onChangeValue && onChangeValue(100);
     setBtnTab(id);
     if (id === 1) {
-      let temp = allValue / 10;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 10);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 10);
       }
     } else if (id === 2) {
-      let temp = allValue / 4;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 4);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 4);
       }
     } else if (id === 3) {
-      let temp = allValue / 2;
-      if (temp > myValue) {
-        onChangeValue(myValue);
+      if (allValue > myValue) {
+        onChangeValue(myValue / 2);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue / 2);
       }
     } else if (id === 4) {
-      let temp = allValue - 0.01;
-      if (temp > myValue) {
+      if (allValue > myValue) {
         onChangeValue(myValue);
+      } else if (Number(myValue) === Number(0)) {
+        onChangeValue(0);
       } else {
-        onChangeValue(temp);
+        onChangeValue(allValue - 0.01);
       }
     }
   };
@@ -72,25 +111,27 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
       onChangeValue(amount);
     }
 
-    if (amount > allValue || amount === allValue) {
+    if (
+      amount.toFixed(2) > allValue.toFixed(2) ||
+      amount.toFixed(2) === allValue.toFixed(2)
+    ) {
       onChangeValue(allValue - 0.01);
-      return;
     } else {
       onChangeValue(amount);
     }
   };
 
   const handleChangeProgress = (p: number) => {
+    console.log(p);
     if (allValue > myValue) {
-      if ((allValue / 100) * p > myValue) {
-        onChangeValue(myValue.toFixed(2));
-      } else {
-        let temp = (allValue / 100) * p;
-        onChangeValue(temp.toFixed(2));
-      }
+      let temp = (myValue / 100) * p;
+      onChangeValue(temp.toFixed(2));
     } else {
       let temp = (allValue / 100) * p;
       onChangeValue(temp.toFixed(2));
+      if (temp.toFixed(2) === allValue.toFixed(2)) {
+        onChangeValue(Number(allValue - 0.01).toFixed(2));
+      }
     }
   };
 
@@ -105,14 +146,21 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
         </p>
         <div className="relative">
           <div className="absolute top-[10px] left-[10px]">
-            <IconCoin width={16} height={17} color="#E9AE15" />
+            <IconCoin
+              width={16}
+              height={17}
+              color={`${disable ? "#808080" : "#E9AE15"}`}
+            />
           </div>
 
           <input
             type="number"
             value={value}
+            disabled={disable}
             onChange={(e: any) => handleChange(Number(e.target.value))}
-            className="bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold text-[#D1D1D1] outline-none"
+            className={`bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold ${
+              disable ? "text-[#808080]" : "text-[#D1D1D1]"
+            } outline-none`}
           />
         </div>
 
@@ -120,6 +168,9 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
           <input
             type="range"
             value={progress}
+            min={0}
+            max={100}
+            disabled={disable}
             onChange={(e) => handleChangeProgress(Number(e.target.value))}
             className="w-full h-[3px] appearance-none rounded-[15px] range-input"
             style={{
@@ -137,6 +188,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 1 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(1)}
+            disabled={disable}
           >
             10%
           </button>
@@ -148,6 +200,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 2 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(2)}
+            disabled={disable}
           >
             25%
           </button>
@@ -159,6 +212,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 3 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(3)}
+            disabled={disable}
           >
             50%
           </button>
@@ -170,6 +224,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 4 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(4)}
+            disabled={disable}
           >
             Max
           </button>

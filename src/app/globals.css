@@ -180,11 +180,11 @@ body {
 }
 
 .btn-active {
-  box-shadow: 0 0 6px 0 rgba(255, 255, 255, .6) !important;
+  box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 .btn-hover:hover {
-  box-shadow: 0 0 6px 0 rgba(255, 255, 255, .6) !important;
+  box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 .dropdown-btn {
@@ -206,6 +206,11 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.upgrader-list::-webkit-scrollbar {
+  width: 0px;
+  background: #121212;
 }
 
 .message-list::-webkit-scrollbar {
