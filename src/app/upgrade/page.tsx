@@ -23,6 +23,7 @@ const UpgradePage: FC = () => {
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState<any>(0);
+  const [price, setPrice] = useState<string>("");
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
@@ -156,21 +157,31 @@ const UpgradePage: FC = () => {
           <div className="flex flex-row gap-[18px]">
             <div className="flex flex-row items-center gap-1">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Sort by:</p>
-              <select className="bg-[#000] text-[12px] text-white outline-none">
+              <select className="bg-[#121212] text-[12px] text-white outline-none">
                 <option>All</option>
+                <option>{"> 5000"}</option>
+                <option>2500 - 5000</option>
+                <option>1000 - 2500</option>
+                <option>500 - 1000</option>
+                <option>100 - 500</option>
+                <option>50 - 100</option>
+                <option>25 - 50</option>
+                <option>5 - 25</option>
+                <option>{" < 5"}</option>
               </select>
             </div>
 
             <div className="flex flex-row items-center gap-1">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
-              <select className="bg-[#000] text-[12px] text-white outline-none">
-                <option>Descending</option>
+              <select className="bg-[#121212] text-[12px] text-white outline-none">
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div className="flex-wrap flex flex-row justify-center gap-2 mt-6">
+        <div className="flex-wrap flex flex-row justify-center gap-2 mt-6 overflow-y-scroll max-h-[510px] upgrader-list">
           {items.map((item, index) => (
             <UpgradeItem
               select={selectItems?.id === item.id}
