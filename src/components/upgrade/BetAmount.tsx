@@ -2,6 +2,7 @@
 
 import React, { FC, useState, useEffect } from "react";
 import IconCoin from "@/utils/icons/Coin";
+import { useUser } from "@/redux/slices/main/userSlice";
 
 interface Props {
   value: number;
@@ -14,6 +15,14 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   // const [value, setValue] = useState<number>(0);
   const [btnTab, setBtnTab] = useState<number>(0);
   const [progress, setProgress] = useState(0);
+  const [disable, setDisable] = useState(true);
+  const user = useUser();
+
+  useEffect(() => {
+    if (user) {
+      setDisable(false);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (value > 0) {
@@ -58,6 +67,8 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     } else if (id === 4) {
       if (allValue > myValue) {
         onChangeValue(myValue);
+      } else if (Number(myValue) === Number(0)) {
+        onChangeValue(0);
       } else {
         onChangeValue(allValue - 0.01);
       }
@@ -106,6 +117,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
           <input
             type="number"
             value={value}
+            disabled={disable}
             onChange={(e: any) => handleChange(Number(e.target.value))}
             className="bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold text-[#D1D1D1] outline-none"
           />
@@ -115,6 +127,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
           <input
             type="range"
             value={progress}
+            disabled={disable}
             onChange={(e) => handleChangeProgress(Number(e.target.value))}
             className="w-full h-[3px] appearance-none rounded-[15px] range-input"
             style={{
@@ -132,6 +145,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 1 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(1)}
+            disabled={disable}
           >
             10%
           </button>
@@ -143,6 +157,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 2 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(2)}
+            disabled={disable}
           >
             25%
           </button>
@@ -154,6 +169,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 3 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(3)}
+            disabled={disable}
           >
             50%
           </button>
@@ -165,6 +181,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
               color: btnTab === 4 ? "#121212" : "#8D8D8D",
             }}
             onClick={() => handleClickBtn(4)}
+            disabled={disable}
           >
             Max
           </button>
