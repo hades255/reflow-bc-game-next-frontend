@@ -23,7 +23,7 @@ const UpgradePage: FC = () => {
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState<any>(0);
-  const [price, setPrice] = useState<string>("");
+  const [price, setPrice] = useState<string>("desc");
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
@@ -173,7 +173,11 @@ const UpgradePage: FC = () => {
 
             <div className="flex flex-row items-center gap-1">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
-              <select className="bg-[#121212] text-[12px] text-white outline-none">
+              <select
+                className="bg-[#121212] text-[12px] text-white outline-none"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              >
                 <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
               </select>
