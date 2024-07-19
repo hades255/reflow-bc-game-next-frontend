@@ -8,7 +8,10 @@ import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
 import { apiGetItems, apiPlayGame } from "@/services/upgrader";
-import { useBalance } from "@/redux/slices/main/userSlice";
+import { useBalance, useUser } from "@/redux/slices/main/userSlice";
+import { useToken } from "@/redux/slices/main/authSlice";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { useDispatch } from "react-redux";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -21,22 +24,38 @@ const UpgradePage: FC = () => {
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState(0);
   const balance = useBalance();
+  const dispatch = useDispatch();
+  const user = useUser();
+  const token = useToken();
 
   const handleBet = async () => {
     try {
-      setBtnActive(true);
-      const data = await apiPlayGame(selectItems?.id, betAmount);
+      if (token === "") {
+        dispatch(
+          setModal({
+            status: true,
+            title: "Sign In",
+            content: "Please sign in to start playing.",
+            name: "Steam Sign In",
+            type: 1,
+            parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+          })
+        );
+      } else {
+        setBtnActive(true);
+        const data = await apiPlayGame(selectItems?.id, betAmount);
 
-      if (data.data) {
-        setIsLoading(true);
-        console.log(data.data);
-        setGameResult(data.data);
-        setIsWinner(data.data.win);
+        if (data.data) {
+          setIsLoading(true);
+          console.log(data.data);
+          setGameResult(data.data);
+          setIsWinner(data.data.win);
 
-        setTimeout(() => {
-          setIsLoading(false);
-          setRenderKey((prevKey) => prevKey + 1);
-        }, 5000);
+          setTimeout(() => {
+            setIsLoading(false);
+            setRenderKey((prevKey) => prevKey + 1);
+          }, 5000);
+        }
       }
     } catch (error) {
       setRenderKey((prevKey) => prevKey + 1);
@@ -51,7 +70,9 @@ const UpgradePage: FC = () => {
     }
     setSelectItems(index);
     if (betAmount === 0) {
-      setBetAmount(0.01);
+      if (token !== "") {
+        setBetAmount(0.01);
+      }
     }
   };
 
