@@ -8,13 +8,15 @@ interface Props {
   allAmount?: number;
   imgUrl?: string;
   title?: string;
+  onClick?: () => void;
 }
 
-const SelectItem: FC<Props> = ({ allAmount, imgUrl, title }) => {
+const SelectItem: FC<Props> = ({ allAmount, imgUrl, title, onClick }) => {
   return (
     <div
-      className="h-[350px] w-[342px] bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6"
+      className="h-[350px] w-[342px] bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
+      onClick={onClick}
     >
       <div
         className="w-full h-[232px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"

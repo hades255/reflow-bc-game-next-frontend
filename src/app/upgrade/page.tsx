@@ -22,11 +22,16 @@ const UpgradePage: FC = () => {
   const [gameResult, setGameResult] = useState<any>();
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
-  const [betAmount, setBetAmount] = useState(0);
+  const [betAmount, setBetAmount] = useState<any>(0);
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
   const token = useToken();
+
+  const handleClickSelectItem = () => {
+    setSelectItems(null);
+    setBetAmount(0);
+  };
 
   const handleBet = async () => {
     try {
@@ -106,7 +111,7 @@ const UpgradePage: FC = () => {
       <div className="flex flex-row justify-between">
         <BetAmount
           value={betAmount}
-          onChangeValue={(value: any) => setBetAmount(value)}
+          onChangeValue={(value: any) => setBetAmount(Number(value).toFixed(2))}
           allValue={selectItems?.price / 1000 || 0}
           myValue={Number(balance)}
         />
@@ -131,9 +136,10 @@ const UpgradePage: FC = () => {
         </div>
 
         <SelectItem
-          allAmount={selectItems?.price / 1000}
+          allAmount={selectItems ? selectItems?.price / 1000 : 0}
           imgUrl={selectItems?.img}
           title={selectItems?.name}
+          onClick={() => handleClickSelectItem()}
         />
       </div>
 

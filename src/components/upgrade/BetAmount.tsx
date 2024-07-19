@@ -19,12 +19,15 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   const user = useUser();
 
   useEffect(() => {
-    if (user) {
+    if (user && allValue > 0) {
       setDisable(false);
+    } else {
+      setDisable(true);
     }
-  }, [user]);
+  }, [user, allValue]);
 
   useEffect(() => {
+    setBtnTab(0);
     if (value > 0) {
       if (allValue > myValue) {
         if (value > myValue) {
@@ -36,10 +39,36 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
         }
       } else {
         let temp = (value / allValue) * 100;
+        console.log(temp);
         setProgress(temp);
       }
     } else if (Number(value) === Number(0)) {
       setProgress(0);
+    }
+
+    if (value > 0) {
+      if (allValue > myValue) {
+        if (Number(value).toFixed(2) === (myValue / 10).toFixed(2)) {
+          setBtnTab(1);
+        } else if (Number(value).toFixed(2) === (myValue / 25).toFixed(2)) {
+          setBtnTab(2);
+        } else if (Number(value).toFixed(2) === (myValue / 50).toFixed(2)) {
+          setBtnTab(3);
+        } else if (Number(value).toFixed(2) === myValue.toFixed(2)) {
+          setBtnTab(4);
+        }
+      } else {
+        if (Number(value).toFixed(2) === (allValue / 10).toFixed(2)) {
+          setBtnTab(1);
+          console.log(value);
+        } else if (Number(value).toFixed(2) === (allValue / 4).toFixed(2)) {
+          setBtnTab(2);
+        } else if (Number(value).toFixed(2) === (allValue / 2).toFixed(2)) {
+          setBtnTab(3);
+        } else if (Number(value).toFixed(2) === (allValue - 0.01).toFixed(2)) {
+          setBtnTab(4);
+        }
+      }
     }
   }, [value]);
 
@@ -82,21 +111,27 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
       onChangeValue(amount);
     }
 
-    if (amount > allValue || amount === allValue) {
+    if (
+      amount.toFixed(2) > allValue.toFixed(2) ||
+      amount.toFixed(2) === allValue.toFixed(2)
+    ) {
       onChangeValue(allValue - 0.01);
-      return;
     } else {
       onChangeValue(amount);
     }
   };
 
   const handleChangeProgress = (p: number) => {
+    console.log(p);
     if (allValue > myValue) {
       let temp = (myValue / 100) * p;
       onChangeValue(temp.toFixed(2));
     } else {
       let temp = (allValue / 100) * p;
       onChangeValue(temp.toFixed(2));
+      if (temp.toFixed(2) === allValue.toFixed(2)) {
+        onChangeValue(Number(allValue - 0.01).toFixed(2));
+      }
     }
   };
 
@@ -133,6 +168,8 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
           <input
             type="range"
             value={progress}
+            min={0}
+            max={100}
             disabled={disable}
             onChange={(e) => handleChangeProgress(Number(e.target.value))}
             className="w-full h-[3px] appearance-none rounded-[15px] range-input"
