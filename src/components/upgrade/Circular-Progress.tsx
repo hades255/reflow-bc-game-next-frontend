@@ -232,16 +232,6 @@ const CircularProgressBar: React.FC<{
           %
         </tspan>
       </text>
-      <text
-        x="150"
-        y="195"
-        alignmentBaseline="middle"
-        textAnchor="middle"
-        fill="#484848"
-        fontSize={fontSize / 2}
-      >
-        1.000 - 1.000
-      </text>
     </svg>
   );
 };
