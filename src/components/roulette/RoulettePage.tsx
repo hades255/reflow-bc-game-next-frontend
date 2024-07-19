@@ -1,11 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import moment from "moment";
 import Rolling from "./Rolling";
 import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
-import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
+import { getActive } from "@/services/roulette";
+import myEcho from "@/hooks/myEcho";
 
 const betters1 = [
   {
@@ -148,6 +151,8 @@ const RoulettePage = () => {
 
   const [bet, setBet] = useState<number>(0);
 
+  const [second, setSecond] = useState<number>(-1);
+
   const dispatch = useDispatch();
 
   const handleBet = (val: number) => {
@@ -164,10 +169,36 @@ const RoulettePage = () => {
       }))
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      let { data, status } = await getActive();
+      console.log(data);
+      if (status === 200) {
+        let sec = Math.floor(moment().diff(moment.utc(data.created_at).local())/1000);
+        if (sec < 15) {
+          setSecond(15 - sec);
+        } else {
+          setSecond(-1);
+        }
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    myEcho();
+    const channel = window.Echo.channel("Roulette");
+    channel.listen("GameUpdate", (e: any) => { 
+      console.log(e)
+    });
+    return () => {
+      channel.stopListening("GameUpdate");
+    };
+  }, [])
   
   return (
     <>
-      <Rolling />
+      <Rolling second={second} setSecond={setSecond} />
       <RollingHistory />
       <Betting bet={bet} setBet={setBet} />
       <div className="w-full grid grid-cols-3 gap-12 mt-8 px-6">

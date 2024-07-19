@@ -1,14 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { FC, Dispatch, useEffect, useState, SetStateAction } from "react";
 
 import CountUp from "react-countup";
 import RoulettePro from "react-roulette-pro";
 import { coinsTemplate } from "@/services/roulette";
 import "react-roulette-pro/dist/index.css";
 
+interface Props {
+  second: number;
+  setSecond: Dispatch<SetStateAction<number>>;
+}
 
-
-const Rolling = () => {
+const Rolling: FC<Props> = ({ second, setSecond}) => {
   const [start, setStart] = useState(false);
 
   const [centerDelimiter, setCenterDelimiter] = useState<boolean>(true);
@@ -17,25 +20,25 @@ const Rolling = () => {
     console.log("Defined");
   };
 
-  const [second, setSecond] = useState<number>(14);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCenterDelimiter(false);
-      setStart(true);
-    }, 15400);
-  }, []);
-
   useEffect(() => {
     if (second <= 0) {
-      return;
+      if (second === -1) {
+        setStart(false);
+        return;
+      } else {
+        setTimeout(() => {
+          setCenterDelimiter(false);
+          setStart(true);
+        }, 1100);
+      }
+    } else {
+      let counter = setInterval(() => {
+        setSecond((prev) => prev - 1);
+      }, 1000);
+      return () => {
+        clearInterval(counter);
+      };
     }
-    let counter = setInterval(() => {
-      setSecond((prev) => prev - 1);
-    }, 1000);
-    return () => {
-      clearInterval(counter);
-    };
   }, [second]);
 
   return (
@@ -49,7 +52,7 @@ const Rolling = () => {
         defaultDesignOptions={{ hideCenterDelimiter: centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
-      {!start && (
+      {!start && second !== -1 && (
         <div className="text-xl text-center text-white absolute top-8 w-full z-50">
           <p>ROLLING</p>
           <div className="text-2xl font-bold text-white text-start pl-[calc(50%-36px)]">
