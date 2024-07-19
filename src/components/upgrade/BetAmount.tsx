@@ -111,7 +111,11 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
         </p>
         <div className="relative">
           <div className="absolute top-[10px] left-[10px]">
-            <IconCoin width={16} height={17} color="#E9AE15" />
+            <IconCoin
+              width={16}
+              height={17}
+              color={`${disable ? "#808080" : "#E9AE15"}`}
+            />
           </div>
 
           <input
@@ -119,7 +123,9 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
             value={value}
             disabled={disable}
             onChange={(e: any) => handleChange(Number(e.target.value))}
-            className="bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold text-[#D1D1D1] outline-none"
+            className={`bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold ${
+              disable ? "text-[#808080]" : "text-[#D1D1D1]"
+            } outline-none`}
           />
         </div>
 
