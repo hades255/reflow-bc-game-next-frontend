@@ -1,12 +1,15 @@
-"use client";
-import { useState } from "react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useUser } from "@/redux/slices/main/userSlice";
 import { PiCoinsLight } from "react-icons/pi";
 
-const Betting = () => {
-  const [bet, setBet] = useState<number>(0);
+interface Props {
+  bet: number;
+  setBet: (val: number) => void;
+}
+
+const Betting: FC<Props> = ({ bet, setBet}) => {
 
   const user = useUser();
 

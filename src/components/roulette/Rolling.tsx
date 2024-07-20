@@ -1,50 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { FC, Dispatch, useEffect, useState, SetStateAction } from "react";
 
 import CountUp from "react-countup";
 import RoulettePro from "react-roulette-pro";
-import { v4 as uuidv4 } from "uuid";
+import { coinsTemplate } from "@/services/roulette";
 import "react-roulette-pro/dist/index.css";
 
-const coins = [1, 2, 1, 2, 1, 3, 2, 1, 1, 2, 1, 2, 2, 1, 2];
+interface Props {
+  second: number;
+  setSecond: Dispatch<SetStateAction<number>>;
+}
 
-const tempList = coins.map((coin) =>
-  coin === 1
-    ? {
-        value: coin,
-        image: "/assets/roulette/red.png",
-      }
-    : coin === 2
-    ? {
-        value: coin,
-        image: "/assets/roulette/black.png",
-      }
-    : {
-        value: coin,
-        image: "/assets/roulette/gold.png",
-      }
-);
-
-const coinsList = [
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-  ...tempList.map((temp) => ({
-    id: uuidv4(),
-    ...temp,
-  })),
-];
-
-const Rolling = () => {
+const Rolling: FC<Props> = ({ second, setSecond}) => {
   const [start, setStart] = useState(false);
 
   const [centerDelimiter, setCenterDelimiter] = useState<boolean>(true);
@@ -53,43 +20,43 @@ const Rolling = () => {
     console.log("Defined");
   };
 
-  const [second, setSecond] = useState<number>(14);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCenterDelimiter(false);
-      setStart(true);
-    }, 15400);
-  }, []);
-
   useEffect(() => {
     if (second <= 0) {
-      return;
+      if (second === -1) {
+        setStart(false);
+        return;
+      } else {
+        setTimeout(() => {
+          setCenterDelimiter(false);
+          setStart(true);
+        }, 1100);
+      }
+    } else {
+      let counter = setInterval(() => {
+        setSecond((prev) => prev - 1);
+      }, 1000);
+      return () => {
+        clearInterval(counter);
+      };
     }
-    let counter = setInterval(() => {
-      setSecond((prev) => prev - 1);
-    }, 1000);
-    return () => {
-      clearInterval(counter);
-    };
   }, [second]);
 
   return (
     <div className="relative">
       <RoulettePro
-        prizes={coinsList}
-        prizeIndex={(30 * 108) / 209}
+        prizes={coinsTemplate()}
+        prizeIndex={(66 * 108) / 206}
         start={start}
-        spinningTime={3}
+        spinningTime={Math.random()*3+3}
         onPrizeDefined={handlePrizeDefined}
         defaultDesignOptions={{ hideCenterDelimiter: centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
-      {!start && (
-        <div className="text-xl text-center text-white absolute top-8 w-full z-50">
-          <p>ROLLING</p>
-          <div className="text-2xl font-bold text-white text-start pl-[calc(50%-36px)]">
-            <span>{second}&nbsp;.&nbsp;</span>
+      {!start && second !== -1 && (
+        <div className="text-xl text-center text-white absolute top-10 w-full z-50">
+          <p className="text-sm">ROLLING</p>
+          <div className="text-2xl font-bold text-white flex justify-between w-15 px-[calc(50%-30px)]">
+            <span>{second}&nbsp;.</span>
             <CountUp
               key={`counter-${second}`}
               start={99}
@@ -104,7 +71,7 @@ const Rolling = () => {
           </div>
         </div>
       )}
-      <div className="absolute top-0 left-0 w-full h-32 black-ground z-40"></div>
+      <div className="absolute top-0 -left-6 w-[calc(100%+48px)] h-32 black-ground z-40"></div>
     </div>
   );
 };

@@ -1,10 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import moment from "moment";
 import Rolling from "./Rolling";
 import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
-// import DailyTable from "./DailyTable";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { getActive } from "@/services/roulette";
+import myEcho from "@/hooks/myEcho";
 
 const betters1 = [
   {
@@ -141,84 +145,88 @@ const betters3 = [
   },
 ];
 
-const dailyList = [
-  {
-    id: 1,
-    name: "Loren",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 35000,
-    prize: 3000,
-  },
-  {
-    id: 2,
-    name: "Rovert",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 30000,
-    prize: 1500,
-  },
-  {
-    id: 3,
-    name: "Coline",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 32000,
-    prize: 1000,
-  },
-  {
-    id: 4,
-    name: "Nicole",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 15000,
-    prize: 500,
-  },
-  {
-    id: 5,
-    name: "Bell",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 10000,
-    prize: 300,
-  },
-  {
-    id: 6,
-    name: "Jessica",
-    avatar: "/assets/avatar/avatar-1.png",
-    wagered: 9000,
-    prize: 200,
-  },
-];
 
 const RoulettePage = () => {
-  const [betted, setBetted] = useState<number>(0);
+  const [betted, setBetted] = useState<number[]>([]);
+
+  const [bet, setBet] = useState<number>(0);
+
+  const [second, setSecond] = useState<number>(-1);
+
+  const dispatch = useDispatch();
 
   const handleBet = (val: number) => {
-    setBetted(val);
+    if (bet > 0.1) {
+      setBetted((prev) => prev.includes(val) ? prev.filter((pv) => pv !== val) : prev.concat([val]));
+    } else {
+      dispatch(setModal({
+        status: true,
+        title: "Error",
+        content: "The minimum bet amount is 0.1",
+        name: "Steam Sign In",
+        type: 3,
+        parameter: ""
+      }))
+    }
   };
+
+  useEffect(() => {
+    (async () => {
+      let { data, status } = await getActive();
+      if (status === 200) {
+        let sec = Math.floor(moment().diff(moment.utc(data.created_at).local())/1000);
+        if (sec < 15) {
+          setSecond(15 - sec);
+        } else {
+          setSecond(-1);
+        }
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    myEcho();
+    const channel = window.Echo.channel("Roulette");
+    channel.listen(".GameUpdate", (data: any) => { 
+      console.log(data)
+    });
+    channel.listen(".UpdateBet", (data: any) => { 
+      console.log(data)
+    });
+    return () => {
+      channel.stopListening("GameUpdate");
+      channel.stopListening("UpdateBet");
+    };
+  }, [])
   
   return (
     <>
-      <Rolling />
+      <Rolling second={second} setSecond={setSecond} />
       <RollingHistory />
-      <Betting />
+      <Betting bet={bet} setBet={setBet} />
       <div className="w-full grid grid-cols-3 gap-12 mt-8 px-6">
         <BetterTable
           type={1}
           betters={betters1}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
         <BetterTable
           type={3}
           betters={betters3}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
         <BetterTable
           type={2}
           betters={betters2}
           bet={handleBet}
           betted={betted}
+          amount={bet}
         />
       </div>
-      {/* <DailyTable list={dailyList} /> */}
     </>
   );
 };
