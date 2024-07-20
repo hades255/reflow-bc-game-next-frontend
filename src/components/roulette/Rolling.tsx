@@ -47,7 +47,7 @@ const Rolling: FC<Props> = ({ second, setSecond}) => {
         prizes={coinsTemplate()}
         prizeIndex={(60 * 108) / 206}
         start={start}
-        spinningTime={4}
+        spinningTime={Math.random()*3+3}
         onPrizeDefined={handlePrizeDefined}
         defaultDesignOptions={{ hideCenterDelimiter: centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
