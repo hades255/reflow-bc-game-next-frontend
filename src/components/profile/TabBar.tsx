@@ -39,11 +39,13 @@ const TabBar: FC<Props> = ({ select }) => {
             height={14}
           />
         }
+        hoverIcon={<IconDetails color={`#E9AE15`} width={12} height={14} />}
         text="Details"
         onClick={() => handleClickActiveTab("details")}
       />
       <TabItem
         select={activeTab === 2}
+        hoverIcon={<IconAccount color={`#E9AE15`} width={12} height={14} />}
         icon={
           <IconAccount
             color={`${activeTab === 2 ? "#E9AE15" : "#787878"}`}
@@ -56,6 +58,9 @@ const TabBar: FC<Props> = ({ select }) => {
       />
       <TabItem
         select={activeTab === 3}
+        hoverIcon={
+          <IconTransactions color={`#E9AE15`} width={12} height={14} />
+        }
         icon={
           <IconTransactions
             color={`${activeTab === 3 ? "#E9AE15" : "#787878"}`}
@@ -68,6 +73,7 @@ const TabBar: FC<Props> = ({ select }) => {
       />
       <TabItem
         select={activeTab === 4}
+        hoverIcon={<IconMystery color={`#E9AE15`} width={12} height={14} />}
         icon={
           <IconMystery
             color={`${activeTab === 4 ? "#E9AE15" : "#787878"}`}
@@ -80,6 +86,7 @@ const TabBar: FC<Props> = ({ select }) => {
       />
       <TabItem
         select={activeTab === 5}
+        hoverIcon={<IconSocials color={`#E9AE15`} width={12} height={14} />}
         icon={
           <IconSocials
             color={`${activeTab === 5 ? "#E9AE15" : "#787878"}`}
