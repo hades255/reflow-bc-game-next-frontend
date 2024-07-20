@@ -71,7 +71,7 @@ const Rolling: FC<Props> = ({ second, setSecond}) => {
           </div>
         </div>
       )}
-      <div className="absolute top-0 left-0 w-full h-32 black-ground z-40"></div>
+      <div className="absolute top-0 -left-6 w-[calc(100%+48px)] h-32 black-ground z-40"></div>
     </div>
   );
 };

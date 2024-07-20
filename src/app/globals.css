@@ -367,8 +367,11 @@ header {
 
 .roulette-pro-wrapper {
   margin-top: 16px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  width: 1404px !important;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .roulette-pro-regular-prize-item {
