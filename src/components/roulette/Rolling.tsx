@@ -45,7 +45,7 @@ const Rolling: FC<Props> = ({ second, setSecond}) => {
     <div className="relative">
       <RoulettePro
         prizes={coinsTemplate()}
-        prizeIndex={(60 * 108) / 206}
+        prizeIndex={(66 * 108) / 206}
         start={start}
         spinningTime={Math.random()*3+3}
         onPrizeDefined={handlePrizeDefined}
@@ -53,10 +53,10 @@ const Rolling: FC<Props> = ({ second, setSecond}) => {
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
       {!start && second !== -1 && (
-        <div className="text-xl text-center text-white absolute top-8 w-full z-50">
-          <p>ROLLING</p>
-          <div className="text-2xl font-bold text-white text-start pl-[calc(50%-36px)]">
-            <span>{second}&nbsp;.&nbsp;</span>
+        <div className="text-xl text-center text-white absolute top-10 w-full z-50">
+          <p className="text-sm">ROLLING</p>
+          <div className="text-2xl font-bold text-white flex justify-between w-15 px-[calc(50%-30px)]">
+            <span>{second}&nbsp;.</span>
             <CountUp
               key={`counter-${second}`}
               start={99}
