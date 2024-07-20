@@ -173,7 +173,6 @@ const RoulettePage = () => {
   useEffect(() => {
     (async () => {
       let { data, status } = await getActive();
-      console.log(data);
       if (status === 200) {
         let sec = Math.floor(moment().diff(moment.utc(data.created_at).local())/1000);
         if (sec < 15) {
@@ -188,11 +187,15 @@ const RoulettePage = () => {
   useEffect(() => {
     myEcho();
     const channel = window.Echo.channel("Roulette");
-    channel.listen("GameUpdate", (e: any) => { 
-      console.log(e)
+    channel.listen(".GameUpdate", (data: any) => { 
+      console.log(data)
+    });
+    channel.listen(".UpdateBet", (data: any) => { 
+      console.log(data)
     });
     return () => {
       channel.stopListening("GameUpdate");
+      channel.stopListening("UpdateBet");
     };
   }, [])
   
