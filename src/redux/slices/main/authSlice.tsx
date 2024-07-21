@@ -20,9 +20,11 @@ export const authSlice = createSlice({
   reducers: {
     signin: (state, action: PayloadAction<string>) => {
       state.auth.token = action.payload;
+      localStorage.setItem("token", action.payload);
     },
     signout: (state) => {
       state.auth.token = "";
+      localStorage.setItem("token", "");
     },
   },
 });

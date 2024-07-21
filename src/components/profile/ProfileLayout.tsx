@@ -1,6 +1,7 @@
 import React, { FC, PropsWithChildren } from "react";
 import TabBar from "@/components/profile/TabBar";
 import IconCrown from "@/utils/icons/Crown";
+import withAuth from "@/hoc/WithAuth";
 
 interface Props {
   select?: number;
@@ -23,4 +24,4 @@ const ProfileLayout: FC<PropsWithChildren<Props>> = ({ select, children }) => {
   );
 };
 
-export default ProfileLayout;
+export default withAuth(ProfileLayout);
