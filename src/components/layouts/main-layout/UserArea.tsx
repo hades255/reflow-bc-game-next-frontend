@@ -58,19 +58,21 @@ const UserArea = () => {
         end={Number(mine?.balance)}
       />
       {mine && (
-        <UserCard
-          avatar={mine.avatar}
-          name={mine.name}
-          lvl={Number(mine.player_level)}
-          progress={30}
-          active={page === "/profile"}
-        />
+        <>
+          <UserCard
+            avatar={mine.avatar}
+            name={mine.name}
+            lvl={Number(mine.player_level)}
+            progress={30}
+            active={page === "/profile"}
+          />
+          <div className="flex justify-center align-middle">
+            <span className="hover:cursor-pointer pt-2 text-[#a0a0aa]" onClick={handleSignOut}>
+              <RiLogoutBoxRLine />
+            </span>
+          </div>
+        </>
       )}
-      <div className="flex justify-center align-middle">
-        <span className="hover:cursor-pointer pt-2 text-[#a0a0aa]" onClick={handleSignOut}>
-          <RiLogoutBoxRLine />
-        </span>
-      </div>
     </>
   );
 };

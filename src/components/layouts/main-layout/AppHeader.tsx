@@ -43,8 +43,7 @@ const AppHeader: FC = () => {
   useEffect(() => {
     if (searchParams.get("token") != null) {
       dispatch(signin(searchParams.get("token") ?? ""));
-      localStorage.setItem("token", searchParams.get("token") ?? "");
-      dispatch(setToast({ type: 2, message: "Logged in successfully."}))
+      dispatch(setToast({ type: 2, message: "Logged in successfully." }));
       router.replace(page);
     }
   }, [token, router, searchParams]);
