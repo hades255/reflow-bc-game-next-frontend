@@ -90,7 +90,7 @@ const UpgradePage: FC = () => {
   useEffect(() => {
     (async () => {
       const data = await apiGetItems(price, sort);
-      setItems(data.data.items);
+      setItems(data?.data?.items);
     })();
   }, [price, sort]);
 
