@@ -57,6 +57,7 @@ const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
     const uv = payload[0].payload.uv;
     return (
       <div
+        className="text-white"
         style={{
           backgroundColor: "transparent",
           padding: "5px",
@@ -142,9 +143,8 @@ const ProfitLoss: FC = () => {
               bottom: 0,
             }}
           >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <ReferenceLine y={0} stroke="#292929" />
             <XAxis dataKey="name" />
-            {/* <YAxis /> */}
             <Tooltip content={<CustomTooltip />} />
             <defs>
               <linearGradient id="strokeColor" x1="0" y1="0" x2="0" y2="1">
