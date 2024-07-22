@@ -14,9 +14,31 @@ import { Swiper as SwiperType } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 
-interface Props {}
+interface Key {
+  count: number;
+  key_icon: string;
+  key_id: number;
+  key_level: number;
+}
 
-const KeyBox: FC = () => {
+interface Props {
+  keys: [Key];
+}
+
+const keyColors = [
+  "#9E5B23",
+  "#6C6F76",
+  "#D2B13F",
+  "#0196F2",
+  "#A328A6",
+  "#6C6F76",
+  "#5491FF",
+  "#6BF05A",
+  "#C21715",
+  "#61479A",
+];
+
+const KeyBox: FC<Props> = ({ keys }) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
@@ -47,24 +69,29 @@ const KeyBox: FC = () => {
             swiperRef.current = swiper;
           }}
         >
-          {Array.from({ length: 20 }).map((item, index) => (
-            <SwiperSlide
-              className="!flex items-center justify-center"
-              key={index}
-            >
-              <div className="w-[48px] h-[48px] p-[5px] text-black relative">
-                <Image
-                  src={"/assets/images/keys/Pandora.png"}
-                  width={38}
-                  height={38}
-                  alt="bronze"
-                />
-                <div className="absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center bg-[#61479A] top-0 left-0">
-                  1
+          {keys &&
+            keys.map((item, index) => (
+              <SwiperSlide
+                className="!flex items-center justify-center"
+                key={index}
+              >
+                <div className="w-[48px] h-[48px] p-[5px] text-black relative">
+                  <Image
+                    src={`/assets/images/keys/${item.key_icon}.png`}
+                    width={38}
+                    height={38}
+                    alt="bronze"
+                  />
+                  <div
+                    className={`absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center bg-[${
+                      keyColors[item.key_level - 1]
+                    }] top-0 left-0`}
+                  >
+                    {item.count.toString()}
+                  </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            ))}
         </Swiper>
         <Image
           src={arrowRight}
