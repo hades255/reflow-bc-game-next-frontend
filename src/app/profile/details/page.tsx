@@ -15,11 +15,13 @@ import IconLoading from "@/utils/icons/Loading";
 // import { useFetch } from "@/hooks/useFetch";
 
 const ProfileDetails: FC = () => {
-  const { data, isLoading, error } = useFetch("/api/profile/show", {
+  const { data, isLoading, error } = useFetch("/api/profile/details", {
     method: "GET",
   });
 
   const user = data?.user;
+  const keys = data?.keys;
+  const tokens = data?.tokens;
 
   return (
     <ProfileLayout select={1}>
@@ -28,8 +30,12 @@ const ProfileDetails: FC = () => {
           <>
             <Account user={user} />
             <div className="flex flex-row gap-6">
-              <div className="flex-1 w-32"><KeyBox /></div>
-              <div className="flex-1 w-32"><TokenBox /></div>
+              <div className="flex-1 w-32">
+                <KeyBox keys={keys} />
+              </div>
+              <div className="flex-1 w-32">
+                <TokenBox tokens={tokens} />
+              </div>
             </div>
             <ProfitLoss />
             <div className="flex flex-row gap-6">
