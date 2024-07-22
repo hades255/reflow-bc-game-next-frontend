@@ -92,7 +92,7 @@ const ProfitLoss: FC = () => {
   const off = gradientOffset();
 
   return (
-    <div className="w-full h-[400px] p-3 gray-box">
+    <div className="w-full h-[400px] p-3 profile-box">
       <div className="flex flex-row justify-between mb-3 ml-3 mr-3">
         <p className="font-semibold text-[14px] text-[#D1D1D1]">
           Profit & Loss
