@@ -39,7 +39,7 @@ const ProfileDetails: FC = () => {
             </div>
             <ProfitLoss />
             <div className="flex flex-row gap-6">
-              <div className="w-full gray-box p-4 relative">
+              <div className="w-full profile-box p-4 relative">
                 <Shield className="absolute inset-0 w-full h-full opacity-50" />
                 <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                   <div className="flex flex-row justify-between">
@@ -58,7 +58,7 @@ const ProfileDetails: FC = () => {
                 </div>
               </div>
 
-              <div className="w-full gray-box p-4 relative">
+              <div className="w-full profile-box p-4 relative">
                 <Clock className="absolute inset-0 w-full h-full opacity-50" />
                 <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                   <div className="flex flex-row justify-between">
@@ -78,7 +78,7 @@ const ProfileDetails: FC = () => {
               </div>
             </div>
 
-            <div className="w-full gray-box p-4 relative">
+            <div className="w-full profile-box p-4 relative">
               <History className="absolute inset-0 w-full h-full opacity-50" />
               <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                 <div className="flex flex-row justify-between">
