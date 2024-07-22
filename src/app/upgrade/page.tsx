@@ -24,6 +24,7 @@ const UpgradePage: FC = () => {
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState<any>(0);
   const [price, setPrice] = useState<string>("desc");
+  const [sort, setSort] = useState<string>("1");
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
@@ -88,10 +89,10 @@ const UpgradePage: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await apiGetItems("desc", "Knife");
+      const data = await apiGetItems(price, sort);
       setItems(data.data.items);
     })();
-  }, []);
+  }, [price, sort]);
 
   useEffect(() => {
     if (isLoading === false && selectItems) {
@@ -157,17 +158,18 @@ const UpgradePage: FC = () => {
           <div className="flex flex-row gap-[18px]">
             <div className="flex flex-row items-center gap-1">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Sort by:</p>
-              <select className="bg-[#121212] text-[12px] text-white outline-none">
-                <option>All</option>
-                <option>{"> 5000"}</option>
-                <option>2500 - 5000</option>
-                <option>1000 - 2500</option>
-                <option>500 - 1000</option>
-                <option>100 - 500</option>
-                <option>50 - 100</option>
-                <option>25 - 50</option>
-                <option>5 - 25</option>
-                <option>{" < 5"}</option>
+              <select
+                className="bg-[#121212] text-[12px] text-white outline-none"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="1">All</option>
+                <option value="2">0 - 5</option>
+                <option value="3">5 - 25</option>
+                <option value="4">25 - 50</option>
+                <option value="5">50 - 100</option>
+                <option value="6">100 - 250</option>
+                <option value="7">{"> 250"}</option>
               </select>
             </div>
 
