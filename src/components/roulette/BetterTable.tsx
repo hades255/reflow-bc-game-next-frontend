@@ -30,6 +30,13 @@ const BetterTable: FC<Props> = ({
   win,
   show,
 }) => {
+
+  const orderedBetters = () => {
+    let originBetters = [...betters];
+    originBetters.sort((a, b) => b.bet - a.bet);
+    return originBetters;
+  }
+
   return (
     <div
       className={`w-full flex flex-col gap-2 ${start && "opacity-50"} ${
@@ -92,7 +99,7 @@ const BetterTable: FC<Props> = ({
             </span>
           </div>
           {betters.length !== 0 &&
-            betters.map((better, idx) => (
+            orderedBetters().map((better, idx) => (
               <div
                 className="w-full px-4 flex justify-between items-center my-2"
                 key={`betters-table-${type}-${idx}`}
