@@ -27,48 +27,11 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   }, [user, allValue]);
 
   useEffect(() => {
-    setBtnTab(0);
     if (value > 0) {
-      if (allValue > myValue) {
-        if (value > myValue) {
-          setProgress(100);
-          onChangeValue(myValue);
-        } else {
-          let temp = (value / myValue) * 100;
-          setProgress(temp);
-        }
-      } else {
-        let temp = (value / allValue) * 100;
-        console.log(temp);
-        setProgress(temp);
-      }
+      let temp = (value / allValue) * 100;
+      setProgress(temp);
     } else if (Number(value) === Number(0)) {
       setProgress(0);
-    }
-
-    if (value > 0) {
-      if (allValue > myValue) {
-        if (Number(value).toFixed(2) === (myValue / 10).toFixed(2)) {
-          setBtnTab(1);
-        } else if (Number(value).toFixed(2) === (myValue / 25).toFixed(2)) {
-          setBtnTab(2);
-        } else if (Number(value).toFixed(2) === (myValue / 50).toFixed(2)) {
-          setBtnTab(3);
-        } else if (Number(value).toFixed(2) === myValue.toFixed(2)) {
-          setBtnTab(4);
-        }
-      } else {
-        if (Number(value).toFixed(2) === (allValue / 10).toFixed(2)) {
-          setBtnTab(1);
-          console.log(value);
-        } else if (Number(value).toFixed(2) === (allValue / 4).toFixed(2)) {
-          setBtnTab(2);
-        } else if (Number(value).toFixed(2) === (allValue / 2).toFixed(2)) {
-          setBtnTab(3);
-        } else if (Number(value).toFixed(2) === (allValue - 0.01).toFixed(2)) {
-          setBtnTab(4);
-        }
-      }
     }
   }, [value]);
 
@@ -76,62 +39,52 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     // onChangeValue && onChangeValue(100);
     setBtnTab(id);
     if (id === 1) {
-      if (allValue > myValue) {
-        onChangeValue(myValue / 10);
-      } else {
-        onChangeValue(allValue / 10);
-      }
+      // if (allValue > myValue) {
+      //   onChangeValue(myValue / 10);
+      // } else {
+      onChangeValue(allValue / 10);
+      // }
     } else if (id === 2) {
-      if (allValue > myValue) {
-        onChangeValue(myValue / 4);
-      } else {
-        onChangeValue(allValue / 4);
-      }
+      // if (allValue > myValue) {
+      //   onChangeValue(myValue / 4);
+      // } else {
+      onChangeValue(allValue / 4);
+      // }
     } else if (id === 3) {
-      if (allValue > myValue) {
-        onChangeValue(myValue / 2);
-      } else {
-        onChangeValue(allValue / 2);
-      }
+      // if (allValue > myValue) {
+      //   onChangeValue(myValue / 2);
+      // } else {
+      onChangeValue(allValue / 2);
+      // }
     } else if (id === 4) {
-      if (allValue > myValue) {
-        onChangeValue(myValue);
-      } else if (Number(myValue) === Number(0)) {
-        onChangeValue(0);
-      } else {
-        onChangeValue(allValue - 0.01);
-      }
+      // if (allValue > myValue) {
+      //   onChangeValue(myValue);
+      // } else if (Number(myValue) === Number(0)) {
+      //   onChangeValue(0);
+      // } else {
+      onChangeValue(allValue - 0.01);
+      // }
     }
   };
 
   const handleChange = (amount: number) => {
-    if (amount > myValue) {
-      onChangeValue(myValue);
-    } else {
-      onChangeValue(amount);
-    }
-
-    if (
-      amount.toFixed(2) > allValue.toFixed(2) ||
-      amount.toFixed(2) === allValue.toFixed(2)
-    ) {
+    setBtnTab(0);
+    console.log(amount, allValue);
+    if (amount > allValue || amount.toFixed(2) === allValue.toFixed(2)) {
+      console.log(amount);
       onChangeValue(allValue - 0.01);
     } else {
       onChangeValue(amount);
     }
+    // onChangeValue(amount);
   };
 
   const handleChangeProgress = (p: number) => {
-    console.log(p);
-    if (allValue > myValue) {
-      let temp = (myValue / 100) * p;
-      onChangeValue(temp.toFixed(2));
-    } else {
-      let temp = (allValue / 100) * p;
-      onChangeValue(temp.toFixed(2));
-      if (temp.toFixed(2) === allValue.toFixed(2)) {
-        onChangeValue(Number(allValue - 0.01).toFixed(2));
-      }
+    setBtnTab(0);
+    let temp = (allValue / 100) * p;
+    onChangeValue(temp.toFixed(2));
+    if (temp.toFixed(2) === allValue.toFixed(2)) {
+      onChangeValue(Number(allValue - 0.01).toFixed(2));
     }
   };
 
