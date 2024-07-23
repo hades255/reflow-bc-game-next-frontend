@@ -28,7 +28,6 @@ export const userSlice = createSlice({
       state.user = null;
     },
     updateBalance: (state, action: PayloadAction<{ balance: number }>) => {
-      console.log(action.payload.balance);
       if (state.user) {
         let currentBalance = state.user.balance;
         state.user = {

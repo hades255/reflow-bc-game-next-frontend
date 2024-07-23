@@ -7,18 +7,26 @@ import { coinsTemplate } from "@/services/roulette";
 import "react-roulette-pro/dist/index.css";
 
 interface Props {
+  key: string;
   second: number;
   setSecond: Dispatch<SetStateAction<number>>;
+  winningIndex: number | null;
+  acted: number;
+  finish: () => void;
+  start: boolean;
+  setStart: Dispatch<SetStateAction<boolean>>;
 }
 
-const Rolling: FC<Props> = ({ second, setSecond}) => {
-  const [start, setStart] = useState(false);
-
-  const [centerDelimiter, setCenterDelimiter] = useState<boolean>(true);
-
-  const handlePrizeDefined = () => {
-    console.log("Defined");
-  };
+const Rolling: FC<Props> = ({
+  second,
+  setSecond,
+  winningIndex,
+  acted,
+  finish,
+  start,
+  setStart,
+}) => {
+  const [centerDelimiter, setCenterDelimiter] = useState<boolean>(false);
 
   useEffect(() => {
     if (second <= 0) {
@@ -27,29 +35,34 @@ const Rolling: FC<Props> = ({ second, setSecond}) => {
         return;
       } else {
         setTimeout(() => {
-          setCenterDelimiter(false);
+          setCenterDelimiter(true);
           setStart(true);
-        }, 1100);
+        }, 1200);
       }
-    } else {
+    } else if (second > 0 && second < 15) {
       let counter = setInterval(() => {
+        setCenterDelimiter(false);
         setSecond((prev) => prev - 1);
       }, 1000);
       return () => {
         clearInterval(counter);
       };
     }
-  }, [second]);
+    if (acted !== -1 && second === 15) {
+      setCenterDelimiter(true);
+      setStart(true);
+    }
+  }, [second, acted]);
 
   return (
     <div className="relative">
       <RoulettePro
         prizes={coinsTemplate()}
-        prizeIndex={(66 * 108) / 206}
+        prizeIndex={((66 + (winningIndex || 0)) * 108) / 206}
         start={start}
-        spinningTime={Math.random()*3+3}
-        onPrizeDefined={handlePrizeDefined}
-        defaultDesignOptions={{ hideCenterDelimiter: centerDelimiter }}
+        spinningTime={acted === -1 ? Math.random() * 5 + 2 : acted}
+        onPrizeDefined={finish}
+        defaultDesignOptions={{ hideCenterDelimiter: !centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
       {!start && second !== -1 && (

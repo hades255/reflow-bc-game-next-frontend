@@ -1,30 +1,62 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
+import { setToast } from "@/redux/slices/main/toastSlice";
 import { useUser } from "@/redux/slices/main/userSlice";
 import { PiCoinsLight } from "react-icons/pi";
 
 interface Props {
   bet: number;
   setBet: (val: number) => void;
+  start: boolean;
 }
 
-const Betting: FC<Props> = ({ bet, setBet}) => {
-
+const Betting: FC<Props> = ({ bet, setBet, start }) => {
   const user = useUser();
 
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBet(parseFloat(e.target.value));
+    if (user) {
+      if (start) {
+        dispatch(
+          setToast({
+            type: 4,
+            message: "Bets cannot be placed while rolling.",
+          })
+        );
+      } else {
+        setBet(parseFloat(e.target.value));
+      }
+    } else {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in to start playing.",
+          name: "Steam Sign In",
+          type: 1,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
   };
 
   const changeBet = (betted: number) => {
     if (user) {
-      if (bet + betted <= Number(user.balance)) {
-        setBet(bet + betted);
+      if (start) {
+        dispatch(
+          setToast({
+            type: 4,
+            message: "Bets cannot be placed while rolling.",
+          })
+        );
       } else {
-        setBet(Number(user.balance));
+        if (bet + betted <= Number(user.balance)) {
+          setBet(bet + betted);
+        } else {
+          setBet(Number(user.balance));
+        }
       }
     } else {
       dispatch(
