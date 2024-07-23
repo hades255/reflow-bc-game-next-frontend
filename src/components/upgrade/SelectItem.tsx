@@ -22,9 +22,6 @@ const SelectItem: FC<Props> = ({ allAmount, imgUrl, title, onClick }) => {
         className="w-full h-[232px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
         style={{ background: "linear-gradient(#191A1900, #EAA62580)" }}
       >
-        <div className="absolute top-[17px] left-[34px]">
-          <Image src={selectCrown} alt="logo" />
-        </div>
         <img src={imgUrl} alt="" className="h-[160px]" />
       </div>
 
