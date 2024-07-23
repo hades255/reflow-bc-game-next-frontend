@@ -57,6 +57,7 @@ const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
     const uv = payload[0].payload.uv;
     return (
       <div
+        className="text-white"
         style={{
           backgroundColor: "transparent",
           padding: "5px",
@@ -91,7 +92,7 @@ const ProfitLoss: FC = () => {
   const off = gradientOffset();
 
   return (
-    <div className="w-full h-[400px] p-3 gray-box">
+    <div className="w-full h-[400px] p-3 profile-box">
       <div className="flex flex-row justify-between mb-3 ml-3 mr-3">
         <p className="font-semibold text-[14px] text-[#D1D1D1]">
           Profit & Loss
@@ -142,9 +143,8 @@ const ProfitLoss: FC = () => {
               bottom: 0,
             }}
           >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <ReferenceLine y={0} stroke="#292929" />
             <XAxis dataKey="name" />
-            {/* <YAxis /> */}
             <Tooltip content={<CustomTooltip />} />
             <defs>
               <linearGradient id="strokeColor" x1="0" y1="0" x2="0" y2="1">

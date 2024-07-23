@@ -15,11 +15,13 @@ import IconLoading from "@/utils/icons/Loading";
 // import { useFetch } from "@/hooks/useFetch";
 
 const ProfileDetails: FC = () => {
-  const { data, isLoading, error } = useFetch("/api/profile/show", {
+  const { data, isLoading, error } = useFetch("/api/profile/details", {
     method: "GET",
   });
 
   const user = data?.user;
+  const keys = data?.keys;
+  const tokens = data?.tokens;
 
   return (
     <ProfileLayout select={1}>
@@ -28,12 +30,16 @@ const ProfileDetails: FC = () => {
           <>
             <Account user={user} />
             <div className="flex flex-row gap-6">
-              <div className="flex-1 w-32"><KeyBox /></div>
-              <div className="flex-1 w-32"><TokenBox /></div>
+              <div className="flex-1 w-32">
+                <KeyBox keys={keys} />
+              </div>
+              <div className="flex-1 w-32">
+                <TokenBox tokens={tokens} />
+              </div>
             </div>
             <ProfitLoss />
             <div className="flex flex-row gap-6">
-              <div className="w-full gray-box p-4 relative">
+              <div className="w-full profile-box p-4 relative">
                 <Shield className="absolute inset-0 w-full h-full opacity-50" />
                 <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                   <div className="flex flex-row justify-between">
@@ -52,7 +58,7 @@ const ProfileDetails: FC = () => {
                 </div>
               </div>
 
-              <div className="w-full gray-box p-4 relative">
+              <div className="w-full profile-box p-4 relative">
                 <Clock className="absolute inset-0 w-full h-full opacity-50" />
                 <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                   <div className="flex flex-row justify-between">
@@ -72,7 +78,7 @@ const ProfileDetails: FC = () => {
               </div>
             </div>
 
-            <div className="w-full gray-box p-4 relative">
+            <div className="w-full profile-box p-4 relative">
               <History className="absolute inset-0 w-full h-full opacity-50" />
               <div className="flex flex-col justify-center p-4 min-h-[100px] relative z-10">
                 <div className="flex flex-row justify-between">
