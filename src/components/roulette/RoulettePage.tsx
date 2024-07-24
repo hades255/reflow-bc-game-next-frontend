@@ -272,7 +272,6 @@ const RoulettePage = () => {
       );
     });
     channel.listen(".UpdateBet", (data: any) => {
-      console.log(data);
       if ((user && data.bets.bet.user_id !== user.id) || !user) {
         if (data.bets.type === "bet") {
           pushBetter(
