@@ -9,18 +9,17 @@ import IconRoulette from "@/utils/icons/Roulette";
 import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
 
-const getTransactionIcon = (type: String) => {
-  const transactionTypes = {
-    roulette: <IconRoulette height={16} width={18} color={"#E9AE15"} />,
-    royalflip: <RoyalflipCoin height={20} width={22} color={"#E9AE15"} />,
-    upgrader: <UpgradeGame height={20} width={22} color={"#E9AE15"} />,
-  };
-
-  return (
-    transactionTypes[type] || (
-      <GoldCoin height={16} width={18} color={"#E9AE15"} />
-    )
-  );
+const getTransactionIcon = (type: string) => {
+  switch (type) {
+    case "roulette":
+      return <IconRoulette height={52} width={66} color={"#E9AE15"} />;
+    case "royalflip":
+      return <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />;
+    case "upgrader":
+      return <UpgradeGame height={60} width={66} color={"#E9AE15"} />;
+    default:
+      return <GoldCoin height={52} width={66} color={"#E9AE15"} />;
+  }
 };
 
 interface Transaction {
@@ -110,14 +109,16 @@ const HistoryTab: FC<HistoryTabProps> = ({
       onClick={handleSelect}
     >
       <div className="w-[150px] flex-none text-[#AAA] flex">
-        <span className="w-[30px] pt-1 items-center text-center">{getTransactionIcon(transaction.type)}</span>
+        <span className="w-[30px] pt-1 items-center text-center">
+          {getTransactionIcon(transaction.type)}
+        </span>
         <span>
           {transaction.type.substring(0, 1).toUpperCase() +
             transaction.type.substring(1)}
         </span>
       </div>
       <div className="w-[100px] flex-none text-[#99A]">
-        #{transaction.game_id}
+        {transaction.game_id}
       </div>
       <div className="flex-grow"></div>
       <div className="flex flex-row items-center gap-1 w-[100px]">
