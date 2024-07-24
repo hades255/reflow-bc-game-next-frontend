@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import moment from "moment";
 import {
   AreaChart,
@@ -11,8 +11,10 @@ import {
   CartesianGrid,
 } from "recharts";
 import LabelItem from "./LabelItem";
+import { useFetch } from "@/hooks/useFetch";
+import { fetchAPI } from "@/services/fetchAPI";
 
-const data = [
+const graphdata = [
   {
     name: "01",
     uv: 4000,
@@ -65,19 +67,45 @@ const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
           borderRadius: "5px",
         }}
       >
-        <p>{`Balance: $${uv.toFixed(2)}`}</p>
+        <p>{`${uv >= 0 ? "Profit" : "Lose"}: $${uv}`}</p>
       </div>
     );
   }
   return null;
 };
 
+const selectItems = [
+  "All",
+  "This Year",
+  "Last Month",
+  "This Month",
+  "12h",
+  "24h",
+];
+
 const ProfitLoss: FC = () => {
-  const [selectItem, setSelectItem] = useState(1);
+  const [selectItem, setSelectItem] = useState(0);
+
+  const [graphdata, setGraphdata] = useState([]);
+  const [winCount, setWinCount] = useState(0);
+  const [loseCount, setLoseCount] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await fetchAPI(
+        "/api/profile/profitloss?selection=" + selectItem,
+        "GET"
+      );
+      console.log(data);
+      setGraphdata(data.data);
+      setWinCount(data.wins);
+      setLoseCount(data.lose);
+    })();
+  }, [selectItem]);
 
   const gradientOffset = () => {
-    const dataMax = Math.max(...data.map((i) => i.uv));
-    const dataMin = Math.min(...data.map((i) => i.uv));
+    const dataMax = Math.max(...graphdata.map((i: any) => i.uv));
+    const dataMin = Math.min(...graphdata.map((i: any) => i.uv));
 
     if (dataMax <= 0) {
       return 0;
@@ -98,36 +126,13 @@ const ProfitLoss: FC = () => {
           Profit & Loss
         </p>
         <div className="flex flex-row gap-1">
-          <LabelItem
-            text="All"
-            onClick={() => setSelectItem(1)}
-            active={selectItem === 1}
-          />
-          <LabelItem
-            text="This Year"
-            onClick={() => setSelectItem(2)}
-            active={selectItem === 2}
-          />
-          <LabelItem
-            text="Last Month"
-            onClick={() => setSelectItem(3)}
-            active={selectItem === 3}
-          />
-          <LabelItem
-            text="This Month"
-            onClick={() => setSelectItem(4)}
-            active={selectItem === 4}
-          />
-          <LabelItem
-            text="12h"
-            onClick={() => setSelectItem(5)}
-            active={selectItem === 5}
-          />
-          <LabelItem
-            text="24h"
-            onClick={() => setSelectItem(6)}
-            active={selectItem === 6}
-          />
+          {selectItems.map((item, index) => (
+            <LabelItem
+              text={item}
+              onClick={() => setSelectItem(index)}
+              active={selectItem === index}
+            />
+          ))}
         </div>
       </div>
       <div className="w-full h-[300px] bg-[#161616] relative">
@@ -135,7 +140,7 @@ const ProfitLoss: FC = () => {
           <AreaChart
             width={500}
             height={400}
-            data={data}
+            data={graphdata}
             margin={{
               top: 10,
               right: 10,
@@ -178,14 +183,16 @@ const ProfitLoss: FC = () => {
             <p className="font-normal text-[10px] text-[#878787]">
               Total Wins:
             </p>
-            <p className="font-normal text-[10px] text-[#CAFE35]">19</p>
+            <p className="font-normal text-[10px] text-[#CAFE35]">{winCount}</p>
           </div>
 
           <div className="border border-[#8787877A] py-2 px-3 flex rounded-[5px] border-dashed bg-[#191919AD]">
             <p className="font-normal text-[10px] text-[#878787]">
-              Total Wins:
+              Total Lose:
             </p>
-            <p className="font-normal text-[10px] text-[#EF4D59]">4</p>
+            <p className="font-normal text-[10px] text-[#EF4D59]">
+              {loseCount}
+            </p>
           </div>
         </div>
       </div>
