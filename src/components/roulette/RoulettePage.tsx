@@ -54,6 +54,39 @@ const RoulettePage = () => {
 
   const dispatch = useDispatch();
 
+  const pushBetter = (
+    val: string,
+    user_id: number,
+    name: string,
+    level: number,
+    avatar: string,
+    bet: number
+  ) => {
+    if (val === "red") {
+      setRedBetters((prev) =>
+        prev.concat([{ user_id, name, level, avatar, bet }])
+      );
+    } else if (val === "gold") {
+      setGoldBetters((prev) =>
+        prev.concat([{ user_id, name, level, avatar, bet }])
+      );
+    } else {
+      setBlackBetters((prev) =>
+        prev.concat([{ user_id, name, level, avatar, bet }])
+      );
+    }
+  };
+
+  const sliceBetter = (val: string, user_id: number) => {
+    if (val === "red") {
+      setRedBetters((prev) => prev.filter((pv) => pv.user_id !== user_id));
+    } else if (val === "gold") {
+      setGoldBetters((prev) => prev.filter((pv) => pv.user_id !== user_id));
+    } else {
+      setBlackBetters((prev) => prev.filter((pv) => pv.user_id !== user_id));
+    }
+  };
+
   const handleBet = async (val: string) => {
     if (user) {
       if (rollingStart) {
@@ -73,14 +106,41 @@ const RoulettePage = () => {
           let bettedVals = betted.includes(val)
             ? betted.filter((pv) => pv !== val)
             : betted.concat([val]);
+          if (bettedVals.includes(val)) {
+            setBets((prev) => ({ ...prev, [val]: bet }));
+            dispatch(updateBalance({ balance: -bet }));
+            pushBetter(
+              val,
+              user.id,
+              user.name,
+              Number(user.player_level),
+              user.avatar,
+              bet
+            );
+          } else {
+            setBets((prev) => ({ ...prev, [val]: 0 }));
+            dispatch(updateBalance({ balance: bet }));
+            sliceBetter(val, user.id);
+          }
           let data = await placeBet(bet, val);
-          if (data.status === 200) {
+          if (data.status !== 200) {
             if (bettedVals.includes(val)) {
-              setBets((prev) => ({ ...prev, [val]: bet }));
-              dispatch(updateBalance({ balance: -bet }));
-            } else {
               setBets((prev) => ({ ...prev, [val]: 0 }));
               dispatch(updateBalance({ balance: bet }));
+              setBetted((prev) => prev.filter((pv) => pv !== val));
+              sliceBetter(val, user.id);
+            } else {
+              setBets((prev) => ({ ...prev, [val]: bet }));
+              dispatch(updateBalance({ balance: -bet }));
+              setBetted((prev) => prev.concat([val]));
+              pushBetter(
+                val,
+                user.id,
+                user.name,
+                Number(user.player_level),
+                user.avatar,
+                bet
+              );
             }
           }
         } else {
@@ -175,43 +235,14 @@ const RoulettePage = () => {
           );
           setActed(22 - sec);
           data.bets.forEach((bet: any) => {
-            if (bet.color === "red") {
-              setRedBetters((prev: BetterType[]) =>
-                prev.concat([
-                  {
-                    user_id: bet.user.id,
-                    name: bet.user.name,
-                    level: Number(bet.user.player_level),
-                    avatar: bet.user.avatar,
-                    bet: bet.amount,
-                  },
-                ])
-              );
-            } else if (bet.color === "gold") {
-              setGoldBetters((prev: BetterType[]) =>
-                prev.concat([
-                  {
-                    user_id: bet.user.id,
-                    name: bet.user.name,
-                    level: Number(bet.user.player_level),
-                    avatar: bet.user.avatar,
-                    bet: bet.amount,
-                  },
-                ])
-              );
-            } else {
-              setBlackBetters((prev: BetterType[]) =>
-                prev.concat([
-                  {
-                    user_id: bet.user.id,
-                    name: bet.user.name,
-                    level: Number(bet.user.player_level),
-                    avatar: bet.user.avatar,
-                    bet: bet.amount,
-                  },
-                ])
-              );
-            }
+            pushBetter(
+              bet.color,
+              bet.user.id,
+              bet.user.name,
+              Number(bet.user.player_level),
+              bet.user.avatar,
+              bet.user.amount
+            );
           });
           setWinningIndex(data.winning_number);
           setSecond(15);
@@ -241,42 +272,20 @@ const RoulettePage = () => {
       );
     });
     channel.listen(".UpdateBet", (data: any) => {
-      if (data.bets.bet.color === "red") {
-        setRedBetters((prev: BetterType[]) =>
-          prev.concat([
-            {
-              user_id: data.bets.bet.user_id,
-              name: data.bets.user.name,
-              level: Number(data.bets.user.player_level),
-              avatar: data.bets.user.avatar,
-              bet: data.bets.bet.amount,
-            },
-          ])
-        );
-      } else if (data.bets.bet.color === "gold") {
-        setGoldBetters((prev: BetterType[]) =>
-          prev.concat([
-            {
-              user_id: data.bets.bet.user_id,
-              name: data.bets.user.name,
-              level: Number(data.bets.user.player_level),
-              avatar: data.bets.user.avatar,
-              bet: data.bets.bet.amount,
-            },
-          ])
-        );
-      } else {
-        setBlackBetters((prev: BetterType[]) =>
-          prev.concat([
-            {
-              user_id: data.bets.bet.user_id,
-              name: data.bets.user.name,
-              level: Number(data.bets.user.player_level),
-              avatar: data.bets.user.avatar,
-              bet: data.bets.bet.amount,
-            },
-          ])
-        );
+      console.log(data);
+      if ((user && data.bets.bet.user_id !== user.id) || !user) {
+        if (data.bets.type === "bet") {
+          pushBetter(
+            data.bets.bet.color,
+            data.bets.bet.user_id,
+            data.bets.user.name,
+            Number(data.bets.user.player_level),
+            data.bets.user.avatar,
+            data.bets.bet.amount
+          );
+        } else {
+          sliceBetter(data.bets.bet.color, data.bets.bet.user_id)
+        }
       }
     });
     return () => {
@@ -287,9 +296,7 @@ const RoulettePage = () => {
   }, []);
 
   useEffect(() => {
-    if (rollingStart) {
-      // setBet(0);
-    } else {
+    if (!rollingStart) {
       setBetted([]);
     }
   }, [rollingStart]);
