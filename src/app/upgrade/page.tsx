@@ -13,6 +13,8 @@ import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
+import { updateBalance } from "@/redux/slices/main/userSlice";
+import MultiRangeSlider from "@/components/upgrade/multiRangeSlider/MultiRangeSlider";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -29,6 +31,8 @@ const UpgradePage: FC = () => {
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState(1);
+  const [minRange, setMinRange] = useState(0);
+  const [maxRange, setMaxRange] = useState(5000);
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
@@ -65,6 +69,7 @@ const UpgradePage: FC = () => {
             })
           );
         } else {
+          dispatch(updateBalance({ balance: -betAmount }));
           setBtnActive(true);
           const data = await apiPlayGame(selectItems?.id, betAmount);
 
@@ -78,6 +83,16 @@ const UpgradePage: FC = () => {
               setIsLoading(false);
               setRenderKey((prevKey) => prevKey + 1);
             }, 5000);
+
+            if (data.data.win) {
+              setTimeout(() => {
+                dispatch(
+                  updateBalance({
+                    balance: +(data.data.skinPrice / 1000),
+                  })
+                );
+              }, 6000);
+            }
           }
         }
       }
@@ -106,7 +121,13 @@ const UpgradePage: FC = () => {
 
   const loadMore = async (page: any) => {
     try {
-      const response = await apiGetItems(page, price, sort, search);
+      const response = await apiGetItems(
+        page,
+        price,
+        minRange,
+        maxRange,
+        search
+      );
       const newItems = response.data.items;
 
       if (page === 1) {
@@ -126,7 +147,7 @@ const UpgradePage: FC = () => {
     (async () => {
       loadMore(1);
     })();
-  }, [price, sort, search]);
+  }, [price, sort, search, minRange, maxRange]);
 
   useEffect(() => {
     if (isLoading === false && selectItems) {
@@ -190,22 +211,14 @@ const UpgradePage: FC = () => {
           </div>
 
           <div className="flex flex-row gap-[18px]">
-            <div className="flex flex-row items-center gap-1">
-              <p className="text-[12px] text-[#D1D1D1] font-medium">Sort by:</p>
-              <select
-                className="bg-[#121212] text-[12px] text-white outline-none"
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-              >
-                <option value="1">All</option>
-                <option value="2">0 - 5</option>
-                <option value="3">5 - 25</option>
-                <option value="4">25 - 50</option>
-                <option value="5">50 - 100</option>
-                <option value="6">100 - 250</option>
-                <option value="7">{"> 250"}</option>
-              </select>
-            </div>
+            <MultiRangeSlider
+              min={0}
+              max={5000}
+              onChange={({ min, max }) => {
+                setMinRange(min);
+                setMaxRange(max);
+              }}
+            />
 
             <div className="flex flex-row items-center gap-1">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
@@ -231,7 +244,7 @@ const UpgradePage: FC = () => {
             className="flex-wrap flex flex-row justify-center gap-2 mt-6"
             useWindow={false}
           >
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
               <UpgradeItem
                 select={selectItems?.id === item.id}
                 key={index}
