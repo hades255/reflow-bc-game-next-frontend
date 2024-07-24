@@ -37,7 +37,7 @@ const Rolling: FC<Props> = ({
         setTimeout(() => {
           setCenterDelimiter(true);
           setStart(true);
-        }, 1200);
+        }, 1050);
       }
     } else if (second > 0 && second < 15) {
       let counter = setInterval(() => {
