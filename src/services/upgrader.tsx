@@ -3,12 +3,14 @@ import { fetchAPI } from "./fetchAPI";
 export const apiGetItems = async (
   scroll?: number,
   price: any,
-  sortBy: string,
+  from?: number,
+  to?: number,
   search?: string | null
 ) => {
   const response = await fetchAPI("/api/public/fetch-cs-skins", "POST", {
     price,
-    sortBy,
+    from,
+    to,
     search,
     scroll,
   });
