@@ -6,7 +6,7 @@ import { useUser } from "@/redux/slices/main/userSlice";
 
 interface Props {
   value: number;
-  allValue: number;
+  allValue: any;
   myValue: number;
   onChangeValue: (value: any) => void;
 }
@@ -27,6 +27,10 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   }, [user, allValue]);
 
   useEffect(() => {
+    setBtnTab(0);
+  }, [allValue]);
+
+  useEffect(() => {
     if (value > 0) {
       let temp = (value / allValue) * 100;
       setProgress(temp);
@@ -42,19 +46,19 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
       // if (allValue > myValue) {
       //   onChangeValue(myValue / 10);
       // } else {
-      onChangeValue(allValue / 10);
+      onChangeValue((allValue / 10).toFixed(2));
       // }
     } else if (id === 2) {
       // if (allValue > myValue) {
       //   onChangeValue(myValue / 4);
       // } else {
-      onChangeValue(allValue / 4);
+      onChangeValue((allValue / 4).toFixed(2));
       // }
     } else if (id === 3) {
       // if (allValue > myValue) {
       //   onChangeValue(myValue / 2);
       // } else {
-      onChangeValue(allValue / 2);
+      onChangeValue((allValue / 2).toFixed(2));
       // }
     } else if (id === 4) {
       // if (allValue > myValue) {
@@ -62,7 +66,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
       // } else if (Number(myValue) === Number(0)) {
       //   onChangeValue(0);
       // } else {
-      onChangeValue(allValue - 0.01);
+      onChangeValue(((allValue / 1000) * 999).toFixed(2));
       // }
     }
   };

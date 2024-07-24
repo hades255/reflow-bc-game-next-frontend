@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useRef } from "react";
 import BetAmount from "@/components/upgrade/BetAmount";
 import SelectItem from "@/components/upgrade/SelectItem";
 import IconCrown from "@/utils/icons/Crown";
@@ -12,6 +12,7 @@ import { useBalance, useUser } from "@/redux/slices/main/userSlice";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
+import InfiniteScroll from "react-infinite-scroller";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -25,6 +26,9 @@ const UpgradePage: FC = () => {
   const [betAmount, setBetAmount] = useState<any>("");
   const [price, setPrice] = useState<string>("desc");
   const [sort, setSort] = useState<string>("1");
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState(1);
   const balance = useBalance();
   const dispatch = useDispatch();
   const user = useUser();
@@ -100,12 +104,29 @@ const UpgradePage: FC = () => {
     }
   };
 
+  const loadMore = async (page: any) => {
+    try {
+      const response = await apiGetItems(page, price, sort, search);
+      const newItems = response.data.items;
+
+      if (page === 1) {
+        setItems(newItems);
+      } else if (page !== 1 && newItems.length === 0) {
+        setHasMoreItems(false);
+      } else {
+        setItems((prevItems) => [...prevItems, ...newItems]);
+      }
+    } catch (err) {
+      console.log(err);
+      setHasMoreItems(false);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      const data = await apiGetItems(price, sort);
-      setItems(data?.data?.items);
+      loadMore(1);
     })();
-  }, [price, sort]);
+  }, [price, sort, search]);
 
   useEffect(() => {
     if (isLoading === false && selectItems) {
@@ -165,7 +186,7 @@ const UpgradePage: FC = () => {
       <div className="flex flex-col mt-6">
         <div className="flex flex-row justify-between">
           <div className="w-[264px] flex">
-            <SearchInput />
+            <SearchInput value={search} onChange={(e) => setSearch(e)} />
           </div>
 
           <div className="flex flex-row gap-[18px]">
@@ -200,18 +221,28 @@ const UpgradePage: FC = () => {
           </div>
         </div>
 
-        <div className="flex-wrap flex flex-row justify-center gap-2 mt-6 overflow-y-scroll max-h-[510px] upgrader-list">
-          {items.map((item, index) => (
-            <UpgradeItem
-              select={selectItems?.id === item.id}
-              key={index}
-              id={item.id}
-              title={item.name}
-              image={item.img}
-              amount={item.price / 1000}
-              onClick={(id) => handleSelectItem(id)}
-            />
-          ))}
+        {/* <div className="flex-wrap flex flex-row justify-center gap-2 mt-6 overflow-y-scroll max-h-[510px] upgrader-list"></div> */}
+        <div className="overflow-y-scroll max-h-[510px] upgrader-list">
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMore}
+            hasMore={hasMoreItems}
+            loader={<div key={0}>Loading...</div>}
+            className="flex-wrap flex flex-row justify-center gap-2 mt-6"
+            useWindow={false}
+          >
+            {items.map((item, index) => (
+              <UpgradeItem
+                select={selectItems?.id === item.id}
+                key={index}
+                id={item.id}
+                title={item.name}
+                image={item.img}
+                amount={item.price / 1000}
+                onClick={(id) => handleSelectItem(id)}
+              />
+            ))}
+          </InfiniteScroll>
         </div>
       </div>
     </div>
