@@ -7,19 +7,17 @@ import IconRoulette from "@/utils/icons/Roulette";
 import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
 
-type TransactionType = "roulette" | "royalflip" | "upgrader";
-const getTransactionIcon = (type: TransactionType) => {
-  const transactionTypes = {
-    roulette: <IconRoulette height={52} width={66} color={"#E9AE15"} />,
-    royalflip: <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />,
-    upgrader: <UpgradeGame height={60} width={66} color={"#E9AE15"} />,
-  };
-
-  return (
-    transactionTypes[type] || (
-      <GoldCoin height={52} width={66} color={"#E9AE15"} />
-    )
-  );
+const getTransactionIcon = (type: string) => {
+  switch (type) {
+    case "roulette":
+      return <IconRoulette height={52} width={66} color={"#E9AE15"} />;
+    case "royalflip":
+      return <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />;
+    case "upgrader":
+      return <UpgradeGame height={60} width={66} color={"#E9AE15"} />;
+    default:
+      return <GoldCoin height={52} width={66} color={"#E9AE15"} />;
+  }
 };
 
 interface Transaction {
