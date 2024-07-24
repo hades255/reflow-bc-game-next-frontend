@@ -7,8 +7,8 @@ import IconRoulette from "@/utils/icons/Roulette";
 import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
 
-// /<RoyalflipCoin height={60} width={66} color="white" />
-const getTransactionIcon = (type: String) => {
+type TransactionType = "roulette" | "royalflip" | "upgrader";
+const getTransactionIcon = (type: TransactionType) => {
   const transactionTypes = {
     roulette: <IconRoulette height={52} width={66} color={"#E9AE15"} />,
     royalflip: <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />,
