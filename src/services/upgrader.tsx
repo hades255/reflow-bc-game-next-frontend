@@ -2,7 +2,7 @@ import { fetchAPI } from "./fetchAPI";
 
 export const apiGetItems = async (
   scroll?: number,
-  price?: number,
+  price?: any,
   from?: number,
   to?: number,
   search?: string | null
