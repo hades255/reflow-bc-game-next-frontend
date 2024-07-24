@@ -1,8 +1,8 @@
 import { fetchAPI } from "./fetchAPI";
-import { v4 as uuidv4 } from "uuid";
 
 export const apiGetItems = async (
-  price: string,
+  scroll?: number,
+  price: any,
   sortBy: string,
   search?: string | null
 ) => {
@@ -10,6 +10,7 @@ export const apiGetItems = async (
     price,
     sortBy,
     search,
+    scroll,
   });
   return response.data;
 };
