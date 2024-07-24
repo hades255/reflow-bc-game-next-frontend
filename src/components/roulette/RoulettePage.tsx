@@ -193,7 +193,6 @@ const RoulettePage = () => {
         gold: 0,
         black: 0,
       });
-      setBet(0);
       setShow((prev) => !prev);
     }, 1000);
   };

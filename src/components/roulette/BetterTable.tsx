@@ -2,6 +2,8 @@
 import { FC } from "react";
 import Image from "next/image";
 import { PiCoinsLight } from "react-icons/pi";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { Orelega_One } from "next/font/google";
 
 interface Props {
   type: string;
@@ -31,10 +33,17 @@ const BetterTable: FC<Props> = ({
   show,
 }) => {
 
+  const user = useUser();
+
   const orderedBetters = () => {
     let originBetters = [...betters];
     originBetters.sort((a, b) => b.bet - a.bet);
-    return originBetters;
+    if (user && originBetters.some((beter) => beter.user_id === user.id)) {
+      let mine = originBetters.filter((beter) => beter.user_id === user.id);
+      return mine.concat(originBetters.filter((beter) => beter.user_id !== user.id))
+    } else {
+      return originBetters;
+    }
   }
 
   return (
