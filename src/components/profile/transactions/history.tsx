@@ -5,6 +5,23 @@ import moment from "moment";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
 import TransactionModal from "./transactionModal";
 import IconLoading from "@/utils/icons/Loading";
+import IconRoulette from "@/utils/icons/Roulette";
+import UpgradeGame from "@/utils/icons/UpgradeGame";
+import GoldCoin from "@/utils/icons/GoldCoin";
+
+const getTransactionIcon = (type: String) => {
+  const transactionTypes = {
+    roulette: <IconRoulette height={16} width={18} color={"#E9AE15"} />,
+    royalflip: <RoyalflipCoin height={20} width={22} color={"#E9AE15"} />,
+    upgrader: <UpgradeGame height={20} width={22} color={"#E9AE15"} />,
+  };
+
+  return (
+    transactionTypes[type] || (
+      <GoldCoin height={16} width={18} color={"#E9AE15"} />
+    )
+  );
+};
 
 interface Transaction {
   id: number;
@@ -93,16 +110,14 @@ const HistoryTab: FC<HistoryTabProps> = ({
       onClick={handleSelect}
     >
       <div className="w-[150px] flex-none text-[#AAA] flex">
-        <span className="pt-1">
-          <RoyalflipCoin height={20} width={22} color="white" />
-        </span>
+        <span className="w-[30px] pt-1 items-center text-center">{getTransactionIcon(transaction.type)}</span>
         <span>
           {transaction.type.substring(0, 1).toUpperCase() +
             transaction.type.substring(1)}
         </span>
       </div>
       <div className="w-[100px] flex-none text-[#99A]">
-        {transaction.game_id}
+        #{transaction.game_id}
       </div>
       <div className="flex-grow"></div>
       <div className="flex flex-row items-center gap-1 w-[100px]">

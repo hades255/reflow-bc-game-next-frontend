@@ -3,6 +3,24 @@ import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
 import { RiCloseLine } from "react-icons/ri";
+import IconRoulette from "@/utils/icons/Roulette";
+import UpgradeGame from "@/utils/icons/UpgradeGame";
+import GoldCoin from "@/utils/icons/GoldCoin";
+
+// /<RoyalflipCoin height={60} width={66} color="white" />
+const getTransactionIcon = (type: String) => {
+  const transactionTypes = {
+    roulette: <IconRoulette height={52} width={66} color={"#E9AE15"} />,
+    royalflip: <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />,
+    upgrader: <UpgradeGame height={60} width={66} color={"#E9AE15"} />,
+  };
+
+  return (
+    transactionTypes[type] || (
+      <GoldCoin height={52} width={66} color={"#E9AE15"} />
+    )
+  );
+};
 
 interface Transaction {
   id: number;
@@ -66,11 +84,11 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
               <div className="w-full rounded-t-lg bg-[#20202A] p-4">
                 <div className="flex justify-between align-middle">
                   <div className="flex">
-                    <div>
-                      <RoyalflipCoin height={60} width={66} color="white" />
+                    <div className="w-[80px]">
+                      {getTransactionIcon(transaction.type)}
                     </div>
                     <div className="flex flex-col">
-                      <div>{transaction.game_id}</div>
+                      <div>#{transaction.game_id}</div>
                       <div>CT</div>
                     </div>
                   </div>
