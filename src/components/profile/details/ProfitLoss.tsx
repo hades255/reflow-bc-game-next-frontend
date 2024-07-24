@@ -128,6 +128,7 @@ const ProfitLoss: FC = () => {
         <div className="flex flex-row gap-1">
           {selectItems.map((item, index) => (
             <LabelItem
+              key={index}
               text={item}
               onClick={() => setSelectItem(index)}
               active={selectItem === index}
