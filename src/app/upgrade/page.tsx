@@ -130,9 +130,9 @@ const UpgradePage: FC = () => {
       );
       const newItems = response.data.items;
 
-      if (page === 1) {
+      if (page === 0) {
         setItems(newItems);
-      } else if (page !== 1 && newItems.length === 0) {
+      } else if (page !== 0 && newItems.length === 0) {
         setHasMoreItems(false);
       } else {
         setItems((prevItems) => [...prevItems, ...newItems]);
@@ -145,7 +145,7 @@ const UpgradePage: FC = () => {
 
   useEffect(() => {
     (async () => {
-      loadMore(1);
+      loadMore(0);
     })();
   }, [price, sort, search, minRange, maxRange]);
 
