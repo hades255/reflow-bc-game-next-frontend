@@ -3,9 +3,10 @@ import React from "react";
 interface Props {
   width: number;
   height: number;
+  color: string;
 }
 
-const GoldCoin: React.FC<Props> = ({ width, height }) => {
+const GoldCoin: React.FC<Props> = ({ width, height, color }) => {
   return (
     <svg
       width={width}
