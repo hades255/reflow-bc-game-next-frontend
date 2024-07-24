@@ -12,13 +12,13 @@ import GoldCoin from "@/utils/icons/GoldCoin";
 const getTransactionIcon = (type: string) => {
   switch (type) {
     case "roulette":
-      return <IconRoulette height={52} width={66} color={"#E9AE15"} />;
+      return <IconRoulette height={16} width={18} color={"#E9AE15"} />;
     case "royalflip":
-      return <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />;
+      return <RoyalflipCoin height={20} width={22} color={"#E9AE15"} />;
     case "upgrader":
-      return <UpgradeGame height={60} width={66} color={"#E9AE15"} />;
+      return <UpgradeGame height={20} width={22} color={"#E9AE15"} />;
     default:
-      return <GoldCoin height={52} width={66} color={"#E9AE15"} />;
+      return <GoldCoin height={16} width={18} color={"#E9AE15"} />;
   }
 };
 
