@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
+import { RiCloseLine } from "react-icons/ri";
 
 interface Transaction {
   id: number;
@@ -47,7 +48,12 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div className="relative transform overflow-hidden rounded-lg text-[#D8D8E8] bg-[#25252E] text-left shadow-xl transition-all w-[360px]">
             <div className="w-full flex justify-end pt-4 pr-4">
-              <span>X</span>
+              <span
+                onClick={handleClickClose}
+                className="hover:cursor-pointer hover:text-gray-400"
+              >
+                <RiCloseLine />
+              </span>
             </div>
             <div className="w-full flex justify-center font-bold p-2 pt-0">
               {transaction.type.substring(0, 1).toUpperCase() +
@@ -64,7 +70,7 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
                       <RoyalflipCoin height={60} width={66} color="white" />
                     </div>
                     <div className="flex flex-col">
-                      <div>Round #9516594</div>
+                      <div>{transaction.game_id}</div>
                       <div>CT</div>
                     </div>
                   </div>
@@ -104,7 +110,7 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
             </div>
             <div className="w-full p-2 px-8 mb-6">
               <button
-                className="bg-[#333541] py-2 px-4 rounded-sm w-full"
+                className="bg-[#333541] hover:bg-[#494d5e] py-2 px-4 rounded-sm w-full"
                 onClick={handleClickClose}
               >
                 <div className="flex justify-center items-center">

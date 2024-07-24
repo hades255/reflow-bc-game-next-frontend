@@ -23,7 +23,7 @@ const SelectItem: FC<Props> = ({ allAmount, imgUrl, title, onClick }) => {
         style={{ background: "linear-gradient(#191A1900, #EAA62580)" }}
       >
         <div className="absolute top-[17px] left-[34px]">
-          <Image src={selectCrown} alt="logo" />
+          {imgUrl ? "" : <Image src={selectCrown} alt="logo" />}
         </div>
         <img src={imgUrl} alt="" className="h-[160px]" />
       </div>

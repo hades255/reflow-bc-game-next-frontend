@@ -22,7 +22,7 @@ const UpgradePage: FC = () => {
   const [gameResult, setGameResult] = useState<any>();
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
-  const [betAmount, setBetAmount] = useState<any>(0);
+  const [betAmount, setBetAmount] = useState<any>("");
   const [price, setPrice] = useState<string>("desc");
   const [sort, setSort] = useState<string>("1");
   const balance = useBalance();
@@ -37,7 +37,7 @@ const UpgradePage: FC = () => {
 
   const handleBet = async () => {
     try {
-      if (token === "") {
+      if (token === "" || token === undefined) {
         dispatch(
           setModal({
             status: true,
@@ -49,19 +49,32 @@ const UpgradePage: FC = () => {
           })
         );
       } else {
-        setBtnActive(true);
-        const data = await apiPlayGame(selectItems?.id, betAmount);
+        if (betAmount > Number(balance) || balance === undefined) {
+          dispatch(
+            setModal({
+              status: true,
+              title: "No enough balance",
+              content: "Bet Amount can not big more than balance",
+              name: "Deposit",
+              type: 3,
+              parameter: ``,
+            })
+          );
+        } else {
+          setBtnActive(true);
+          const data = await apiPlayGame(selectItems?.id, betAmount);
 
-        if (data.data) {
-          setIsLoading(true);
-          console.log(data.data);
-          setGameResult(data.data);
-          setIsWinner(data.data.win);
+          if (data.data) {
+            setIsLoading(true);
+            console.log(data.data);
+            setGameResult(data.data);
+            setIsWinner(data.data.win);
 
-          setTimeout(() => {
-            setIsLoading(false);
-            setRenderKey((prevKey) => prevKey + 1);
-          }, 5000);
+            setTimeout(() => {
+              setIsLoading(false);
+              setRenderKey((prevKey) => prevKey + 1);
+            }, 5000);
+          }
         }
       }
     } catch (error) {
@@ -117,7 +130,7 @@ const UpgradePage: FC = () => {
       <div className="flex flex-row justify-between">
         <BetAmount
           value={betAmount}
-          onChangeValue={(value: any) => setBetAmount(Number(value).toFixed(2))}
+          onChangeValue={(value: any) => setBetAmount(value)}
           allValue={selectItems?.price / 1000 || 0}
           myValue={Number(balance)}
         />
