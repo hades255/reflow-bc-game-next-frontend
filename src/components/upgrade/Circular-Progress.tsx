@@ -24,18 +24,21 @@ const CircularProgressBar: React.FC<{
   const activeStrokeLengthInDegrees = percentage * 360;
   const [spinStopDegree, setSpinStopDegree] = useState(0);
 
-  const calculateSpinStopDegree = async (
-    isWinner: boolean | null,
-    percentage: number
-  ) => {
+  const getRandom = (min: number, max: number) => {
+    console.log(min, max);
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const calculateSpinStopDegree = async (isWinner: boolean | null) => {
     if (isWinner) {
-      setSpinStopDegree(Math.random() * activeStrokeLengthInDegrees);
+      let degree = getRandom(1, activeStrokeLengthInDegrees);
+      setSpinStopDegree(degree % 360);
       setShouldSpin(true);
     } else {
-      let degree = Math.random() * 360;
-      if (degree < activeStrokeLengthInDegrees) {
-        degree += activeStrokeLengthInDegrees;
-      }
+      let degree = getRandom(activeStrokeLengthInDegrees + 2, 358);
+      console.log(degree);
       setSpinStopDegree(degree % 360);
       setShouldSpin(true);
     }
@@ -63,10 +66,10 @@ const CircularProgressBar: React.FC<{
   }, [shouldSpin]);
 
   useEffect(() => {
-    if (betResult !== null) {
-      calculateSpinStopDegree(betResult, percentage);
+    if (betResult !== null && betAmount && assetValue && isLoading) {
+      calculateSpinStopDegree(betResult);
     }
-  }, [betResult]);
+  }, [betResult, betAmount, assetValue, isLoading]);
 
   useEffect(() => {
     if (betResult !== null && isLoading === false) {
@@ -80,7 +83,7 @@ const CircularProgressBar: React.FC<{
 
       return () => clearTimeout(timerId);
     }
-  }, [betResult]);
+  }, [betResult, isLoading]);
 
   const fadeIn = keyframes`
     0% { opacity: 0; }
