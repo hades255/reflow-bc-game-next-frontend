@@ -451,7 +451,7 @@ header {
 }
 
 .slider__track {
-  background-color: #ced4da;
+  background-color: white;
   width: 100%;
   z-index: 1;
 }
