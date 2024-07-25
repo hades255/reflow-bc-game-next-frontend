@@ -87,9 +87,8 @@ const UpgradePage: FC = () => {
 
             if (data.data.win) {
               setTimeout(() => {
-                const amount =
-                  Number(data.data.skinPrice / 1000) + Number(betAmount);
-                console.log(amount);
+                const amount = Number(data.data.skinPrice / 1000);
+
                 dispatch(
                   updateBalance({
                     balance: +amount,
@@ -208,7 +207,7 @@ const UpgradePage: FC = () => {
 
           <div className="flex flex-row">
             <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
-              <p>0.00</p>
+              <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
                 max={5000}
@@ -217,7 +216,7 @@ const UpgradePage: FC = () => {
                   setMaxRange(max);
                 }}
               />
-              <p>5000.00</p>
+              <p className="text-white">5000.00</p>
             </div>
 
             <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
