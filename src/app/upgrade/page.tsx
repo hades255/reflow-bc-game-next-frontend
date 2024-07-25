@@ -20,7 +20,7 @@ const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectItems, setSelectItems] = useState<any>(null);
   const [allAmount, setAllAmount] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean | null>(false);
   const [isWinner, setIsWinner] = useState<boolean | null>(null);
   const [gameResult, setGameResult] = useState<any>();
   const [renderKey, setRenderKey] = useState(1);
@@ -81,14 +81,18 @@ const UpgradePage: FC = () => {
 
             setTimeout(() => {
               setIsLoading(false);
+              setBtnActive(false);
               setRenderKey((prevKey) => prevKey + 1);
             }, 5000);
 
             if (data.data.win) {
               setTimeout(() => {
+                const amount =
+                  Number(data.data.skinPrice / 1000) + Number(betAmount);
+                console.log(amount);
                 dispatch(
                   updateBalance({
-                    balance: +(data.data.skinPrice / 1000),
+                    balance: +amount,
                   })
                 );
               }, 6000);
@@ -107,9 +111,6 @@ const UpgradePage: FC = () => {
     if (index === selectItems) {
       handleClickSelectItem();
     } else {
-      if (selectItems === null) {
-        setBtnActive(false);
-      }
       setSelectItems(index);
       if (betAmount === 0) {
         if (token !== "") {
@@ -150,18 +151,13 @@ const UpgradePage: FC = () => {
   }, [price, sort, search, minRange, maxRange]);
 
   useEffect(() => {
-    if (isLoading === false && selectItems) {
-      setTimeout(() => {
-        setBtnActive(false);
-      }, 5000);
-    }
-  }, [isLoading, selectItems]);
-
-  useEffect(() => {
-    if (Number(betAmount) === Number(0)) {
+    console.log(isLoading, selectItems, Number(betAmount));
+    if (isLoading === false && selectItems && Number(betAmount) !== Number(0)) {
+      setBtnActive(false);
+    } else {
       setBtnActive(true);
     }
-  }, [betAmount]);
+  }, [isLoading, selectItems, betAmount]);
 
   return (
     <div className="p-6 flex flex-col gap-6">
