@@ -85,7 +85,7 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
         <div ref={range} className="slider__range" />
         {maxHover && (
           <div
-            className={`absolute -top-[40px] text-[10px] bg-black text-white`}
+            className={`absolute -top-[40px] text-[14px] bg-[#1e1e1e] px-2 py-1 rounded-md text-white`}
             style={{
               right: `${
                 (100 - getPercent(maxVal)) * 2 -
@@ -93,20 +93,20 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
               }px`,
             }}
           >
-            {maxVal}
+            {maxVal / 100}
           </div>
         )}
 
         {minHover && (
           <div
-            className={`absolute -top-[40px] text-[10px] bg-black text-white`}
+            className={`absolute -top-[40px] text-[14px] px-2 py-1 rounded-md bg-[#1e1e1e] text-white`}
             style={{
               right: `${
                 (100 - getPercent(minVal)) * 2 - (100 - getPercent(minVal)) / 10
               }px`,
             }}
           >
-            {minVal}
+            {minVal / 100}
           </div>
         )}
       </div>
