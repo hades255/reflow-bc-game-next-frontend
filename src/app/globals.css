@@ -424,11 +424,12 @@ header {
 
 .container {
   /* height: 100vh; */
-  margin-top: -5px;
-  margin-right: 30px;
+  /* margin-top: -5px; */
+  /* margin-right: 30px; */
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background-color: #282828; */
 }
 
 .slider {
@@ -502,10 +503,10 @@ header {
 
 /* For Chrome browsers */
 .thumb::-webkit-slider-thumb {
-  background-color: #f1f5f7;
+  background-color: #e59513;
   border: none;
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #ced4da;
+  box-shadow: 0 0 1px 1px #e59513;
   cursor: pointer;
   height: 18px;
   width: 18px;

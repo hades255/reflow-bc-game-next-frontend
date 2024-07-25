@@ -206,20 +206,24 @@ const UpgradePage: FC = () => {
             <SearchInput value={search} onChange={(e) => setSearch(e)} />
           </div>
 
-          <div className="flex flex-row gap-[18px]">
-            <MultiRangeSlider
-              min={0}
-              max={5000}
-              onChange={({ min, max }) => {
-                setMinRange(min);
-                setMaxRange(max);
-              }}
-            />
+          <div className="flex flex-row">
+            <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
+              <p>0.00</p>
+              <MultiRangeSlider
+                min={0}
+                max={5000}
+                onChange={({ min, max }) => {
+                  setMinRange(min);
+                  setMaxRange(max);
+                }}
+              />
+              <p>5000.00</p>
+            </div>
 
-            <div className="flex flex-row items-center gap-1">
+            <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
               <select
-                className="bg-[#121212] text-[12px] text-white outline-none"
+                className="bg-[#282828] text-[12px] text-white outline-none"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               >
