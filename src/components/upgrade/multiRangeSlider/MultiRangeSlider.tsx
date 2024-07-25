@@ -13,6 +13,8 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
   const minValRef = useRef(min);
   const maxValRef = useRef(max);
   const range = useRef<any>(null);
+  const [maxHover, setMaxHover] = useState(false);
+  const [minHover, setMinHover] = useState(false);
 
   // Convert to percentage
   const getPercent = useCallback(
@@ -58,6 +60,8 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
           setMinVal(value);
           minValRef.current = value;
         }}
+        onMouseUp={() => setMinHover(false)}
+        onMouseDown={() => setMinHover(true)}
         className="thumb thumb--left"
         // style={{ zIndex: minVal > max - 100 && "5" }}
       />
@@ -71,14 +75,40 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
           setMaxVal(value);
           maxValRef.current = value;
         }}
+        onMouseUp={() => setMaxHover(false)}
+        onMouseDown={() => setMaxHover(true)}
         className="thumb thumb--right"
       />
 
       <div className="slider">
         <div className="slider__track" />
         <div ref={range} className="slider__range" />
-        <div className="slider__left-value">{minVal}</div>
-        <div className="slider__right-value">{maxVal}</div>
+        {maxHover && (
+          <div
+            className={`absolute -top-[40px] text-[10px] bg-black`}
+            style={{
+              right: `${
+                (100 - getPercent(maxVal)) * 2 -
+                ((100 - getPercent(maxVal)) * 2) / 10
+              }px`,
+            }}
+          >
+            {maxVal}
+          </div>
+        )}
+
+        {minHover && (
+          <div
+            className={`absolute -top-[40px] text-[10px] bg-black`}
+            style={{
+              right: `${
+                (100 - getPercent(minVal)) * 2 - (100 - getPercent(minVal)) / 10
+              }px`,
+            }}
+          >
+            {minVal}
+          </div>
+        )}
       </div>
     </div>
   );
