@@ -132,6 +132,7 @@ const UpgradePage: FC = () => {
 
       if (page === 0) {
         setItems(newItems);
+        setHasMoreItems(true);
       } else if (page !== 0 && newItems.length === 0) {
         setHasMoreItems(false);
       } else {
@@ -210,10 +211,10 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={5000}
+                max={500000}
                 onChange={({ min, max }) => {
-                  setMinRange(min);
-                  setMaxRange(max);
+                  setMinRange(min / 100);
+                  setMaxRange(max / 100);
                 }}
               />
               <p className="text-white">5000.00</p>
