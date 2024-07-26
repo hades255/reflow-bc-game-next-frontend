@@ -59,7 +59,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     );
     dispatch(
       updateBalance({
-        balance: game.side ? Number(game.bet) * 1.99 : 0,
+        balance: game.side ? (game.players[1].name === 'house' ? Number(game.bet) * 2 : Number(game.bet) * 1.99) : 0,
       })
     );
   }, [dispatch, game.bet, game.round, game.side]);

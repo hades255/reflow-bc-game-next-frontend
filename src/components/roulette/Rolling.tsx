@@ -37,7 +37,7 @@ const Rolling: FC<Props> = ({
         setTimeout(() => {
           setCenterDelimiter(true);
           setStart(true);
-        }, 1050);
+        }, 1000);
       }
     } else if (second > 0 && second < 15) {
       let counter = setInterval(() => {
@@ -65,7 +65,7 @@ const Rolling: FC<Props> = ({
         defaultDesignOptions={{ hideCenterDelimiter: !centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
-      {!start && second !== -1 && (
+      {!start && second > -1 && (
         <div className="text-xl text-center text-white absolute top-10 w-full z-50">
           <p className="text-sm">ROLLING</p>
           <div className="text-2xl font-bold text-white flex justify-between w-15 px-[calc(50%-30px)]">

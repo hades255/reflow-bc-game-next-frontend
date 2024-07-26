@@ -194,7 +194,7 @@ const RoulettePage = () => {
         black: 0,
       });
       setShow((prev) => !prev);
-    }, 1000);
+    }, 1500);
   };
 
   useEffect(() => {
