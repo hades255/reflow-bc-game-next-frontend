@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import myEcho from "@/hooks/myEcho";
+import { getPendingGames } from "@/services/coinflip";
 import { useUser } from "@/redux/slices/main/userSlice";
 import {
   useLiveGames,
@@ -10,6 +11,7 @@ import {
   cacheDelete,
   filterAmount,
   sortAmount,
+  initialLiveGames,
 } from "@/redux/slices/coinflip/liveGamesSlice";
 import BlankCard from "./BlankCard";
 import LiveGameCard from "./LiveGameCard";
@@ -22,6 +24,13 @@ const LiveGames = () => {
   const user = useUser();
   const games = useLiveGames();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      let data = await getPendingGames(false);
+      dispatch(initialLiveGames(data));
+    })();
+  }, [])
 
   useEffect(() => {
     myEcho();

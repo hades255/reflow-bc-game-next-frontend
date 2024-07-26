@@ -15,6 +15,9 @@ export const myGamesSlice = createSlice({
   name: "myGames",
   initialState,
   reducers: {
+    initialMyGames: (state, action: PayloadAction<GameType[]>) => {
+      state.mygames = action.payload
+    },
     setMyGames: (
       state,
       action: PayloadAction<{
@@ -114,6 +117,7 @@ export const myGamesSlice = createSlice({
 });
 
 export const {
+  initialMyGames,
   setMyGames,
   setAMyGame,
   callHouse,

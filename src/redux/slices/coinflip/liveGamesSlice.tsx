@@ -14,8 +14,8 @@ export const liveGamesSlice = createSlice({
   name: "liveGames",
   initialState,
   reducers: {
-    initialLiveGames: (state) => {
-      state.livegames = [];
+    initialLiveGames: (state, action: PayloadAction<GameType[]>) => {
+      state.livegames = action.payload;
     },
     setLiveGames: (
       state,

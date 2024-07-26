@@ -10,7 +10,7 @@ import {
 } from "@/redux/slices/coinflip/myGamesSlice";
 import { updateBalance, balanceBackup } from "@/redux/slices/main/userSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
-import { joinGame, cancelGame } from "@/services/coinflip";
+import { joinGame, cancelGames } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
 import { TfiCup } from "react-icons/tfi";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
@@ -65,7 +65,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   }, [dispatch, game.bet, game.round, game.side]);
 
   const cancelMyGame = async () =>  {
-    let data = await cancelGame(Number(game.game_id));
+    let data = await cancelGames([Number(game.game_id)]);
     if (data.status === 200) {
       dispatch(updateBalance({
         balance: Number(game.bet)

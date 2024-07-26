@@ -3,8 +3,9 @@ import { useState, useEffect, useCallback } from "react";
 import myEcho from "@/hooks/myEcho";
 import { useDispatch } from "react-redux";
 import { useUser } from "@/redux/slices/main/userSlice";
-import { getHistory } from "@/services/coinflip";
+import { getHistory, getPendingGames, cancelGames } from "@/services/coinflip";
 import {
+  initialMyGames,
   useMyGames,
   setAMyGame,
   dismissAllGames,
@@ -28,15 +29,27 @@ const MyGames = () => {
     setIsCurrent(current);
   };
 
-  const dismiss = useCallback(() => {
-    let created = myGames.filter((game) => game.players.length === 1);
-    let allBudget = 0;
-    created.forEach((gm) => {
-      allBudget += gm.bet;
-    })
-    dispatch(updateBalance({ balance: allBudget }))
-    dispatch(dismissAllGames());
+  const dismiss = useCallback(async () => {
+    let data = await cancelGames(myGames.map((game) => Number(game.game_id)));
+    if (data.status === 200) {
+      let created = myGames.filter((game) => game.players.length === 1);
+      let allBudget = 0;
+      created.forEach((gm) => {
+        allBudget += gm.bet;
+      })
+      dispatch(updateBalance({ balance: allBudget }))
+      dispatch(dismissAllGames());
+    }
   }, [myGames]);
+
+  useEffect(() => {
+    (async() => {
+      if (user) {
+        let data = await getPendingGames(true, user);
+        dispatch(initialMyGames(data));
+      }
+    })();
+  }, [])
 
   useEffect(() => {
     myEcho();

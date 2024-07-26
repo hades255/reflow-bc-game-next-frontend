@@ -244,6 +244,7 @@ const RoulettePage = () => {
             );
           });
           setWinningIndex(data.winning_number);
+          setWinningColor(data.winning_color);
           setSecond(15);
         }
         setGameId(uuidv4());
