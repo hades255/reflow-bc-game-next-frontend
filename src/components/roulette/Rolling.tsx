@@ -57,7 +57,7 @@ const Rolling: FC<Props> = ({
   return (
     <div className="relative">
       <RoulettePro
-        prizes={coinsTemplate()}
+        prizes={coinsTemplate}
         prizeIndex={((66 + (winningIndex || 0)) * 108) / 206}
         start={start}
         spinningTime={acted === -1 ? 6 : acted}

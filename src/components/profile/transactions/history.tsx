@@ -118,7 +118,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
         </span>
       </div>
       <div className="w-[100px] flex-none text-[#99A]">
-        {transaction.game_id}
+        #{transaction.game_id}
       </div>
       <div className="flex-grow"></div>
       <div className="flex flex-row items-center gap-1 w-[100px]">
