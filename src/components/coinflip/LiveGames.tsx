@@ -17,15 +17,10 @@ import { PiCoinsLight } from "react-icons/pi";
 
 const LiveGames = () => {
   const [cards, setCards] = useState<number>(10);
-
   const [amount, setAmount] = useState<number[]>([0, -1]);
-
   const [sort, setSort] = useState<boolean>(true);
-
   const user = useUser();
-
   const games = useLiveGames();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,6 +52,10 @@ const LiveGames = () => {
       channel.stopListening("RoyalFlipGameEvent");
     };
   }, [dispatch, user]);
+
+  // useEffect(() => {
+  //   dispatch(initialLiveGames());
+  // }, []);
 
   useEffect(() => {
     if (games.length !== 0 && games.filter((gm) => gm.round !== null).length === 0) {

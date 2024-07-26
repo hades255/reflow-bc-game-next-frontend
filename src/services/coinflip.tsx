@@ -67,6 +67,34 @@ export const getNewGames = (
         bet: bet,
       });
     });
+    games
+      .filter((game) => game.round === null)
+      .forEach((game, idx) => {
+        if (idx < length + count - 8) {
+          games.forEach((gm, idy) => {
+            if (gm.id === game.id) {
+              games[idy] = ({
+                id: uuidv4(),
+                game_id: data[8-length+idx]?.gameId,
+                round: data[8-length+idx]?.round,
+                privateSeedHash: data[8-length+idx]?.privateSeedHash,
+                players: [
+                  {
+                    user_id: user.id,
+                    name: user.name,
+                    avatar: user.avatar,
+                    level: Number(user.player_level),
+                    side: side,
+                    budget: bet,
+                  },
+                ],
+                side: null,
+                bet: bet,
+              });
+            }
+          });
+        }
+      });
   }
   return [...games];
 };

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import myEcho from "@/hooks/myEcho";
 import { useDispatch } from "react-redux";
 import { useUser } from "@/redux/slices/main/userSlice";
@@ -8,8 +8,9 @@ import {
   useMyGames,
   setAMyGame,
   dismissAllGames,
+  cacheDelete
 } from "@/redux/slices/coinflip/myGamesSlice";
-import { balanceBackup } from "@/redux/slices/main/userSlice";
+import { updateBalance } from "@/redux/slices/main/userSlice";
 import MyGameCard from "./MyGameCard";
 import BlankCard from "./BlankCard";
 import HistoryCard from "./HistoryCard";
@@ -17,25 +18,25 @@ import { HistoryType } from "@/utils/types";
 
 const MyGames = () => {
   const [isCurrent, setIsCurrent] = useState<boolean>(true);
-
   const [historyList, setHistoryList] = useState([]);
-
   const [historyTotal, setHistoryTotal] = useState(0);
-
   const user = useUser();
-
   const myGames = useMyGames();
-
   const dispatch = useDispatch();
 
   const changePeriod = (current: boolean) => {
     setIsCurrent(current);
   };
 
-  const dismiss = () => {
-    dispatch(balanceBackup());
+  const dismiss = useCallback(() => {
+    let created = myGames.filter((game) => game.players.length === 1);
+    let allBudget = 0;
+    created.forEach((gm) => {
+      allBudget += gm.bet;
+    })
+    dispatch(updateBalance({ balance: allBudget }))
     dispatch(dismissAllGames());
-  };
+  }, [myGames]);
 
   useEffect(() => {
     myEcho();
@@ -67,13 +68,24 @@ const MyGames = () => {
     })();
   }, [isCurrent, user]);
 
+  useEffect(() => {
+    if (myGames.length !== 0 && myGames.filter((game) => game.round !== null).length === 0) {
+      dispatch(cacheDelete({ type: true }));
+    }
+    if (myGames.length > 4 && myGames.filter((game, id) => game.round !== null && id > 3).length === 0) {
+      dispatch(cacheDelete({ type: false }));
+    }
+  }, [dispatch, myGames])
+
   return (
     <>
       <div className="flex w-full justify-between mt-8 mx-2">
         <div className="flex items-center text-font font-xl font-semibold gap-4">
           <span>
             <span>My Games</span>&nbsp;
-            <span className="text-gold">{isCurrent ? (myGames && myGames.length) : historyTotal}</span>
+            <span className="text-gold">
+              {isCurrent ? myGames && myGames.filter((game) => game.round !== null).length : historyTotal}
+            </span>
           </span>
           <button
             className="py-0.5 px-2 bg-[#252525] rounded-sm text-sm font-normal"
@@ -101,9 +113,16 @@ const MyGames = () => {
         {isCurrent ? (
           <>
             {myGames &&
-              myGames.map((game) => (
-                <MyGameCard key={`Matchcard-MyGames-${game.id}`} game={game} />
-              ))}
+              myGames.map((game) =>
+                game.round ? (
+                  <MyGameCard
+                    key={`Matchcard-MyGames-${game.id}`}
+                    game={game}
+                  />
+                ) : (
+                  <BlankCard key={`Matchcard-blank-${game.id}`} />
+                )
+              )}
             {!myGames ||
               (myGames.length < 4 &&
                 [...Array(4 - myGames.length)].map((a, index) => (
@@ -111,7 +130,9 @@ const MyGames = () => {
                 )))}
           </>
         ) : (
-          historyList.map((history: HistoryType) => <HistoryCard key={`history-${history.round}`} game={history} />)
+          historyList.map((history: HistoryType) => (
+            <HistoryCard key={`history-${history.round}`} game={history} />
+          ))
         )}
       </div>
     </>

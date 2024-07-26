@@ -96,13 +96,20 @@ export const myGamesSlice = createSlice({
       );
     },
     dismissAllGames: (state) => {
-      state.mygames = state.mygames.filter((game) => game.players.length === 2);
+      state.mygames = state.mygames.map((game) => game.players.length === 1 ? ({...game, round: null}) : game);
     },
     deleteAGame: (state, action: PayloadAction<{ round: string | null }>) => {
-      state.mygames = state.mygames.filter(
-        (game) => game.round !== action.payload.round
+      state.mygames = state.mygames.map(
+        (game) => game.round === action.payload.round ? { ...game, round: null } : game
       );
     },
+    cacheDelete: (state, action: PayloadAction<{ type: boolean }>) => {
+      if (action.payload.type) {
+        state.mygames = state.mygames.filter((game) => game.round !== null);
+      } else {
+        state.mygames = state.mygames.slice(0, 4);
+      }
+    }
   },
 });
 
@@ -114,6 +121,7 @@ export const {
   updateBudget,
   dismissAllGames,
   deleteAGame,
+  cacheDelete
 } = myGamesSlice.actions;
 
 export const useMyGames = () =>
