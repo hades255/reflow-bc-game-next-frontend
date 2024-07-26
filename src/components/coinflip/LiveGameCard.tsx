@@ -26,11 +26,8 @@ interface Props {
 const MyGameCard: React.FC<Props> = ({ game }) => {
 
   const user = useUser();
-
   const dispatch = useDispatch();
-
   const [timer, setTimer] = useState<number>(6);
-
   const [show, setShow] = useState<boolean>(false);
 
   const handlePlay = async () => {
@@ -197,7 +194,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               <WhiteCoin width={54} height={54} />
             )}
           </div>
-          <Button text={"Play Now"} disabled={false} clicked={handlePlay} />
+          <Button text={"Play Now"} disabled={false} clicked={handlePlay} className="!w-24" />
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
             <PiCoinsLight />
             <span className={"text-gold"}>

@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import Button from "../buttons/Button";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { useDispatch } from "react-redux";
@@ -17,17 +16,12 @@ import { FaChevronDown } from "react-icons/fa6";
 
 const Header = () => {
   const [isUp, setIsUp] = useState<boolean>(true);
-
   const [bet, setBet] = useState<number>(0.0);
-
   const [counts, setCounts] = useState<number>(1);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const token = useToken();
-
   const balance = useBalance();
-
   const user = useUser();
-
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,10 +54,16 @@ const Header = () => {
   };
 
   const createMyGames = async (side: boolean, bet: number, count: number) => {
-    const data = await createNewGames(side, bet, count);
-    if (data.status === 200) {
-      dispatch(updateBalance({ balance: -bet * count }));
-      dispatch(setMyGames({ user, side, bet, count, data: data.data.data }));
+    if (!loading) {
+      setLoading((prev) => !prev);
+      const data = await createNewGames(side, bet, count);
+      if (data.status === 200) {
+        setLoading((prev) => !prev);
+        dispatch(updateBalance({ balance: -bet * count }));
+        dispatch(setMyGames({ user, side, bet, count, data: data.data.data }));
+      } else {
+        setLoading((prev) => !prev);
+      }
     }
   };
 
@@ -94,7 +94,7 @@ const Header = () => {
               })
             );
           } else {
-            await createMyGames(isUp, bet, counts);
+              await createMyGames(isUp, bet, counts);
           }
         } else {
           dispatch(
@@ -237,7 +237,7 @@ const Header = () => {
           </div>
           <Button
             text={`Create ${counts} game${counts === 1 ? "" : "s"}`}
-            disabled={false}
+            disabled={loading}
             clicked={handleCreate}
           />
         </div>

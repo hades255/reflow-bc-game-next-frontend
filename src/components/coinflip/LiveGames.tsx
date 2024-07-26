@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import myEcho from "@/hooks/myEcho";
+import { getPendingGames } from "@/services/coinflip";
 import { useUser } from "@/redux/slices/main/userSlice";
 import {
   useLiveGames,
@@ -10,6 +11,7 @@ import {
   cacheDelete,
   filterAmount,
   sortAmount,
+  initialLiveGames,
 } from "@/redux/slices/coinflip/liveGamesSlice";
 import BlankCard from "./BlankCard";
 import LiveGameCard from "./LiveGameCard";
@@ -17,16 +19,18 @@ import { PiCoinsLight } from "react-icons/pi";
 
 const LiveGames = () => {
   const [cards, setCards] = useState<number>(10);
-
   const [amount, setAmount] = useState<number[]>([0, -1]);
-
   const [sort, setSort] = useState<boolean>(true);
-
   const user = useUser();
-
   const games = useLiveGames();
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      let data = await getPendingGames(false);
+      dispatch(initialLiveGames(data));
+    })();
+  }, [])
 
   useEffect(() => {
     myEcho();
@@ -57,6 +61,10 @@ const LiveGames = () => {
       channel.stopListening("RoyalFlipGameEvent");
     };
   }, [dispatch, user]);
+
+  // useEffect(() => {
+  //   dispatch(initialLiveGames());
+  // }, []);
 
   useEffect(() => {
     if (games.length !== 0 && games.filter((gm) => gm.round !== null).length === 0) {

@@ -48,12 +48,10 @@ const BetterTable: FC<Props> = ({
 
   return (
     <div
-      className={`w-full flex flex-col gap-2 ${start && "opacity-50"} ${
-        show && win ? "opacity-100" : "opacity-50"
-      }`}
+      className={`w-full flex flex-col gap-2 ${start ? show && win ? "" : "opacity-50" : ""}`}
     >
       <div
-        className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center ${
+        className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center font-bold ${
           betted.includes(type)
             ? "border border-gold bg-[#161616]"
             : "bg-[#313131]"

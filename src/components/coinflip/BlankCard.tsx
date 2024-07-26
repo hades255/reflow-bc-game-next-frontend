@@ -8,6 +8,7 @@ const BlankCard = () => {
           width={104}
           height={81}
           src={"/assets/images/crown.png"}
+          className="opacity-60"
           alt=""
         />
       </div>

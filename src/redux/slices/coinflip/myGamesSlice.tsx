@@ -15,6 +15,9 @@ export const myGamesSlice = createSlice({
   name: "myGames",
   initialState,
   reducers: {
+    initialMyGames: (state, action: PayloadAction<GameType[]>) => {
+      state.mygames = action.payload
+    },
     setMyGames: (
       state,
       action: PayloadAction<{
@@ -88,7 +91,7 @@ export const myGamesSlice = createSlice({
                 ...player,
                 budget:
                   player.side === game.side
-                    ? player.budget * 1.99
+                    ? game.players[1].name === "house" ? player.budget * 2 : player.budget * 1.99
                     : -player.budget,
               })),
             }
@@ -96,17 +99,25 @@ export const myGamesSlice = createSlice({
       );
     },
     dismissAllGames: (state) => {
-      state.mygames = state.mygames.filter((game) => game.players.length === 2);
+      state.mygames = state.mygames.map((game) => game.players.length === 1 ? ({...game, round: null}) : game);
     },
     deleteAGame: (state, action: PayloadAction<{ round: string | null }>) => {
-      state.mygames = state.mygames.filter(
-        (game) => game.round !== action.payload.round
+      state.mygames = state.mygames.map(
+        (game) => game.round === action.payload.round ? { ...game, round: null } : game
       );
     },
+    cacheDelete: (state, action: PayloadAction<{ type: boolean }>) => {
+      if (action.payload.type) {
+        state.mygames = state.mygames.filter((game) => game.round !== null);
+      } else {
+        state.mygames = state.mygames.slice(0, 4);
+      }
+    }
   },
 });
 
 export const {
+  initialMyGames,
   setMyGames,
   setAMyGame,
   callHouse,
@@ -114,6 +125,7 @@ export const {
   updateBudget,
   dismissAllGames,
   deleteAGame,
+  cacheDelete
 } = myGamesSlice.actions;
 
 export const useMyGames = () =>

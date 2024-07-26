@@ -15,6 +15,52 @@ export const createNewGames = async (
   return data;
 };
 
+export const getPendingGames = async (type: boolean, user?: any) => {
+  const data = await fetchAPI("/api/game/royalflip/pending", "POST");
+  if (type) {
+    return data.data.data.my
+      .filter((gm: GameType, id: number) => id < 8)
+      .map((game: any) => ({
+        id: uuidv4(),
+        game_id: game.gameId,
+        round: game.round,
+        privateSeedHash: game.privateSeedHash,
+        players: [
+          {
+            user_id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+            level: Number(user.player_level),
+            side: game.userColor,
+            budget: game.betAmount,
+          },
+        ],
+        side: null,
+        bet: game.betAmount
+      }));
+  } else {
+    return data.data.data.other
+      .map((game: any) => ({
+        id: uuidv4(),
+        game_id: game.gameId,
+        round: game.round,
+        privateSeedHash: game.privateSeedHash,
+        players: [
+          {
+            user_id: game.userId,
+            name: game.userName,
+            avatar: game.userAvatar,
+            level: Number(game.userLevel),
+            side: game.userColor,
+            budget: game.betAmount,
+          },
+        ],
+        side: null,
+        bet: game.betAmount
+      }));
+  }
+};
+
 export const getNewGames = (
   myGames: GameType[],
   user: any,
@@ -67,6 +113,34 @@ export const getNewGames = (
         bet: bet,
       });
     });
+    games
+      .filter((game) => game.round === null)
+      .forEach((game, idx) => {
+        if (idx < length + count - 8) {
+          games.forEach((gm, idy) => {
+            if (gm.id === game.id) {
+              games[idy] = {
+                id: uuidv4(),
+                game_id: data[8 - length + idx]?.gameId,
+                round: data[8 - length + idx]?.round,
+                privateSeedHash: data[8 - length + idx]?.privateSeedHash,
+                players: [
+                  {
+                    user_id: user.id,
+                    name: user.name,
+                    avatar: user.avatar,
+                    level: Number(user.player_level),
+                    side: side,
+                    budget: bet,
+                  },
+                ],
+                side: null,
+                bet: bet,
+              };
+            }
+          });
+        }
+      });
   }
   return [...games];
 };
@@ -115,14 +189,14 @@ export const getHistory = async (user: any) => {
 
 export const joinGame = async (gameId: number) => {
   const data = await fetchAPI("/api/game/royalflip/join", "POST", {
-    gameId: gameId,
+    gameId,
   });
   return data;
 };
 
-export const cancelGame = async (gameId: number) => {
+export const cancelGames = async (gameId: number[]) => {
   const data = await fetchAPI("/api/game/royalflip/cancel", "POST", {
-    gameId: gameId,
+    gameId,
   });
   return data;
 };

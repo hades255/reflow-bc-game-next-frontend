@@ -14,6 +14,9 @@ export const liveGamesSlice = createSlice({
   name: "liveGames",
   initialState,
   reducers: {
+    initialLiveGames: (state, action: PayloadAction<GameType[]>) => {
+      state.livegames = action.payload;
+    },
     setLiveGames: (
       state,
       action: PayloadAction<{ games: GameType[]; count: number }>
@@ -116,6 +119,7 @@ export const liveGamesSlice = createSlice({
 });
 
 export const {
+  initialLiveGames,
   setLiveGames,
   setALiveGame,
   updateALiveGame,
