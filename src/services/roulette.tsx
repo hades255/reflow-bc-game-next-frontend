@@ -1,7 +1,7 @@
 import { fetchAPI } from "./fetchAPI";
 import { v4 as uuidv4 } from "uuid";
 
-export const coinsTemplate = () => {
+export const coinsTemplate = (() => {
   const coins = [2, 1, 2, 1, 2, 1, 3, 2, 1, 2, 1, 2, 1, 2, 1];
 
   const tempList = coins.map((coin) =>
@@ -49,7 +49,7 @@ export const coinsTemplate = () => {
   ];
 
   return coinsList;
-};
+})();
 
 export const getActive = async () => {
   const data = await fetchAPI("/api/public/games/roulette/active", "GET");
