@@ -62,10 +62,6 @@ const LiveGames = () => {
     };
   }, [dispatch, user]);
 
-  // useEffect(() => {
-  //   dispatch(initialLiveGames());
-  // }, []);
-
   useEffect(() => {
     if (games.length !== 0 && games.filter((gm) => gm.round !== null).length === 0) {
       dispatch(cacheDelete());
