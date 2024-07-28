@@ -1,20 +1,19 @@
 "use client";
 import { useState } from "react";
-import Button from "../buttons/Button";
-import { useToken } from "@/redux/slices/main/authSlice";
 import { useDispatch } from "react-redux";
+import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
-import { useBalance } from "@/redux/slices/main/userSlice";
-import { updateBalance } from "@/redux/slices/main/userSlice";
-import { useUser } from "@/redux/slices/main/userSlice";
-import { setMyGames } from "@/redux/slices/coinflip/myGamesSlice";
+import { useBalance, updateBalance, useUser } from "@/redux/slices/main/userSlice";
+import { useMyGames, setMyGames } from "@/redux/slices/coinflip/myGamesSlice";
 import { createNewGames } from "@/services/coinflip";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
+import Button from "../buttons/Button";
 import { PiCoinsLight } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa6";
 
 const Header = () => {
+  const mygames = useMyGames();
   const [isUp, setIsUp] = useState<boolean>(true);
   const [bet, setBet] = useState<number>(0.0);
   const [counts, setCounts] = useState<number>(1);
@@ -55,14 +54,28 @@ const Header = () => {
 
   const createMyGames = async (side: boolean, bet: number, count: number) => {
     if (!loading) {
-      setLoading((prev) => !prev);
-      const data = await createNewGames(side, bet, count);
-      if (data.status === 200) {
+      if (mygames.length < 8) {
         setLoading((prev) => !prev);
-        dispatch(updateBalance({ balance: -bet * count }));
-        dispatch(setMyGames({ user, side, bet, count, data: data.data.data }));
+        let resCount = mygames.length + count > 8 ? 8 - mygames.length : count;
+        const data = await createNewGames(side, bet, resCount);
+        if (data.status === 200) {
+          setLoading((prev) => !prev);
+          dispatch(updateBalance({ balance: -bet * resCount }));
+          dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+        } else {
+          setLoading((prev) => !prev);
+        }
       } else {
-        setLoading((prev) => !prev);
+        dispatch(
+          setModal({
+            status: true,
+            title: "Limited for creating a game",
+            content: "Total games are limited to 8.",
+            name: "Okay",
+            type: 3,
+            parameter: ``,
+          })
+        );
       }
     }
   };
