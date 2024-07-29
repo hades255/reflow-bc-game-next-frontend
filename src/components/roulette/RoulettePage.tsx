@@ -194,7 +194,7 @@ const RoulettePage = () => {
         black: 0,
       });
       setShow((prev) => !prev);
-    }, 1500);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -206,7 +206,7 @@ const RoulettePage = () => {
         );
         if (data.status === "pending") {
           setActed(-1);
-          setSecond(15 - sec);
+          setSecond(14 - sec);
           setHundredGames(
             ["red", "gold", "black"].map((color) => data.last_100_games[color])
           );
