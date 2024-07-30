@@ -77,7 +77,7 @@ const UpgradePage: FC = () => {
               setIsLoading(false);
               setBtnActive(false);
               setRenderKey((prevKey) => prevKey + 1);
-            }, 5000);
+            }, 5500);
 
             if (data.data.win) {
               setTimeout(() => {
@@ -142,10 +142,10 @@ const UpgradePage: FC = () => {
     (async () => {
       loadMore(0);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [price, search, minRange, maxRange]);
 
   useEffect(() => {
-    console.log(isLoading, selectItems, Number(betAmount));
     if (isLoading === false && selectItems && Number(betAmount) !== Number(0)) {
       setBtnActive(false);
     } else {

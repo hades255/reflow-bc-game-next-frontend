@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import Image from "next/image";
-import upgradeItem1 from "@/assets/images/upgrade-item-1.png";
 import selectCrown from "@/assets/images/upgrade-select.svg";
 import IconCoin from "@/utils/icons/Coin";
 
@@ -25,6 +24,7 @@ const SelectItem: FC<Props> = ({ allAmount, imgUrl, title, onClick }) => {
         <div className="absolute top-[17px] left-[34px]">
           {imgUrl ? "" : <Image src={selectCrown} alt="logo" />}
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element*/}
         <img src={imgUrl} alt="" className="h-[160px]" />
       </div>
 
