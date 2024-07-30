@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState, useRef } from "react";
+import React, { FC, useEffect, useState } from "react";
 import BetAmount from "@/components/upgrade/BetAmount";
 import SelectItem from "@/components/upgrade/SelectItem";
 import IconCrown from "@/utils/icons/Crown";
@@ -8,7 +8,7 @@ import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
 import { apiGetItems, apiPlayGame } from "@/services/upgrader";
-import { useBalance, useUser } from "@/redux/slices/main/userSlice";
+import { useBalance } from "@/redux/slices/main/userSlice";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
@@ -19,23 +19,18 @@ import MultiRangeSlider from "@/components/upgrade/multiRangeSlider/MultiRangeSl
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [selectItems, setSelectItems] = useState<any>(null);
-  const [allAmount, setAllAmount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean | null>(false);
   const [isWinner, setIsWinner] = useState<boolean | null>(null);
-  const [gameResult, setGameResult] = useState<any>();
   const [renderKey, setRenderKey] = useState(1);
   const [btnActive, setBtnActive] = useState<boolean>(true);
   const [betAmount, setBetAmount] = useState<any>("");
   const [price, setPrice] = useState<string>("desc");
-  const [sort, setSort] = useState<string>("1");
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [search, setSearch] = useState<string>("");
-  const [page, setPage] = useState(1);
   const [minRange, setMinRange] = useState(0);
   const [maxRange, setMaxRange] = useState(5000);
   const balance = useBalance();
   const dispatch = useDispatch();
-  const user = useUser();
   const token = useToken();
 
   const handleClickSelectItem = () => {
@@ -76,7 +71,6 @@ const UpgradePage: FC = () => {
           if (data.data) {
             setIsLoading(true);
             console.log(data.data);
-            setGameResult(data.data);
             setIsWinner(data.data.win);
 
             setTimeout(() => {
@@ -148,7 +142,7 @@ const UpgradePage: FC = () => {
     (async () => {
       loadMore(0);
     })();
-  }, [price, sort, search, minRange, maxRange]);
+  }, [price, search, minRange, maxRange]);
 
   useEffect(() => {
     console.log(isLoading, selectItems, Number(betAmount));
@@ -234,7 +228,6 @@ const UpgradePage: FC = () => {
           </div>
         </div>
 
-        {/* <div className="flex-wrap flex flex-row justify-center gap-2 mt-6 overflow-y-scroll max-h-[510px] upgrader-list"></div> */}
         <div className="overflow-y-scroll max-h-[510px] upgrader-list">
           <InfiniteScroll
             pageStart={0}

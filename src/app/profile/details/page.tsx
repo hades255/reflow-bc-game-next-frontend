@@ -12,7 +12,6 @@ import Clock from "@/utils/icons/Clock";
 import History from "@/utils/icons/History";
 import { useFetch } from "@/hooks/useFetch";
 import IconLoading from "@/utils/icons/Loading";
-// import { useFetch } from "@/hooks/useFetch";
 
 const ProfileDetails: FC = () => {
   const { data, isLoading, error } = useFetch("/api/profile/details", {
