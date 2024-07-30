@@ -46,6 +46,10 @@ export const coinsTemplate = (() => {
       id: uuidv4(),
       ...temp,
     })),
+    ...tempList.map((temp) => ({
+      id: uuidv4(),
+      ...temp,
+    })),
   ];
 
   return coinsList;

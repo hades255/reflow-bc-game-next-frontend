@@ -67,7 +67,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           : 0,
       })
     );
-  }, [dispatch, game.bet, game.round, game.side, game.players]);
+  }, [dispatch, game.bet, game.round, game.side]);
 
   const cancelMyGame = async () => {
     if (!loading) {
