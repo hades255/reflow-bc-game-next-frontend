@@ -22,17 +22,17 @@ interface Props {
 }
 const MyGameCard: React.FC<Props> = ({ game }) => {
   const user = useUser();
-
   const dispatch = useDispatch();
-
   const [timer, setTimer] = useState<number>(6);
-
   const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCall = async () => {
-    if (user) {
+    if (user && !loading) {
+      setLoading((prev) => !prev);
       let data = await joinGame(Number(game.game_id));
       if (data.status === 200) {
+        setLoading((prev) => !prev);
         dispatch(
           callHouse({
             round: game.round,
@@ -40,6 +40,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           })
         );
       } else {
+        setLoading((prev) => !prev);
         dispatch(
           setToast({
             type: 3,
@@ -59,18 +60,36 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     );
     dispatch(
       updateBalance({
-        balance: game.side ? (game.players[1].name === 'house' ? Number(game.bet) * 2 : Number(game.bet) * 1.99) : 0,
+        balance: game.side
+          ? game.players[1].name === "house"
+            ? Number(game.bet) * 2
+            : Number(game.bet) * 1.99
+          : 0,
       })
     );
   }, [dispatch, game.bet, game.round, game.side]);
 
-  const cancelMyGame = async () =>  {
-    let data = await cancelGames([Number(game.game_id)]);
-    if (data.status === 200) {
-      dispatch(updateBalance({
-        balance: Number(game.bet)
-      }));
-      dispatch(deleteAGame({ round: game.round }));
+  const cancelMyGame = async () => {
+    if (!loading) {
+      setLoading((prev) => !prev);
+      let data = await cancelGames([Number(game.game_id)]);
+      if (data.status === 200) {
+        setLoading((prev) => !prev);
+        dispatch(
+          updateBalance({
+            balance: Number(game.bet),
+          })
+        );
+        dispatch(deleteAGame({ round: game.round }));
+      } else {
+        setLoading((prev) => !prev);
+        dispatch(
+          setToast({
+            type: 3,
+            message: "Server internal error.",
+          })
+        );
+      }
     }
   };
 
@@ -107,6 +126,9 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     user && (
       <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
         <div className="relative h-full w-28 flex gap-2 flex-col justify-center items-center rounded-md innerBlack bg-[#191919]">
+          <Image src={"/assets/images/crown.png"} width={64} height={64} alt="" className="hidden" />
+          <Image src={"/assets/coinflip/a.png"} width={200} height={200} alt="" className="hidden" />
+          <Image src={"/assets/coinflip/b.png"} width={200} height={200} alt="" className="hidden" />
           <div className="relative">
             <Image
               width={64}

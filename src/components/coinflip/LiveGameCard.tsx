@@ -24,17 +24,19 @@ interface Props {
 }
 
 const MyGameCard: React.FC<Props> = ({ game }) => {
-
   const user = useUser();
   const dispatch = useDispatch();
   const [timer, setTimer] = useState<number>(6);
   const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handlePlay = async () => {
-    if (user) {
+    if (user && !loading) {
       if (game.bet <= Number(user.balance)) {
+        setLoading((prev) => !prev);
         let data = await joinGame(Number(game.game_id));
         if (data.status === 200) {
+          setLoading((prev) => !prev);
           dispatch(
             playAGame({
               round: game.round,
@@ -47,21 +49,26 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
             })
           );
         } else {
-          dispatch(setToast({
-            type: 3,
-            message: "Server internal error."
-          }))
+          setLoading((prev) => !prev);
+          dispatch(
+            setToast({
+              type: 3,
+              message: "Server internal error.",
+            })
+          );
         }
       } else {
-        dispatch(setModal({
-          status: true,
-          title: "No enough balance",
-          content: "Please deposit the money to start playing.",
-          name: "Deposit",
-          type: 3,
-          parameter: ""
-        }))
-      }   
+        dispatch(
+          setModal({
+            status: true,
+            title: "No enough balance",
+            content: "Please deposit the money to start playing.",
+            name: "Deposit",
+            type: 3,
+            parameter: "",
+          })
+        );
+      }
     } else {
       dispatch(
         setModal({
@@ -86,10 +93,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     if (game.round && game.players[1]?.user_id === user?.id) {
       dispatch(
         updateBalance({
-          balance:
-            game.side
-              ? 0
-              : Number(game.bet * 1.99),
+          balance: game.side ? 0 : Number(game.bet * 1.99),
         })
       );
     }
@@ -128,6 +132,20 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   return (
     <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
       <div className="relative h-full w-28 flex gap-2 flex-col justify-center items-center rounded-md innerBlack bg-[#191919]">
+        <Image
+          src={"/assets/coinflip/a.png"}
+          width={200}
+          height={200}
+          alt=""
+          className="hidden"
+        />
+        <Image
+          src={"/assets/coinflip/b.png"}
+          width={200}
+          height={200}
+          alt=""
+          className="hidden"
+        />
         <div className="relative">
           <Image
             width={64}
@@ -194,7 +212,12 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               <WhiteCoin width={54} height={54} />
             )}
           </div>
-          <Button text={"Play Now"} disabled={false} clicked={handlePlay} className="!w-24" />
+          <Button
+            text={"Play Now"}
+            disabled={false}
+            clicked={handlePlay}
+            className="!w-24"
+          />
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
             <PiCoinsLight />
             <span className={"text-gold"}>
