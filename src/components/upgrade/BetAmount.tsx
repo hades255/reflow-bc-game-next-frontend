@@ -73,9 +73,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
 
   const handleChange = (amount: number) => {
     setBtnTab(0);
-    console.log(amount, allValue);
     if (amount > allValue || amount.toFixed(2) === allValue.toFixed(2)) {
-      console.log(amount);
       onChangeValue(allValue - 0.01);
     } else {
       onChangeValue(amount);

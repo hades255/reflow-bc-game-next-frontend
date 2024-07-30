@@ -25,7 +25,6 @@ const CircularProgressBar: React.FC<{
   const [spinStopDegree, setSpinStopDegree] = useState(0);
 
   const getRandom = (min: number, max: number) => {
-    console.log(min, max);
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,7 +38,6 @@ const CircularProgressBar: React.FC<{
         setShouldSpin(true);
       } else {
         let degree = getRandom(activeStrokeLengthInDegrees + 2, 358);
-        console.log(degree);
         setSpinStopDegree(degree % 360);
         setShouldSpin(true);
       }
