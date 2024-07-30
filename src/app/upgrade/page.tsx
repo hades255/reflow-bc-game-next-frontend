@@ -64,31 +64,33 @@ const UpgradePage: FC = () => {
             })
           );
         } else {
-          dispatch(updateBalance({ balance: -betAmount }));
-          setBtnActive(true);
-          const data = await apiPlayGame(selectItems?.id, betAmount);
+          if (!isLoading && !btnActive) {
+            dispatch(updateBalance({ balance: -betAmount }));
+            setBtnActive(true);
+            const data = await apiPlayGame(selectItems?.id, betAmount);
 
-          if (data.data) {
-            setIsLoading(true);
-            console.log(data.data);
-            setIsWinner(data.data.win);
+            if (data.data) {
+              setIsLoading(true);
+              console.log(data.data);
+              setIsWinner(data.data.win);
 
-            setTimeout(() => {
-              setIsLoading(false);
-              setBtnActive(false);
-              setRenderKey((prevKey) => prevKey + 1);
-            }, 5500);
-
-            if (data.data.win) {
               setTimeout(() => {
-                const amount = Number(data.data.skinPrice / 1000);
+                setIsLoading(false);
+                setBtnActive(false);
+                setRenderKey((prevKey) => prevKey + 1);
+              }, 5500);
 
-                dispatch(
-                  updateBalance({
-                    balance: +amount,
-                  })
-                );
-              }, 6000);
+              if (data.data.win) {
+                setTimeout(() => {
+                  const amount = Number(data.data.skinPrice / 1000);
+
+                  dispatch(
+                    updateBalance({
+                      balance: +amount,
+                    })
+                  );
+                }, 6000);
+              }
             }
           }
         }

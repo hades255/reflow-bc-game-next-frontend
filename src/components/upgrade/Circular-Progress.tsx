@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { keyframes } from "@emotion/react";
 import { css } from "@emotion/css";
 import Arrow from "@/utils/icons/Arrow";
@@ -31,18 +31,21 @@ const CircularProgressBar: React.FC<{
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  const calculateSpinStopDegree = async (isWinner: boolean | null) => {
-    if (isWinner) {
-      let degree = getRandom(1, activeStrokeLengthInDegrees);
-      setSpinStopDegree(degree % 360);
-      setShouldSpin(true);
-    } else {
-      let degree = getRandom(activeStrokeLengthInDegrees + 2, 358);
-      console.log(degree);
-      setSpinStopDegree(degree % 360);
-      setShouldSpin(true);
-    }
-  };
+  const calculateSpinStopDegree = useCallback(
+    async (isWinner: boolean | null) => {
+      if (isWinner) {
+        let degree = getRandom(1, activeStrokeLengthInDegrees);
+        setSpinStopDegree(degree % 360);
+        setShouldSpin(true);
+      } else {
+        let degree = getRandom(activeStrokeLengthInDegrees + 2, 358);
+        console.log(degree);
+        setSpinStopDegree(degree % 360);
+        setShouldSpin(true);
+      }
+    },
+    [activeStrokeLengthInDegrees]
+  );
 
   const totalRotations = 5 * 360 - 90 - activeStrokeLengthInDegrees;
   const finalSpinDegree = totalRotations + spinStopDegree;
@@ -63,13 +66,13 @@ const CircularProgressBar: React.FC<{
         }
       );
     }
-  }, [shouldSpin]);
+  }, [shouldSpin, finalSpinDegree]);
 
   useEffect(() => {
     if (betResult !== null && betAmount && assetValue && isLoading) {
       calculateSpinStopDegree(betResult);
     }
-  }, [betResult, betAmount, assetValue, isLoading]);
+  }, [betResult, betAmount, assetValue, isLoading, calculateSpinStopDegree]);
 
   useEffect(() => {
     if (betResult !== null && isLoading === false) {
