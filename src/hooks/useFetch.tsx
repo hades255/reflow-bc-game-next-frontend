@@ -25,7 +25,7 @@ export const useFetch = (url: string, options?: AxiosRequestConfig) => {
       setError(error);
     }
     setIsLoading(false);
-  }, [token, axios]);
+  }, [token, options, url]);
 
   useEffect(() => {
     fetchData();

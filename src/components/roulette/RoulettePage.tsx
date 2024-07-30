@@ -270,6 +270,8 @@ const RoulettePage = () => {
       setCacheHundred(
         ["red", "gold", "black"].map((color) => data.game.last_100_games[color])
       );
+      console.log("10 games", data.game.last_10_games.map((game: any) => game.winning_color).reverse());
+      console.log("100 games", ["red", "gold", "black"].map((color) => data.game.last_100_games[color]));
     });
     channel.listen(".UpdateBet", (data: any) => {
       if ((user && data.bets.bet.user_id !== user.id) || !user) {
@@ -292,7 +294,7 @@ const RoulettePage = () => {
       channel.stopListening(".GameUpdate");
       channel.stopListening(".UpdateBet");
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (!rollingStart) {

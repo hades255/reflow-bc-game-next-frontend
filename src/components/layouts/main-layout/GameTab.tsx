@@ -91,7 +91,7 @@ const GameTab = () => {
     }
     if (pathname.includes("/profile"))
       dispatch(changePage("/profile"));
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   return (
     <div className="flex gap-4">

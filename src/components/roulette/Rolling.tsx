@@ -52,7 +52,7 @@ const Rolling: FC<Props> = ({
       setCenterDelimiter(true);
       setStart(true);
     }
-  }, [second, acted]);
+  }, [second, acted, setSecond, setStart]);
 
   return (
     <div className="relative">
