@@ -1,8 +1,15 @@
+"use client";
+
 import React, { FC } from "react";
 import IconDeposit from "@/utils/icons/Deposit";
 import IconWallet from "@/utils/icons/Wallet";
+import IconCalculator from "@/utils/icons/Calculator";
+import IconChange from "@/utils/icons/Change";
+import IconCoin from "@/utils/icons/Coin";
 import QRCode from "@/assets/images/qrcode.png";
 import Image from "next/image";
+import Button from "@/components/buttons/Button";
+import arbitrum from "@/assets/icons/arbitrum-logo.svg";
 
 const DepositPage: FC = () => {
   return (
@@ -17,7 +24,7 @@ const DepositPage: FC = () => {
         You will receive balance automatically after sending ARB to the address
         displayed below. (1 confirmation required).
       </p>
-      <div className="dropBlack bg-[#0000001F] h-[417px] w-full p-6 rounded-[5px] flex flex-col gap-6">
+      <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
         <div className="flex flex-row items-center gap-1">
           <IconWallet color="#D1D1D1" width={16} height={14} />
           <p className="font-semibold text-[18px] text-white">Wallet Address</p>
@@ -35,14 +42,62 @@ const DepositPage: FC = () => {
           <div className="relative">
             <input
               type="text"
-              className="bg-[#1A1A1A] p-[8px_10px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+              className="bg-[#1A1A1A] dropBlack p-[8px_10px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+              value="5dAsiEtMsJVBEgX5QVyS7earBpybNZ6tg769jjkjkjnn0kh2"
             />
 
-            <button className="!w-[54px] h-[30px] !absolute !top-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]">
+            <button className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]">
               Copy
             </button>
           </div>
+
+          <div className="flex gap-[7px] items-center justify-end">
+            <p className="text-[14px] font-bold text-[#D1D1D1]">Or</p>
+            <Button text="Add funds" className="!w-[90px]" />
+          </div>
         </div>
+      </div>
+
+      <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
+        <div className="flex gap-[5px] items-center">
+          <IconCalculator color="#D1D1D1" width={18} height={18} />
+          <p className="text-white font-semibold text-[18px]">
+            Coin Rate Calculator
+          </p>
+        </div>
+
+        <div className="flex items-center gap-[5px]">
+          <div className="relative flex w-full">
+            <Image
+              src={arbitrum}
+              alt="icon"
+              className="absolute top-[9px] left-[12px]"
+            />
+            <input
+              type="text"
+              className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+              value="5dAsiEtMsJVBEgX5QVyS7earBpybNZ6tg769jjkjkjnn0kh2"
+            />
+          </div>
+
+          <div className="min-w-[34px] h-[34px] flex justify-center items-center bg-[#1A1A1A] rounded-[2px] cursor-pointer">
+            <IconChange color="#9C9C9C" width={12} height={10} />
+          </div>
+          <div className="relative flex w-full">
+            <input
+              type="text"
+              className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+            />
+            <div className="absolute top-[9px] left-[12px]">
+              <IconCoin color="#E9AE15" width={16} height={17} />
+            </div>
+          </div>
+        </div>
+
+        <p className="text-[12px] text-[#D1D1D1] font-normal">
+          The exchange rate shown above is an estimate. The final rate is
+          determined by the time of the transaction.
+        </p>
       </div>
     </div>
   );
