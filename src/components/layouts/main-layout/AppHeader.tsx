@@ -46,7 +46,7 @@ const AppHeader: FC = () => {
       dispatch(setToast({ type: 2, message: "Logged in successfully." }));
       router.replace(page);
     }
-  }, [dispatch, page, token, router, searchParams]);
+  }, [token, router, searchParams]);
 
   return (
     <header className="h-[84px] bg-[#1D1D1D] w-full fixed flex top-0 left-0 z-50">
