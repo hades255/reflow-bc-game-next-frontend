@@ -98,7 +98,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
       );
     }
     setTimer(10);
-  }, [dispatch, game.bet, game.round, game.side, game.players, user?.id]);
+  }, [dispatch, game.bet, game.round, game.side, game.players]);
 
   const deleteGame = useCallback(() => {
     dispatch(deleteALiveGame({ round: game.round }));
