@@ -19,6 +19,7 @@ const FairnessInfo: FC = () => {
           the hash, ensuring their congruence. This system empowers us to affirm
           the fairness and pre-determination of the results.
         </p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={"/assets/images/fairness/info.png"}
           alt="info"

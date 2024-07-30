@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect } from "react";
+import React, { FC, useState, useRef, useEffect, useCallback } from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
@@ -61,7 +61,7 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
     return roulette;
   }
 
-  function play() {
+  const play = useCallback(() => {
     if (isReplay) {
       prepare();
     }
@@ -72,13 +72,13 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
     setIsSpin(true);
     setWeaponPrizeId(roulette.spin());
     setIsReplay(true);
-  }
+  }, [isReplay]);
 
   useEffect(() => {
     setTimeout(() => {
       play();
     }, 100);
-  }, []);
+  }, [play]);
 
   return (
     <div className="flex flex-row justify-center">
