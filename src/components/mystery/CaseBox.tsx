@@ -9,9 +9,9 @@ import caseLeft from "@/assets/icons/case-arrow-left.svg";
 import caseRight from "@/assets/icons/case-arrow-right.svg";
 
 const boxList = [
-  { title: "Bronze", level: 1 },
-  { title: "Silver", level: 10 },
-  { title: "Gold", level: 100 },
+  { title: "bronze", level: 1 },
+  { title: "silver", level: 10 },
+  { title: "gold", level: 100 },
 ];
 
 interface Props {
