@@ -37,7 +37,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     } else if (Number(value) === Number(0)) {
       setProgress(0);
     }
-  }, [value]);
+  }, [value, allValue]);
 
   const handleClickBtn = (id: any) => {
     // onChangeValue && onChangeValue(100);
