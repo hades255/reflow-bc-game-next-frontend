@@ -1,9 +1,5 @@
 import React, { FC } from "react";
-import Image from "next/image";
-import upgradeItem1 from "@/assets/images/upgrade-item-1.png";
-import selectCrown from "@/assets/images/upgrade-select.svg";
 import IconCoin from "@/utils/icons/Coin";
-import { title } from "process";
 
 interface Props {
   select?: boolean;

@@ -71,7 +71,6 @@ const UpgradePage: FC = () => {
 
             if (data.data) {
               setIsLoading(true);
-              console.log(data.data);
               setIsWinner(data.data.win);
 
               setTimeout(() => {
