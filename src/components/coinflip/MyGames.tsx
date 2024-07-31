@@ -40,7 +40,7 @@ const MyGames = () => {
       dispatch(updateBalance({ balance: allBudget }))
       dispatch(dismissAllGames());
     }
-  }, [myGames, dispatch]);
+  }, [myGames]);
 
   useEffect(() => {
     (async() => {
@@ -49,7 +49,7 @@ const MyGames = () => {
         dispatch(initialMyGames(data));
       }
     })();
-  }, [dispatch, user])
+  }, [dispatch])
 
   useEffect(() => {
     myEcho();
