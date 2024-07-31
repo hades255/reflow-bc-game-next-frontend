@@ -2,11 +2,8 @@
 
 import React, { FC, useState } from "react";
 import IconWithdraw from "@/utils/icons/Withdraw";
-import IconWallet from "@/utils/icons/Wallet";
-import IconCalculator from "@/utils/icons/Calculator";
 import IconChange from "@/utils/icons/Change";
 import IconCoin from "@/utils/icons/Coin";
-import QRCode from "@/assets/images/qrcode.png";
 import Image from "next/image";
 import Button from "@/components/buttons/Button";
 import arbitrum from "@/assets/icons/arbitrum-logo.svg";
