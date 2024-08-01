@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
@@ -39,12 +39,16 @@ const RoulettePage = () => {
   });
   const [rollingStart, setRollingStart] = useState(false);
   const [second, setSecond] = useState<number>(-1);
-  const [tenGames, setTenGames] = useState<string[]>([]);
-  const [hundredGames, setHundredGames] = useState<number[]>([]);
+  const [tenGames, setTenGames] = useState<string[]>(
+    new Array(10).fill("black")
+  );
+  // const [cacheTen, setCacheTen] = useState<string[]>(
+  //   new Array(10).fill("black")
+  // );
+  const [hundredGames, setHundredGames] = useState<number[]>([50, 0, 50]);
+  // const [cacheHundred, setCacheHundred] = useState<number[]>([50, 0, 50]);
   const [winningIndex, setWinningIndex] = useState<number | null>(null);
   const [winningColor, setWinningColor] = useState<string>("");
-  const [cacheTen, setCacheTen] = useState<string[]>([]);
-  const [cacheHundred, setCacheHundred] = useState<number[]>([]);
   const [redBetters, setRedBetters] = useState<BetterType[]>([]);
   const [goldBetters, setGoldBetters] = useState<BetterType[]>([]);
   const [blackBetters, setBlackBetters] = useState<BetterType[]>([]);
@@ -170,33 +174,6 @@ const RoulettePage = () => {
     }
   };
 
-  const finishGame = () => {
-    if (betted.includes(winningColor)) {
-      if (winningColor === "gold") {
-        dispatch(updateBalance({ balance: 14 * bets.gold }));
-      } else if (winningColor === "red") {
-        dispatch(updateBalance({ balance: 2 * bets.red }));
-      } else {
-        dispatch(updateBalance({ balance: 2 * bets.black }));
-      }
-    }
-    setTenGames(cacheTen);
-    setHundredGames(cacheHundred);
-    setShow((prev) => !prev);
-    setTimeout(() => {
-      setRedBetters([]);
-      setGoldBetters([]);
-      setBlackBetters([]);
-      setBetted([]);
-      setBets({
-        red: 0,
-        gold: 0,
-        black: 0,
-      });
-      setShow((prev) => !prev);
-    }, 2000);
-  };
-
   useEffect(() => {
     (async () => {
       let { data, status } = await getActive();
@@ -205,32 +182,66 @@ const RoulettePage = () => {
           moment().diff(moment.utc(data.created_at).local()) / 1000
         );
         if (data.status === "pending") {
-          setActed(-1);
-          setSecond(14 - sec);
-          setHundredGames(
-            ["red", "gold", "black"].map((color) => data.last_100_games[color])
-          );
-          setTenGames(
-            data.last_10_games.map((dt: any) => dt.winning_color).reverse()
-          );
+          if (sec < 15) {
+            setActed(-1);
+            setSecond(14 - sec);
+            setHundredGames((prev) => {
+              let arr = [0, 0, 0];
+              data.last_101_games.slice(0, 100).forEach((game: any) => {
+                if (game.winning_color === "red") {
+                  arr[0] += 1;
+                } else if (game.winning_color === "gold") {
+                  arr[1] += 1;
+                } else {
+                  arr[2] += 1;
+                }
+              });
+              return prev.map((pv, idx) => arr[idx]);
+            });
+            setTenGames((prev) =>
+              prev.map(
+                (color, idx) => data.last_11_games[9 - idx].winning_color
+              )
+            );
+          }
         } else {
-          setHundredGames(
-            ["red", "gold", "black"].map((color) =>
-              color === data.winning_color
-                ? data.last_100_games[color] - 1
-                : data.last_100_games[color]
-            )
-          );
-          setTenGames(() => {
-            let games = data.last_10_games.map((dt: any) => dt.winning_color);
-            games.shift();
-            return games.reverse();
+          setHundredGames((prev) => {
+            let arr = [0, 0, 0];
+            data.last_101_games.slice(1).forEach((game: any) => {
+              if (game.winning_color === "red") {
+                arr[0] += 1;
+              } else if (game.winning_color === "gold") {
+                arr[1] += 1;
+              } else {
+                arr[2] += 1;
+              }
+            });
+            return prev.map((pv, idx) => arr[idx]);
           });
-          setCacheHundred(
-            ["red", "gold", "black"].map((color) => data.last_100_games[color])
+          let hundred = () => {
+            let arr = [0, 0, 0];
+            data.last_101_games.slice(0, 100).forEach((game: any) => {
+              if (game.winning_color === "red") {
+                arr[0] += 1;
+              } else if (game.winning_color === "gold") {
+                arr[1] += 1;
+              } else {
+                arr[2] += 1;
+              }
+            });
+            return new Array(3).fill(null).map((pv, idx) => arr[idx]);
+          };
+          localStorage.setItem("cacheHundred", JSON.stringify(hundred()));
+          setTenGames((prev) =>
+            prev.map((color, idx) => data.last_11_games[10 - idx].winning_color)
           );
-          setCacheTen(
-            data.last_10_games.map((dt: any) => dt.winning_color).reverse()
+          localStorage.setItem(
+            "cacheTen",
+            JSON.stringify(
+              new Array(10)
+                .fill(null)
+                .map((color, idx) => data.last_11_games[9 - idx].winning_color)
+            )
           );
           setActed(22 - sec);
           data.bets.forEach((bet: any) => {
@@ -264,11 +275,28 @@ const RoulettePage = () => {
     channel.listen(".GameUpdate", (data: any) => {
       setWinningIndex(data.game.winning_number);
       setWinningColor(data.game.winning_color);
-      setCacheTen(
-        data.game.last_10_games.map((game: any) => game.winning_color).reverse()
+      localStorage.setItem("winning", data.game.winning_color);
+      localStorage.setItem(
+        "cacheHundred",
+        JSON.stringify(
+          new Array(3)
+            .fill(null)
+            .map((p, idx) =>
+              idx === 0
+                ? data.game.last_100_games.red
+                : idx === 1
+                ? data.game.last_100_games.gold
+                : data.game.last_100_games.black
+            )
+        )
       );
-      setCacheHundred(
-        ["red", "gold", "black"].map((color) => data.game.last_100_games[color])
+      localStorage.setItem(
+        "cacheTen",
+        JSON.stringify(
+          new Array(10)
+            .fill(null)
+            .map((p, idx) => data.game.last_10_games[9 - idx].winning_color)
+        )
       );
     });
     channel.listen(".UpdateBet", (data: any) => {
@@ -283,16 +311,53 @@ const RoulettePage = () => {
             data.bets.bet.amount
           );
         } else {
-          sliceBetter(data.bets.bet.color, data.bets.bet.user_id)
+          sliceBetter(data.bets.bet.color, data.bets.bet.user_id);
         }
       }
     });
     return () => {
-      channel.stopListening(".Last10Games");
+      channel.stopListening(".CreateGame");
       channel.stopListening(".GameUpdate");
       channel.stopListening(".UpdateBet");
     };
   }, [user]);
+
+  const finishGame = () => {
+    let winning = localStorage.getItem("winning") || "";
+    if (betted.includes(winning)) {
+      if (winning === "gold") {
+        dispatch(updateBalance({ balance: 14 * bets.gold }));
+      } else if (winning === "red") {
+        dispatch(updateBalance({ balance: 2 * bets.red }));
+      } else {
+        dispatch(updateBalance({ balance: 2 * bets.black }));
+      }
+    }
+    setShow((prev) => !prev);
+    setHundredGames((prev) =>
+      prev.map(
+        (p, idx) =>
+          JSON.parse(localStorage.getItem("cacheHundred") || "[]")[idx]
+      )
+    );
+    setTenGames((prev) =>
+      prev.map(
+        (p, idx) => JSON.parse(localStorage.getItem("cacheTen") || "[]")[idx]
+      )
+    );
+    setTimeout(() => {
+      setRedBetters([]);
+      setGoldBetters([]);
+      setBlackBetters([]);
+      setBetted([]);
+      setBets({
+        red: 0,
+        gold: 0,
+        black: 0,
+      });
+      setShow((prev) => !prev);
+    }, 2000);
+  };
 
   useEffect(() => {
     if (!rollingStart) {
@@ -312,9 +377,7 @@ const RoulettePage = () => {
         start={rollingStart}
         setStart={setRollingStart}
       />
-      {tenGames.length !== 0 && (
-        <RollingHistory tenGames={tenGames} hundredGames={hundredGames} />
-      )}
+      <RollingHistory tenGames={tenGames} hundredGames={hundredGames} />
       <Betting bet={bet} setBet={setBet} start={rollingStart} />
       <div className="w-full grid grid-cols-3 gap-12 mt-8 px-6">
         <BetterTable
