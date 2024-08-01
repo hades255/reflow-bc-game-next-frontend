@@ -28,7 +28,7 @@ const withAuth = <P extends object>(
           })
         );
       }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, router, dispatch]);
 
     if (!isAuthenticated) {
       return null; // Render nothing if not authenticated
