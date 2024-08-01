@@ -1,6 +1,6 @@
 "use client";
 import { FC, Dispatch, useEffect, useState, SetStateAction } from "react";
-
+import Image from "next/image";
 import CountUp from "react-countup";
 import RoulettePro from "react-roulette-pro";
 import { coinsTemplate } from "@/services/roulette";
@@ -29,6 +29,10 @@ const Rolling: FC<Props> = ({
   const [centerDelimiter, setCenterDelimiter] = useState<boolean>(false);
 
   useEffect(() => {
+    if (acted !== -1 && second === 15) {
+      setCenterDelimiter(true);
+      setStart(true);
+    }
     if (second <= 0) {
       if (second === -1) {
         setStart(false);
@@ -48,14 +52,13 @@ const Rolling: FC<Props> = ({
         clearInterval(counter);
       };
     }
-    if (acted !== -1 && second === 15) {
-      setCenterDelimiter(true);
-      setStart(true);
-    }
   }, [second, acted, setSecond, setStart]);
 
   return (
     <div className="relative">
+      <Image src={"/assets/roulette/red.png"} width={108} height={108} alt="" className="hidden" />
+      <Image src={"/assets/roulette/black.png"} width={108} height={108} alt="" className="hidden" />
+      <Image src={"/assets/roulette/gold.png"} width={108} height={108} alt="" className="hidden" />
       <RoulettePro
         prizes={coinsTemplate}
         prizeIndex={((66 + (winningIndex || 0)) * 108) / 206}
