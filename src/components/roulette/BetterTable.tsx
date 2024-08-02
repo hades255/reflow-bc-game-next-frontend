@@ -3,7 +3,6 @@ import { FC } from "react";
 import Image from "next/image";
 import { PiCoinsLight } from "react-icons/pi";
 import { useUser } from "@/redux/slices/main/userSlice";
-import { Orelega_One } from "next/font/google";
 
 interface Props {
   type: string;
@@ -89,18 +88,18 @@ const BetterTable: FC<Props> = ({
               </span>
               &nbsp;
               <span
-                className={`text-font ${
+                className={`text-font font-bold ${
                   show && (win ? "text-green-500" : "text-red-500")
                 }`}
               >
                 {show
                   ? win
-                    ? `+${
+                    ? `+ ${
                         type === "gold"
                           ? 14 * betters.reduce((t, n) => t + n.bet, 0)
                           : 2 * betters.reduce((t, n) => t + n.bet, 0)
                       }`
-                    : `-${betters.reduce((t, n) => t + n.bet, 0)}`
+                    : `- ${betters.reduce((t, n) => t + n.bet, 0)}`
                   : betters.reduce((t, n) => t + n.bet, 0)}
               </span>
             </span>

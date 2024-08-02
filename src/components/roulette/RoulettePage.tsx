@@ -178,6 +178,7 @@ const RoulettePage = () => {
         let sec = Math.floor(
           moment().diff(moment.utc(data.created_at).local()) / 1000
         );
+        setGameId(uuidv4());
         if (data.status === "pending") {
           if (sec < 15) {
             setActed(-1);
@@ -257,7 +258,6 @@ const RoulettePage = () => {
           });
           setSecond(15);
         }
-        setGameId(uuidv4());
       }
     })();
   }, [dispatch]);
@@ -337,7 +337,7 @@ const RoulettePage = () => {
       });
       setShow((prev) => !prev);
     }, 2000);
-  }, [dispatch, betted, winning.color]);
+  }, [dispatch, betted, winning.color, bets]);
 
   useEffect(() => {
     if (!rollingStart) {
@@ -351,7 +351,6 @@ const RoulettePage = () => {
         key={gameId}
         second={second}
         setSecond={setSecond}
-        winningIndex={winning.index}
         acted={acted}
         finish={finishGame}
         start={rollingStart}
