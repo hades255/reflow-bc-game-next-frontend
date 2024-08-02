@@ -2,6 +2,7 @@
 import { FC, Dispatch, useEffect, useState, SetStateAction } from "react";
 import Image from "next/image";
 import CountUp from "react-countup";
+import { useWinning } from "@/redux/slices/roulette/winningSlice";
 import RoulettePro from "react-roulette-pro";
 import { coinsTemplate } from "@/services/roulette";
 import "react-roulette-pro/dist/index.css";
@@ -10,7 +11,6 @@ interface Props {
   key: string;
   second: number;
   setSecond: Dispatch<SetStateAction<number>>;
-  winningIndex: number | null;
   acted: number;
   finish: () => void;
   start: boolean;
@@ -20,13 +20,13 @@ interface Props {
 const Rolling: FC<Props> = ({
   second,
   setSecond,
-  winningIndex,
   acted,
   finish,
   start,
   setStart,
 }) => {
   const [centerDelimiter, setCenterDelimiter] = useState<boolean>(false);
+  const winning = useWinning();
 
   useEffect(() => {
     if (acted !== -1 && second === 15) {
@@ -61,7 +61,7 @@ const Rolling: FC<Props> = ({
       <Image src={"/assets/roulette/gold.png"} width={108} height={108} alt="" className="hidden" />
       <RoulettePro
         prizes={coinsTemplate}
-        prizeIndex={((66 + (winningIndex || 0)) * 108) / 206}
+        prizeIndex={((66 + (winning.index || 0)) * 108) / 206}
         start={start}
         spinningTime={acted === -1 ? 5 : acted}
         onPrizeDefined={finish}
