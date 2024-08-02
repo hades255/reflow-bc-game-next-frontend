@@ -9,7 +9,6 @@ import IconCoin from "@/utils/icons/Coin";
 import QRCode from "@/assets/images/qrcode.png";
 import Image from "next/image";
 import Button from "@/components/buttons/Button";
-import arbitrum from "@/assets/icons/arbitrum-logo.svg";
 import PaymentItem from "@/components/deposit/PaymentItem";
 import { depositTokenList } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
