@@ -4,7 +4,7 @@ const Stats = () => {
   return (
     <div className="w-full grid grid-cols-3 gap-6 py-2">
       <div className="w-full rounded-md bg-[#1E1E1E] game-card p-6">
-        <div className="text-xl font-bold mb-4">
+        <div className="text-xl font-bold mb-4 text-[#D1D1D1]">
           <span>Game Stats</span>
         </div>
         <div className="flex flex-col w-full gap-2 my-2">
@@ -42,28 +42,28 @@ const Stats = () => {
       </div>
 
       <div className="w-full rounded-md bg-[#1E1E1E] game-card p-6">
-        <div className="text-xl font-bold mb-4">
+        <div className="text-xl font-bold mb-4 text-[#D1D1D1]">
           <span>Referral Stats</span>
         </div>
         <div className="grid grid-cols-2 w-full gap-4 my-2 text-sm">
           <div className="h-28 rounded-md innerBlack bg-[#191919] flex flex-col justify-center items-center gap-4">
-            <p>Active Referrals</p>
+            <p className="text-[#D1D1D1]">Active Referrals</p>
             <p className="font-bold text-gold">223 Referrals</p>
           </div>
           <div className="h-28 rounded-md innerBlack bg-[#191919] flex flex-col justify-center items-center gap-4">
-            <p>Referral Bonuses</p>
+            <p className="text-[#D1D1D1]">Referral Bonuses</p>
             <p className="font-bold text-gold">0 RFL</p>
           </div>
         </div>
         <div className="flex items-center text-sm gap-2 mt-7">
-          <span>Share Your Referral:&nbsp;</span>
+          <span className="text-[#D1D1D1]">Share Your Referral:&nbsp;</span>
           <span className="text-gold"><FiLink /></span>
           <span className="text-gold"><FiMail /></span>
         </div>
       </div>
 
       <div className="w-full rounded-md bg-[#1E1E1E] game-card p-6">
-        <div className="text-xl font-bold mb-4">
+        <div className="text-xl font-bold mb-4 text-[#D1D1D1]">
           <span>RFL Stats</span>
         </div>
         <div className="flex flex-col w-full gap-2 my-2">
