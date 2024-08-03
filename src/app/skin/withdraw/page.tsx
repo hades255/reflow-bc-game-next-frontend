@@ -8,6 +8,7 @@ import Switch from "@/components/buttons/Switch";
 import IconCoin from "@/utils/icons/Coin";
 import SkinWithdrawItem from "@/components/skin/withdraw/SkinWithdrawItem";
 import FilterBox from "@/components/skin/withdraw/FilterBox";
+import SelectBox from "@/components/skin/withdraw/SelectBox";
 
 const WithdrawSkin: FC = () => {
   const [search, setSearch] = useState<string>("");
@@ -23,7 +24,7 @@ const WithdrawSkin: FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 mt-3">
           <TabItem text="Market" />
           <TabItem text="my inventory" />
           <TabItem text="notifications" />
@@ -71,7 +72,8 @@ const WithdrawSkin: FC = () => {
       </div>
 
       <div>
-        <FilterBox />
+        {/* <FilterBox /> */}
+        <SelectBox />
       </div>
     </div>
   );
