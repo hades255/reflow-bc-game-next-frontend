@@ -9,7 +9,7 @@ interface Props {
 const Switch: React.FC<Props> = ({ status, onClick }) =>
   status ? (
     <div
-      className="w-8 h-4 rounded-full bg-innerBlack switch dropBlack flex justify-end items-center relative"
+      className="w-8 h-4 rounded-full bg-innerBlack switch dropBlack flex justify-end items-center relative cursor-pointer"
       onClick={onClick}
     >
       <div className="shine rounded-full innerBlack"></div>
@@ -20,7 +20,7 @@ const Switch: React.FC<Props> = ({ status, onClick }) =>
     </div>
   ) : (
     <div
-      className="w-8 h-4 rounded-full bg-innerBlack switch dropBlack flex justify-start items-center relative"
+      className="w-8 h-4 rounded-full bg-innerBlack switch dropBlack flex justify-start items-center relative cursor-pointer"
       onClick={onClick}
     >
       <div className="shine rounded-full innerBlack"></div>
