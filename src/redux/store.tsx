@@ -4,10 +4,12 @@ import storage from "redux-persist/lib/storage";
 import { pageSlice } from "./slices/main/pageSlice";
 import { authSlice } from "./slices/main/authSlice";
 import { userSlice } from "./slices/main/userSlice";
-import { myGamesSlice } from "./slices/coinflip/myGamesSlice";
-import { liveGamesSlice } from "./slices/coinflip/liveGamesSlice";
 import { modalSlice } from "./slices/main/modalSlice";
 import { toastSlice } from "./slices/main/toastSlice";
+import { myGamesSlice } from "./slices/coinflip/myGamesSlice";
+import { liveGamesSlice } from "./slices/coinflip/liveGamesSlice";
+import { winningSlice } from "./slices/roulette/winningSlice";
+import { latestWinningSlice } from "./slices/roulette/latestWinningSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,10 +20,12 @@ const rootReducer = combineReducers({
   page: pageSlice.reducer,
   auth: authSlice.reducer,
   user: userSlice.reducer,
-  myGames: myGamesSlice.reducer,
-  liveGames: liveGamesSlice.reducer,
   modal: modalSlice.reducer,
   toast: toastSlice.reducer,
+  myGames: myGamesSlice.reducer,
+  liveGames: liveGamesSlice.reducer,
+  winning: winningSlice.reducer,
+  latestWinning: latestWinningSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

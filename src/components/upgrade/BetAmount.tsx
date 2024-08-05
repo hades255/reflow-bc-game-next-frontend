@@ -12,7 +12,6 @@ interface Props {
 }
 
 const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
-  // const [value, setValue] = useState<number>(0);
   const [btnTab, setBtnTab] = useState<number>(0);
   const [progress, setProgress] = useState(0);
   const [disable, setDisable] = useState(true);
@@ -40,34 +39,15 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
   }, [value, allValue]);
 
   const handleClickBtn = (id: any) => {
-    // onChangeValue && onChangeValue(100);
     setBtnTab(id);
     if (id === 1) {
-      // if (allValue > myValue) {
-      //   onChangeValue(myValue / 10);
-      // } else {
       onChangeValue((allValue / 10).toFixed(2));
-      // }
     } else if (id === 2) {
-      // if (allValue > myValue) {
-      //   onChangeValue(myValue / 4);
-      // } else {
       onChangeValue((allValue / 4).toFixed(2));
-      // }
     } else if (id === 3) {
-      // if (allValue > myValue) {
-      //   onChangeValue(myValue / 2);
-      // } else {
       onChangeValue((allValue / 2).toFixed(2));
-      // }
     } else if (id === 4) {
-      // if (allValue > myValue) {
-      //   onChangeValue(myValue);
-      // } else if (Number(myValue) === Number(0)) {
-      //   onChangeValue(0);
-      // } else {
       onChangeValue(((allValue / 1000) * 999).toFixed(2));
-      // }
     }
   };
 
@@ -78,7 +58,6 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     } else {
       onChangeValue(amount);
     }
-    // onChangeValue(amount);
   };
 
   const handleChangeProgress = (p: number) => {
