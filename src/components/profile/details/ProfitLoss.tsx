@@ -1,58 +1,23 @@
 import React, { FC, useEffect, useState } from "react";
-import moment from "moment";
 import {
   AreaChart,
   Area,
   XAxis,
   Tooltip,
   ResponsiveContainer,
-  YAxis,
   ReferenceLine,
-  CartesianGrid,
 } from "recharts";
 import LabelItem from "./LabelItem";
-import { useFetch } from "@/hooks/useFetch";
 import { fetchAPI } from "@/services/fetchAPI";
-
-const graphdata = [
-  {
-    name: "01",
-    uv: 4000,
-  },
-  {
-    name: "02",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "03",
-    uv: -1000,
-  },
-  {
-    name: "04",
-    uv: 500,
-  },
-  {
-    name: "05",
-    uv: -2000,
-  },
-  {
-    name: "06",
-    uv: -250,
-  },
-  {
-    name: "07",
-    uv: 3490,
-  },
-];
-
-const middleStopOffset = 50;
 
 interface CustomProps {
   active?: any;
   payload?: any;
 }
+
+const fixed2 = (param: any) => {
+  return Math.round(param * 100) / 100;
+};
 
 const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
@@ -67,7 +32,7 @@ const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
           borderRadius: "5px",
         }}
       >
-        <p>{`${uv >= 0 ? "Profit" : "Lose"}: $${uv}`}</p>
+        <p>{`${uv >= 0 ? "Profit" : "Lose"}: $${fixed2(uv)}`}</p>
       </div>
     );
   }

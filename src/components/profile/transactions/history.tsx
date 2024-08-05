@@ -34,16 +34,30 @@ interface Transaction {
 export default function History() {
   const [transactions, setTransactions] = useState<Transaction[] | null>(null);
   const [selected, setSelected] = useState<Transaction | null>(null);
+  const [page, setPage] = useState(0);
 
-  const { data, isLoading, error } = useFetch("/api/profile/transactions", {
+  const { data } = useFetch("/api/profile/transactions", {
     method: "GET",
   });
 
   useEffect(() => {
     if (data && data.transactions) {
-      setTransactions(data.transactions);
+      setTransactions(
+        data.transactions.filter(
+          (_: any, index: any) => index > page * 20 && index < (page + 1) * 20
+        )
+      );
     }
-  }, [data]);
+  }, [data, page]);
+
+  const handleClickPrev = useCallback(() => {
+    setPage(page - 1 <= 0 ? 0 : page - 1);
+  }, [page]);
+
+  const handleClickNext = useCallback(() => {
+    console.log(data.transactions.length);
+    if ((page + 1) * 20 < data.transactions.length) setPage(page + 1);
+  }, [page, data]);
 
   return (
     <div className="w-full flex flex-col">
@@ -53,16 +67,35 @@ export default function History() {
       <div className="space-y-[1px] w-full">
         {transactions ? (
           transactions.length ? (
-            transactions.map((item, index) => (
-              <HistoryTab
-                key={index}
-                transaction={item}
-                firstOrLast={
-                  index === 0 ? 0 : index === transactions.length - 1 ? 1 : 2
-                }
-                setSelected={setSelected}
-              />
-            ))
+            <>
+              {transactions.map((item, index) => (
+                <HistoryTab
+                  key={index}
+                  transaction={item}
+                  firstOrLast={
+                    index === 0 ? 0 : index === transactions.length - 1 ? 1 : 2
+                  }
+                  setSelected={setSelected}
+                />
+              ))}
+              <div className="pt-4 flex justify-center">
+                <button
+                  className="bg-[#333541] hover:bg-[#494d5e] text-[#99A] font-bold w-8 h-8 rounded-2xl"
+                  onClick={handleClickPrev}
+                >
+                  {"<"}
+                </button>
+                <div className="w-8 h-8 flex justify-center items-center text-[#E9AE15]">
+                  {page + 1}
+                </div>
+                <button
+                  className="bg-[#333541] hover:bg-[#494d5e] text-[#99A] font-bold w-8 h-8 rounded-2xl"
+                  onClick={handleClickNext}
+                >
+                  {">"}
+                </button>
+              </div>
+            </>
           ) : (
             <p className="text-[#a8871a]">No Transactions</p>
           )
