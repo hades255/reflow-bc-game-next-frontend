@@ -16,7 +16,7 @@ export const depositTokenList = [
   },
   {
     title: "USDT",
-    description: "Tether USDt",
+    description: "Tether USDT",
     icon: "/assets/images/payments/usdt.png",
   },
   {
