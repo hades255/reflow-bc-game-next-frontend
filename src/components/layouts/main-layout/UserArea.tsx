@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { useUserInfo } from "@/services/useUserInfo";
+import { getUserInfo } from "@/services/main";
 import { setUser, useUser } from "@/redux/slices/main/userSlice";
-import { usePage } from "@/redux/slices/main/pageSlice";
-import { changePage } from "@/redux/slices/main/pageSlice";
+import { useBalance, setBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
+import { usePage, changePage } from "@/redux/slices/main/pageSlice";
 import Button from "@/components/buttons/Button";
 import NormalButton from "@/components/buttons/NormalButton";
 import NavButton from "@/components/buttons/NavButton";
@@ -16,9 +16,9 @@ import { signout } from "@/redux/slices/main/authSlice";
 const UserArea = () => {
 
   const router = useRouter();
-
   const page = usePage();
-
+  const balance = useBalance();
+  const user = useUser();
   const dispatch = useDispatch();
 
   const gotoDeposit = () => {
@@ -31,16 +31,30 @@ const UserArea = () => {
     router.push("/withdraw");
   }
 
-  const user = useUserInfo();
-
-  const mine = useUser();
-
   useEffect(() => {
-    dispatch(setUser(user));
-  }, [dispatch, user]);
+    (async () => {
+      let { data, status } = await getUserInfo();
+      if (status === 200 ) {
+        dispatch(setUser({
+          id: data.id,
+          steam_id: data.steam_id,
+          name: data.name,
+          role: data.role,
+          avatar: data.avatar,
+          player_level: data.player_level,
+          deleted: data.deleted,
+          two_step: data.two_step
+        }));
+        dispatch(setBalance({
+          balance: Number(data.balance)
+        }));
+      }
+    })();
+  }, [dispatch])
 
   const handleSignOut = useCallback(() => {
     dispatch(setUser(null));
+    dispatch(updateBalance({ balance: 0 }));
     dispatch(signout());
   }, [dispatch]);
 
@@ -50,19 +64,19 @@ const UserArea = () => {
       <Button text={"Deposit"} disabled={false} clicked={gotoDeposit} active={page === "/deposit"} />
       <NavButton
         Icon={PiCoinsLight}
-        text={mine?.balance}
+        text={balance.balance}
         active={false}
         other={true}
         counter={true}
-        start={Number(mine?.prev_balance)}
-        end={Number(mine?.balance)}
+        start={Number(balance.prev_balance)}
+        end={Number(balance.balance)}
       />
-      {mine && (
+      {user && (
         <>
           <UserCard
-            avatar={mine.avatar}
-            name={mine.name}
-            lvl={Number(mine.player_level)}
+            avatar={user.avatar}
+            name={user.name}
+            lvl={Number(user.player_level)}
             progress={30}
             active={page === "/profile"}
           />

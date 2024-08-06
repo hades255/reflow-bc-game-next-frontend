@@ -8,7 +8,7 @@ import {
   playAGame,
   deleteALiveGame,
 } from "@/redux/slices/coinflip/liveGamesSlice";
-import { updateBalance } from "@/redux/slices/main/userSlice";
+import { updateBalance, useBalance } from "@/redux/slices/main/balanceSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame } from "@/services/coinflip";
@@ -25,6 +25,7 @@ interface Props {
 
 const MyGameCard: React.FC<Props> = ({ game }) => {
   const user = useUser();
+  const balance = useBalance().balance;
   const dispatch = useDispatch();
   const [timer, setTimer] = useState<number>(6);
   const [show, setShow] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
 
   const handlePlay = async () => {
     if (user && !loading) {
-      if (game.bet <= Number(user.balance)) {
+      if (game.bet <= Number(balance)) {
         setLoading((prev) => !prev);
         let data = await joinGame(Number(game.game_id));
         if (data.status === 200) {
@@ -98,7 +99,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
       );
     }
     setTimer(10);
-  }, [dispatch, game.bet, game.round, game.side, game.players]);
+  }, [dispatch, game.bet, game.round, game.side, game.players, user?.id]);
 
   const deleteGame = useCallback(() => {
     dispatch(deleteALiveGame({ round: game.round }));

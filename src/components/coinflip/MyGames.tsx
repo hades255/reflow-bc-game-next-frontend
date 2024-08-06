@@ -11,7 +11,7 @@ import {
   dismissAllGames,
   cacheDelete
 } from "@/redux/slices/coinflip/myGamesSlice";
-import { updateBalance } from "@/redux/slices/main/userSlice";
+import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import MyGameCard from "./MyGameCard";
 import BlankCard from "./BlankCard";
 import HistoryCard from "./HistoryCard";
@@ -50,7 +50,7 @@ const MyGames = () => {
         dispatch(initialMyGames(data));
       }
     })();
-  }, [dispatch])
+  }, [dispatch, user])
 
   useEffect(() => {
     myEcho();

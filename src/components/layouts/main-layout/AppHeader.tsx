@@ -17,11 +17,8 @@ import logo from "@/assets/logos/logo.png";
 
 const AppHeader: FC = () => {
   const token = useToken();
-
   const router = useRouter();
-
   const page = usePage();
-
   const dispatch = useDispatch();
 
   const gotoDeposit = () => {

@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
-import { useBalance, updateBalance, useUser } from "@/redux/slices/main/userSlice";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useMyGames, setMyGames } from "@/redux/slices/coinflip/myGamesSlice";
 import { createNewGames } from "@/services/coinflip";
 import BlackCoin from "@/utils/icons/BlackCoin";
@@ -19,7 +20,7 @@ const Header = () => {
   const [counts, setCounts] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const token = useToken();
-  const balance = useBalance();
+  const balance = useBalance().balance;
   const user = useUser();
   const dispatch = useDispatch();
 
@@ -29,10 +30,12 @@ const Header = () => {
 
   const changeBet = (betted: number) => {
     if (user) {
-      if (bet + betted <= Number(user.balance)) {
+      if (bet + betted <= Number(balance)) {
         setBet(bet + betted);
+      } else if (bet + betted > 500) {
+        setBet(500);
       } else {
-        setBet(Number(user.balance));
+        setBet(Number(balance));
       }
     } else {
       dispatch(
@@ -57,19 +60,39 @@ const Header = () => {
       if (mygames.length < 8) {
         setLoading((prev) => !prev);
         let resCount = mygames.length + count > 8 ? 8 - mygames.length : count;
-        const data = await createNewGames(side, bet, resCount);
-        if (data.status === 200) {
-          setLoading((prev) => !prev);
-          dispatch(updateBalance({ balance: -bet * resCount }));
-          dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+        if (resCount * bet <= 1000) {
+          const data = await createNewGames(side, bet, resCount);
+          if (data.status === 200) {
+            setLoading((prev) => !prev);
+            dispatch(updateBalance({ balance: -bet * resCount }));
+            dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+          } else {
+            setLoading((prev) => !prev);
+          }
         } else {
-          setLoading((prev) => !prev);
+          let decrease = async () => {
+            resCount -= 1;
+            if (resCount * bet <= 1000) {
+              const data = await createNewGames(side, bet, resCount);
+              if (data.status === 200) {
+                setLoading((prev) => !prev);
+                dispatch(updateBalance({ balance: -bet * resCount }));
+                dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+              } else {
+                setLoading((prev) => !prev);
+              }
+              return;
+            } else {
+              await decrease();
+            }
+          }
+          await decrease();
         }
       } else {
         dispatch(
           setModal({
             status: true,
-            title: "Limited for creating a game",
+            title: "Limited to create games",
             content: "Total games are limited to 8.",
             name: "Okay",
             type: 3,
@@ -107,7 +130,7 @@ const Header = () => {
               })
             );
           } else {
-              await createMyGames(isUp, bet, counts);
+            await createMyGames(isUp, bet, counts);
           }
         } else {
           dispatch(
@@ -202,7 +225,7 @@ const Header = () => {
               >
                 2X
               </button>
-              <button className="small-btn" onClick={() => changeBet(Number(user?.balance))}>
+              <button className="small-btn" onClick={() => changeBet(Number(balance))}>
                 MAX
               </button>
             </div>

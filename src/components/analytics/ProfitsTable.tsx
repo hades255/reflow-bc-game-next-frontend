@@ -43,7 +43,7 @@ const ProfitsTable = () => {
         );
       }
     }
-  }, [isSort, sort]);
+  }, [isSort, sort, focus]);
 
   return (
     <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden my-2">

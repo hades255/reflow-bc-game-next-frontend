@@ -6,6 +6,7 @@ import { authSlice } from "./slices/main/authSlice";
 import { userSlice } from "./slices/main/userSlice";
 import { modalSlice } from "./slices/main/modalSlice";
 import { toastSlice } from "./slices/main/toastSlice";
+import { balanceSlice } from "./slices/main/balanceSlice";
 import { myGamesSlice } from "./slices/coinflip/myGamesSlice";
 import { liveGamesSlice } from "./slices/coinflip/liveGamesSlice";
 import { winningSlice } from "./slices/roulette/winningSlice";
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   user: userSlice.reducer,
   modal: modalSlice.reducer,
   toast: toastSlice.reducer,
+  balance: balanceSlice.reducer,
   myGames: myGamesSlice.reducer,
   liveGames: liveGamesSlice.reducer,
   winning: winningSlice.reducer,

@@ -8,12 +8,11 @@ import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
 import { apiGetItems, apiPlayGame } from "@/services/upgrader";
-import { useBalance } from "@/redux/slices/main/userSlice";
+import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
-import { updateBalance } from "@/redux/slices/main/userSlice";
 import MultiRangeSlider from "@/components/upgrade/multiRangeSlider/MultiRangeSlider";
 
 const UpgradePage: FC = () => {

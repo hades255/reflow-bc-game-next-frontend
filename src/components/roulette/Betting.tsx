@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { useUser } from "@/redux/slices/main/userSlice";
+import { useBalance } from "@/redux/slices/main/balanceSlice";
 import { PiCoinsLight } from "react-icons/pi";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 const Betting: FC<Props> = ({ bet, setBet, start }) => {
   const user = useUser();
-
+  const balance = useBalance().balance;
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +53,12 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
           })
         );
       } else {
-        if (bet + betted <= Number(user.balance)) {
+        if (bet + betted <= Number(balance)) {
           setBet(bet + betted);
+        } else if (bet + betted > 250) {
+          setBet(250);
         } else {
-          setBet(Number(user.balance));
+          setBet(Number(balance));
         }
       }
     } else {
@@ -108,7 +111,7 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
         </button>
         <button
           className="small-btn"
-          onClick={() => changeBet(Number(user?.balance))}
+          onClick={() => changeBet(Number(balance))}
         >
           MAX
         </button>
