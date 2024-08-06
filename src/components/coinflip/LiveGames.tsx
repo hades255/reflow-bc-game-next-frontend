@@ -30,7 +30,7 @@ const LiveGames = () => {
       let data = await getPendingGames(false);
       dispatch(initialLiveGames(data));
     })();
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     myEcho();
@@ -60,7 +60,7 @@ const LiveGames = () => {
     return () => {
       channel.stopListening("RoyalFlipGameEvent");
     };
-  }, [dispatch, user]);
+  }, [dispatch, user, cards]);
 
   useEffect(() => {
     if (games.length !== 0 && games.filter((gm) => gm.round !== null).length === 0) {

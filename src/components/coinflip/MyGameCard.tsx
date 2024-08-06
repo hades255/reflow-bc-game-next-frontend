@@ -8,7 +8,7 @@ import {
   updateBudget,
   deleteAGame,
 } from "@/redux/slices/coinflip/myGamesSlice";
-import { updateBalance, balanceBackup } from "@/redux/slices/main/userSlice";
+import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame, cancelGames } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
@@ -52,21 +52,21 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   };
 
   const showResult = useCallback(() => {
-    setShow((prev) => !prev);
-    dispatch(
-      updateBudget({
-        round: game.round,
-      })
-    );
-    dispatch(
-      updateBalance({
-        balance: game.side
-          ? game.players[1].name === "house"
-            ? Number(game.bet) * 2
-            : Number(game.bet) * 1.99
-          : 0,
-      })
-    );
+      setShow((prev) => !prev);
+      dispatch(
+        updateBudget({
+          round: game.round,
+        })
+      );
+      dispatch(
+        updateBalance({
+          balance: game.side
+            ? game.players[1].name === "house"
+              ? Number(game.bet) * 2
+              : Number(game.bet) * 1.99
+            : 0,
+        })
+      );
   }, [dispatch, game.bet, game.round, game.side]);
 
   const cancelMyGame = async () => {

@@ -6,7 +6,7 @@ import Stats from "./Stats";
 
 const AnalyticsPage = () => {
   return (
-    <div className="p-6">
+    <div>
       <div className="flex gap-1 items-center">
         <MdOutlineAnalytics width={24} height={24} color="#E9AE15" />
         <p className="text-[18px] font-bold text-[#D1D1D1]">Analytics</p>

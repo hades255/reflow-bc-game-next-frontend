@@ -7,7 +7,8 @@ import Rolling from "./Rolling";
 import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
-import { useUser, updateBalance } from "@/redux/slices/main/userSlice";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useWinning, setWinning } from "@/redux/slices/roulette/winningSlice";
 import {
   useLatestWinning,
@@ -37,6 +38,13 @@ const RoulettePage = () => {
     red: number;
     gold: number;
     black: number;
+  }>({
+    red: 0,
+    gold: 0,
+    black: 0,
+  });
+  const [cancelled, setCancelled] = useState<{
+    [key: string]: number;
   }>({
     red: 0,
     gold: 0,
@@ -94,46 +102,24 @@ const RoulettePage = () => {
         dispatch(
           setToast({
             type: 4,
-            message: "Bets cannot be placed while rolling.",
+            message: "Bets can not be placed while rolling.",
           })
         );
       } else {
         if (bet > 0.1) {
-          setBetted((prev) =>
-            prev.includes(val)
-              ? prev.filter((pv) => pv !== val)
-              : prev.concat([val])
-          );
           let bettedVals = betted.includes(val)
             ? betted.filter((pv) => pv !== val)
             : betted.concat([val]);
+
           if (bettedVals.includes(val)) {
-            setBets((prev) => ({ ...prev, [val]: bet }));
-            dispatch(updateBalance({ balance: -bet }));
-            pushBetter(
-              val,
-              user.id,
-              user.name,
-              Number(user.player_level),
-              user.avatar,
-              bet
-            );
-          } else {
-            setBets((prev) => ({ ...prev, [val]: 0 }));
-            dispatch(updateBalance({ balance: bet }));
-            sliceBetter(val, user.id);
-          }
-          let data = await placeBet(bet, val);
-          if (data.status !== 200) {
-            if (bettedVals.includes(val)) {
-              setBets((prev) => ({ ...prev, [val]: 0 }));
-              dispatch(updateBalance({ balance: bet }));
-              setBetted((prev) => prev.filter((pv) => pv !== val));
-              sliceBetter(val, user.id);
-            } else {
+            if (bets.red + bets.gold + bets.black + bet <= 250) {
               setBets((prev) => ({ ...prev, [val]: bet }));
+              setBetted((prev) =>
+                prev.includes(val)
+                  ? prev.filter((pv) => pv !== val)
+                  : prev.concat([val])
+              );
               dispatch(updateBalance({ balance: -bet }));
-              setBetted((prev) => prev.concat([val]));
               pushBetter(
                 val,
                 user.id,
@@ -141,6 +127,50 @@ const RoulettePage = () => {
                 Number(user.player_level),
                 user.avatar,
                 bet
+              );
+              let data = await placeBet(bet, val);
+              if (data.status !== 200) {
+                setBets((prev) => ({ ...prev, [val]: 0 }));
+                dispatch(updateBalance({ balance: bet }));
+                setBetted((prev) => prev.filter((pv) => pv !== val));
+                sliceBetter(val, user.id);
+              }
+            }
+          } else {
+            if (cancelled[val] < 3 && second > 0) {
+              setBetted((prev) =>
+                prev.includes(val)
+                  ? prev.filter((pv) => pv !== val)
+                  : prev.concat([val])
+              );
+              setBets((prev) => ({ ...prev, [val]: 0 }));
+              setCancelled((prev: any) => ({ ...prev, [val]: prev[val] + 1 }));
+              dispatch(updateBalance({ balance: bet }));
+              sliceBetter(val, user.id);
+              let data = await placeBet(bet, val);
+              if (data.status !== 200) {
+                setBets((prev) => ({ ...prev, [val]: bet }));
+                dispatch(updateBalance({ balance: -bet }));
+                setBetted((prev) => prev.concat([val]));
+                pushBetter(
+                  val,
+                  user.id,
+                  user.name,
+                  Number(user.player_level),
+                  user.avatar,
+                  bet
+                );
+              }
+            } else {
+              dispatch(
+                setModal({
+                  status: true,
+                  title: "Warning",
+                  content: "You can not cancel the game now.",
+                  name: "Steam Sign In",
+                  type: 3,
+                  parameter: "",
+                })
               );
             }
           }
@@ -331,6 +361,11 @@ const RoulettePage = () => {
       setBlackBetters([]);
       setBetted([]);
       setBets({
+        red: 0,
+        gold: 0,
+        black: 0,
+      });
+      setCancelled({
         red: 0,
         gold: 0,
         black: 0,

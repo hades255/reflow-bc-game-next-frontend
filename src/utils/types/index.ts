@@ -5,12 +5,8 @@ export type UserType = {
   role: string;
   avatar: string;
   player_level: string;
-  deleted: boolean | null;
-  prev_balance: string | number;
-  balance: string | number;
+  deleted: boolean | null
   two_step: boolean;
-  created_at: string;
-  updated_at: string;
 }
 
 export type PlayerType = {

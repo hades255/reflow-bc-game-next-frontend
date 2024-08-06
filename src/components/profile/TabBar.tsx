@@ -8,6 +8,7 @@ import IconAccount from "@/utils/icons/Account";
 import IconTransactions from "@/utils/icons/Transactions";
 import IconMystery from "@/utils/icons/Mystery";
 import IconSocials from "@/utils/icons/Socials";
+import { MdOutlineAnalytics } from "react-icons/md";
 
 interface Props {
   select?: number;
@@ -96,6 +97,27 @@ const TabBar: FC<Props> = ({ select }) => {
         }
         text="Socials"
         onClick={() => handleClickActiveTab("socials")}
+      />
+      <TabItem
+        select={activeTab === 6}
+        hoverIcon={
+          <span
+            className={`text-[14px] text-[#E9AE15]`}
+          >
+            <MdOutlineAnalytics />
+          </span>
+        }
+        icon={
+          <span
+            className={`text-[14px] ${
+              activeTab === 6 ? "text-[#E9AE15]" : "text-[#787878]"
+            }`}
+          >
+            <MdOutlineAnalytics />
+          </span>
+        }
+        text="Administrator"
+        onClick={() => handleClickActiveTab("admin")}
       />
     </div>
   );
