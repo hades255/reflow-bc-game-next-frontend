@@ -25,17 +25,22 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBet(parseFloat(e.target.value));
+    let val = parseFloat(e.target.value);
+    if (0.1 < val && val <= 500 )
+      setBet(val);
   };
 
   const changeBet = (betted: number) => {
     if (user) {
-      if (bet + betted <= Number(balance)) {
-        setBet(bet + betted);
-      } else if (bet + betted > 500) {
-        setBet(500);
-      } else {
-        setBet(Number(balance));
+      let sum = bet + betted;
+      if (sum <= balance && sum <= 500) {
+        setBet(sum);
+      } else  {
+        if (balance > 500) {
+          setBet(500);
+        } else {
+          setBet(balance);
+        }
       }
     } else {
       dispatch(
@@ -225,7 +230,7 @@ const Header = () => {
               >
                 2X
               </button>
-              <button className="small-btn" onClick={() => changeBet(Number(balance))}>
+              <button className="small-btn" onClick={() => changeBet(balance > 500 ? 500 : balance)}>
                 MAX
               </button>
             </div>

@@ -27,7 +27,9 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
           })
         );
       } else {
-        setBet(parseFloat(e.target.value));
+        let val = parseFloat(e.target.value);
+        if (0.1 < val && val <= 250 )
+          setBet(val);
       }
     } else {
       dispatch(
@@ -53,12 +55,15 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
           })
         );
       } else {
-        if (bet + betted <= Number(balance)) {
-          setBet(bet + betted);
-        } else if (bet + betted > 250) {
-          setBet(250);
-        } else {
-          setBet(Number(balance));
+        let sum = bet + betted;
+        if (sum <= balance && sum <= 250) {
+          setBet(sum);
+        } else  {
+          if (balance > 250) {
+            setBet(250);
+          } else {
+            setBet(balance);
+          }
         }
       }
     } else {
@@ -83,6 +88,8 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
           type="number"
           value={bet}
           className="bg-transparent w-24 black-input"
+          min={0.1}
+          max={balance > 250 ? 250 : balance}
           onChange={handleChange}
         />
       </div>
@@ -111,7 +118,7 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
         </button>
         <button
           className="small-btn"
-          onClick={() => changeBet(Number(balance))}
+          onClick={() => changeBet(balance > 250 ? 250 : balance)}
         >
           MAX
         </button>
