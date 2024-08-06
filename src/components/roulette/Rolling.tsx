@@ -69,9 +69,9 @@ const Rolling: FC<Props> = ({
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
       {!start && second > -1 && (
-        <div className="text-xl text-center text-white absolute top-10 w-full z-50">
-          <p className="text-sm">ROLLING</p>
-          <div className="text-2xl font-bold text-white flex justify-between w-15 px-[calc(50%-30px)]">
+        <div className="text-xl text-center text-white absolute top-9 w-full z-50">
+          <p className="text-xl">ROLLING</p>
+          <div className="text-xl font-black text-white flex justify-between px-[calc(50%-24px)]">
             <span>{second}&nbsp;.</span>
             <CountUp
               key={`counter-${second}`}
