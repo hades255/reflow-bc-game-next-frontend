@@ -12,6 +12,7 @@ import WhiteCoin from "@/utils/icons/WhiteCoin";
 import Button from "../buttons/Button";
 import { PiCoinsLight } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa6";
+import { prefetchDNS } from "react-dom";
 
 const Header = () => {
   const mygames = useMyGames();
@@ -65,7 +66,8 @@ const Header = () => {
       if (mygames.length < 8) {
         setLoading((prev) => !prev);
         let resCount = mygames.length + count > 8 ? 8 - mygames.length : count;
-        if (resCount * bet <= 1000) {
+        let pendingsAmount = mygames.filter((game) => game.players.length === 1).reduce((sum, game) => sum + game.bet, 0);
+        if (pendingsAmount + resCount * bet <= 2000) {
           const data = await createNewGames(side, bet, resCount);
           if (data.status === 200) {
             setLoading((prev) => !prev);
@@ -77,15 +79,19 @@ const Header = () => {
         } else {
           let decrease = async () => {
             resCount -= 1;
-            if (resCount * bet <= 1000) {
-              const data = await createNewGames(side, bet, resCount);
-              if (data.status === 200) {
-                setLoading((prev) => !prev);
-                dispatch(updateBalance({ balance: -bet * resCount }));
-                dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+            if (pendingsAmount + resCount * bet <= 2000) {
+              if (resCount > 0) {
+                const data = await createNewGames(side, bet, resCount);
+                if (data.status === 200) {
+                  setLoading((prev) => !prev);
+                  dispatch(updateBalance({ balance: -bet * resCount }));
+                  dispatch(setMyGames({ user, side, bet, count: resCount, data: data.data.data }));
+                } else {
+                  setLoading((prev) => !prev);
+                }
               } else {
                 setLoading((prev) => !prev);
-              }
+              }      
               return;
             } else {
               await decrease();
