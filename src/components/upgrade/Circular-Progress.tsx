@@ -3,6 +3,7 @@ import { keyframes } from "@emotion/react";
 import { css } from "@emotion/css";
 import Arrow from "@/utils/icons/Arrow";
 import Reflow from "@/utils/icons/Reflow";
+import BlackReflow from "@/utils/icons/BlackReflow";
 
 const CircularProgressBar: React.FC<{
   betAmount: number;
@@ -16,7 +17,6 @@ const CircularProgressBar: React.FC<{
   const fontSize = 12 * 3;
   const percentage = Math.min(Math.max(betAmount / assetValue, 0), 0.95);
   const offset = circumference - percentage * circumference;
-  const betResultString = betResult?.toString();
   const [visibleCircle, setVisibleCircle] = useState(false);
   const [renderKey, setRenderKey] = useState(1);
   const [shouldSpin, setShouldSpin] = useState(false);
@@ -76,7 +76,6 @@ const CircularProgressBar: React.FC<{
     if (betResult !== null && isLoading === false) {
       setVisibleCircle(true);
       setRenderKey((prevKey) => prevKey + 1);
-      // setSpinStopDegree(0);
 
       const timerId = setTimeout(() => {
         setVisibleCircle(false);
@@ -168,7 +167,7 @@ const CircularProgressBar: React.FC<{
         cy="36"
         strokeWidth={strokeWidth}
       />
-      <Reflow x="133.5" y="0" width={34} height={29} />
+      <Reflow x="138" y="5" width={24} height={19} />
       <Arrow x="146.5" y="30" width={34} height={29} />
       <circle
         stroke="transparent"
@@ -211,23 +210,26 @@ const CircularProgressBar: React.FC<{
           visibleCircle ? `${fadeInStyle} ${fadeOutStyle}` : "opacity-0"
         }
       />
+      <BlackReflow x="58" y="80" />
       <text
         x="150"
-        y="110"
+        y="125"
         alignmentBaseline="middle"
         textAnchor="middle"
         fill="#484848"
-        fontSize={fontSize / 1.8}
+        fontSize={20}
+        fontWeight="bold"
       >
         CHANCE
       </text>
       <text
         x="150"
-        y="165"
+        y="175"
         alignmentBaseline="middle"
         textAnchor="middle"
         fill="#fff"
-        fontSize={fontSize * 1.1}
+        fontSize={fontSize * 1.2}
+        fontWeight="bold"
       >
         <tspan x="130" fill="#fff" textAnchor="middle">
           {Math.round(percentage * 100)}
