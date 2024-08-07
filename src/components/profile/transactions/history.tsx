@@ -55,7 +55,6 @@ export default function History() {
   }, [page]);
 
   const handleClickNext = useCallback(() => {
-    console.log(data.transactions.length);
     if ((page + 1) * 20 < data.transactions.length) setPage(page + 1);
   }, [page, data]);
 
@@ -80,7 +79,9 @@ export default function History() {
               ))}
               <div className="pt-4 flex justify-center">
                 <button
-                  className="bg-[#333541] hover:bg-[#494d5e] text-[#99A] font-bold w-8 h-8 rounded-2xl"
+                  className={`bg-[#333541] hover:bg-[#494d5e] text-[${
+                    page === 0 ? "#999" : "#99A"
+                  }] font-bold w-8 h-8 rounded-2xl`}
                   onClick={handleClickPrev}
                 >
                   {"<"}
@@ -89,7 +90,11 @@ export default function History() {
                   {page + 1}
                 </div>
                 <button
-                  className="bg-[#333541] hover:bg-[#494d5e] text-[#99A] font-bold w-8 h-8 rounded-2xl"
+                  className={`bg-[#333541] hover:bg-[#494d5e] text-[${
+                    page >= Math.ceil(data.transactions.length / 20) - 1
+                      ? "#999"
+                      : "#99A"
+                  }] font-bold w-8 h-8 rounded-2xl`}
                   onClick={handleClickNext}
                 >
                   {">"}

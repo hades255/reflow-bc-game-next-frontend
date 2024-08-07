@@ -125,7 +125,6 @@ const ProfitLoss: FC = () => {
                 <stop offset="100%" stopColor="#E9505C" stopOpacity={1} />
               </linearGradient>
             </defs>
-
             <defs>
               <linearGradient id="fillColor" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#B3FD63" stopOpacity={0.24} />

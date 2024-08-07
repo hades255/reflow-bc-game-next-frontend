@@ -5,9 +5,12 @@ export type UserType = {
   role: string;
   avatar: string;
   player_level: string;
-  deleted: boolean | null
+  experience: Number;
+  totalBet: Number;
+  rank: Number;
+  deleted: boolean | null;
   two_step: boolean;
-}
+};
 
 export type PlayerType = {
   user_id: number;
@@ -16,7 +19,7 @@ export type PlayerType = {
   level: number;
   side: boolean;
   budget: number;
-}
+};
 
 export type GameType = {
   id: string;
@@ -26,7 +29,7 @@ export type GameType = {
   players: PlayerType[];
   side: boolean | null;
   bet: number;
-}
+};
 
 export type HistoryType = {
   id: string;
@@ -37,4 +40,4 @@ export type HistoryType = {
   players: PlayerType[];
   side: boolean | null;
   bet: number;
-}
+};

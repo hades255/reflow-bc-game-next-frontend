@@ -3,6 +3,7 @@ import Image from "next/image";
 import IconAward from "@/utils/icons/Award";
 import IconCrown2 from "@/utils/icons/Crown2";
 import IconCoin from "@/utils/icons/Coin";
+import { XP_SYSTEM } from "@/config/constants";
 
 interface Props {
   user: any;
@@ -35,7 +36,9 @@ const Account: FC<Props> = ({ user }) => {
           </div>
           <div className="flex flex-row justify-between">
             <p className="text-[#484848] text-[10px] font-medium">Rank</p>
-            <p className="text-[10px] text-[#D1D1D1] font-bold">#32,326</p>
+            <p className="text-[10px] text-[#D1D1D1] font-bold">
+              #{user.rank.toLocaleString()}
+            </p>
           </div>
         </div>
       </div>
@@ -45,7 +48,9 @@ const Account: FC<Props> = ({ user }) => {
           <p className="text-[14px] font-bold text-[#D1D1D1]">Experience</p>
           <div
             style={{
-              background: `linear-gradient(to right, #5BFFBA ${50}%, #12121294 0%)`,
+              background: `linear-gradient(to right, #5BFFBA ${
+                (user.experience * 100) / XP_SYSTEM[user.player_level].xp
+              }%, #12121294 0%)`,
             }}
             className="w-full h-[15px] rounded-[40px] relative"
           >
@@ -56,7 +61,7 @@ const Account: FC<Props> = ({ user }) => {
                   "2px 0 #A3FFCDAD, -2px 0 #A3FFCDAD, 0 2px #A3FFCDAD, 0 -2px #A3FFCDAD,1px 1px #A3FFCDAD, -1px -1px #A3FFCDAD, 1px -1px #A3FFCDAD, -1px 1px #A3FFCDAD",
               }}
             >
-              260/500
+              {user.experience}/{XP_SYSTEM[user.player_level].xp}
             </p>
             <div className="absolute -right-[8px] top-[2px]">
               <IconCrown2 color="#5CFFBAFA" width={24} height={24} />
@@ -68,7 +73,9 @@ const Account: FC<Props> = ({ user }) => {
           <p className="font-bold text-[12px] text-[#D1D1D1]">Total Bet</p>
           <div className="flex flex-row items-center gap-1">
             <IconCoin width={14} height={14} color="#E9AE15" />
-            <p className="text-[#D1D1D1] font-medium text-[12px]">78.84</p>
+            <p className="text-[#D1D1D1] font-medium text-[12px]">
+              {user.totalBet}
+            </p>
           </div>
         </div>
       </div>

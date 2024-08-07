@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/services/main";
 import { setUser, useUser } from "@/redux/slices/main/userSlice";
-import { useBalance, setBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
+import {
+  useBalance,
+  setBalance,
+  updateBalance,
+} from "@/redux/slices/main/balanceSlice";
 import { usePage, changePage } from "@/redux/slices/main/pageSlice";
 import Button from "@/components/buttons/Button";
 import NormalButton from "@/components/buttons/NormalButton";
@@ -12,9 +16,9 @@ import UserCard from "./UserCard";
 import { PiCoinsLight } from "react-icons/pi";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { signout } from "@/redux/slices/main/authSlice";
+import { XP_SYSTEM } from "@/config/constants";
 
 const UserArea = () => {
-
   const router = useRouter();
   const page = usePage();
   const balance = useBalance();
@@ -24,33 +28,26 @@ const UserArea = () => {
   const gotoDeposit = () => {
     dispatch(changePage("/deposit"));
     router.push("/deposit");
-  }
+  };
 
   const gotoWithdraw = () => {
     dispatch(changePage("/withdraw"));
     router.push("/withdraw");
-  }
+  };
 
   useEffect(() => {
     (async () => {
       let { data, status } = await getUserInfo();
-      if (status === 200 ) {
-        dispatch(setUser({
-          id: data.id,
-          steam_id: data.steam_id,
-          name: data.name,
-          role: data.role,
-          avatar: data.avatar,
-          player_level: data.player_level,
-          deleted: data.deleted,
-          two_step: data.two_step
-        }));
-        dispatch(setBalance({
-          balance: Number(data.balance)
-        }));
+      if (status === 200) {
+        dispatch(setUser(data));
+        dispatch(
+          setBalance({
+            balance: Number(data.balance),
+          })
+        );
       }
     })();
-  }, [dispatch])
+  }, [dispatch]);
 
   const handleSignOut = useCallback(() => {
     dispatch(setUser(null));
@@ -60,8 +57,17 @@ const UserArea = () => {
 
   return (
     <>
-      <NormalButton text={"Withdraw"} clicked={gotoWithdraw} active={page === "/withdraw"} />
-      <Button text={"Deposit"} disabled={false} clicked={gotoDeposit} active={page === "/deposit"} />
+      <NormalButton
+        text={"Withdraw"}
+        clicked={gotoWithdraw}
+        active={page === "/withdraw"}
+      />
+      <Button
+        text={"Deposit"}
+        disabled={false}
+        clicked={gotoDeposit}
+        active={page === "/deposit"}
+      />
       <NavButton
         Icon={PiCoinsLight}
         text={balance.balance}
@@ -77,13 +83,19 @@ const UserArea = () => {
             avatar={user.avatar}
             name={user.name}
             lvl={Number(user.player_level)}
-            progress={30}
+            progress={
+              (Number(user.experience) * 100) /
+              XP_SYSTEM[Number(user.player_level)].xp
+            }
             active={page === "/profile"}
           />
         </>
       )}
       <div className="flex justify-center align-middle">
-        <span className="hover:cursor-pointer pt-2 text-[#a0a0aa] hover:text-[#FFF]" onClick={handleSignOut}>
+        <span
+          className="hover:cursor-pointer pt-2 text-[#a0a0aa] hover:text-[#FFF]"
+          onClick={handleSignOut}
+        >
           <RiLogoutBoxRLine />
         </span>
       </div>

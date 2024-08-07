@@ -24,7 +24,9 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
 
   return (
     <div
-      className={`h-full flex rounded-sm relative cursor-pointer btn-hover ${active ? 'btn-active' : ''}`}
+      className={`h-full flex rounded-sm relative cursor-pointer btn-hover ${
+        active ? "btn-active" : ""
+      }`}
       onClick={handleClickUserArea}
     >
       <div className="p-2 flex min-w-24 items-center gap-2 rounded-l-sm normal-btn">
@@ -47,7 +49,9 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
       </div>
       <div className="absolute w-full h-[3px] bg-[rgba(0,0,0,.9)] rounded-b-sm bottom-0"></div>
       <div
-        style={{ width: `${progress}%` }}
+        style={{
+          width: `${progress}%`,
+        }}
         className="absolute h-[3px] bg-[#5BFFBA] rounded-b-sm bottom-0 left-0"
       ></div>
     </div>
