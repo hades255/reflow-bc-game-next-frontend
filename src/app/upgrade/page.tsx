@@ -205,13 +205,13 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={500000}
+                max={100000}
                 onChange={({ min, max }) => {
                   setMinRange(min / 100);
                   setMaxRange(max / 100);
                 }}
               />
-              <p className="text-white">5000.00</p>
+              <p className="text-white">1000.00</p>
             </div>
 
             <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
