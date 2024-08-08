@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import IconAward from "@/utils/icons/Award";
 import IconCrown2 from "@/utils/icons/Crown2";
@@ -10,6 +10,12 @@ interface Props {
 }
 
 const Account: FC<Props> = ({ user }) => {
+  const rank = useMemo(() => {
+    if (user.player_level === 0) return "Bronze";
+    const r = XP_SYSTEM[user.player_level].rank;
+    return r.substring(0, 1).toUpperCase() + r.substring(1);
+  }, [user]);
+
   return (
     <div className="flex flex-row gap-6">
       <div className="w-[200px] h-auto bg-[#1E1E1E] rounded-[5px] p-[16px_12px]">
@@ -36,9 +42,7 @@ const Account: FC<Props> = ({ user }) => {
           </div>
           <div className="flex flex-row justify-between">
             <p className="text-[#484848] text-[10px] font-medium">Rank</p>
-            <p className="text-[10px] text-[#D1D1D1] font-bold">
-              #{user.rank.toLocaleString()}
-            </p>
+            <p className="text-[10px] text-[#D1D1D1] font-bold">#{rank}</p>
           </div>
         </div>
       </div>
@@ -61,7 +65,7 @@ const Account: FC<Props> = ({ user }) => {
                   "2px 0 #A3FFCDAD, -2px 0 #A3FFCDAD, 0 2px #A3FFCDAD, 0 -2px #A3FFCDAD,1px 1px #A3FFCDAD, -1px -1px #A3FFCDAD, 1px -1px #A3FFCDAD, -1px 1px #A3FFCDAD",
               }}
             >
-              {user.experience}/{XP_SYSTEM[user.player_level].xp}
+              {Math.round(user.experience)}/{XP_SYSTEM[user.player_level].xp}
             </p>
             <div className="absolute -right-[8px] top-[2px]">
               <IconCrown2 color="#5CFFBAFA" width={24} height={24} />
