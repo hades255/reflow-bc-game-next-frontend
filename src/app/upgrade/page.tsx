@@ -13,7 +13,7 @@ import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
-import MultiRangeSlider from "@/components/upgrade/multiRangeSlider/MultiRangeSlider";
+import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
