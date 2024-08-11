@@ -1,8 +1,8 @@
-import { MdOutlineAnalytics } from "react-icons/md";
 import BalanceTable from "./BalanceTable";
 import QuotaTable from "./QuotaTable";
 import ProfitsTable from "./ProfitsTable";
 import Stats from "./Stats";
+import { MdOutlineAnalytics } from "react-icons/md";
 
 const AnalyticsPage = () => {
   return (

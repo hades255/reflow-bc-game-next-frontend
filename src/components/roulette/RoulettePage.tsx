@@ -20,6 +20,7 @@ import { setToast } from "@/redux/slices/main/toastSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { getActive, placeBet } from "@/services/roulette";
 import myEcho from "@/hooks/myEcho";
+import PreviousMap from "postcss/lib/previous-map";
 
 interface BetterType {
   user_id: number;
@@ -73,15 +74,15 @@ const RoulettePage = () => {
   ) => {
     if (val === "red") {
       setRedBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     } else if (val === "gold") {
       setGoldBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     } else {
       setBlackBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     }
   };
@@ -329,7 +330,7 @@ const RoulettePage = () => {
             data.bets.user.name,
             Number(data.bets.user.player_level),
             data.bets.user.avatar,
-            data.bets.bet.amount
+            Number(data.bets.bet.amount)
           );
         } else {
           sliceBetter(data.bets.bet.color, data.bets.bet.user_id);
