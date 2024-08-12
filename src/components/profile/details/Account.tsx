@@ -53,7 +53,11 @@ const Account: FC<Props> = ({ user }) => {
           <div
             style={{
               background: `linear-gradient(to right, #5BFFBA ${
-                (user.experience * 100) / XP_SYSTEM[user.player_level].xp
+                (user.experience * 100) /
+                (XP_SYSTEM[user.player_level].xp -
+                  (user.player_level - 1 >= 0
+                    ? XP_SYSTEM[user.player_level - 1].xp
+                    : 0))
               }%, #12121294 0%)`,
             }}
             className="w-full h-[15px] rounded-[40px] relative"
@@ -65,7 +69,11 @@ const Account: FC<Props> = ({ user }) => {
                   "2px 0 #A3FFCDAD, -2px 0 #A3FFCDAD, 0 2px #A3FFCDAD, 0 -2px #A3FFCDAD,1px 1px #A3FFCDAD, -1px -1px #A3FFCDAD, 1px -1px #A3FFCDAD, -1px 1px #A3FFCDAD",
               }}
             >
-              {Math.round(user.experience)}/{XP_SYSTEM[user.player_level].xp}
+              {Math.round(user.experience)}/
+              {XP_SYSTEM[user.player_level].xp -
+                (user.player_level - 1 >= 0
+                  ? XP_SYSTEM[user.player_level - 1].xp
+                  : 0)}
             </p>
             <div className="absolute -right-[8px] top-[2px]">
               <IconCrown2 color="#5CFFBAFA" width={24} height={24} />
