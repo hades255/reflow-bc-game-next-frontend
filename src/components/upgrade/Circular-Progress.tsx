@@ -197,6 +197,7 @@ const CircularProgressBar: React.FC<{
         className={shouldSpin && isLoading ? spinAnimationStyle : ""}
         transform="rotate(-90 150 155)"
       />
+      <BlackReflow x="58" y="80" />
       <circle
         ref={circleRef}
         stroke={betResult === true ? `#008000` : `#ed143d`}
@@ -210,7 +211,6 @@ const CircularProgressBar: React.FC<{
           visibleCircle ? `${fadeInStyle} ${fadeOutStyle}` : "opacity-0"
         }
       />
-      <BlackReflow x="58" y="80" />
       <text
         x="150"
         y="125"
