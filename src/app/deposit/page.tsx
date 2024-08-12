@@ -13,11 +13,17 @@ import PaymentItem from "@/components/deposit/PaymentItem";
 import { depositTokenList } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { useUser } from "@/redux/slices/main/userSlice";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { useDispatch } from "react-redux";
+
 const DepositPage: FC = () => {
   const router = useRouter();
   const params = useSearchParams();
   const type = params.get("type");
   const [token, setToken] = useState<any>({});
+  const dispatch = useDispatch();
+  const user = useUser();
 
   useEffect(() => {
     if (type) {
@@ -25,6 +31,21 @@ const DepositPage: FC = () => {
       setToken(foundToken || {});
     }
   }, [type]);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in.",
+          name: "Steam Sign In",
+          type: 2,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
+  }, [user, dispatch]);
 
   return (
     <>

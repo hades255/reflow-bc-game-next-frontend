@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import IconWithdraw from "@/utils/icons/Withdraw";
 import IconChange from "@/utils/icons/Change";
 import IconCoin from "@/utils/icons/Coin";
@@ -9,8 +9,29 @@ import Button from "@/components/buttons/Button";
 import arbitrum from "@/assets/icons/arbitrum-logo.svg";
 import Switch from "@/components/buttons/Switch";
 
+import { useUser } from "@/redux/slices/main/userSlice";
+import { setModal } from "@/redux/slices/main/modalSlice";
+import { useDispatch } from "react-redux";
+
 const DepositPage: FC = () => {
   const [fee, setFee] = useState<number>(1);
+  const dispatch = useDispatch();
+  const user = useUser();
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in.",
+          name: "Steam Sign In",
+          type: 2,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
+  }, [user, dispatch]);
 
   return (
     <div className="p-6 flex flex-col gap-6">
