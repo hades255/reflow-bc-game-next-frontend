@@ -26,19 +26,19 @@ import myEcho from "@/hooks/myEcho";
 
 const flags = [
   { name: "English", icon: uk },
-  { name: "port", icon: port },
-  { name: "turkey", icon: turkey },
-  { name: "finland", icon: finland },
-  { name: "german", icon: german },
-  { name: "russia", icon: russia },
-  { name: "swedish", icon: swedish },
-  { name: "polish", icon: polish },
-  { name: "norway", icon: norway },
-  { name: "lithu", icon: lithu },
-  { name: "vietnam", icon: vietnam },
-  { name: "ind", icon: ind },
-  { name: "cn", icon: cn },
-  { name: "espain", icon: espain },
+  { name: "Portuguese", icon: port },
+  { name: "Turkish", icon: turkey },
+  { name: "Finnish", icon: finland },
+  { name: "German", icon: german },
+  { name: "Russian", icon: russia },
+  { name: "Swedish", icon: swedish },
+  { name: "Polish", icon: polish },
+  { name: "Norweglan", icon: norway },
+  { name: "Lithuanian", icon: lithu },
+  { name: "Vietnamese", icon: vietnam },
+  { name: "Hindi", icon: ind },
+  { name: "Mandarin", icon: cn },
+  { name: "Spanish", icon: espain },
 ];
 
 const AppSidebar: FC = () => {
