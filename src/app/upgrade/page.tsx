@@ -51,7 +51,10 @@ const UpgradePage: FC = () => {
           })
         );
       } else {
-        if (betAmount > Number(balance) || balance === undefined) {
+        if (
+          Number(betAmount) > Number(balance.balance) ||
+          balance.balance === undefined
+        ) {
           dispatch(
             setModal({
               status: true,
