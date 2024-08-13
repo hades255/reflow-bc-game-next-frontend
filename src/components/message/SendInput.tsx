@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useState, useEffect } from "react";
 import icon from "@/assets/icons/message-input.png";
 import Image from "next/image";
 
@@ -13,6 +13,12 @@ const SendInput: FC<{ room: any }> = ({ room }) => {
   const [showOption, setShowOption] = useState(false);
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState("");
+  const [row, setRow] = useState(1);
+
+  useEffect(() => {
+    const len = message.split("\n").length;
+    setRow(len);
+  }, [message]);
 
   const handleClickShowOption = useCallback(
     () => setShowOption(!showOption),
@@ -47,17 +53,34 @@ const SendInput: FC<{ room: any }> = ({ room }) => {
   return (
     <div className="relative">
       <form method="post" action={""} onSubmit={handleSubmit}>
-        <input
+        {/* <input
           className="w-full h-[42px] rounded-[2px] border border-[#CDCDCD63] shadow-[0_1px_2px_-1px_#FFFFFF21,_0_0_0_1px_#FFFFFF0A] p-2 outline-none text-xs text-[#646464]"
           placeholder="Type your message here"
           style={{ background: "linear-gradient(#111111, #141414)" }}
           value={message}
           onChange={handleChangeInput}
           disabled={sending}
+        /> */}
+        <textarea
+          className="w-full max-h-[48px] rounded-[2px] border border-[#CDCDCD63] shadow-[0_1px_2px_-1px_#FFFFFF21,_0_0_0_1px_#FFFFFF0A] p-2 outline-none text-xs text-[#646464]"
+          placeholder="Type your message here"
+          style={{
+            background: "linear-gradient(#111111, #141414)",
+            resize: "none",
+          }}
+          disabled={sending}
+          rows={row}
+          value={message}
+          onChange={handleChangeInput}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              handleSubmit(e);
+            }
+          }}
         />
       </form>
       <div
-        className="absolute top-[15px] right-4 w-4 cursor-pointer pl-2"
+        className="absolute top-[10px] right-4 w-4 cursor-pointer pl-2"
         onClick={handleClickShowOption}
       >
         <Image src={icon} alt="icon" />

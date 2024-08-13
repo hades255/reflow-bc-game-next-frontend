@@ -1,12 +1,41 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import bnbLogo from "@/assets/logos/bnb.png";
 import cup from "@/assets/icons/cup.svg";
 
 const MessageItem: FC<{ chat: any }> = ({ chat }) => {
+  const [levelItem, setLevelItem] = useState(0);
+  const levels = [
+    { name: "bronze", color: "#DF8E44" },
+    { name: "silver", color: "#9F9F9F" },
+    { name: "gold", color: "#FFD375" },
+    { name: "platinum", color: "#65ABCF" },
+    { name: "diamond", color: "#FD91FF" },
+    { name: "saphire", color: "#DCDCDC" },
+    { name: "warden", color: "#07CBFF" },
+    { name: "prince", color: "#B0F215" },
+    { name: "monarch", color: "#FE4A45" },
+  ];
+
+  useEffect(() => {
+    if (chat) {
+      if (chat.user.player_level > 11) {
+        setLevelItem(1);
+      } else if (chat.user.player_level > 25) {
+        setLevelItem(2);
+      } else if (chat.user.player_level > 36) {
+        setLevelItem(3);
+      } else if (chat.user.player_level > 48) {
+        setLevelItem(4);
+      } else if (chat.user.player_level > 54) {
+        setLevelItem(5);
+      }
+    }
+  }, [chat]);
+
   return (
     <div className="flex gap-1 items-center">
-      <div className="flex gap-[3px] bg-[#101010] min-w-[90px] rounded-[5px] p-[2px]">
+      <div className="flex gap-[3px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
         <Image
           src={chat.user.avatar}
           width={24}
@@ -17,18 +46,18 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         <div className="flex flex-col">
           <div className="flex flex-row gap-[2px] items-center">
             <Image src={bnbLogo} alt="bnb" />
-            <span className="text-[8px] font-bold text-white">
+            <span className="text-[8px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
               {chat.user.name}
             </span>
           </div>
-          <div
-            className="flex flex-row gap-[2px] items-center w-[48px] h-[11px] pl-1 rounded-[2px]"
-            style={{
-              background: "linear-gradient(#F1B31A, #EDA61D)",
-            }}
-          >
-            <Image src={cup} className="w-[7.18px] h-[6.44px]" alt="cup" />
-            <span className="text-[9px] font-bold text-[#101010]">
+          <div className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]">
+            <Image
+              src={`/assets/icons/${levels[levelItem].name}.png`}
+              width={8}
+              height={8}
+              alt="cup"
+            />
+            <span className="text-[9px] font-bold text-[#DF8E44]">
               {chat.user.player_level}
             </span>
           </div>
