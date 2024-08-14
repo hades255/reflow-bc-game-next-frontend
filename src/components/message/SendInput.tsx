@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState, useEffect } from "react";
+import React, { FC, useCallback, useState, useEffect, useRef } from "react";
 import icon from "@/assets/icons/message-input.png";
 import Image from "next/image";
 
@@ -6,24 +6,37 @@ import tip from "@/assets/icons/tip.svg";
 import manage from "@/assets/icons/manage.svg";
 import rule from "@/assets/icons/rule.svg";
 import close from "@/assets/icons/close.svg";
-import axios from "axios";
 import { fetchAPI } from "@/services/fetchAPI";
 
-const SendInput: FC<{ room: any }> = ({ room }) => {
+const SendInput: FC<{ room: any; setTextHeight: any }> = ({
+  room,
+  setTextHeight,
+}) => {
   const [showOption, setShowOption] = useState(false);
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState("");
   const [row, setRow] = useState(1);
+  const selectRef = useRef<any>(null);
 
   useEffect(() => {
     const len = message.split("\n").length;
     setRow(len);
+    setTextHeight(220 + (len - 1) * 12);
   }, [message]);
 
   const handleClickShowOption = useCallback(
     () => setShowOption(!showOption),
     [showOption]
   );
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      selectRef.current &&
+      !selectRef.current.contains(event.target as Node)
+    ) {
+      setShowOption(false);
+    }
+  };
 
   const handleSubmit = useCallback(
     (e: any) => {
@@ -50,19 +63,18 @@ const SendInput: FC<{ room: any }> = ({ room }) => {
     setMessage(e.target.value);
   }, []);
 
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative w-[260px]" ref={selectRef}>
       <form method="post" action={""} onSubmit={handleSubmit}>
-        {/* <input
-          className="w-full h-[42px] rounded-[2px] border border-[#CDCDCD63] shadow-[0_1px_2px_-1px_#FFFFFF21,_0_0_0_1px_#FFFFFF0A] p-2 outline-none text-xs text-[#646464]"
-          placeholder="Type your message here"
-          style={{ background: "linear-gradient(#111111, #141414)" }}
-          value={message}
-          onChange={handleChangeInput}
-          disabled={sending}
-        /> */}
         <textarea
-          className="w-full max-h-[48px] rounded-[2px] border border-[#CDCDCD63] shadow-[0_1px_2px_-1px_#FFFFFF21,_0_0_0_1px_#FFFFFF0A] p-2 outline-none text-xs text-[#646464]"
+          className="w-full rounded-[2px] border border-[#CDCDCD63] shadow-[0_1px_2px_-1px_#FFFFFF21,_0_0_0_1px_#FFFFFF0A] p-2 outline-none text-xs text-[#646464]"
           placeholder="Type your message here"
           style={{
             background: "linear-gradient(#111111, #141414)",

@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import bnbLogo from "@/assets/logos/bnb.png";
-import cup from "@/assets/icons/cup.svg";
 
 const MessageItem: FC<{ chat: any }> = ({ chat }) => {
   const [levelItem, setLevelItem] = useState(0);
+
   const levels = [
     { name: "bronze", color: "#DF8E44" },
     { name: "silver", color: "#9F9F9F" },
@@ -46,7 +46,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         <div className="flex flex-col">
           <div className="flex flex-row gap-[2px] items-center">
             <Image src={bnbLogo} alt="bnb" />
-            <span className="text-[8px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
+            <span className="text-[10px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
               {chat.user.name}
             </span>
           </div>
@@ -63,7 +63,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
           </div>
         </div>
       </div>
-      <div className="text-[10px] font-normal leading-[12px] text-[#ACACAC] break-words">
+      <div className="text-[10px] font-normal leading-[12px] max-w-[170px] text-[#ACACAC] break-words">
         {chat.message}
       </div>
     </div>
