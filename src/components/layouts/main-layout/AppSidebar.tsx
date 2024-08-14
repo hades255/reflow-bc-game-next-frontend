@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 import uk from "@/assets/logos/flags/uk.png";
@@ -48,6 +48,24 @@ const AppSidebar: FC = () => {
     icon: uk,
   });
   const [chats, setChats] = useState<any[]>([]);
+  const selectRef = useRef<any>(null);
+  const [textHeight, setTextHeight] = useState<number>(220);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      selectRef.current &&
+      !selectRef.current.contains(event.target as Node)
+    ) {
+      setShowRooms(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -94,7 +112,7 @@ const AppSidebar: FC = () => {
 
   return (
     <div className="w-[280px] bg-[#181818] h-auto fixed top-[84px] z-10">
-      <div className="flex flex-col relative">
+      <div className="flex flex-col relative" ref={selectRef}>
         <div
           onClick={() => setShowRooms(!showRooms)}
           className="m-[18px_12px_13px_12px] cursor-pointer bg-[#6060600D] h-[37px] w-[250px] shadow-[0_1px_3px_-1px_#0000006E,_0_2px_0_-1px_#0000003D] rounded-[2px] p-3 flex justify-between items-center"
@@ -123,7 +141,7 @@ const AppSidebar: FC = () => {
 
         {showRooms && (
           <div>
-            <div className="absolute left-[12px] top-[60px] w-[250px] h-[500px] bg-[#1E1E1E] border border-[#333541]">
+            <div className="absolute left-[12px] top-[60px] z-[11] w-[250px] h-[500px] bg-[#1E1E1E] border border-[#333541]">
               <div className="p-3 flex flex-col items-start">
                 {flags.map((item, index) => (
                   <RoomItem
@@ -140,15 +158,18 @@ const AppSidebar: FC = () => {
           </div>
         )}
 
-        <div>
-          <div className="pl-3 gap-3 flex flex-col overflow-y-scroll h-[calc(100vh-220px)] message-list">
+        <div className="relative">
+          <div
+            className={`pl-3 gap-3 flex flex-col overflow-y-scroll message-list`}
+            style={{ height: `calc(100vh - ${textHeight}px)` }}
+          >
             {chats.map((item, index) => (
               <MessageItem key={index} chat={item} />
             ))}
           </div>
 
           <div className="p-3">
-            <SendInput room={room.name} />
+            <SendInput room={room.name} setTextHeight={setTextHeight} />
           </div>
         </div>
       </div>
