@@ -247,7 +247,7 @@ const UpgradePage: FC = () => {
                 id={item.id}
                 title={item.name}
                 image={item.img}
-                amount={item.price / 1000}
+                amount={(item.price / 1000) * 2}
                 onClick={(id) => handleSelectItem(id)}
               />
             ))}
