@@ -34,19 +34,19 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
   }, [chat]);
 
   return (
-    <div className="flex gap-1 items-center">
+    <div className="flex gap-1">
       <div className="flex gap-[3px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
         <Image
           src={chat.user.avatar}
-          width={24}
-          height={24}
-          className="w-[24px] h-[24px] rounded-sm"
+          width={30}
+          height={30}
+          className="w-[30px] h-[30px] rounded-sm"
           alt="icon"
         />
         <div className="flex flex-col">
           <div className="flex flex-row gap-[2px] items-center">
             <Image src={bnbLogo} alt="bnb" />
-            <span className="text-[10px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
+            <span className="text-[12px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
               {chat.user.name}
             </span>
           </div>
@@ -63,7 +63,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
           </div>
         </div>
       </div>
-      <div className="text-[10px] font-normal leading-[12px] max-w-[170px] text-[#ACACAC] break-words">
+      <div className="text-[12px] font-normal leading-[12px] max-w-[170px] text-[#ACACAC] break-words">
         {chat.message}
       </div>
     </div>
