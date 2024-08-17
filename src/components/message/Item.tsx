@@ -19,15 +19,15 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
 
   useEffect(() => {
     if (chat) {
-      if (chat.user.player_level > 11) {
+      if (chat.user.player_level > 24) {
         setLevelItem(1);
-      } else if (chat.user.player_level > 25) {
+      } else if (chat.user.player_level > 48) {
         setLevelItem(2);
-      } else if (chat.user.player_level > 36) {
+      } else if (chat.user.player_level > 73) {
         setLevelItem(3);
       } else if (chat.user.player_level > 48) {
         setLevelItem(4);
-      } else if (chat.user.player_level > 54) {
+      } else if (chat.user.player_level > 98) {
         setLevelItem(5);
       }
     }
@@ -35,7 +35,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
 
   return (
     <div className="flex gap-1">
-      <div className="flex gap-[3px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
+      <div className="flex gap-[3px] h-[35px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
         <Image
           src={chat.user.avatar}
           width={30}
