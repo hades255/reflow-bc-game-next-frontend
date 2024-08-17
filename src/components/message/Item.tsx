@@ -35,7 +35,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
 
   return (
     <div className="flex gap-1">
-      <div className="flex gap-[3px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
+      <div className="flex gap-[3px] h-[35px] bg-[#101010] min-w-[80px] rounded-[5px] py-[2px]">
         <Image
           src={chat.user.avatar}
           width={30}
