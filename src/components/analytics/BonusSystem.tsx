@@ -11,6 +11,7 @@ import { setToast } from "@/redux/slices/main/toastSlice";
 import Pagination from "./Pagination";
 import GenBonusCodeModal from "./GenBonusCodeModal";
 import { BonusType } from "@/utils/types";
+import { ADMIN_TABLE_ITEMS_PER_PAGE, ADMIN_TABLE_SHOW_PAGES } from "@/utils";
 import { FaChevronDown } from "react-icons/fa";
 import { PiCoinsLight } from "react-icons/pi";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
@@ -18,8 +19,8 @@ import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 const BonusSystem = () => {
   const [whitelist, setWhitelist] = useState<boolean>(false);
   const [valid, setValid] = useState<boolean>(true);
-  const perPage = 2;
-  const showPages = 3;
+  const perPage = ADMIN_TABLE_ITEMS_PER_PAGE;
+  const showPages = ADMIN_TABLE_SHOW_PAGES;
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [firstPage, setFirstPage] = useState<number>(1);

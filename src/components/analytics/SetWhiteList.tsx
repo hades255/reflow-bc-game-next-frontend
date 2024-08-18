@@ -6,12 +6,13 @@ import { getUsers, setWhite } from "@/services/analytics";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import Pagination from "./Pagination";
 import { WhitelistType } from "@/utils/types";
+import { ADMIN_TABLE_ITEMS_PER_PAGE, ADMIN_TABLE_SHOW_PAGES } from "@/utils";
 import { FaChevronDown } from "react-icons/fa";
 
 const SettingWhitelist = () => {
   const [whitelist, setWhitelist] = useState<boolean>(true);
-  const perPage = 2;
-  const showPages = 3;
+  const perPage = ADMIN_TABLE_ITEMS_PER_PAGE;
+  const showPages = ADMIN_TABLE_SHOW_PAGES;
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [firstPage, setFirstPage] = useState<number>(1);
