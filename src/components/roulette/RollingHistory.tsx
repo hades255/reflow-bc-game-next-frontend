@@ -2,8 +2,6 @@
 import { FC } from "react";
 import Image from "next/image";
 
-const prevs = [1, 2, 2, 1, 1, 1, 2, 3, 1, 1];
-
 interface Props {
   tenGames: string[];
   hundredGames: number[];
@@ -15,7 +13,7 @@ const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
       <div className="flex gap-2">
         <span className="text-font">Previous Rolls</span>
         <div className="flex gap-1">
-          {tenGames.map((game, id) => (
+          {tenGames.filter((game) => game).map((game, id) => (
             <Image
               key={`coinhistory-${id}`}
               width={24}

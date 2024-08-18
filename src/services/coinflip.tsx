@@ -16,7 +16,12 @@ export const createNewGames = async (
 };
 
 export const getPendingGames = async (type: boolean, user?: any) => {
-  const data = await fetchAPI("/api/public/games/royalflip/pending", "POST");
+  let data;
+  if (user) {
+    data = await fetchAPI("/api/game/royalflip/pending", "POST");
+  } else {
+    data = await fetchAPI("/api/public/games/royalflip/pending", "POST");
+  }
   if (type) {
     return data.data.data.my
       .filter((gm: GameType, id: number) => id < 8)

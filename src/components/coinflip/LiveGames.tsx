@@ -27,10 +27,10 @@ const LiveGames = () => {
 
   useEffect(() => {
     (async () => {
-      let data = await getPendingGames(false);
+      let data = await getPendingGames(false, user);
       dispatch(initialLiveGames(data));
     })();
-  }, [dispatch])
+  }, [dispatch, user])
 
   useEffect(() => {
     myEcho();
