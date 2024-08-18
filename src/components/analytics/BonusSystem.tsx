@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import Image from "next/image";
 import Button from "../buttons/Button";
 import {
   getBonuses,
@@ -29,79 +28,71 @@ const BonusSystem = () => {
   const [openModal, setOpenModal] = useState<number>(-1);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      let { data, status } = await getBonuses({
-        perPage,
-        page,
-        search,
-        valid,
-        whitelist,
-      });
-      if (status === 200) {
-        setBonuses(data.data.items);
-        setPage(1);
-        setFirstPage(1);
-        setTotal(data.data.total);
-      }
-    })();
-  }, [whitelist, valid]);
-
-  useEffect(() => {
-    (async () => {
-      let { data, status } = await getBonuses({
-        perPage,
-        page,
-        search,
-        valid,
-        whitelist,
-      });
-      if (status === 200) {
-        setBonuses(data.data.items);
-        setTotal(data.data.total);
-      }
-    })();
-  }, [page]);
-
-  const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const getInfo = async (_page: number = page, _search: string = search, _valid: boolean = valid, _whitelist: boolean = whitelist) => {
     let { data, status } = await getBonuses({
       perPage,
-      page,
-      search: e.target.value,
-      valid,
-      whitelist,
+      page: _page,
+      search: _search,
+      valid: _valid,
+      whitelist: _whitelist,
     });
     if (status === 200) {
       setBonuses(data.data.items);
-      setPage(1);
-      setFirstPage(1);
       setTotal(data.data.total);
     }
+  }
+
+  useEffect(() => {
+    (async () => {
+      let { data, status } = await getBonuses({
+        perPage,
+        page: 1,
+        search: "",
+        valid: true,
+        whitelist: false,
+      });
+      if (status === 200) {
+        setBonuses(data.data.items);
+        setTotal(data.data.total);
+      }
+    })();
+  }, []);
+
+  const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setPage(1);
+    setFirstPage(1);
+    await getInfo(1, e.target.value);
   };
 
-  const handleFilterWhitelist = (val: boolean) => {
+  const handleFilterWhitelist = async (val: boolean) => {
     setPage(1);
+    setFirstPage(1);
     setWhitelist(val);
+    await getInfo(1, search, valid, val);
   };
 
-  const handleFilterValid = (val: boolean) => {
+  const handleFilterValid = async (val: boolean) => {
     setPage(1);
+    setFirstPage(1);
     setValid(val);
+    await getInfo(1, search, val);
   };
 
-  const handleNextPage = () => {
+  const handleNextPage = async () => {
     if (firstPage + showPages - 1 === page) {
       setFirstPage((prev) => prev + 1);
     }
     setPage((prev) => prev + 1);
+    await getInfo(page + 1);
   };
 
-  const handlePrevPage = () => {
+  const handlePrevPage = async () => {
     if (firstPage === page) {
       setFirstPage((prev) => prev - 1);
     }
     setPage((prev) => prev - 1);
+    await getInfo(page - 1);
   };
 
   const genBonusCode = async (params: any) => {
@@ -116,17 +107,7 @@ const BonusSystem = () => {
           message: "New bonus code is created successfully.",
         })
       );
-      let newBonuses = await getBonuses({
-        perPage,
-        page,
-        search,
-        valid,
-        whitelist,
-      });
-      if (newBonuses.status === 200) {
-        setBonuses(newBonuses.data.data.items);
-        setTotal(newBonuses.data.data.total);
-      }
+      await getInfo(1);
     } else {
       dispatch(
         setToast({
@@ -148,17 +129,7 @@ const BonusSystem = () => {
           message: "Existing bonus code is updated successfully.",
         })
       );
-      let newBonuses = await getBonuses({
-        perPage,
-        page,
-        search,
-        valid,
-        whitelist,
-      });
-      if (newBonuses.status === 200) {
-        setBonuses(newBonuses.data.data.items);
-        setTotal(newBonuses.data.data.total);
-      }
+      await getInfo();
     } else {
       dispatch(
         setToast({
@@ -179,17 +150,7 @@ const BonusSystem = () => {
           message: "Existing bonus code is removed.",
         })
       );
-      let newBonuses = await getBonuses({
-        perPage,
-        page,
-        search,
-        valid,
-        whitelist,
-      });
-      if (newBonuses.status === 200) {
-        setBonuses(newBonuses.data.data.items);
-        setTotal(newBonuses.data.data.total);
-      }
+      await getInfo();
     } else {
       dispatch(
         setToast({
@@ -198,6 +159,11 @@ const BonusSystem = () => {
         })
       );
     }
+  }
+
+  const clickPage = async (_page: number) => {
+    setPage(_page);
+    await getInfo(_page);
   }
 
   return (
@@ -355,7 +321,7 @@ const BonusSystem = () => {
           firstPage={firstPage}
           handlePrevPage={handlePrevPage}
           handleNextPage={handleNextPage}
-          setPage={setPage}
+          setPage={clickPage}
         />
       </div>
       {openModal !== -1 && (

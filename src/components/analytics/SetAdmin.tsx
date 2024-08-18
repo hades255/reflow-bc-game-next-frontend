@@ -8,7 +8,7 @@ import Pagination from "./Pagination";
 import { AdminType } from "@/utils/types";
 import { FaChevronDown } from "react-icons/fa";
 
-const SetAdmin = () => {
+const SettingAdmin = () => {
   const [admin, setAdmin] = useState<boolean>(true);
   const perPage = 2;
   const showPages = 3;
@@ -20,47 +20,36 @@ const SetAdmin = () => {
   const [selected, setSelected] = useState<number>(0);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      let { data, status } = await getUsers({ perPage, page, search, admin });
-      if (status === 200) {
-        setAdmins(data.data.items);
-        setPage(1);
-        setFirstPage(1);
-        setTotal(data.data.total);
-      }
-    })();
-  }, [admin]);
+  const getInfo = async (_page: number = page, _search: string = search, _admin: boolean= admin) => {
+    let { data, status } = await getUsers({ perPage, page: _page, search: _search, admin: _admin });
+    if (status === 200) {
+      setAdmins(data.data.items);
+      setTotal(data.data.total);
+    }
+  }
 
   useEffect(() => {
     (async () => {
-      let { data, status } = await getUsers({ perPage, page, search, admin });
+      let { data, status } = await getUsers({ perPage, page: 1, search: "", admin: true });
       if (status === 200) {
         setAdmins(data.data.items);
         setTotal(data.data.total);
       }
     })();
-  }, [page]);
+  }, []);
 
   const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    let { data, status } = await getUsers({
-      perPage,
-      page,
-      search: e.target.value,
-      admin,
-    });
-    if (status === 200) {
-      setAdmins(data.data.items);
-      setPage(1);
-      setFirstPage(1);
-      setTotal(data.data.total);
-    }
+    setPage(1);
+    setFirstPage(1);
+    await getInfo(1, e.target.value);
   };
 
-  const handleFilterAdmin = (val: boolean) => {
+  const handleFilterAdmin = async (val: boolean) => {
     setPage(1);
+    setFirstPage(1);
     setAdmin(val);
+    await getInfo(1, search, val);
   };
 
   const handleSet = async (id: number) => {
@@ -75,17 +64,14 @@ const SetAdmin = () => {
           }" is set as ${admin ? "a Player" : "an Administrator"}.`,
         })
       );
-      let updated;
       if (admins.length === 1) {
         let current = page - 1 > 1 ? page - 1 : 1;
-        updated = await getUsers({ perPage, page: current, search, admin });
         setPage(current);
         setFirstPage(current - showPages + 1 > 1 ? current - showPages + 1 : 1);
+        await getInfo(current)
       } else {
-        updated = await getUsers({ perPage, page, search, admin });
+        await getInfo();
       }
-      setAdmins(updated.data.data.items);
-      setTotal(updated.data.data.total);
     } else {
       dispatch(
         setToast({
@@ -97,19 +83,26 @@ const SetAdmin = () => {
     setSelected(0);
   };
 
-  const handleNextPage = () => {
+  const handleNextPage = async () => {
     if (firstPage + showPages - 1 === page) {
       setFirstPage((prev) => prev + 1);
     }
     setPage((prev) => prev + 1);
+    await getInfo(page + 1);
   };
 
-  const handlePrevPage = () => {
+  const handlePrevPage = async () => {
     if (firstPage === page) {
       setFirstPage((prev) => prev - 1);
     }
     setPage((prev) => prev - 1);
+    await getInfo(page - 1);
   };
+
+  const clickPage = async (_page: number) => {
+    setPage(_page);
+    await getInfo(_page);
+  }
 
   return (
     <div className="w-full">
@@ -218,10 +211,10 @@ const SetAdmin = () => {
         firstPage={firstPage}
         handlePrevPage={handlePrevPage}
         handleNextPage={handleNextPage}
-        setPage={setPage}
+        setPage={clickPage}
       />
     </div>
   );
 };
 
-export default SetAdmin;
+export default SettingAdmin;

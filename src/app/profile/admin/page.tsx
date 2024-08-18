@@ -26,7 +26,7 @@ const ProfileAdmin: FC = () => {
         }));
       } 
     }
-  }, [user, dispatch]);
+  }, [user, router, dispatch]);
 
   return (
     <ProfileLayout select={6}>

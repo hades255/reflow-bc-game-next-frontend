@@ -1,5 +1,6 @@
-import SetAdmin from "./SetAdmin";
-import SetWhiteList from "./SetWhiteList";
+"use client"
+import SettingAdmin from "./SetAdmin";
+import SettingWhiteList from "./SetWhiteList";
 import BonusSystem from "./BonusSystem";
 import { MdOutlineAnalytics } from "react-icons/md";
 
@@ -12,8 +13,8 @@ const AnalyticsPage = () => {
       </div>
       <div className="w-full my-8">
         <div className="w-full grid grid-cols-2 gap-6">
-          <SetAdmin />
-          <SetWhiteList />
+          <SettingAdmin />
+          <SettingWhiteList />
         </div>
       </div>
       <div className="w-full my-8">
