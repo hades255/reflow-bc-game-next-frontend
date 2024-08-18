@@ -5,6 +5,8 @@ export type UserType = {
   role: string;
   avatar: string;
   player_level: string;
+  is_admin: boolean;
+  is_whitelist: boolean;
   experience: Number;
   totalBet: Number;
   rank: Number;

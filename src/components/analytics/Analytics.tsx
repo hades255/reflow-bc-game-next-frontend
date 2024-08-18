@@ -1,10 +1,6 @@
-// import BalanceTable from "./BalanceTable";
-// import QuotaTable from "./QuotaTable";
 import SetAdmin from "./SetAdmin";
 import SetWhiteList from "./SetWhiteList";
 import BonusSystem from "./BonusSystem";
-import ProfitsTable from "./ProfitsTable";
-import Stats from "./Stats";
 import { MdOutlineAnalytics } from "react-icons/md";
 
 const AnalyticsPage = () => {
@@ -23,14 +19,6 @@ const AnalyticsPage = () => {
       <div className="w-full my-8">
         <BonusSystem />
       </div>
-      <div className="w-full my-8">
-        <p className="text-[#717171] font-bold">Detailed Stats</p>
-        <Stats />
-      </div>
-      {/* <div className="w-full my-4">
-        <p className="text-[#717171] font-bold">Game Overview</p>
-        <ProfitsTable />
-      </div> */}
     </div>
   );
 };
