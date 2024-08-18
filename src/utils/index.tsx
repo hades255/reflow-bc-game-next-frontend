@@ -35,3 +35,7 @@ export const depositTokenList = [
     icon: "/assets/images/payments/trx.png",
   },
 ];
+
+export const ADMIN_TABLE_ITEMS_PER_PAGE = 5;
+
+export const ADMIN_TABLE_SHOW_PAGES = 3;
