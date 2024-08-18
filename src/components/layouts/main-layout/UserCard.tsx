@@ -1,10 +1,13 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { changePage } from "@/redux/slices/main/pageSlice";
+import myEcho from "@/hooks/myEcho";
+import { setUser } from "@/redux/slices/main/userSlice";
 
 interface Props {
+  id: any;
   avatar: string;
   name: string;
   lvl: number;
@@ -12,7 +15,14 @@ interface Props {
   active?: boolean;
 }
 
-const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
+const UserCard: React.FC<Props> = ({
+  id,
+  avatar,
+  name,
+  lvl,
+  progress,
+  active,
+}) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -21,6 +31,17 @@ const UserCard: React.FC<Props> = ({ avatar, name, lvl, progress, active }) => {
     router.push("/profile/details");
     dispatch(changePage("/profile"));
   }, [dispatch, router]);
+
+  useEffect(() => {
+    myEcho();
+    const channel = window.Echo.channel("UpdateUser." + id);
+    channel.listen("UpdateUser", (e: any) => {
+      dispatch(setUser(e.user));
+    });
+    return () => {
+      channel.stopListening("UpdateUser");
+    };
+  }, [id, dispatch]);
 
   return (
     <div

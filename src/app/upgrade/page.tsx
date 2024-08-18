@@ -13,7 +13,7 @@ import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
-import MultiRangeSlider from "@/components/upgrade/multiRangeSlider/MultiRangeSlider";
+import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -51,7 +51,10 @@ const UpgradePage: FC = () => {
           })
         );
       } else {
-        if (betAmount > Number(balance) || balance === undefined) {
+        if (
+          Number(betAmount) > Number(balance.balance) ||
+          balance.balance === undefined
+        ) {
           dispatch(
             setModal({
               status: true,
@@ -205,16 +208,16 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={100000}
+                max={200000}
                 onChange={({ min, max }) => {
                   setMinRange(min / 100);
                   setMaxRange(max / 100);
                 }}
               />
-              <p className="text-white">1000.00</p>
+              <p className="text-white">2000.00</p>
             </div>
 
-            <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
+            {/* <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
               <select
                 className="bg-[#282828] text-[12px] text-white outline-none"
@@ -224,6 +227,33 @@ const UpgradePage: FC = () => {
                 <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
               </select>
+            </div> */}
+
+            <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
+              <button
+                id="hs-dropdown-order"
+                type="button"
+                className="px-2 text-font"
+              >
+                {price == "desc" ? "Highest" : "Lowest"} Amount First
+              </button>
+              <div
+                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                aria-labelledby="hs-dropdown-order"
+              >
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("desc")}
+                >
+                  Highest Amount First
+                </button>
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("asc")}
+                >
+                  Lowest Amount First
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -244,7 +274,7 @@ const UpgradePage: FC = () => {
                 id={item.id}
                 title={item.name}
                 image={item.img}
-                amount={item.price / 1000}
+                amount={(item.price / 1000) * 2}
                 onClick={(id) => handleSelectItem(id)}
               />
             ))}

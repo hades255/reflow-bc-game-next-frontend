@@ -80,12 +80,16 @@ const UserArea = () => {
       {user && (
         <>
           <UserCard
+            id={user.id}
             avatar={user.avatar}
             name={user.name}
             lvl={Number(user.player_level)}
             progress={
               (Number(user.experience) * 100) /
-              XP_SYSTEM[Number(user.player_level)].xp
+              (XP_SYSTEM[Number(user.player_level)].xp -
+                (Number(user.player_level) - 1 >= 0
+                  ? XP_SYSTEM[Number(user.player_level) - 1].xp
+                  : 0))
             }
             active={page === "/profile"}
           />

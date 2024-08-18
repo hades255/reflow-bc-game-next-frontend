@@ -43,7 +43,7 @@ const PaymentItem: FC<Props> = ({
       </div>
       <div className="text-center mt-2">
         <h1
-          className="text-xs"
+          className="text-xs text-white"
           style={{
             fontFamily: "Flama-Medium, Flama, sans-serif",
             fontWeight: "600",
@@ -52,7 +52,7 @@ const PaymentItem: FC<Props> = ({
           {title}
         </h1>
         <p
-          className=""
+          className="text-white"
           style={{
             fontFamily: "Flama-Medium, Flama, sans-serif",
             fontWeight: "100",

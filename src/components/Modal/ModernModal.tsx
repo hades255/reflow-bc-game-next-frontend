@@ -24,7 +24,7 @@ const ModernModal: React.FC<Props> = ({
 
   const handleClick = () => {
     dispatch(closeModal());
-    if (type === 1) {
+    if (type === 1 || type === 2) {
       router.push(parameter);
     }
   };
@@ -85,13 +85,15 @@ const ModernModal: React.FC<Props> = ({
                   {name}
                 </button>
               )}
-              <button
-                type="button"
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-transparent border-2 border-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm sm:mt-0 sm:w-auto"
-                onClick={() => dispatch(closeModal())}
-              >
-                Cancel
-              </button>
+              {type !== 2 && (
+                <button
+                  type="button"
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-transparent border-2 border-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm sm:mt-0 sm:w-auto"
+                  onClick={() => dispatch(closeModal())}
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </div>
         </div>
