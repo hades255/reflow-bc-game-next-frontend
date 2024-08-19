@@ -25,9 +25,9 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         setLevelItem(2);
       } else if (chat.user.player_level > 73) {
         setLevelItem(3);
-      } else if (chat.user.player_level > 48) {
-        setLevelItem(4);
       } else if (chat.user.player_level > 98) {
+        setLevelItem(4);
+      } else if (chat.user.player_level > 123) {
         setLevelItem(5);
       }
     }

@@ -6,31 +6,29 @@ import IconWallet from "@/utils/icons/Wallet";
 import IconCalculator from "@/utils/icons/Calculator";
 import IconChange from "@/utils/icons/Change";
 import IconCoin from "@/utils/icons/Coin";
-import QRCode from "@/assets/images/qrcode.png";
 import Image from "next/image";
 import Button from "@/components/buttons/Button";
 import PaymentItem from "@/components/deposit/PaymentItem";
 import { depositTokenList } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import QRCode from "react-qr-code";
 
 import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
+import nowPayment from "@/services/nowPayments";
 
 const DepositPage: FC = () => {
   const router = useRouter();
   const params = useSearchParams();
   const type = params.get("type");
+  const paymentId = params.get("paymentId");
+  const [paymentData, setPaymentData] = useState<any>();
   const [token, setToken] = useState<any>({});
   const dispatch = useDispatch();
   const user = useUser();
-
-  useEffect(() => {
-    if (type) {
-      const foundToken = depositTokenList.find((item) => item.title === type);
-      setToken(foundToken || {});
-    }
-  }, [type]);
+  const [amount, setAmount] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("usd");
 
   useEffect(() => {
     if (!user) {
@@ -46,6 +44,45 @@ const DepositPage: FC = () => {
       );
     }
   }, [user, dispatch]);
+
+  useEffect(() => {
+    if (!paymentData && paymentId) {
+      nowPayment({
+        url: `/payment/${paymentId}`,
+        method: "GET",
+      })
+        .then((res) => {
+          setPaymentData(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [paymentData, paymentId]);
+
+  useEffect(() => {
+    if (type && paymentId) {
+      const foundToken = depositTokenList.find((item) => item.title === type);
+      setToken(foundToken || {});
+
+      // let intervalId = setInterval(() => {
+      //   nowPayment({
+      //     url: `/payment/${paymentId}`,
+      //     method: "GET",
+      //   })
+      //     .then((res) => {
+      //       if (res.data.payment_status === "finished") {
+      //         clearInterval(intervalId);
+      //       }
+      //       setPaymentData(res.data);
+      //     })
+      //     .catch((err) => console.log(err));
+      // }, 2000);
+    }
+  }, [paymentId, type]);
+
+  const handlePayClick = (item: any) => {
+    if (amount != 0) {
+    }
+  };
 
   return (
     <>
@@ -89,9 +126,18 @@ const DepositPage: FC = () => {
                 title={item.title}
                 description={item.description}
                 type={1}
-                onClick={() => router.push(`/deposit?type=${item.title}`)}
+                onClick={() => handlePayClick(item)}
               />
             ))}
+          </div>
+
+          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
+            <input
+              value={amount}
+              onChange={(e: any) => setAmount(e.target.value)}
+              type="text"
+              className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+            />
           </div>
         </div>
       ) : (
@@ -123,7 +169,20 @@ const DepositPage: FC = () => {
             </div>
 
             <div className="flex flex-row justify-center">
-              <Image src={QRCode} alt="qrcode" />
+              {
+                <QRCode
+                  size={256}
+                  style={{
+                    height: "auto",
+                    maxWidth: "200px",
+                    width: "200px",
+                    borderRadius: "15px",
+                    border: "10px solid white",
+                  }}
+                  value={paymentData?.pay_address ?? ""}
+                  viewBox={`0 0 256 256`}
+                />
+              }
             </div>
 
             <div className="flex flex-col gap-3">
@@ -135,7 +194,7 @@ const DepositPage: FC = () => {
                 <input
                   type="text"
                   className="bg-[#1A1A1A] dropBlack p-[8px_10px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
-                  value="5dAsiEtMsJVBEgX5QVyS7earBpybNZ6tg769jjkjkjnn0kh2"
+                  value={paymentData?.pay_address}
                 />
 
                 <button className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]">
