@@ -25,12 +25,14 @@ const LiveGames = () => {
   const games = useLiveGames();
   const dispatch = useDispatch();
 
+  const getPending = async () => {
+    let data = await getPendingGames(false, user);
+    dispatch(initialLiveGames(data));
+  }
+
   useEffect(() => {
-    (async () => {
-      let data = await getPendingGames(false, user);
-      dispatch(initialLiveGames(data));
-    })();
-  }, [dispatch, user])
+    getPending();
+  }, [])
 
   useEffect(() => {
     myEcho();
