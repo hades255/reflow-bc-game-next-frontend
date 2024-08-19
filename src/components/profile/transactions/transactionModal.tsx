@@ -8,6 +8,11 @@ import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
 import { useFetch } from "@/hooks/useFetch";
 import IconLoading from "@/utils/icons/Loading";
+import WhiteCoin from "@/utils/icons/WhiteCoin";
+import BlackCoin from "@/utils/icons/BlackCoin";
+import CoinBlack from "@/utils/icons/CoinBlack";
+import CoinRed from "@/utils/icons/CoinRed";
+import CoinYellow from "@/utils/icons/CoinYellow";
 
 const getTransactionIcon = (
   type: string,
@@ -23,6 +28,51 @@ const getTransactionIcon = (
       return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
     default:
       return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
+  }
+};
+
+const getTransactionWinIcon = (
+  type: string,
+  bet: any,
+  width: number = 66,
+  height: number = 66
+) => {
+  switch (type) {
+    case "roulette":
+      return bet.color === "black" ? (
+        <CoinBlack width={35} height={35} />
+      ) : bet.color === "red" ? (
+        <CoinRed width={35} height={35} />
+      ) : (
+        <CoinYellow width={35} height={35} />
+      );
+    case "royalflip":
+      return bet.user_color ? (
+        <WhiteCoin width={35} height={35} />
+      ) : (
+        <BlackCoin width={35} height={35} />
+      );
+    case "upgrader":
+      return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
+    default:
+      return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
+  }
+};
+
+const getbetText = (type: string, bet: any) => {
+  switch (type) {
+    case "roulette":
+      return bet.color === "black"
+        ? "T"
+        : bet.color === "red"
+        ? "CT"
+        : "Yellow";
+    case "royalflip":
+      return bet.user_color ? "CT" : "T";
+    case "upgrader":
+      return "";
+    default:
+      return "";
   }
 };
 
@@ -42,7 +92,7 @@ interface Props {
 
 const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [bet, setBet] = useState<string | null>(null);
+  const [bet, setBet] = useState<any | null>(null);
 
   const { data } = useFetch(`/api/profile/transactions/${selected}`, {
     method: "GET",
@@ -50,7 +100,7 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
 
   useEffect(() => {
     if (data && data.transaction) setTransaction(data.transaction);
-    if (data && data.game) setBet(data.game.win);
+    if (data && data.game) setBet(data.game[0]);
   }, [data]);
 
   const getDateFormat = useCallback(() => {
@@ -115,8 +165,10 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
                   </div>
                   <div className="m-[10px] h-[50px] flex items-center justify-between bg-[#111111] bg-opacity-[20%] rounded-lg px-[10px]">
                     <div className="flex items-center">
-                      {getTransactionIcon(transaction.type)}
-                      T
+                      {getTransactionWinIcon(transaction.type, bet)}
+                      <span className="ml-2">
+                        {getbetText(transaction.type, bet)}
+                      </span>
                     </div>
                     <div className="text-[18px]">#{transaction.game_id}</div>
                   </div>
