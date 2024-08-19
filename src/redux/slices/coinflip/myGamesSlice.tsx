@@ -60,7 +60,7 @@ export const myGamesSlice = createSlice({
                 {
                   user_id: 1,
                   name: "house",
-                  avatar: "/assets/images/logo.svg",
+                  avatar: "/assets/images/crown.svg",
                   level: 0,
                   side: !gm.players[0].side,
                   budget: gm.players[0].budget,
