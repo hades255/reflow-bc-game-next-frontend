@@ -8,7 +8,7 @@ import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
 import { useUser } from "@/redux/slices/main/userSlice";
-import { updateBalance } from "@/redux/slices/main/balanceSlice";
+import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useWinning, setWinning } from "@/redux/slices/roulette/winningSlice";
 import {
   useLatestWinning,
@@ -20,7 +20,6 @@ import { setToast } from "@/redux/slices/main/toastSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { getActive, placeBet } from "@/services/roulette";
 import myEcho from "@/hooks/myEcho";
-import PreviousMap from "postcss/lib/previous-map";
 
 interface BetterType {
   user_id: number;
@@ -58,6 +57,7 @@ const RoulettePage = () => {
   const [blackBetters, setBlackBetters] = useState<BetterType[]>([]);
   const [show, setShow] = useState<boolean>(false);
 
+  const balance = useBalance();
   const user = useUser();
   const winning = useWinning();
   const latestWinning = useLatestWinning();
@@ -107,7 +107,7 @@ const RoulettePage = () => {
           })
         );
       } else {
-        if (bet > 0.1) {
+        if (bet > 0.1 && bet <= balance.balance) {
           let bettedVals = betted.includes(val)
             ? betted.filter((pv) => pv !== val)
             : betted.concat([val]);
@@ -179,8 +179,8 @@ const RoulettePage = () => {
           dispatch(
             setModal({
               status: true,
-              title: "Error",
-              content: "The minimum bet amount is 0.1",
+              title: "Warning",
+              content: "Please deposit more coins.",
               name: "Steam Sign In",
               type: 3,
               parameter: "",
