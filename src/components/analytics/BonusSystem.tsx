@@ -57,7 +57,7 @@ const BonusSystem = () => {
         setTotal(data.data.total);
       }
     })();
-  }, []);
+  }, [perPage]);
 
   const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
