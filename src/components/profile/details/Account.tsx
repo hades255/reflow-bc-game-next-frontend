@@ -72,7 +72,10 @@ const Account: FC<Props> = ({ user }) => {
                 height={8}
                 alt="cup"
               />
-              <span className="text-[9px] font-bold text-[#DF8E44]">
+              <span
+                className="text-[9px] font-bold"
+                style={{ color: `${levels[levelItem].color}` }}
+              >
                 {user.player_level}
               </span>
             </div>
