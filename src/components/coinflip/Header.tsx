@@ -12,7 +12,6 @@ import WhiteCoin from "@/utils/icons/WhiteCoin";
 import Button from "../buttons/Button";
 import { PiCoinsLight } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa6";
-import { prefetchDNS } from "react-dom";
 
 const Header = () => {
   const mygames = useMyGames();

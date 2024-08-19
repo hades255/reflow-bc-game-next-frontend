@@ -48,6 +48,8 @@ const MyGames = () => {
       if (user) {
         let data = await getPendingGames(true, user);
         dispatch(initialMyGames(data));
+      } else {
+        dispatch(initialMyGames([]));
       }
     })();
   }, [dispatch, user])

@@ -37,7 +37,7 @@ const ModernModal: React.FC<Props> = ({
       aria-modal="true"
     >
       <div
-        className="fixed inset-0 bg-gray-900 bg-opacity-70 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-70 transition-opacity"
         aria-hidden="true"
       ></div>
 

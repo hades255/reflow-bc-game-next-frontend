@@ -42,3 +42,7 @@ export const depositTokenList = [
     currency: "trx",
   },
 ];
+
+export const ADMIN_TABLE_ITEMS_PER_PAGE = 5;
+
+export const ADMIN_TABLE_SHOW_PAGES = 3;

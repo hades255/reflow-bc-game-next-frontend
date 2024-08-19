@@ -33,7 +33,7 @@ interface Transaction {
 
 export default function History() {
   const [transactions, setTransactions] = useState<Transaction[] | null>(null);
-  const [selected, setSelected] = useState<Transaction | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const [page, setPage] = useState(0);
 
   const { data } = useFetch("/api/profile/transactions", {
@@ -44,7 +44,7 @@ export default function History() {
     if (data && data.transactions) {
       setTransactions(
         data.transactions.filter(
-          (_: any, index: any) => index > page * 20 && index < (page + 1) * 20
+          (_: any, index: any) => index > page * 12 && index < (page + 1) * 12
         )
       );
     }
@@ -55,7 +55,7 @@ export default function History() {
   }, [page]);
 
   const handleClickNext = useCallback(() => {
-    if ((page + 1) * 20 < data.transactions.length) setPage(page + 1);
+    if ((page + 1) * 12 < data.transactions.length) setPage(page + 1);
   }, [page, data]);
 
   return (
@@ -67,17 +67,27 @@ export default function History() {
         {transactions ? (
           transactions.length ? (
             <>
+              <div
+                className={`w-full h-[50px] flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+              >
+                <div className="w-[150px] flex-none flex">Game</div>
+                <div className="w-[100px] flex-none">Number</div>
+                <div className="flex-grow"></div>
+                <div className="flex flex-row items-center gap-1 w-[100px]">
+                  Profits
+                </div>
+                <div className="w-[150px]">Time</div>
+              </div>
               {transactions.map((item, index) => (
                 <HistoryTab
                   key={index}
                   transaction={item}
-                  firstOrLast={
-                    index === 0 ? 0 : index === transactions.length - 1 ? 1 : 2
-                  }
+                  last={index === transactions.length - 1}
+                  odd={index % 2}
                   setSelected={setSelected}
                 />
               ))}
-              <div className="pt-4 flex justify-center">
+              <div className="pt-4 flex justify-end">
                 <button
                   className={`bg-[#333541] hover:bg-[#494d5e] text-[${
                     page === 0 ? "#999" : "#99A"
@@ -91,7 +101,7 @@ export default function History() {
                 </div>
                 <button
                   className={`bg-[#333541] hover:bg-[#494d5e] text-[${
-                    page >= Math.ceil(data.transactions.length / 20) - 1
+                    page >= Math.ceil(data.transactions.length / 12) - 1
                       ? "#999"
                       : "#99A"
                   }] font-bold w-8 h-8 rounded-2xl`}
@@ -108,8 +118,8 @@ export default function History() {
           <IconLoading width={12} height={12} color="#E9AE15" />
         )}
       </div>
-      {selected && (
-        <TransactionModal transaction={selected} setSelected={setSelected} />
+      {selected !== null && (
+        <TransactionModal selected={selected} setSelected={setSelected} />
       )}
     </div>
   );
@@ -117,45 +127,47 @@ export default function History() {
 
 interface HistoryTabProps {
   transaction: Transaction;
-  firstOrLast: Number;
+  last: boolean;
+  odd: number;
   setSelected: Function;
 }
 
 const HistoryTab: FC<HistoryTabProps> = ({
   transaction,
-  firstOrLast,
+  last,
+  odd,
   setSelected,
 }) => {
   const getDateFormat = useCallback(() => {
     const currentYear = new Date().getFullYear();
     const year = moment(transaction.created_at).year();
     if (currentYear === Number(year)) {
-      return moment(transaction.created_at).format("ddd DD MMM HH:mm");
+      return moment(transaction.created_at).format("ddd DD MMM hh:mm A");
     }
-    return moment(transaction.created_at).format("ddd DD MMM, YYYY HH:mm");
+    return moment(transaction.created_at).format("ddd DD MMM, YYYY hh:mm A");
   }, [transaction]);
 
   const handleSelect = useCallback(() => {
-    setSelected(transaction);
+    setSelected(transaction.id);
   }, [setSelected, transaction]);
 
   return (
     <div
-      className={`w-full flex flex-nowrap bg-[#25252E] ${
-        firstOrLast === 0 ? "rounded-t" : firstOrLast === 1 ? "rounded-b" : ""
-      } py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+      className={`w-full h-[50px] flex items-center flex-nowrap ${
+        odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
+      } ${
+        last ? "rounded-b" : ""
+      } py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] text-xs`}
       onClick={handleSelect}
     >
-      <div className="w-[150px] flex-none text-[#AAA] flex">
-        <span className="w-[30px] pt-1 items-center text-center">
+      <div className="w-[150px] text-white flex items-center">
           {getTransactionIcon(transaction.type)}
-        </span>
-        <span>
-          {transaction.type.substring(0, 1).toUpperCase() +
-            transaction.type.substring(1)}
-        </span>
+          <span>
+            {transaction.type.substring(0, 1).toUpperCase() +
+              transaction.type.substring(1)}
+          </span>
       </div>
-      <div className="w-[100px] flex-none text-[#99A]">
+      <div className="w-[100px] flex-none text-white">
         #{transaction.game_id}
       </div>
       <div className="flex-grow"></div>
@@ -163,13 +175,13 @@ const HistoryTab: FC<HistoryTabProps> = ({
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
           className={`${
-            transaction.amount > 0 ? "text-green-600" : "text-red-600	"
-          } font-medium text-[12px]`}
+            transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
+          } font-medium]`}
         >
           {transaction.amount}
         </p>
       </div>
-      <div className="w-[150px] text-[#99A]">{getDateFormat()}</div>
+      <div className="w-[150px] text-[#5D5D5D]">{getDateFormat()}</div>
     </div>
   );
 };
