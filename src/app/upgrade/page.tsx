@@ -166,7 +166,7 @@ const UpgradePage: FC = () => {
         <BetAmount
           value={betAmount}
           onChangeValue={(value: any) => setBetAmount(value)}
-          allValue={selectItems?.price / 1000 || 0}
+          allValue={(selectItems?.price / 1000) * 2 || 0}
           myValue={Number(balance)}
         />
         <div>
@@ -174,7 +174,7 @@ const UpgradePage: FC = () => {
             key={renderKey}
             betAmount={betAmount}
             assetValue={
-              selectItems?.price / 1000 + selectItems?.price / 18000 || 1
+              (selectItems?.price / 1000 + selectItems?.price / 18000) * 2 || 1
             }
             betResult={isWinner}
             isLoading={isLoading}
@@ -190,7 +190,7 @@ const UpgradePage: FC = () => {
         </div>
 
         <SelectItem
-          allAmount={selectItems ? selectItems?.price / 1000 : 0}
+          allAmount={selectItems ? (selectItems?.price / 1000) * 2 : 0}
           imgUrl={selectItems?.img}
           title={selectItems?.name}
           onClick={() => handleClickSelectItem()}

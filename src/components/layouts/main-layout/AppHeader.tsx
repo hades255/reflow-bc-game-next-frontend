@@ -14,6 +14,7 @@ import { setToast } from "@/redux/slices/main/toastSlice";
 import { changePage } from "@/redux/slices/main/pageSlice";
 import { usePage } from "@/redux/slices/main/pageSlice";
 import logo from "@/assets/logos/logo.png";
+import { setModal } from "@/redux/slices/main/modalSlice";
 
 const AppHeader: FC = () => {
   const token = useToken();
@@ -22,14 +23,40 @@ const AppHeader: FC = () => {
   const dispatch = useDispatch();
 
   const gotoDeposit = () => {
-    dispatch(changePage("/deposit"));
-    router.push("/deposit");
+    if (token) {
+      dispatch(changePage("/deposit"));
+      router.push("/deposit");
+    } else {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in.",
+          name: "Steam Sign In",
+          type: 1,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
   };
 
   const gotoWithdraw = () => {
-    dispatch(changePage("/withdraw"));
-    router.push("/withdraw");
-  }
+    if (token) {
+      dispatch(changePage("/withdraw"));
+      router.push("/withdraw");
+    } else {
+      dispatch(
+        setModal({
+          status: true,
+          title: "Sign In",
+          content: "Please sign in.",
+          name: "Steam Sign In",
+          type: 1,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    }
+  };
 
   const handleLogin = async () => {
     router.push(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`);
@@ -60,7 +87,12 @@ const AppHeader: FC = () => {
                 clicked={gotoWithdraw}
                 active={page === "/withdraw"}
               />
-              <Button text={"Deposit"} disabled={false} clicked={gotoDeposit} active={page === "/deposit"} />
+              <Button
+                text={"Deposit"}
+                disabled={false}
+                clicked={gotoDeposit}
+                active={page === "/deposit"}
+              />
               <SteamLoginButton text={"Sign In"} clicked={handleLogin} />
             </>
           ) : (

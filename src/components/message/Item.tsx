@@ -45,12 +45,14 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         />
         <div className="flex flex-col">
           <div className="flex flex-row gap-[2px] items-center">
-            <Image src={bnbLogo} alt="bnb" />
-            <span className="text-[12px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
+            <span className="text-[12px] font-bold text-white overflow-hidden text-ellipsis w-[45px]">
               {chat.user.name}
             </span>
           </div>
-          <div className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]">
+          <div
+            className={`flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]`}
+            style={{ borderColor: `${levels[levelItem].color}` }}
+          >
             <Image
               src={`/assets/icons/${levels[levelItem].name}.png`}
               width={8}

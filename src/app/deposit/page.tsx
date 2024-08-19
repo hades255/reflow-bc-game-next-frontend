@@ -17,6 +17,7 @@ import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import nowPayment from "@/services/nowPayments";
+import { apiCreatePayment } from "@/services/payment";
 
 const DepositPage: FC = () => {
   const router = useRouter();
@@ -79,8 +80,14 @@ const DepositPage: FC = () => {
     }
   }, [paymentId, type]);
 
-  const handlePayClick = (item: any) => {
+  const handlePayClick = async (item: any) => {
     if (amount != 0) {
+      const data = await apiCreatePayment({
+        amount: Number(amount),
+        pay_currency: item.currency,
+      });
+
+      console.log(data);
     }
   };
 
