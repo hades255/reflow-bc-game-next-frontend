@@ -121,8 +121,8 @@ const UpgradePage: FC = () => {
       const response = await apiGetItems(
         page,
         price,
-        minRange,
-        maxRange,
+        minRange / 2,
+        maxRange / 2,
         search
       );
       const newItems = response.data.items;
@@ -258,13 +258,13 @@ const UpgradePage: FC = () => {
           </div>
         </div>
 
-        <div className="overflow-y-scroll max-h-[510px] upgrader-list">
+        <div className="overflow-y-scroll max-h-[510px] mt-[40px] upgrader-list">
           <InfiniteScroll
             pageStart={0}
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
-            className="flex-wrap flex flex-row justify-center gap-2 mt-6"
+            className="flex-wrap flex flex-row justify-center gap-2"
             useWindow={false}
           >
             {items?.map((item, index) => (
