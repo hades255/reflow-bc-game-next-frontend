@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import IconAward from "@/utils/icons/Award";
 import IconCrown2 from "@/utils/icons/Crown2";
 import IconCoin from "@/utils/icons/Coin";
 import { XP_SYSTEM } from "@/config/constants";
@@ -32,15 +31,15 @@ const Account: FC<Props> = ({ user }) => {
 
   useEffect(() => {
     if (user) {
-      if (user.player_level > 11) {
+      if (user.player_level > 24) {
         setLevelItem(1);
-      } else if (user.player_level > 25) {
-        setLevelItem(2);
-      } else if (user.player_level > 36) {
-        setLevelItem(3);
       } else if (user.player_level > 48) {
+        setLevelItem(2);
+      } else if (user.player_level > 73) {
+        setLevelItem(3);
+      } else if (user.player_level > 98) {
         setLevelItem(4);
-      } else if (user.player_level > 54) {
+      } else if (user.player_level > 123) {
         setLevelItem(5);
       }
     }
@@ -63,14 +62,20 @@ const Account: FC<Props> = ({ user }) => {
         <div className="flex flex-col gap-3 mt-3">
           <div className="flex flex-row justify-between">
             <p className="text-[#484848] text-[10px] font-medium">Level</p>
-            <div className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]">
+            <div
+              className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border bg-[#020202]"
+              style={{ borderColor: `${levels[levelItem].color}` }}
+            >
               <Image
                 src={`/assets/icons/${levels[levelItem].name}.png`}
                 width={8}
                 height={8}
                 alt="cup"
               />
-              <span className="text-[9px] font-bold text-[#DF8E44]">
+              <span
+                className="text-[9px] font-bold"
+                style={{ color: `${levels[levelItem].color}` }}
+              >
                 {user.player_level}
               </span>
             </div>

@@ -25,9 +25,9 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         setLevelItem(2);
       } else if (chat.user.player_level > 73) {
         setLevelItem(3);
-      } else if (chat.user.player_level > 48) {
-        setLevelItem(4);
       } else if (chat.user.player_level > 98) {
+        setLevelItem(4);
+      } else if (chat.user.player_level > 123) {
         setLevelItem(5);
       }
     }
@@ -45,19 +45,24 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
         />
         <div className="flex flex-col">
           <div className="flex flex-row gap-[2px] items-center">
-            <Image src={bnbLogo} alt="bnb" />
-            <span className="text-[12px] font-bold text-white overflow-hidden text-ellipsis w-[38px]">
+            <span className="text-[12px] font-bold text-white overflow-hidden text-ellipsis w-[45px]">
               {chat.user.name}
             </span>
           </div>
-          <div className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]">
+          <div
+            className={`flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]`}
+            style={{ borderColor: `${levels[levelItem].color}` }}
+          >
             <Image
               src={`/assets/icons/${levels[levelItem].name}.png`}
               width={8}
               height={8}
               alt="cup"
             />
-            <span className="text-[9px] font-bold text-[#DF8E44]">
+            <span
+              className="text-[9px] font-bold"
+              style={{ color: `${levels[levelItem].color}` }}
+            >
               {chat.user.player_level}
             </span>
           </div>
