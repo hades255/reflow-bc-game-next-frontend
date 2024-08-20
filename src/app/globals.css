@@ -389,7 +389,7 @@ header {
   background-image: linear-gradient(
     to right,
     rgba(18, 18, 18, 1),
-    rgba(39, 39, 39, 0.3),
+    rgba(39, 39, 39, 0),
     rgba(18, 18, 18, 1)
   );
 }
