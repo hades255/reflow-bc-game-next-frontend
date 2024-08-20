@@ -42,15 +42,18 @@ const MyGames = () => {
     }
   }, [dispatch, myGames]);
 
+  const getPending = async () => {
+    if (user) {
+      let data = await getPendingGames(true, user);
+      dispatch(initialMyGames(data));
+    } else {
+      dispatch(initialMyGames([]));
+    }
+  }
 
   useEffect(() => {
-    (async() => {
-      if (user) {
-        let data = await getPendingGames(true, user);
-        dispatch(initialMyGames(data));
-      }
-    })();
-  }, [dispatch, user])
+    getPending();
+  }, [])
 
   useEffect(() => {
     myEcho();

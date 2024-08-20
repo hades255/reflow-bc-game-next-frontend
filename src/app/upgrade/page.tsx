@@ -121,8 +121,8 @@ const UpgradePage: FC = () => {
       const response = await apiGetItems(
         page,
         price,
-        minRange,
-        maxRange,
+        minRange / 2,
+        maxRange / 2,
         search
       );
       const newItems = response.data.items;
@@ -166,7 +166,7 @@ const UpgradePage: FC = () => {
         <BetAmount
           value={betAmount}
           onChangeValue={(value: any) => setBetAmount(value)}
-          allValue={selectItems?.price / 1000 || 0}
+          allValue={(selectItems?.price / 1000) * 2 || 0}
           myValue={Number(balance)}
         />
         <div>
@@ -174,7 +174,7 @@ const UpgradePage: FC = () => {
             key={renderKey}
             betAmount={betAmount}
             assetValue={
-              selectItems?.price / 1000 + selectItems?.price / 18000 || 1
+              (selectItems?.price / 1000 + selectItems?.price / 18000) * 2 || 1
             }
             betResult={isWinner}
             isLoading={isLoading}
@@ -190,7 +190,7 @@ const UpgradePage: FC = () => {
         </div>
 
         <SelectItem
-          allAmount={selectItems ? selectItems?.price / 1000 : 0}
+          allAmount={selectItems ? (selectItems?.price / 1000) * 2 : 0}
           imgUrl={selectItems?.img}
           title={selectItems?.name}
           onClick={() => handleClickSelectItem()}
@@ -208,16 +208,16 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={100000}
+                max={200000}
                 onChange={({ min, max }) => {
                   setMinRange(min / 100);
                   setMaxRange(max / 100);
                 }}
               />
-              <p className="text-white">1000.00</p>
+              <p className="text-white">2000.00</p>
             </div>
 
-            <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
+            {/* <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
               <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
               <select
                 className="bg-[#282828] text-[12px] text-white outline-none"
@@ -227,17 +227,44 @@ const UpgradePage: FC = () => {
                 <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
               </select>
+            </div> */}
+
+            <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
+              <button
+                id="hs-dropdown-order"
+                type="button"
+                className="px-2 text-font"
+              >
+                {price == "desc" ? "Highest" : "Lowest"} Amount First
+              </button>
+              <div
+                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                aria-labelledby="hs-dropdown-order"
+              >
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("desc")}
+                >
+                  Highest Amount First
+                </button>
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("asc")}
+                >
+                  Lowest Amount First
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="overflow-y-scroll max-h-[510px] upgrader-list">
+        <div className="overflow-y-scroll max-h-[510px] mt-[40px] upgrader-list">
           <InfiniteScroll
             pageStart={0}
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
-            className="flex-wrap flex flex-row justify-center gap-2 mt-6"
+            className="flex-wrap flex flex-row justify-center gap-2"
             useWindow={false}
           >
             {items?.map((item, index) => (
@@ -247,7 +274,7 @@ const UpgradePage: FC = () => {
                 id={item.id}
                 title={item.name}
                 image={item.img}
-                amount={item.price / 1000}
+                amount={(item.price / 1000) * 2}
                 onClick={(id) => handleSelectItem(id)}
               />
             ))}

@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import IconAward from "@/utils/icons/Award";
 import IconCrown2 from "@/utils/icons/Crown2";
 import IconCoin from "@/utils/icons/Coin";
 import { XP_SYSTEM } from "@/config/constants";
@@ -14,6 +13,36 @@ const Account: FC<Props> = ({ user }) => {
     if (user.player_level === 0) return "Bronze";
     const r = XP_SYSTEM[user.player_level].rank;
     return r.substring(0, 1).toUpperCase() + r.substring(1);
+  }, [user]);
+
+  const [levelItem, setLevelItem] = useState(0);
+
+  const levels = [
+    { name: "bronze", color: "#DF8E44" },
+    { name: "silver", color: "#9F9F9F" },
+    { name: "gold", color: "#FFD375" },
+    { name: "platinum", color: "#65ABCF" },
+    { name: "diamond", color: "#FD91FF" },
+    { name: "saphire", color: "#DCDCDC" },
+    { name: "warden", color: "#07CBFF" },
+    { name: "prince", color: "#B0F215" },
+    { name: "monarch", color: "#FE4A45" },
+  ];
+
+  useEffect(() => {
+    if (user) {
+      if (user.player_level > 123) {
+        setLevelItem(5);
+      } else if (user.player_level > 98) {
+        setLevelItem(4);
+      } else if (user.player_level > 73) {
+        setLevelItem(3);
+      } else if (user.player_level > 48) {
+        setLevelItem(2);
+      } else if (user.player_level > 24) {
+        setLevelItem(1);
+      }
+    }
   }, [user]);
 
   return (
@@ -33,11 +62,22 @@ const Account: FC<Props> = ({ user }) => {
         <div className="flex flex-col gap-3 mt-3">
           <div className="flex flex-row justify-between">
             <p className="text-[#484848] text-[10px] font-medium">Level</p>
-            <div className="p-[2px_8px] bg-[#F1B31A] flex flex-row items-center gap-[2px] rounded-[2px]">
-              <IconAward width={7} height={7} color="#000" />
-              <p className="text-[#101010] font-bold text-[9px]">
+            <div
+              className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border bg-[#020202]"
+              style={{ borderColor: `${levels[levelItem].color}` }}
+            >
+              <Image
+                src={`/assets/icons/${levels[levelItem].name}.png`}
+                width={8}
+                height={8}
+                alt="cup"
+              />
+              <span
+                className="text-[9px] font-bold"
+                style={{ color: `${levels[levelItem].color}` }}
+              >
                 {user.player_level}
-              </p>
+              </span>
             </div>
           </div>
           <div className="flex flex-row justify-between">

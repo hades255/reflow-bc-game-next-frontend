@@ -1,22 +1,78 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
-import { RiCloseLine } from "react-icons/ri";
+import { RiCloseLine, RiSubtractLine } from "react-icons/ri";
 import IconRoulette from "@/utils/icons/Roulette";
 import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
+import { useFetch } from "@/hooks/useFetch";
+import IconLoading from "@/utils/icons/Loading";
+import WhiteCoin from "@/utils/icons/WhiteCoin";
+import BlackCoin from "@/utils/icons/BlackCoin";
+import CoinBlack from "@/utils/icons/CoinBlack";
+import CoinRed from "@/utils/icons/CoinRed";
+import CoinYellow from "@/utils/icons/CoinYellow";
 
-const getTransactionIcon = (type: string) => {
+const getTransactionIcon = (
+  type: string,
+  width: number = 66,
+  height: number = 66
+) => {
   switch (type) {
     case "roulette":
-      return <IconRoulette height={52} width={66} color={"#E9AE15"} />;
+      return <IconRoulette height={height} width={width} color={"#E9AE15"} />;
     case "royalflip":
-      return <RoyalflipCoin height={60} width={66} color={"#E9AE15"} />;
+      return <RoyalflipCoin height={height} width={width} color={"#E9AE15"} />;
     case "upgrader":
-      return <UpgradeGame height={60} width={66} color={"#E9AE15"} />;
+      return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
     default:
-      return <GoldCoin height={52} width={66} color={"#E9AE15"} />;
+      return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
+  }
+};
+
+const getTransactionWinIcon = (
+  type: string,
+  bet: any,
+  width: number = 66,
+  height: number = 66
+) => {
+  switch (type) {
+    case "roulette":
+      return bet.color === "black" ? (
+        <CoinBlack width={35} height={35} />
+      ) : bet.color === "red" ? (
+        <CoinRed width={35} height={35} />
+      ) : (
+        <CoinYellow width={35} height={35} />
+      );
+    case "royalflip":
+      return bet.user_color ? (
+        <WhiteCoin width={35} height={35} />
+      ) : (
+        <BlackCoin width={35} height={35} />
+      );
+    case "upgrader":
+      return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
+    default:
+      return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
+  }
+};
+
+const getbetText = (type: string, bet: any) => {
+  switch (type) {
+    case "roulette":
+      return bet.color === "black"
+        ? "T"
+        : bet.color === "red"
+        ? "CT"
+        : "Yellow";
+    case "royalflip":
+      return bet.user_color ? "CT" : "T";
+    case "upgrader":
+      return "";
+    default:
+      return "";
   }
 };
 
@@ -30,18 +86,30 @@ interface Transaction {
 }
 
 interface Props {
-  transaction: Transaction;
+  selected: number;
   setSelected: Function;
 }
 
-const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
+const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
+  const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [bet, setBet] = useState<any | null>(null);
+
+  const { data } = useFetch(`/api/profile/transactions/${selected}`, {
+    method: "GET",
+  });
+
+  useEffect(() => {
+    if (data && data.transaction) setTransaction(data.transaction);
+    if (data && data.game) setBet(data.game[0]);
+  }, [data]);
+
   const getDateFormat = useCallback(() => {
     const currentYear = new Date().getFullYear();
-    const year = moment(transaction.created_at).year();
+    const year = moment(transaction?.created_at).year();
     if (currentYear === Number(year)) {
-      return moment(transaction.created_at).format("DD MMM HH:mm");
+      return moment(transaction?.created_at).format("ddd DD MMM hh:mm A");
     }
-    return moment(transaction.created_at).format("DD MMM, YYYY HH:mm");
+    return moment(transaction?.created_at).format("ddd DD MMM, YYYY hh:mm A");
   }, [transaction]);
 
   const handleClickClose = useCallback(() => {
@@ -50,7 +118,7 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
 
   return (
     <div
-      className="relative z-50"
+      className="relative z-30"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -62,78 +130,88 @@ const TransactionModal: React.FC<Props> = ({ transaction, setSelected }) => {
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <div className="relative transform overflow-hidden rounded-lg text-[#D8D8E8] bg-[#25252E] text-left shadow-xl transition-all w-[360px]">
-            <div className="w-full flex justify-end pt-4 pr-4">
+          <div className="transform rounded rounded-tr-none text-[#D8D8E8] bg-[#242424] text-left shadow-xl transition-all w-[277px]">
+            <div className=" absolute right-9 -top-5 w-9 h-5 bg-[#232323] rounded-tl flex justify-center">
               <span
                 onClick={handleClickClose}
-                className="hover:cursor-pointer hover:text-gray-400"
+                className="text-xl text-[#E59513] hover:cursor-pointer hover:text-gray-400"
+              >
+                <RiSubtractLine />
+              </span>
+            </div>
+            <div className=" absolute right-0 -top-5 w-9 h-5 bg-[#232323] rounded-tr flex justify-center">
+              <span
+                onClick={handleClickClose}
+                className="text-xl text-[#FA3241] hover:cursor-pointer hover:text-gray-400"
               >
                 <RiCloseLine />
               </span>
             </div>
-            <div className="w-full flex justify-center font-bold p-2 pt-0">
-              {transaction.type.substring(0, 1).toUpperCase() +
-                transaction.type.substring(1)}
-            </div>
-            <div className="w-full flex justify-center">
-              Placed on {getDateFormat()}
-            </div>
-            <div className="w-full p-2 px-8 pb-0">
-              <div className="w-full rounded-t-lg bg-[#20202A] p-4">
-                <div className="flex justify-between align-middle">
-                  <div className="flex">
-                    <div className="w-[80px]">
-                      {getTransactionIcon(transaction.type)}
-                    </div>
-                    <div className="flex flex-col">
-                      <div>#{transaction.game_id}</div>
-                      <div>CT</div>
-                    </div>
-                  </div>
-                  <div className="pt-4">Verify</div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full p-2 px-8 pt-1">
-              <div className="w-full rounded-b-lg bg-[#20202A] p-4">
-                <div className="flex justify-between">
-                  <div>Bet Placed on</div>
-                  <div className="flex">
-                    <span className="pt-[2px]">
-                      <RoyalflipCoin height={20} width={22} color="white" />
+            {transaction ? (
+              <>
+                <div className="m-[10px] flex flex-col bg-[#121212] bg-opacity-[48%] rounded-lg">
+                  <div className="mt-6 flex justify-center items-center">
+                    {getTransactionIcon(transaction.type, 24, 24)}
+                    <span className="text-white font-[600] text-md">
+                      {transaction.type.substring(0, 1).toUpperCase() +
+                        transaction.type.substring(1)}
                     </span>
-                    <div>CT</div>
+                  </div>
+                  <div className="flex justify-center items-center text-[#5D5D5D] text-xs">
+                    {getDateFormat()}
+                  </div>
+                  <div className="flex justify-center items-center text-[#5D5D5D] text-xs">
+                    Bet Placed On:
+                  </div>
+                  <div className="m-[10px] h-[50px] flex items-center justify-between bg-[#111111] bg-opacity-[20%] rounded-lg px-[10px]">
+                    <div className="flex items-center">
+                      {getTransactionWinIcon(transaction.type, bet)}
+                      <span className="ml-2">
+                        {getbetText(transaction.type, bet)}
+                      </span>
+                    </div>
+                    <div className="text-[18px]">#{transaction.game_id}</div>
+                  </div>
+                  <div className="mx-[10px] mb-5 h-[50px] flex items-center justify-between px-[10px] bg-[#111111] bg-opacity-[20%] rounded-lg">
+                    <span>You {transaction.amount > 0 ? "Win" : "Lose"}</span>
+                    <div className="flex items-center">
+                      <IconCoin width={15} height={15} color="#E9AE15" />
+                      <span
+                        className={`ml-1 ${
+                          transaction.amount > 0
+                            ? "text-[#A3FC56]"
+                            : "text-[#FF3148]"
+                        }`}
+                      >
+                        {transaction.amount}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="w-full p-2 px-8">
-              <div className="w-full rounded-lg bg-[#20202A] p-4 flex justify-between">
-                <span>{transaction.amount > 0 ? "You Won" : "You Lose"}</span>
-                <div className="flex">
-                  <span className="pt-[1px] pr-[2px]">
-                    <IconCoin width={14} height={14} color="#E9AE15" />
-                  </span>
-                  <span
-                    className={`${
-                      transaction.amount > 0 ? "text-green-600" : "text-red-600	"
-                    } font-medium text-[12px]`}
+                <div className="m-[10px]">
+                  <button
+                    className="bg-[#606060] bg-opacity-[12%] hover:bg-[#606060a1] p-1 rounded-sm w-full"
+                    onClick={handleClickClose}
                   >
-                    {transaction.amount}
-                  </span>
+                    <div className="flex justify-center items-center">
+                      <p className="text-[#E9AE15]">Verify</p>
+                    </div>
+                  </button>
+                  <button
+                    className="mt-1 bg-[#606060] bg-opacity-[12%] hover:bg-[#606060a1] p-1 rounded-sm w-full"
+                    onClick={handleClickClose}
+                  >
+                    <div className="flex justify-center items-center">
+                      <p className="">Close</p>
+                    </div>
+                  </button>
                 </div>
+              </>
+            ) : (
+              <div className="min-h-48 flex justify-center items-center">
+                <IconLoading width={12} height={12} color="#E9AE15" />
               </div>
-            </div>
-            <div className="w-full p-2 px-8 mb-6">
-              <button
-                className="bg-[#333541] hover:bg-[#494d5e] py-2 px-4 rounded-sm w-full"
-                onClick={handleClickClose}
-              >
-                <div className="flex justify-center items-center">
-                  <p className="font-semibold text-xs">Close</p>
-                </div>
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>

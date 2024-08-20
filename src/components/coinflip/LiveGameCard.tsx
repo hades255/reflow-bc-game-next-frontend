@@ -94,7 +94,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     if (game.round && game.players[1]?.user_id === user?.id) {
       dispatch(
         updateBalance({
-          balance: game.side ? 0 : Number(game.bet * 1.99),
+          balance: game.side === game.players[0].side ? 0 : Number(game.bet * 1.99),
         })
       );
     }

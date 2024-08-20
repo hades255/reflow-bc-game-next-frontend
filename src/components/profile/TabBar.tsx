@@ -2,6 +2,7 @@
 
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/redux/slices/main/userSlice";
 import TabItem from "./TabItem";
 import IconDetails from "@/utils/icons/Details";
 import IconAccount from "@/utils/icons/Account";
@@ -17,6 +18,7 @@ interface Props {
 const TabBar: FC<Props> = ({ select }) => {
   const [activeTab, setActiveTab] = useState(1);
   const router = useRouter();
+  const user = useUser();
 
   useEffect(() => {
     setActiveTab(select ?? 1);
@@ -98,27 +100,27 @@ const TabBar: FC<Props> = ({ select }) => {
         text="Socials"
         onClick={() => handleClickActiveTab("socials")}
       />
-      <TabItem
-        select={activeTab === 6}
-        hoverIcon={
-          <span
-            className={`text-[14px] text-[#E9AE15]`}
-          >
-            <MdOutlineAnalytics />
-          </span>
-        }
-        icon={
-          <span
-            className={`text-[14px] ${
-              activeTab === 6 ? "text-[#E9AE15]" : "text-[#787878]"
-            }`}
-          >
-            <MdOutlineAnalytics />
-          </span>
-        }
-        text="Administrator"
-        onClick={() => handleClickActiveTab("admin")}
-      />
+      {user?.is_admin && (
+        <TabItem
+          select={activeTab === 6}
+          hoverIcon={
+            <span className={`text-[14px] text-[#E9AE15]`}>
+              <MdOutlineAnalytics />
+            </span>
+          }
+          icon={
+            <span
+              className={`text-[14px] ${
+                activeTab === 6 ? "text-[#E9AE15]" : "text-[#787878]"
+              }`}
+            >
+              <MdOutlineAnalytics />
+            </span>
+          }
+          text="Administrator"
+          onClick={() => handleClickActiveTab("admin")}
+        />
+      )}
     </div>
   );
 };

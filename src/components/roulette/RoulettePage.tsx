@@ -8,7 +8,7 @@ import RollingHistory from "./RollingHistory";
 import Betting from "./Betting";
 import BetterTable from "./BetterTable";
 import { useUser } from "@/redux/slices/main/userSlice";
-import { updateBalance } from "@/redux/slices/main/balanceSlice";
+import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useWinning, setWinning } from "@/redux/slices/roulette/winningSlice";
 import {
   useLatestWinning,
@@ -57,6 +57,7 @@ const RoulettePage = () => {
   const [blackBetters, setBlackBetters] = useState<BetterType[]>([]);
   const [show, setShow] = useState<boolean>(false);
 
+  const balance = useBalance();
   const user = useUser();
   const winning = useWinning();
   const latestWinning = useLatestWinning();
@@ -73,15 +74,15 @@ const RoulettePage = () => {
   ) => {
     if (val === "red") {
       setRedBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     } else if (val === "gold") {
       setGoldBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     } else {
       setBlackBetters((prev) =>
-        prev.concat([{ user_id, name, level, avatar, bet }])
+        [...prev, { user_id, name, level, avatar, bet }]
       );
     }
   };
@@ -106,7 +107,7 @@ const RoulettePage = () => {
           })
         );
       } else {
-        if (bet > 0.1) {
+        if (bet > 0.1 && bet <= balance.balance) {
           let bettedVals = betted.includes(val)
             ? betted.filter((pv) => pv !== val)
             : betted.concat([val]);
@@ -178,8 +179,8 @@ const RoulettePage = () => {
           dispatch(
             setModal({
               status: true,
-              title: "Error",
-              content: "The minimum bet amount is 0.1",
+              title: "Warning",
+              content: "Please deposit more coins.",
               name: "Steam Sign In",
               type: 3,
               parameter: "",
@@ -329,7 +330,7 @@ const RoulettePage = () => {
             data.bets.user.name,
             Number(data.bets.user.player_level),
             data.bets.user.avatar,
-            data.bets.bet.amount
+            Number(data.bets.bet.amount)
           );
         } else {
           sliceBetter(data.bets.bet.color, data.bets.bet.user_id);
