@@ -276,7 +276,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               />
               {game["players"][1]["level"] !== 0 && (
                 <div
-                  className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]"
+                  className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-black font-bold text-[8px]"
                   style={{
                     color: LEVEL_SYSTEM.filter(
                       (level) =>
