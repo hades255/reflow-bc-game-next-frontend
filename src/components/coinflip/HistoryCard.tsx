@@ -24,7 +24,7 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
             className="rounded-lg"
           />
           <div
-            className={`absolute rounded-sm w-12 h-4 left-[calc(50%-23px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold text-[8px]`}
+            className={`absolute rounded-sm w-11 h-4 left-[calc(50%-22px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold`}
             style={{
               color: LEVEL_SYSTEM.filter(
                 (level) =>
@@ -48,11 +48,11 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
                 )[0].name
               }.png`}
               alt=""
-              width={12}
-              height={12}
+              width={10}
+              height={10}
             />
             {game["players"][0]["level"] < 224 && (
-              <span className={`text-[12px]`}>
+              <span className={`text-[10px]`}>
                 {game["players"][0]["level"]}
               </span>
             )}
@@ -101,7 +101,7 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
           />
           {game["players"][1]["level"] !== 0 && (
             <div
-              className={`absolute rounded-sm w-12 h-4 left-[calc(50%-23px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold text-[8px]`}
+              className={`absolute rounded-sm w-11 h-4 left-[calc(50%-22px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold`}
               style={{
                 color: LEVEL_SYSTEM.filter(
                   (level) =>
@@ -125,11 +125,11 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
                   )[0].name
                 }.png`}
                 alt=""
-                width={12}
-                height={12}
+                width={10}
+                height={10}
               />
               {game["players"][1]["level"] < 224 && (
-                <span className={`text-[12px]`}>
+                <span className={`text-[10px] align-middle`}>
                   {game["players"][1]["level"]}
                 </span>
               )}

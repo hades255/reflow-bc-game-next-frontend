@@ -57,10 +57,10 @@ const GameTab = () => {
 
   const [tabs, setTabs] = useState<TabType[]>([
     { active: false, text: "ROULETTE", Icon: IconRoulette },
-    { active: false, text: "SPORTS BETTING", Icon: IconSportsBet },
+    { active: false, text: "", Icon: IconSportsBet },
     { active: false, text: "ROYAL FLIP", Icon: IconCoinFlip },
     { active: false, text: "CROWN & KING", Icon: IconCrown },
-    { active: false, text: "PRICE PREDICTION", Icon: IconDuel },
+    { active: false, text: "", Icon: IconDuel },
   ]);
 
   useEffect(() => {
@@ -84,27 +84,29 @@ const GameTab = () => {
       case "/price":
         dispatch(changePage("/price"));
         setStatus(4);
-        break; 
+        break;
       default:
         setStatus(5);
         break;
     }
-    if (pathname.includes("/profile"))
-      dispatch(changePage("/profile"));
+    if (pathname.includes("/profile")) dispatch(changePage("/profile"));
   }, [dispatch, pathname]);
 
   return (
     <div className="flex gap-4">
-      {tabs.map((tab, idx) => (
-        <NavButton
-          Icon={tab.Icon}
-          active={tab.active}
-          text={tab.text}
-          clicked={() => handleClick(idx)}
-          other={false}
-          key={`tabs-${idx}`}
-        />
-      ))}
+      {tabs.map(
+        (tab, idx) =>
+          tab.text !== "" && (
+            <NavButton
+              Icon={tab.Icon}
+              active={tab.active}
+              text={tab.text}
+              clicked={() => handleClick(idx)}
+              other={false}
+              key={`tabs-${idx}`}
+            />
+          )
+      )}
     </div>
   );
 };
