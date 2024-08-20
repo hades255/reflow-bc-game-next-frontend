@@ -19,16 +19,16 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
 
   useEffect(() => {
     if (chat) {
-      if (chat.user.player_level > 24) {
-        setLevelItem(1);
-      } else if (chat.user.player_level > 48) {
-        setLevelItem(2);
-      } else if (chat.user.player_level > 73) {
-        setLevelItem(3);
+      if (chat.user.player_level > 123) {
+        setLevelItem(5);
       } else if (chat.user.player_level > 98) {
         setLevelItem(4);
-      } else if (chat.user.player_level > 123) {
-        setLevelItem(5);
+      } else if (chat.user.player_level > 73) {
+        setLevelItem(3);
+      } else if (chat.user.player_level > 48) {
+        setLevelItem(2);
+      } else if (chat.user.player_level > 24) {
+        setLevelItem(1);
       }
     }
   }, [chat]);
