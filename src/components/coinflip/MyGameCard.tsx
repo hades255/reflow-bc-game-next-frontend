@@ -58,15 +58,17 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           round: game.round,
         })
       );
-      dispatch(
-        updateBalance({
-          balance: game.side === game.players[0].side
-            ? game.players[1].name === "house"
-              ? Number(game.bet) * 2
-              : Number(game.bet) * 1.99
-            : 0,
-        })
-      );
+      if (game.bet === game.players[0].budget && game.bet === game.players[1].budget) {
+        dispatch(
+          updateBalance({
+            balance: game.side === game.players[0].side
+              ? game.players[1].name === "house"
+                ? Number(game.bet) * 2
+                : Number(game.bet) * 1.99
+              : 0,
+          })
+        );
+      }
   }, [dispatch, game.bet, game.round, game.side, game.players]);
 
   const cancelMyGame = async () => {
