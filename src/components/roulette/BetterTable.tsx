@@ -1,6 +1,7 @@
 "use client";
 import { FC } from "react";
 import Image from "next/image";
+import { LEVEL_SYSTEM } from "@/config/constants";
 import { PiCoinsLight } from "react-icons/pi";
 import { useUser } from "@/redux/slices/main/userSlice";
 
@@ -31,7 +32,6 @@ const BetterTable: FC<Props> = ({
   win,
   show,
 }) => {
-
   const user = useUser();
 
   const orderedBetters = () => {
@@ -39,15 +39,19 @@ const BetterTable: FC<Props> = ({
     originBetters.sort((a, b) => b.bet - a.bet);
     if (user && originBetters.some((beter) => beter.user_id === user.id)) {
       let mine = originBetters.filter((beter) => beter.user_id === user.id);
-      return mine.concat(originBetters.filter((beter) => beter.user_id !== user.id))
+      return mine.concat(
+        originBetters.filter((beter) => beter.user_id !== user.id)
+      );
     } else {
       return originBetters;
     }
-  }
+  };
 
   return (
     <div
-      className={`w-full flex flex-col gap-2 ${start ? show && win ? "" : "opacity-50" : ""}`}
+      className={`w-full flex flex-col gap-2 ${
+        start ? (show && win ? "" : "opacity-50") : ""
+      }`}
     >
       <div
         className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center font-bold ${
@@ -118,15 +122,34 @@ const BetterTable: FC<Props> = ({
                     alt=""
                     className="rounded-sm"
                   />
-                  <div className="bg-[#020202] border border-[#F08A48] text-[#F08A48] text-xs rounded-sm h-[18px] w-12 flex justify-center items-center gap-[5px]">
+                  <div
+                    className="bg-[#020202] text-xs rounded-sm h-[18px] w-12 flex justify-center items-center gap-[5px]"
+                    style={{
+                      color: LEVEL_SYSTEM.filter(
+                        (level) =>
+                          level.min <= better.level && better.level <= level.max
+                      )[0].color,
+                      borderWidth: 1,
+                      borderColor: LEVEL_SYSTEM.filter(
+                        (level) =>
+                          level.min <= better.level && better.level <= level.max
+                      )[0].color,
+                    }}
+                  >
                     <Image
-                      width={8}
-                      height={8}
+                      width={12}
+                      height={12}
                       className="w-3 h-3"
-                      src={"/assets/icons/bronze.png"}
+                      src={`/assets/icons/${
+                        LEVEL_SYSTEM.filter(
+                          (level) =>
+                            level.min <= better.level &&
+                            better.level <= level.max
+                        )[0].name
+                      }.png`}
                       alt=""
                     />
-                    <span>{better.level}</span>
+                    {better.level < 224 && <span>{better.level}</span>}
                   </div>
                   <span className="text-font">{better.name}</span>
                 </div>

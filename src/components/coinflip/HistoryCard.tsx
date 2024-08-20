@@ -2,7 +2,7 @@ import React from "react";
 
 import Image from "next/image";
 import { PiCoinsLight } from "react-icons/pi";
-import { TfiCup } from "react-icons/tfi";
+import { LEVEL_SYSTEM } from "@/config/constants";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import { HistoryType } from "@/utils/types";
@@ -23,9 +23,39 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
             alt=""
             className="rounded-lg"
           />
-          <div className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]">
-            <TfiCup />
-            <span className="text-[12px]">{game["players"][0]["level"]}</span>
+          <div
+            className={`absolute rounded-sm w-12 h-4 left-[calc(50%-23px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold text-[8px]`}
+            style={{
+              color: LEVEL_SYSTEM.filter(
+                (level) =>
+                  level.min <= game["players"][0]["level"] &&
+                  game["players"][0]["level"] <= level.max
+              )[0].color,
+              borderWidth: 1,
+              borderColor: LEVEL_SYSTEM.filter(
+                (level) =>
+                  level.min <= game["players"][0]["level"] &&
+                  game["players"][0]["level"] <= level.max
+              )[0].color,
+            }}
+          >
+            <Image
+              src={`/assets/icons/${
+                LEVEL_SYSTEM.filter(
+                  (level) =>
+                    level.min <= game["players"][0]["level"] &&
+                    game["players"][0]["level"] <= level.max
+                )[0].name
+              }.png`}
+              alt=""
+              width={12}
+              height={12}
+            />
+            {game["players"][0]["level"] < 224 && (
+              <span className={`text-[12px]`}>
+                {game["players"][0]["level"]}
+              </span>
+            )}
           </div>
           <div className="absolute top-0 -right-3">
             {game["players"][0]["side"] ? (
@@ -70,9 +100,39 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
             className="rounded-lg"
           />
           {game["players"][1]["level"] !== 0 && (
-            <div className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]">
-              <TfiCup />
-              <span className="text-[12px]">{game["players"][1]["level"]}</span>
+            <div
+              className={`absolute rounded-sm w-12 h-4 left-[calc(50%-23px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold text-[8px]`}
+              style={{
+                color: LEVEL_SYSTEM.filter(
+                  (level) =>
+                    level.min <= game["players"][1]["level"] &&
+                    game["players"][1]["level"] <= level.max
+                )[0].color,
+                borderWidth: 1,
+                borderColor: LEVEL_SYSTEM.filter(
+                  (level) =>
+                    level.min <= game["players"][1]["level"] &&
+                    game["players"][1]["level"] <= level.max
+                )[0].color,
+              }}
+            >
+              <Image
+                src={`/assets/icons/${
+                  LEVEL_SYSTEM.filter(
+                    (level) =>
+                      level.min <= game["players"][1]["level"] &&
+                      game["players"][1]["level"] <= level.max
+                  )[0].name
+                }.png`}
+                alt=""
+                width={12}
+                height={12}
+              />
+              {game["players"][1]["level"] < 224 && (
+                <span className={`text-[12px]`}>
+                  {game["players"][1]["level"]}
+                </span>
+              )}
             </div>
           )}
           <div className="absolute top-0 -right-3">
