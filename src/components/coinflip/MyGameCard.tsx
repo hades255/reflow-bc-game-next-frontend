@@ -12,7 +12,7 @@ import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame, cancelGames } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
-import { TfiCup } from "react-icons/tfi";
+import { LEVEL_SYSTEM } from "@/config/constants";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import { GameType } from "@/utils/types";
@@ -52,23 +52,27 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   };
 
   const showResult = useCallback(() => {
-      setShow((prev) => !prev);
+    setShow((prev) => !prev);
+    dispatch(
+      updateBudget({
+        round: game.round,
+      })
+    );
+    if (
+      game.bet === game.players[0].budget &&
+      game.bet === game.players[1].budget
+    ) {
       dispatch(
-        updateBudget({
-          round: game.round,
-        })
-      );
-      if (game.bet === game.players[0].budget && game.bet === game.players[1].budget) {
-        dispatch(
-          updateBalance({
-            balance: game.side === game.players[0].side
+        updateBalance({
+          balance:
+            game.side === game.players[0].side
               ? game.players[1].name === "house"
                 ? Number(game.bet) * 2
                 : Number(game.bet) * 1.99
               : 0,
-          })
-        );
-      }
+        })
+      );
+    }
   }, [dispatch, game.bet, game.round, game.side, game.players]);
 
   const cancelMyGame = async () => {
@@ -128,9 +132,27 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     user && (
       <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
         <div className="relative h-full w-28 flex gap-2 flex-col justify-center items-center rounded-md innerBlack bg-[#191919]">
-          <Image src={"/assets/images/crown.png"} width={64} height={64} alt="" className="hidden" />
-          <Image src={"/assets/coinflip/a.png"} width={200} height={200} alt="" className="hidden" />
-          <Image src={"/assets/coinflip/b.png"} width={200} height={200} alt="" className="hidden" />
+          <Image
+            src={"/assets/images/crown.png"}
+            width={64}
+            height={64}
+            alt=""
+            className="hidden"
+          />
+          <Image
+            src={"/assets/coinflip/a.png"}
+            width={200}
+            height={200}
+            alt=""
+            className="hidden"
+          />
+          <Image
+            src={"/assets/coinflip/b.png"}
+            width={200}
+            height={200}
+            alt=""
+            className="hidden"
+          />
           <div className="relative">
             <Image
               width={64}
@@ -139,9 +161,39 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               alt=""
               className="rounded-lg"
             />
-            <div className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]">
-              <TfiCup />
-              <span className="text-[12px]">{game["players"][0]["level"]}</span>
+            <div
+              className={`absolute rounded-sm w-12 h-4 left-[calc(50%-23px)] -bottom-1.5 flex justify-center items-center gap-1.5 bg-black px-1 font-bold text-[8px]`}
+              style={{
+                color: LEVEL_SYSTEM.filter(
+                  (level) =>
+                    level.min <= game["players"][0]["level"] &&
+                    game["players"][0]["level"] <= level.max
+                )[0].color,
+                borderWidth: 1,
+                borderColor: LEVEL_SYSTEM.filter(
+                  (level) =>
+                    level.min <= game["players"][0]["level"] &&
+                    game["players"][0]["level"] <= level.max
+                )[0].color,
+              }}
+            >
+              <Image
+                src={`/assets/icons/${
+                  LEVEL_SYSTEM.filter(
+                    (level) =>
+                      level.min <= game["players"][0]["level"] &&
+                      game["players"][0]["level"] <= level.max
+                  )[0].name
+                }.png`}
+                alt=""
+                width={12}
+                height={12}
+              />
+              {game["players"][0]["level"] < 224 && (
+                <span className={`text-[12px]`}>
+                  {game["players"][0]["level"]}
+                </span>
+              )}
             </div>
             <div className="absolute top-0 -right-3">
               {game["players"][0]["side"] ? (
@@ -223,11 +275,39 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
                 className="rounded-lg"
               />
               {game["players"][1]["level"] !== 0 && (
-                <div className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]">
-                  <TfiCup />
-                  <span className="text-[12px]">
-                    {game["players"][1]["level"]}
-                  </span>
+                <div
+                  className="absolute rounded-sm w-10 h-3 left-[calc(50%-20px)] -bottom-1.5 flex justify-center items-center gap-1 px-1 bg-gold text-black font-bold text-[8px]"
+                  style={{
+                    color: LEVEL_SYSTEM.filter(
+                      (level) =>
+                        level.min <= game["players"][1]["level"] &&
+                        game["players"][1]["level"] <= level.max
+                    )[0].color,
+                    borderWidth: 1,
+                    borderColor: LEVEL_SYSTEM.filter(
+                      (level) =>
+                        level.min <= game["players"][1]["level"] &&
+                        game["players"][1]["level"] <= level.max
+                    )[0].color,
+                  }}
+                >
+                  <Image
+                    src={`/assets/icons/${
+                      LEVEL_SYSTEM.filter(
+                        (level) =>
+                          level.min <= game["players"][1]["level"] &&
+                          game["players"][1]["level"] <= level.max
+                      )[0].name
+                    }.png`}
+                    alt=""
+                    width={12}
+                    height={12}
+                  />
+                  {game["players"][1]["level"] < 224 && (
+                    <span className="text-[12px]">
+                      {game["players"][1]["level"]}
+                    </span>
+                  )}
                 </div>
               )}
               <div className="absolute top-0 -right-3">
