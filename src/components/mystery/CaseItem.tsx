@@ -12,7 +12,7 @@ interface Props {
 const CaseItem: FC<Props> = ({ title, url, coin, percent }) => {
   return (
     <div
-      className="h-[220px] w-full bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer"
+      className="h-[220px] w-full max-w-[220px] bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer my-4"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
     >
       <div
