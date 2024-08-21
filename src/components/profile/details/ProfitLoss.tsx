@@ -49,7 +49,7 @@ const selectItems = [
 ];
 
 const ProfitLoss: FC = () => {
-  const [selectItem, setSelectItem] = useState(0);
+  const [selectItem, setSelectItem] = useState(3);
 
   const [graphdata, setGraphdata] = useState([]);
   const [winCount, setWinCount] = useState(0);

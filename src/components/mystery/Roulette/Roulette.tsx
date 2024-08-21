@@ -2,19 +2,7 @@ import React, { FC, useState, useRef, useEffect, useCallback } from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
-
-const rouletteList: weaponAttributes[] = [
-  { title: "solana", value: "0", percent: "0", steam_image: "solana" },
-  { title: "doge", value: "0", percent: "0", steam_image: "solana" },
-  { title: "near", value: "0", percent: "0", steam_image: "solana" },
-  { title: "shiba", value: "0", percent: "0", steam_image: "solana" },
-  { title: "xrp", value: "0", percent: "0", steam_image: "solana" },
-  { title: "pepe", value: "0", percent: "0", steam_image: "solana" },
-  { title: "cro", value: "0", percent: "0", steam_image: "solana" },
-  { title: "harmoney", value: "0", percent: "0", steam_image: "solana" },
-  { title: "hedera", value: "0", percent: "0", steam_image: "solana" },
-  { title: "avalanche", value: "0", percent: "0", steam_image: "solana" },
-];
+import { caseList } from "@/app/profile/mystery/page";
 
 interface Props {
   onClose?: () => void;
@@ -22,7 +10,7 @@ interface Props {
 
 const RoulettePage: FC<Props> = ({ onClose }) => {
   const [rouletteWeapons, setRouletteWeapons] =
-    useState<weaponAttributes[]>(rouletteList);
+    useState<weaponAttributes[]>(caseList);
   const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1);
   const [isReplay, setIsReplay] = useState<boolean>(false);
   const [isSpin, setIsSpin] = useState<boolean>(false);
@@ -44,11 +32,11 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
   }
 
   function load() {
-    let winner = rouletteList[Math.floor(Math.random() * rouletteList.length)];
+    let winner = caseList[Math.floor(Math.random() * caseList.length)];
 
     const roulette = new Roulette({
       winner,
-      weapons: rouletteList,
+      weapons: caseList,
       rouletteContainerRef,
       weaponsRef,
       weaponsCount: 100,
@@ -99,7 +87,7 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
             {rouletteWeapons.map((item, index) => (
               <RouletteItem
                 key={index}
-                title={item.title}
+                {...item}
                 isSelect={index === weaponPrizeId && !isSpin && isSpinEnd}
               />
             ))}

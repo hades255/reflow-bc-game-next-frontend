@@ -72,8 +72,8 @@ export default function History() {
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
-        <div className="w-full flex mb-5 justify-between">
-          <div className="text-sm flex items-center ">
+        <div className="w-full flex justify-between flex-wrap">
+          <div className="text-sm flex items-center mb-5">
             <span className="text-[#727272]">View:</span>
             <div className="ml-1 space-x-1 flex">
               <div
@@ -94,7 +94,7 @@ export default function History() {
             <span className="ml-4 mr-1 text-[#727272]">Sort By:</span>
             <span className="text-white">All</span>
           </div>
-          <div className="relative">
+          <div className="mb-5 relative">
             <input
               className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
               placeholder="Search..."
@@ -303,7 +303,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
       <div className="w-[150px] text-[#5D5D5D]">{getDateFormat()}</div>
     </div>
   ) : (
-    <div className="w-[20%] p-2">
+    <div className="w-full md:w-[50%] lg:w-[33.3%] xl:w-[20%] p-2">
       <div
         onClick={handleSelect}
         className="hover:cursor-pointer w-full bg-[#1E1E1E] p-3 rounded text-xs dropBlack"

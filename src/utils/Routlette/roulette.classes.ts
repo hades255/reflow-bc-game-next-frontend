@@ -1,26 +1,29 @@
 import { Ref } from "react";
 
 export interface weaponAttributes {
+  case: string;
   title: string;
-  value: string;
-  percent: string;
-  steam_image: string;
+  coin: number | string;
+  percent: number | string;
+  url: string;
 }
 
 export class Weapon {
   id: number;
+  case: string;
   title: string;
-  value: string;
-  percent: string;
-  steam_image: string;
+  coin: number | string;
+  percent: number | string;
+  url: string;
 
   constructor(id: number, attrs: weaponAttributes) {
     this.id = id;
 
+    this.case = attrs.case;
     this.title = attrs.title;
-    this.value = attrs.value;
+    this.coin = attrs.coin;
     this.percent = attrs.percent;
-    this.steam_image = attrs.steam_image;
+    this.url = attrs.url;
   }
 }
 
