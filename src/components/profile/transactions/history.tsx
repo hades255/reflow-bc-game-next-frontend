@@ -306,36 +306,38 @@ const HistoryTab: FC<HistoryTabProps> = ({
     <div className="w-[20%] p-2">
       <div
         onClick={handleSelect}
-        className="hover:cursor-pointer w-full bg-[#1E1E1E] p-3 rounded text-xs"
+        className="hover:cursor-pointer w-full bg-[#1E1E1E] p-3 rounded text-xs dropBlack"
       >
         <div className="flex justify-between mb-2">
-          <div className="text-white flex items-center text-[12px]">
+          <div className="text-white flex items-center text-[12px] font-bold">
             <div>{getTransactionIcon(transaction.type)}</div>
             <span>
               {transaction.type.substring(0, 1).toUpperCase() +
                 transaction.type.substring(1)}
             </span>
           </div>
-          <div className="flex-none text-[#5D5D5D] pt-1 text-[10px]">
+          <div className="flex-none text-[#717171] pt-1 text-[10px] font-bold">
             #{transaction.game_id}
           </div>
         </div>
-        <div className="bg-[#0303034C] rounded py-4 px-3 flex flex-col">
+        <div className="bg-[#0303034C] rounded py-4 px-3 flex flex-col dropBlack">
           <div className="flex justify-between">
-            <span className="text-[#5D5D5D] my-1 text-[12px]">Profit:</span>
+            <span className="text-[#5D5D5D] my-1 text-[12px] font-bold">
+              Profit:
+            </span>
             <div className="flex items-center">
               <IconCoin width={18} height={18} color="#E9AE15" />
               <p
                 className={`${
                   transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
-                } ml-1 font-medium text-[16px]`}
+                } ml-1 font-bold text-[16px]`}
               >
                 {transaction.amount > 0 && "+"}
                 {transaction.amount}
               </p>
             </div>
           </div>
-          <div className="text-[#5D5D5D] my-1 text-[12px]">
+          <div className="text-[#5D5D5D] my-1 text-[12px] font-medium">
             {getDateFormat()}
           </div>
         </div>
