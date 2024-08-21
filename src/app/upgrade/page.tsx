@@ -104,15 +104,18 @@ const UpgradePage: FC = () => {
 
   const handleSelectItem = (id: number) => {
     const index = items.find((item) => item.id === id);
+
     if (index === selectItems) {
       handleClickSelectItem();
+      setBetAmount(0);
     } else {
       setSelectItems(index);
-      if (betAmount === 0) {
-        if (token !== "") {
-          setBetAmount(0.01);
-        }
-      }
+      setBetAmount(0);
+      // if (betAmount === 0) {
+      //   if (token !== "") {
+      //     setBetAmount(0.01);
+      //   }
+      // }
     }
   };
 
@@ -158,43 +161,46 @@ const UpgradePage: FC = () => {
 
   return (
     <div className="p-6 flex flex-col gap-6">
-      <div className="flex gap-1 items-center">
-        <IconCrown width={24} height={26} color="#E9AE15" />
-        <p className="text-[18px] text-[#D1D1D1] font-bold">Crown & King</p>
-      </div>
-      <div className="flex flex-row justify-between">
-        <BetAmount
-          value={betAmount}
-          onChangeValue={(value: any) => setBetAmount(value)}
-          allValue={(selectItems?.price / 1000) * 2 || 0}
-          myValue={Number(balance)}
-        />
-        <div>
-          <CircularProgressBar
-            key={renderKey}
-            betAmount={betAmount}
-            assetValue={
-              (selectItems?.price / 1000 + selectItems?.price / 18000) * 2 || 1
-            }
-            betResult={isWinner}
-            isLoading={isLoading}
-          />
-          <div className="flex justify-center mt-[18px]">
-            <Button
-              className="!w-[250px]"
-              text="Upgrade"
-              clicked={handleBet}
-              disabled={btnActive}
-            ></Button>
-          </div>
+      <div className="flex flex-col gap-6">
+        <div className="flex gap-1 items-center">
+          <IconCrown width={24} height={26} color="#E9AE15" />
+          <p className="text-[18px] text-[#D1D1D1] font-bold">Crown & King</p>
         </div>
+        <div className="flex flex-row justify-between">
+          <BetAmount
+            value={betAmount}
+            onChangeValue={(value: any) => setBetAmount(value)}
+            allValue={(selectItems?.price / 1000) * 2 || 0}
+            myValue={Number(balance)}
+          />
+          <div>
+            <CircularProgressBar
+              key={renderKey}
+              betAmount={betAmount}
+              assetValue={
+                (selectItems?.price / 1000 + selectItems?.price / 18000) * 2 ||
+                1
+              }
+              betResult={isWinner}
+              isLoading={isLoading}
+            />
+            <div className="flex justify-center mt-[18px]">
+              <Button
+                className="!w-[250px]"
+                text="Upgrade"
+                clicked={handleBet}
+                disabled={btnActive}
+              ></Button>
+            </div>
+          </div>
 
-        <SelectItem
-          allAmount={selectItems ? (selectItems?.price / 1000) * 2 : 0}
-          imgUrl={selectItems?.img}
-          title={selectItems?.name}
-          onClick={() => handleClickSelectItem()}
-        />
+          <SelectItem
+            allAmount={selectItems ? (selectItems?.price / 1000) * 2 : 0}
+            imgUrl={selectItems?.img}
+            title={selectItems?.name}
+            onClick={() => handleClickSelectItem()}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col mt-6">
@@ -264,7 +270,7 @@ const UpgradePage: FC = () => {
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
-            className="flex-wrap flex flex-row justify-center gap-2"
+            className="grid grid-cols-7 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
             useWindow={false}
           >
             {items?.map((item, index) => (
