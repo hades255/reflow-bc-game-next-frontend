@@ -13,6 +13,7 @@ import BlackCoin from "@/utils/icons/BlackCoin";
 import CoinBlack from "@/utils/icons/CoinBlack";
 import CoinRed from "@/utils/icons/CoinRed";
 import CoinYellow from "@/utils/icons/CoinYellow";
+import { useRouter } from "next/navigation";
 
 const getTransactionIcon = (
   type: string,
@@ -91,6 +92,8 @@ interface Props {
 }
 
 const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
+  const router = useRouter();
+
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [bet, setBet] = useState<any | null>(null);
 
@@ -115,6 +118,10 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
   const handleClickClose = useCallback(() => {
     setSelected(null);
   }, [setSelected]);
+
+  const handleClickVerify = useCallback(() => {
+    router.push(`/fairness`);
+  }, [router]);
 
   return (
     <div
@@ -191,7 +198,7 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
                 <div className="m-[10px]">
                   <button
                     className="bg-[#606060] bg-opacity-[12%] hover:bg-[#606060a1] p-1 rounded-sm w-full"
-                    onClick={handleClickClose}
+                    onClick={handleClickVerify}
                   >
                     <div className="flex justify-center items-center">
                       <p className="text-[#E9AE15]">Verify</p>

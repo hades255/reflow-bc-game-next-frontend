@@ -149,26 +149,32 @@ export default function History() {
                     >
                       {1}
                     </button>
-                    <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] ${
-                        page === 1 ? "text-white" : "text-[#7E7E7E]"
-                      } font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(1)}
-                    >
-                      {2}
-                    </button>
-                    <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(2)}
-                    >
-                      {3}
-                    </button>
-                    <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(3)}
-                    >
-                      {4}
-                    </button>
+                    {totalPages > 1 && (
+                      <button
+                        className={`bg-[#333541] hover:bg-[#494d5e] ${
+                          page === 1 ? "text-white" : "text-[#7E7E7E]"
+                        } font-bold w-7 h-7 rounded-2xl text-xs`}
+                        onClick={() => handleClickPage(1)}
+                      >
+                        {2}
+                      </button>
+                    )}
+                    {totalPages > 2 && (
+                      <button
+                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        onClick={() => handleClickPage(2)}
+                      >
+                        {3}
+                      </button>
+                    )}
+                    {totalPages > 3 && (
+                      <button
+                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        onClick={() => handleClickPage(3)}
+                      >
+                        {4}
+                      </button>
+                    )}
                   </>
                 )}
                 {page - 1 > 0 && (
@@ -300,36 +306,38 @@ const HistoryTab: FC<HistoryTabProps> = ({
     <div className="w-[20%] p-2">
       <div
         onClick={handleSelect}
-        className="hover:cursor-pointer w-full bg-[#1E1E1E] p-2 rounded text-xs"
+        className="hover:cursor-pointer w-full bg-[#1E1E1E] p-3 rounded text-xs"
       >
-        <div className="flex justify-between mb-1">
-          <div className="text-white flex items-center">
+        <div className="flex justify-between mb-2">
+          <div className="text-white flex items-center text-[12px]">
             <div>{getTransactionIcon(transaction.type)}</div>
             <span>
               {transaction.type.substring(0, 1).toUpperCase() +
                 transaction.type.substring(1)}
             </span>
           </div>
-          <div className="flex-none text-[#5D5D5D] pt-1">
+          <div className="flex-none text-[#5D5D5D] pt-1 text-[10px]">
             #{transaction.game_id}
           </div>
         </div>
-        <div className="bg-[#0303034C] rounded py-4 px-2 flex flex-col">
+        <div className="bg-[#0303034C] rounded py-4 px-3 flex flex-col">
           <div className="flex justify-between">
-            <span className="text-[#5D5D5D] my-1">Profit:</span>
+            <span className="text-[#5D5D5D] my-1 text-[12px]">Profit:</span>
             <div className="flex items-center">
               <IconCoin width={18} height={18} color="#E9AE15" />
               <p
                 className={`${
                   transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
-                } ml-1 font-medium text-lg`}
+                } ml-1 font-medium text-[16px]`}
               >
                 {transaction.amount > 0 && "+"}
                 {transaction.amount}
               </p>
             </div>
           </div>
-          <div className="text-[#5D5D5D] my-1">{getDateFormat()}</div>
+          <div className="text-[#5D5D5D] my-1 text-[12px]">
+            {getDateFormat()}
+          </div>
         </div>
       </div>
     </div>
