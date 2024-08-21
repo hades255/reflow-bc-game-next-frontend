@@ -1,17 +1,7 @@
 import React, { FC } from "react";
 import Image from "next/image";
+import { XP_SYSTEM } from "@/config/constants";
 
-const BreakdownList = [
-  { tier: "bronze", level: 1, totalXP: 20, keys: 2, color: "text-[#C5946A]" },
-  { tier: "silver", level: 1, totalXP: 20, keys: 2, color: "text-[#C9C9C9]" },
-  { tier: "gold", level: 1, totalXP: 20, keys: 2, color: "text-[#ECC175]" },
-  { tier: "platinum", level: 1, totalXP: 20, keys: 2, color: "text-[#68C9F0]" },
-  { tier: "diamond", level: 1, totalXP: 20, keys: 2, color: "text-[#CF9DDB]" },
-  { tier: "saphire", level: 1, totalXP: 20, keys: 2, color: "text-[#E5E5E5]" },
-  { tier: "warden", level: 1, totalXP: 20, keys: 2, color: "text-[#3E76E7]" },
-  { tier: "prince", level: 1, totalXP: 20, keys: 2, color: "text-[#EEEEEE]" },
-  { tier: "monarch", level: 1, totalXP: 20, keys: 2, color: "text-[#EEEEEE]" },
-];
 const Breakdown: FC = () => {
   return (
     <div className="flex flex-col gap-4">
@@ -36,7 +26,7 @@ const Breakdown: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {BreakdownList.map((item, index) => (
+            {XP_SYSTEM.map((item, index) => (
               <tr
                 className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
                 key={index}
@@ -45,25 +35,23 @@ const Breakdown: FC = () => {
                   <Image
                     width={18}
                     height={18}
-                    src={`/assets/icons/${item.tier}.png`}
+                    src={`/assets/icons/${item.rank}.png`}
                     alt="icon"
                   />
-                  <p
-                    className={`text-[12px] font-medium ${item.color} capitalize`}
-                  >
-                    {item.tier}
+                  <p className={`text-[12px] font-medium capitalize`}>
+                    {item.rank}
                   </p>
                 </td>
-                <td className="w-[200px]">1</td>
-                <td className="w-[200px]">20</td>
+                <td className="w-[200px]">{item.level}</td>
+                <td className="w-[200px]">{item.xp}</td>
                 <td className="justify-end flex items-center gap-[5px] pr-[12px]">
                   <Image
                     width={21}
                     height={21}
-                    src={`/assets/icons/${item.tier}-key.png`}
+                    src={`/assets/icons/${item.rank}-key.png`}
                     alt="icon"
                   />
-                  <p className="text-[14px] font-medium">2</p>
+                  <p className="text-[14px] font-medium">{item.keys}</p>
                 </td>
               </tr>
             ))}

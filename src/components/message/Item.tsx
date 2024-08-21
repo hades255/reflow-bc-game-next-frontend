@@ -11,7 +11,7 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
     { name: "gold", color: "#FFD375" },
     { name: "platinum", color: "#65ABCF" },
     { name: "diamond", color: "#FD91FF" },
-    { name: "saphire", color: "#DCDCDC" },
+    { name: "sapphire", color: "#DCDCDC" },
     { name: "warden", color: "#07CBFF" },
     { name: "prince", color: "#B0F215" },
     { name: "monarch", color: "#FE4A45" },

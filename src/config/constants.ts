@@ -1,14 +1,14 @@
 export const LEVEL_SYSTEM = [
-  { name: "bronze", color: "#DF8E44", min: 0, max: 24 },
-  { name: "silver", color: "#9F9F9F", min: 25, max: 48 },
-  { name: "gold", color: "#FFD375", min: 49, max: 73 },
-  { name: "platinum", color: "#65ABCF", min: 74, max: 98 },
-  { name: "diamond", color: "#FD91FF", min: 99, max: 123 },
-  { name: "sapphire", color: "#DCDCDC", min: 124, max: 148 },
-  { name: "warden", color: "#07CBFF", min: 149, max: 173 },
-  { name: "prince", color: "#B0F215", min: 174, max: 198 },
-  { name: "monarch", color: "#FE4A45", min: 199, max: 223 },
-  { name: "immortal", color: "#CB3D7F", min: 224, max: 999 },
+  { name: "bronze", color: "#DF8E44", min: 0, max: 24, level: 1 },
+  { name: "silver", color: "#9F9F9F", min: 25, max: 48, level: 25 },
+  { name: "gold", color: "#FFD375", min: 49, max: 73, level: 49 },
+  { name: "platinum", color: "#65ABCF", min: 74, max: 98, level: 74 },
+  { name: "diamond", color: "#FD91FF", min: 99, max: 123, level: 99 },
+  { name: "sapphire", color: "#DCDCDC", min: 124, max: 148, level: 124 },
+  { name: "warden", color: "#07CBFF", min: 149, max: 173, level: 149 },
+  { name: "prince", color: "#B0F215", min: 174, max: 198, level: 174 },
+  { name: "monarch", color: "#FE4A45", min: 199, max: 223, level: 199 },
+  { name: "invincible", color: "#CB3D7F", min: 224, max: 999, level: 225 },
 ];
 
 export const XP_SYSTEM = [

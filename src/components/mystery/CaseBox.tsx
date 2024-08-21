@@ -1,40 +1,37 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import Image from "next/image";
 import lock from "@/assets/icons/lock.svg";
 import Button from "../buttons/Button";
 
 import caseLeft from "@/assets/icons/case-arrow-left.svg";
 import caseRight from "@/assets/icons/case-arrow-right.svg";
-
-const boxList = [
-  { title: "bronze", level: 1 },
-  { title: "silver", level: 10 },
-  { title: "gold", level: 100 },
-];
+import { LEVEL_SYSTEM } from "@/config/constants";
 
 interface Props {
+  current: number;
   onClick?: () => void;
+  setCurrent: Function;
 }
 
-const CaseBox: FC<Props> = ({ onClick }) => {
-  const [current, setCurrent] = useState(1);
-
+const CaseBox: FC<Props> = ({ onClick, current, setCurrent }) => {
   return (
     <div
-      className="w-full h-[222px] bg-[#1E1E1E] py-6 px-12 rounded-[5px] flex flex-row items-center justify-between"
+      className="w-full h-[224px] bg-[#1E1E1E] py-6 px-12 rounded-[5px] flex flex-row items-center justify-between"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
     >
       <div className="flex flex-col">
         <p className="capitalize text-white text-[21px] font-bold">
-          {boxList[current].title} Crate
+          {LEVEL_SYSTEM[current].name} Crate
         </p>
         <div className="flex flex-row gap-[6px] mt-[8px]">
           <Image src={lock} alt="logo" />
           <p className="text-[14px] font-normal text-[#D1D1D1]">
             Unlocks at{" "}
-            <span className="font-medium">Level {boxList[current].level}</span>
+            <span className="font-medium">
+              Level {LEVEL_SYSTEM[current].level}
+            </span>
           </p>
         </div>
 
@@ -44,7 +41,7 @@ const CaseBox: FC<Props> = ({ onClick }) => {
             style={{ background: "linear-gradient(#11111147, #14141447)" }}
           >
             <Image
-              src={`/assets/icons/${boxList[current].title}-key.png`}
+              src={`/assets/icons/${LEVEL_SYSTEM[current].name}-key.png`}
               alt="icon"
               width={21}
               height={21}
@@ -71,9 +68,9 @@ const CaseBox: FC<Props> = ({ onClick }) => {
           }}
         />
         <Image
-          width={400}
+          width={280}
           height={180}
-          src={`/assets/images/${boxList[current].title}.png`}
+          src={`/assets/images/${LEVEL_SYSTEM[current].name}.png`}
           alt="image"
         />
         <Image
@@ -81,7 +78,7 @@ const CaseBox: FC<Props> = ({ onClick }) => {
           alt="icon"
           className="cursor-pointer"
           onClick={() => {
-            if (current < boxList.length - 1) {
+            if (current < LEVEL_SYSTEM.length - 1) {
               setCurrent(current + 1);
             }
           }}
