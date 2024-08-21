@@ -26,7 +26,7 @@ const MysteryPage: FC = () => {
             <p className="text-[18px] font-bold text-[#D1D1D1]">
               Items In The Case
             </p>
-            <div className="grid grid-cols-5 gap-12">
+            <div className="grid xl:grid-cols-5 lg:grid-cols-3 xl:gap-6 lg:gap-4">
               {caseList
                 .filter((item) => item.case === LEVEL_SYSTEM[current].name)
                 .map((item, index) => (

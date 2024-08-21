@@ -35,7 +35,7 @@ const Breakdown: FC = () => {
                   <Image
                     width={18}
                     height={18}
-                    src={`/assets/icons/${item.rank}.png`}
+                    src={`/assets/icons/${item.rank.toLowerCase()}.png`}
                     alt="icon"
                   />
                   <p className={`text-[12px] font-medium capitalize`}>
@@ -48,7 +48,7 @@ const Breakdown: FC = () => {
                   <Image
                     width={21}
                     height={21}
-                    src={`/assets/icons/${item.rank}-key.png`}
+                    src={`/assets/icons/${item.rank.toLowerCase()}-key.png`}
                     alt="icon"
                   />
                   <p className="text-[14px] font-medium">{item.keys}</p>
