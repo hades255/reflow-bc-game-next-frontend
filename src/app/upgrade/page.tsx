@@ -104,15 +104,18 @@ const UpgradePage: FC = () => {
 
   const handleSelectItem = (id: number) => {
     const index = items.find((item) => item.id === id);
+
     if (index === selectItems) {
       handleClickSelectItem();
+      setBetAmount(0);
     } else {
       setSelectItems(index);
-      if (betAmount === 0) {
-        if (token !== "") {
-          setBetAmount(0.01);
-        }
-      }
+      setBetAmount(0);
+      // if (betAmount === 0) {
+      //   if (token !== "") {
+      //     setBetAmount(0.01);
+      //   }
+      // }
     }
   };
 
