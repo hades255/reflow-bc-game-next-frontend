@@ -53,6 +53,9 @@ const BetterTable: FC<Props> = ({
         start ? (show && win ? "" : "opacity-50") : ""
       }`}
     >
+      <Image src={"/assets/roulette/red.png"} width={28} height={28} alt="" className="hidden" />
+      <Image src={"/assets/roulette/black.png"} width={28} height={28} alt="" className="hidden" />
+      <Image src={"/assets/roulette/gold.png"} width={28} height={28} alt="" className="hidden" />
       <div
         className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center font-bold ${
           betted.includes(type)
