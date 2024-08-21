@@ -10,6 +10,9 @@ interface Props {
 const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
   return (
     <div className="my-8 flex gap-4 justify-center">
+      <Image src={"/assets/roulette/red.png"} width={24} height={24} alt="" className="hidden" />
+      <Image src={"/assets/roulette/black.png"} width={24} height={24} alt="" className="hidden" />
+      <Image src={"/assets/roulette/gold.png"} width={24} height={24} alt="" className="hidden" />
       <div className="flex gap-2">
         <span className="text-font">Previous Rolls</span>
         <div className="flex gap-1">
