@@ -70,7 +70,7 @@ const CaseBox: FC<Props> = ({ onClick, current, setCurrent }) => {
         <Image
           width={280}
           height={180}
-          src={`/assets/images/${LEVEL_SYSTEM[current].name}.png`}
+          src={`/assets/images/boxes/${LEVEL_SYSTEM[current].name}.png`}
           alt="image"
         />
         <Image
