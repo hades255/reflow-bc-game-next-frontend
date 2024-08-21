@@ -2,7 +2,7 @@ import React, { FC, useState, useRef, useEffect, useCallback } from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
-import { caseList } from "@/app/profile/mystery/page";
+import { caseList } from "@/config/constants";
 
 interface Props {
   onClose?: () => void;
