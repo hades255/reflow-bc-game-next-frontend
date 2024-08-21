@@ -10,9 +10,9 @@ interface Props {
 const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
   return (
     <div className="my-8 flex gap-4 justify-center">
-      <Image src={"/assets/roulette/red.png"} width={24} height={24} alt="" className="hidden" />
-      <Image src={"/assets/roulette/black.png"} width={24} height={24} alt="" className="hidden" />
-      <Image src={"/assets/roulette/gold.png"} width={24} height={24} alt="" className="hidden" />
+      <Image src={"/assets/roulette/red.png?v=1"} width={24} height={24} alt="" className="hidden" />
+      <Image src={"/assets/roulette/black.png?v=1"} width={24} height={24} alt="" className="hidden" />
+      <Image src={"/assets/roulette/gold.png?v=1"} width={24} height={24} alt="" className="hidden" />
       <div className="flex gap-2">
         <span className="text-font">Previous Rolls</span>
         <div className="flex gap-1">
@@ -21,7 +21,7 @@ const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
               key={`coinhistory-${id}`}
               width={24}
               height={24}
-              src={`/assets/roulette/${game}.png`}
+              src={`/assets/roulette/${game}.png?v=1`}
               alt=""
             />
           ))}
@@ -33,7 +33,7 @@ const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
           <Image
             width={24}
             height={24}
-            src={"/assets/roulette/red.png"}
+            src={"/assets/roulette/red.png?v=1"}
             alt=""
           />
           <span>{hundredGames[0]}</span>
@@ -42,7 +42,7 @@ const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
           <Image
             width={24}
             height={24}
-            src={"/assets/roulette/gold.png"}
+            src={"/assets/roulette/gold.png?v=1"}
             alt=""
           />
           <span>{hundredGames[1]}</span>
@@ -51,7 +51,7 @@ const RollingHistory: FC<Props> = ({ tenGames, hundredGames }) => {
           <Image
             width={24}
             height={24}
-            src={"/assets/roulette/black.png"}
+            src={"/assets/roulette/black.png?v=1"}
             alt=""
           />
           <span>{hundredGames[2]}</span>
