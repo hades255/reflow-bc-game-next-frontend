@@ -72,7 +72,7 @@ const TokenBox: FC<Props> = ({ tokens }) => {
           {tokens &&
             tokens.map((item, index) => (
               <SwiperSlide
-                className="!flex items-center justify-center"
+                className="!flex items-center justify-center min-w-12"
                 key={index}
               >
                 <div className="w-[48px] h-[48px] text-black relative">

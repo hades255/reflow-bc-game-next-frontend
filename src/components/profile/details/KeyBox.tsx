@@ -69,10 +69,12 @@ const KeyBox: FC<Props> = ({ keys }) => {
             swiperRef.current = swiper;
           }}
         >
-          {keys &&
-            keys.map((item, index) => (
+        {keys &&
+          keys
+            .sort((a, b) => (a > b ? 1 : -1))
+            .map((item, index) => (
               <SwiperSlide
-                className="!flex items-center justify-center"
+                className="!flex items-center justify-center min-w-12"
                 key={index}
               >
                 <div className="w-[48px] h-[48px] p-[5px] text-black relative">
