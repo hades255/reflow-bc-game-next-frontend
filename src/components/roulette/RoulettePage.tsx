@@ -211,29 +211,33 @@ const RoulettePage = () => {
         );
         setGameId(uuidv4());
         if (data.status === "pending") {
+          setActed(-1);
           if (sec < 15) {
-            setActed(-1);
             setSecond(14 - sec);
-            let hundred = () => {
-              let arr = [0, 0, 0];
-              data.last_101_games.slice(0, 100).forEach((game: any) => {
-                if (game.winning_color === "red") {
-                  arr[0] += 1;
-                } else if (game.winning_color === "gold") {
-                  arr[1] += 1;
-                } else {
-                  arr[2] += 1;
-                }
-              });
-              return arr;
-            };
-            let ten = data.last_11_games
-              .slice(0, 10)
-              .reverse()
-              .map((game: any) => game.winning_color);
-            dispatch(setLatestWinning({ hundred: hundred(), ten }));
+          } else {
+            setSecond(0);
           }
+          let hundred = () => {
+            let arr = [0, 0, 0];
+            data.last_101_games.slice(0, 100).forEach((game: any) => {
+              if (game.winning_color === "red") {
+                arr[0] += 1;
+              } else if (game.winning_color === "gold") {
+                arr[1] += 1;
+              } else {
+                arr[2] += 1;
+              }
+            });
+            return arr;
+          };
+          let ten = data.last_11_games
+            .slice(0, 10)
+            .reverse()
+            .map((game: any) => game.winning_color);
+          dispatch(setLatestWinning({ hundred: hundred(), ten }));
         } else {
+          setActed(22 - sec);
+          setSecond(15);
           dispatch(
             setWinning({
               index: data.winning_number,
@@ -276,7 +280,6 @@ const RoulettePage = () => {
             .reverse()
             .map((game: any) => game.winning_color);
           dispatch(setCache({ cacheHundred: cacheHundred(), cacheTen }));
-          setActed(22 - sec);
           data.bets.forEach((bet: any) => {
             pushBetter(
               bet.color,
@@ -287,7 +290,6 @@ const RoulettePage = () => {
               bet.user.amount
             );
           });
-          setSecond(15);
         }
       }
     })();

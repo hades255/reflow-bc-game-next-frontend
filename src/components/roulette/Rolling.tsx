@@ -56,9 +56,27 @@ const Rolling: FC<Props> = ({
 
   return (
     <div className="relative">
-      <Image src={"/assets/roulette/red.png"} width={108} height={108} alt="" className="hidden" />
-      <Image src={"/assets/roulette/black.png"} width={108} height={108} alt="" className="hidden" />
-      <Image src={"/assets/roulette/gold.png"} width={108} height={108} alt="" className="hidden" />
+      <Image
+        src={"/assets/roulette/red.png"}
+        width={108}
+        height={108}
+        alt=""
+        className="hidden"
+      />
+      <Image
+        src={"/assets/roulette/black.png"}
+        width={108}
+        height={108}
+        alt=""
+        className="hidden"
+      />
+      <Image
+        src={"/assets/roulette/gold.png"}
+        width={108}
+        height={108}
+        alt=""
+        className="hidden"
+      />
       <RoulettePro
         prizes={coinsTemplate}
         prizeIndex={((66 + (winning.index || 0)) * 108) / 206}
@@ -68,22 +86,24 @@ const Rolling: FC<Props> = ({
         defaultDesignOptions={{ hideCenterDelimiter: !centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
-      {!start && -1 < second && second < 15 && (
+      {!start && -1 < second && (
         <div className="text-xl text-center text-white absolute top-9 w-full z-50">
           <p className="text-xl">ROLLING</p>
           <div className="text-xl font-black text-white flex justify-between px-[calc(50%-24px)]">
             <span>{second}&nbsp;.</span>
-            <CountUp
-              key={`counter-${second}`}
-              start={99}
-              end={0}
-              decimals={0}
-              duration={1}
-              easingFn={(t: number, b: number, c: number, d: number) =>
-                (c * t) / d + b
-              }
-              formattingFn={(val: number) => (val > 9 ? `${val}` : `0${val}`)}
-            />
+            {second < 15 && (
+              <CountUp
+                key={`counter-${second}`}
+                start={99}
+                end={0}
+                decimals={0}
+                duration={1}
+                easingFn={(t: number, b: number, c: number, d: number) =>
+                  (c * t) / d + b
+                }
+                formattingFn={(val: number) => (val > 9 ? `${val}` : `0${val}`)}
+              />
+            )}
           </div>
         </div>
       )}
