@@ -7,6 +7,18 @@ import { fetchAPI } from "@/services/fetchAPI";
 import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useDispatch } from "react-redux";
 
+function lcg(seed: any) {
+  const m = 0x80000000; // 2**31
+  let state = Math.floor(Math.random() * seed) % m;
+  return function () {
+    state = (state + Math.floor(Math.random() * Date.now())) % m;
+    return state / m;
+  };
+}
+
+const seed = localStorage.getItem("PUBLIC_CLIENT_SEED");
+const random = lcg(Number(seed) || 123456789012);
+
 interface Props {
   onClose: () => void;
   reLoadKeys: () => void;
@@ -37,8 +49,20 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
   }, [winHistory, rouletteWeapons, weaponPrizeId]);
 
   const load = useCallback(() => {
-    let winner =
-      rouletteWeapons[Math.floor(Math.random() * rouletteWeapons.length)];
+    const percents = rouletteWeapons.map((item) => item.percent[tier]);
+    const sum = percents.reduce((a, b) => a + b);
+    const rand = random() * sum;
+    let s = 0;
+    let winC = 0;
+    percents.some((item, index) => {
+      s += item;
+      if (rand < s) {
+        winC = index;
+        return true;
+      }
+    });
+    console.log(percents, sum, rand, s, winC);
+    let winner = rouletteWeapons[winC];
 
     const roulette = new Roulette({
       winner,
