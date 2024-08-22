@@ -11,6 +11,7 @@ import GoldCoin from "@/utils/icons/GoldCoin";
 import ItemsList from "@/utils/icons/ItemsList";
 import ItemsBox from "@/utils/icons/ItemsBox";
 import SearchIcon from "@/utils/icons/SearchIcon";
+import UpDownArrow from "@/utils/icons/UpDownArrow";
 
 const getTransactionIcon = (type: string) => {
   switch (type) {
@@ -110,15 +111,18 @@ export default function History() {
               <div className={`flex ${itemtheme ? "flex-col" : "flex-wrap"}`}>
                 {itemtheme && (
                   <div
-                    className={`w-full h-[50px] flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+                    className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
                   >
-                    <div className="w-[150px] flex-none flex">Game</div>
-                    <div className="w-[100px] flex-none">Number</div>
-                    <div className="flex-grow"></div>
-                    <div className="flex flex-row items-center gap-1 w-[100px]">
+                    <div className="w-[35%] max-w-[320px] flex-none flex">Game</div>
+                    <div className="w-[22%] max-w-[300px] flex-none">Number</div>
+                    <div className="flex items-center gap-1 w-[22%] max-w-[300px]">
                       Profits
+                      <UpDownArrow />
                     </div>
-                    <div className="w-[150px]">Time</div>
+                    <div className="flex items-center gap-1">
+                      Time
+                      <UpDownArrow />
+                    </div>
                   </div>
                 )}
                 {transactions
@@ -138,11 +142,18 @@ export default function History() {
                     />
                   ))}
               </div>
-              <div className="pt-4 flex justify-end">
+              <div className="pt-4 flex justify-end space-x-1">
+                {page > 2 && (
+                  <button
+                    className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
+                  >
+                    ...
+                  </button>
+                )}
                 {page < 2 && (
                   <>
                     <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] ${
+                      className={`bg-[#282828] hover:bg-[#494d5e] ${
                         page === 0 ? "text-white" : "text-[#7E7E7E]"
                       } font-bold w-7 h-7 rounded-2xl text-xs`}
                       onClick={() => handleClickPage(0)}
@@ -151,7 +162,7 @@ export default function History() {
                     </button>
                     {totalPages > 1 && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] ${
+                        className={`bg-[#282828] hover:bg-[#494d5e] ${
                           page === 1 ? "text-white" : "text-[#7E7E7E]"
                         } font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(1)}
@@ -161,7 +172,7 @@ export default function History() {
                     )}
                     {totalPages > 2 && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(2)}
                       >
                         {3}
@@ -169,7 +180,7 @@ export default function History() {
                     )}
                     {totalPages > 3 && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(3)}
                       >
                         {4}
@@ -180,20 +191,20 @@ export default function History() {
                 {page - 1 > 0 && (
                   <>
                     <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                      className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                       onClick={() => handleClickPage(page - 2)}
                     >
                       {page - 1}
                     </button>
                     <button
-                      className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                      className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                       onClick={() => handleClickPage(page - 1)}
                     >
                       {page}
                     </button>
                     {page < totalPages && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] text-white font-bold w-7 h-7 rounded-2xl text-xs`}
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-white font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(page)}
                       >
                         {page + 1}
@@ -201,7 +212,7 @@ export default function History() {
                     )}
                     {page + 1 < totalPages && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(page + 1)}
                       >
                         {page + 2}
@@ -209,7 +220,7 @@ export default function History() {
                     )}
                     {page + 2 < totalPages && (
                       <button
-                        className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
                         onClick={() => handleClickPage(page + 2)}
                       >
                         {page + 3}
@@ -219,7 +230,7 @@ export default function History() {
                 )}
                 {page + 3 < totalPages && (
                   <button
-                    className={`bg-[#333541] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
+                    className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
                   >
                     ...
                   </button>
@@ -270,27 +281,23 @@ const HistoryTab: FC<HistoryTabProps> = ({
 
   return itemtheme ? (
     <div
-      className={`w-full h-[50px] flex items-center flex-nowrap ${
+      className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
       } ${
         last ? "rounded-b" : ""
       } py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] text-xs`}
       onClick={handleSelect}
     >
-      <div className="w-[150px] text-white flex items-center">
+      <div className="w-[35%] max-w-[320px] text-[#D1D1D1] flex items-center">
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
-        <span>
-          {transaction.type.substring(0, 1).toUpperCase() +
-            transaction.type.substring(1)}
-        </span>
+        <span className="font-bold capitalize">{transaction.type}</span>
       </div>
-      <div className="w-[100px] flex-none text-white">
+      <div className="w-[22%] max-w-[300px] flex-none text-white">
         #{transaction.game_id}
       </div>
-      <div className="flex-grow"></div>
-      <div className="flex flex-row items-center gap-1 w-[100px]">
+      <div className="flex flex-row items-center gap-1 w-[22%] max-w-[300px]">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
           className={`${
@@ -300,7 +307,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
           {transaction.amount}
         </p>
       </div>
-      <div className="w-[150px] text-[#5D5D5D]">{getDateFormat()}</div>
+      <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
     </div>
   ) : (
     <div className="w-full md:w-[50%] lg:w-[33.3%] xl:w-[20%] p-2">
