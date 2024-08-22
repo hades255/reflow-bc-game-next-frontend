@@ -305,6 +305,7 @@ const RoulettePage = () => {
       setSecond(14);
     });
     channel.listen(".GameUpdate", (data: any) => {
+      console.log("update")
       dispatch(
         setWinning({
           index: data.game.winning_number,
