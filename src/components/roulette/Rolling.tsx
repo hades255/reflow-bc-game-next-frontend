@@ -86,28 +86,22 @@ const Rolling: FC<Props> = ({
         defaultDesignOptions={{ hideCenterDelimiter: !centerDelimiter }}
         options={{ stopInCenter: true, withoutAnimation: true }}
       />
-      {!start && -1 < second && (
+      {!start && -1 < second && second < 15 && (
         <div className="text-xl text-center text-white absolute top-9 w-full z-50">
           <p className="text-xl">ROLLING</p>
           <div className="text-xl font-black text-white flex justify-between px-[calc(50%-24px)]">
-            {second < 15 && (
-              <>
-                <span>{second}&nbsp;.</span>
-                <CountUp
-                  key={`counter-${second}`}
-                  start={99}
-                  end={0}
-                  decimals={0}
-                  duration={1}
-                  easingFn={(t: number, b: number, c: number, d: number) =>
-                    (c * t) / d + b
-                  }
-                  formattingFn={(val: number) =>
-                    val > 9 ? `${val}` : `0${val}`
-                  }
-                />
-              </>
-            )}
+            <span>{second}&nbsp;.</span>
+            <CountUp
+              key={`counter-${second}`}
+              start={99}
+              end={0}
+              decimals={0}
+              duration={1}
+              easingFn={(t: number, b: number, c: number, d: number) =>
+                (c * t) / d + b
+              }
+              formattingFn={(val: number) => (val > 9 ? `${val}` : `0${val}`)}
+            />
           </div>
         </div>
       )}
