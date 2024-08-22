@@ -1,4 +1,11 @@
-import React, { FC, useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  FC,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
@@ -16,9 +23,6 @@ function lcg(seed: any) {
   };
 }
 
-const seed = localStorage.getItem("PUBLIC_CLIENT_SEED");
-const random = lcg(Number(seed) || 123456789012);
-
 interface Props {
   onClose: () => void;
   reLoadKeys: () => void;
@@ -27,6 +31,11 @@ interface Props {
 }
 
 const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
+  const random = useMemo(
+    () => lcg(localStorage.getItem("PUBLIC_CLIENT_SEED") || 123456789012),
+    []
+  );
+
   const dispatch = useDispatch();
 
   const [rouletteWeapons, setRouletteWeapons] = useState<weaponAttributes[]>(
@@ -91,7 +100,7 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
     setWinner(winner);
 
     return roulette;
-  }, [current, reLoadKeys, rouletteWeapons, tier]);
+  }, [current, reLoadKeys, rouletteWeapons, tier, random]);
 
   const play = useCallback(() => {
     const roulette = load();
