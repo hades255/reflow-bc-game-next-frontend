@@ -5,11 +5,12 @@ interface Props {
   case: string;
   title: string;
   coin: number | string;
-  percent: number | string;
   url: string;
+  percent: any;
+  tier: string;
 }
 
-const CaseItem: FC<Props> = ({ title, url, coin, percent }) => {
+const CaseItem: FC<Props> = ({ title, url, coin, percent, tier }) => {
   return (
     <div
       className="h-[220px] w-full max-w-[220px] bg-[#1E1E1E] rounded-[5px] p-3 flex flex-col gap-6 cursor-pointer my-4"
@@ -33,7 +34,9 @@ const CaseItem: FC<Props> = ({ title, url, coin, percent }) => {
               {coin}
             </p>
           </div>
-          <p className="text-[12px] font-semibold text-[#484848]">{percent}%</p>
+          <p className="text-[12px] font-semibold text-[#484848]">
+            {percent[tier]}%
+          </p>
         </div>
       </div>
     </div>

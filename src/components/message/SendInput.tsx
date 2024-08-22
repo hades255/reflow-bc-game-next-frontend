@@ -22,7 +22,7 @@ const SendInput: FC<{ room: any; setTextHeight: any }> = ({
     const len = message.split("\n").length;
     setRow(len);
     setTextHeight(220 + (len - 1) * 12);
-  }, [message]);
+  }, [message, setTextHeight]);
 
   const handleClickShowOption = useCallback(
     () => setShowOption(!showOption),

@@ -2,71 +2,96 @@ import React, { FC, useState, useRef, useEffect, useCallback } from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
-import { caseList } from "@/config/constants";
+import { caseList, LEVEL_SYSTEM } from "@/config/constants";
+import { fetchAPI } from "@/services/fetchAPI";
+import { updateBalance } from "@/redux/slices/main/balanceSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
-  onClose?: () => void;
+  onClose: () => void;
+  reLoadKeys: () => void;
+  tier: string;
+  current: number;
 }
 
-const RoulettePage: FC<Props> = ({ onClose }) => {
-  const [rouletteWeapons, setRouletteWeapons] =
-    useState<weaponAttributes[]>(caseList);
+const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
+  const dispatch = useDispatch();
+
+  const [rouletteWeapons, setRouletteWeapons] = useState<weaponAttributes[]>(
+    caseList.filter((item) => item.case === LEVEL_SYSTEM[current].name)
+  );
   const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1);
-  const [isReplay, setIsReplay] = useState<boolean>(false);
   const [isSpin, setIsSpin] = useState<boolean>(false);
   const [isSpinEnd, setIsSpinEnd] = useState<boolean>(false);
   const [winHistory, setWinHistory] = useState<weaponAttributes[]>([]);
+  const [winner, setWinner] = useState<weaponAttributes>();
+  const [playFlag, setPlayFlag] = useState(false);
 
   const rouletteContainerRef = useRef<HTMLDivElement>(null);
   const weaponsRef = useRef<HTMLDivElement>(null);
 
-  function transitionEndHandler() {
+  const transitionEndHandler = useCallback(() => {
     setWinHistory(winHistory.concat(rouletteWeapons[weaponPrizeId]));
     setIsSpin(false);
     setIsSpinEnd(true);
-  }
+  }, [winHistory, rouletteWeapons, weaponPrizeId]);
 
-  function prepare() {
-    weaponsRef.current!.style.transition = "none";
-    weaponsRef.current!.style.left = "0px";
-  }
-
-  function load() {
-    let winner = caseList[Math.floor(Math.random() * caseList.length)];
+  const load = useCallback(() => {
+    let winner =
+      rouletteWeapons[Math.floor(Math.random() * rouletteWeapons.length)];
 
     const roulette = new Roulette({
       winner,
-      weapons: caseList,
+      weapons: rouletteWeapons,
       rouletteContainerRef,
       weaponsRef,
       weaponsCount: 100,
       transitionDuration: 5,
     });
 
+    (async () => {
+      try {
+        const response = await fetchAPI("/api/profile/winMysteryBox", "POST", {
+          coin: winner.coin,
+          level: current + 1,
+          tier,
+        });
+        reLoadKeys();
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
     roulette.set_weapons();
     setRouletteWeapons(roulette.weapons);
+    setWinner(winner);
 
     return roulette;
-  }
+  }, [current, reLoadKeys, rouletteWeapons, tier]);
 
   const play = useCallback(() => {
-    if (isReplay) {
-      prepare();
-    }
-    setIsSpin(true);
-
     const roulette = load();
-
     setIsSpin(true);
     setWeaponPrizeId(roulette.spin());
-    setIsReplay(true);
-  }, [isReplay]);
+  }, [load]);
+
+  const handleClaim = useCallback(() => {
+    dispatch(updateBalance({ balance: Number(winner?.coin || 0) }));
+    onClose();
+  }, [onClose, winner, dispatch]);
 
   useEffect(() => {
     setTimeout(() => {
-      play();
+      setPlayFlag(true);
     }, 100);
-  }, [play]);
+  }, []);
+
+  useEffect(() => {
+    if (playFlag) {
+      play();
+      setPlayFlag(false);
+    }
+  }, [play, playFlag]);
 
   return (
     <div className="flex flex-row justify-center">
@@ -87,6 +112,7 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
             {rouletteWeapons.map((item, index) => (
               <RouletteItem
                 key={index}
+                tier={tier}
                 {...item}
                 isSelect={index === weaponPrizeId && !isSpin && isSpinEnd}
               />
@@ -96,7 +122,7 @@ const RoulettePage: FC<Props> = ({ onClose }) => {
 
         <div className="flex justify-center mt-[10px] -ml-[70px]">
           <div className="w-[127px]">
-            <Button clicked={onClose} text="Claim" />
+            <Button clicked={handleClaim} text="Claim" />
           </div>
         </div>
       </div>

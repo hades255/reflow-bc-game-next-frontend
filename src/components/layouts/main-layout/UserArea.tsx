@@ -3,11 +3,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/services/main";
 import { setUser, useUser } from "@/redux/slices/main/userSlice";
-import {
-  useBalance,
-  setBalance,
-  updateBalance,
-} from "@/redux/slices/main/balanceSlice";
+import { useBalance, setBalance } from "@/redux/slices/main/balanceSlice";
 import { usePage, changePage } from "@/redux/slices/main/pageSlice";
 import Button from "@/components/buttons/Button";
 import NormalButton from "@/components/buttons/NormalButton";
@@ -51,7 +47,7 @@ const UserArea = () => {
 
   const handleSignOut = useCallback(() => {
     dispatch(setUser(null));
-    dispatch(updateBalance({ balance: 0 }));
+    dispatch(setBalance({ balance: 0 }));
     dispatch(signout());
   }, [dispatch]);
 
