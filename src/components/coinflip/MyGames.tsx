@@ -70,9 +70,6 @@ const MyGames = () => {
         }
       }
     });
-    return () => {
-      channel.stopListening("RoyalFlipGameEvent");
-    };
   }, [dispatch, user]);
 
   useEffect(() => {
