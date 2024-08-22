@@ -1,4 +1,11 @@
-import React, { FC, useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  FC,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import RouletteItem from "./RouletteItem";
 import Button from "@/components/buttons/Button";
 import { Roulette, weaponAttributes } from "@/utils/Routlette/roulette.classes";
@@ -6,6 +13,15 @@ import { caseList, LEVEL_SYSTEM } from "@/config/constants";
 import { fetchAPI } from "@/services/fetchAPI";
 import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useDispatch } from "react-redux";
+
+function lcg(seed: any) {
+  const m = 0x80000000; // 2**31
+  let state = Math.floor(Math.random() * seed) % m;
+  return function () {
+    state = (state + Math.floor(Math.random() * Date.now())) % m;
+    return state / m;
+  };
+}
 
 interface Props {
   onClose: () => void;
@@ -15,6 +31,11 @@ interface Props {
 }
 
 const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
+  const random = useMemo(
+    () => lcg(localStorage.getItem("PUBLIC_CLIENT_SEED") || 123456789012),
+    []
+  );
+
   const dispatch = useDispatch();
 
   const [rouletteWeapons, setRouletteWeapons] = useState<weaponAttributes[]>(
@@ -37,8 +58,20 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
   }, [winHistory, rouletteWeapons, weaponPrizeId]);
 
   const load = useCallback(() => {
-    let winner =
-      rouletteWeapons[Math.floor(Math.random() * rouletteWeapons.length)];
+    const percents = rouletteWeapons.map((item) => item.percent[tier]);
+    const sum = percents.reduce((a, b) => a + b);
+    const rand = random() * sum;
+    let s = 0;
+    let winC = 0;
+    percents.some((item, index) => {
+      s += item;
+      if (rand < s) {
+        winC = index;
+        return true;
+      }
+    });
+    console.log(percents, sum, rand, s, winC);
+    let winner = rouletteWeapons[winC];
 
     const roulette = new Roulette({
       winner,
@@ -67,7 +100,7 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
     setWinner(winner);
 
     return roulette;
-  }, [current, reLoadKeys, rouletteWeapons, tier]);
+  }, [current, reLoadKeys, rouletteWeapons, tier, random]);
 
   const play = useCallback(() => {
     const roulette = load();

@@ -52,7 +52,7 @@ const ClientSeed: FC = () => {
     if (!seed) return;
     localStorage.setItem("PUBLIC_CLIENT_SEED", seed);
     return;
-  }, [user, seed]);
+  }, [seed]);
 
   return (
     <div className="relative">

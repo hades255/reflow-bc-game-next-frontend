@@ -28,11 +28,11 @@ const ProfileDetails: FC = () => {
         {user ? (
           <>
             <Account user={user} />
-            <div className="flex flex-row gap-6">
-              <div className="flex-1 w-32">
+            <div className="flex flex-col xl:flex-row gap-6">
+              <div className="flex-1 w-full">
                 <KeyBox keys={keys} />
               </div>
-              <div className="flex-1 w-32">
+              <div className="flex-1 w-full">
                 <TokenBox tokens={tokens} />
               </div>
             </div>

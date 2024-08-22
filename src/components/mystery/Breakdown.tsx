@@ -39,7 +39,7 @@ const Breakdown: FC = () => {
                     alt="icon"
                   />
                   <p
-                    className={`text-[12px] font-medium capitalize`}
+                    className={`text-[12px] font-semibold capitalize`}
                     style={{
                       color:
                         (LEVEL_SYSTEM.find(
