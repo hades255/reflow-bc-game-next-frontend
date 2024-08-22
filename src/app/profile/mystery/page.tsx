@@ -19,8 +19,8 @@ const MysteryPage: FC = () => {
   const reLoadKeys = useCallback(() => {
     (async () => {
       try {
-        const response = await fetchAPI("/api/profile/keys", "GET");
-        setKeys(response.data.keys);
+        const response = await fetchAPI("/api/profile/us1erkeys", "GET");
+        setKeys(response.data.keys || []);
       } catch (error) {
         console.log(error);
       }
