@@ -4,8 +4,8 @@ export interface weaponAttributes {
   case: string;
   title: string;
   coin: number | string;
-  percent: number | string;
   url: string;
+  percent: any;
 }
 
 export class Weapon {
@@ -13,8 +13,8 @@ export class Weapon {
   case: string;
   title: string;
   coin: number | string;
-  percent: number | string;
   url: string;
+  percent: any;
 
   constructor(id: number, attrs: weaponAttributes) {
     this.id = id;
@@ -22,8 +22,8 @@ export class Weapon {
     this.case = attrs.case;
     this.title = attrs.title;
     this.coin = attrs.coin;
-    this.percent = attrs.percent;
     this.url = attrs.url;
+    this.percent = attrs.percent;
   }
 }
 

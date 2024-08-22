@@ -7,12 +7,20 @@ interface Props {
   case: string;
   title: string;
   coin: number | string;
-  percent: number | string;
+  percent: any;
   url: string;
   id?: number;
+  tier: string;
 }
 
-const RouletteItem: FC<Props> = ({ title, url, isSelect, coin, percent }) => {
+const RouletteItem: FC<Props> = ({
+  title,
+  url,
+  isSelect,
+  coin,
+  percent,
+  tier,
+}) => {
   return (
     <div className="inline-block w-[200px]">
       <div
@@ -46,7 +54,7 @@ const RouletteItem: FC<Props> = ({ title, url, isSelect, coin, percent }) => {
               </p>
             </div>
             <p className="text-[12px] font-semibold text-[#484848]">
-              {percent}%
+              {percent[tier]}%
             </p>
           </div>
         </div>
