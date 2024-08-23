@@ -103,21 +103,16 @@ const DepositPage: FC = () => {
           </div>
 
           <p className="text-white font-semibold text-[18px] capitalize">
-            Stream
+            Skin
           </p>
 
           <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
             <PaymentItem
               icon="/assets/images/payments/csgo.webp"
               title="CS:GO"
-              description="Counter-Strike: Global Offensive"
+              description="Waxpeer"
               type={0}
-              onClick={() =>
-                window.open(
-                  "https://pay.waxpeer.com/merchant/reflowdev",
-                  "_blank"
-                )
-              }
+              onClick={() => router.push("/skin/deposit")}
             />
           </div>
 

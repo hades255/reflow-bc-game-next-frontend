@@ -124,8 +124,8 @@ const UpgradePage: FC = () => {
       const response = await apiGetItems(
         page,
         price,
-        minRange / 2,
-        maxRange / 2,
+        minRange,
+        maxRange,
         search
       );
       const newItems = response.data.items;
@@ -170,7 +170,7 @@ const UpgradePage: FC = () => {
           <BetAmount
             value={betAmount}
             onChangeValue={(value: any) => setBetAmount(value)}
-            allValue={(selectItems?.price / 1000) * 2 || 0}
+            allValue={selectItems?.price / 1000 || 0}
             myValue={Number(balance)}
           />
           <div>
@@ -178,8 +178,7 @@ const UpgradePage: FC = () => {
               key={renderKey}
               betAmount={betAmount}
               assetValue={
-                (selectItems?.price / 1000 + selectItems?.price / 18000) * 2 ||
-                1
+                selectItems?.price / 1000 + selectItems?.price / 18000 || 1
               }
               betResult={isWinner}
               isLoading={isLoading}
@@ -195,7 +194,7 @@ const UpgradePage: FC = () => {
           </div>
 
           <SelectItem
-            allAmount={selectItems ? (selectItems?.price / 1000) * 2 : 0}
+            allAmount={selectItems ? selectItems?.price / 1000 : 0}
             imgUrl={selectItems?.img}
             title={selectItems?.name}
             onClick={() => handleClickSelectItem()}
@@ -214,26 +213,14 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={200000}
+                max={100000}
                 onChange={({ min, max }) => {
                   setMinRange(min / 100);
                   setMaxRange(max / 100);
                 }}
               />
-              <p className="text-white">2000.00</p>
+              <p className="text-white">1000.00</p>
             </div>
-
-            {/* <div className="flex flex-row items-center gap-1 bg-[#282828] px-2 ml-5 rounded-md">
-              <p className="text-[12px] text-[#D1D1D1] font-medium">Price:</p>
-              <select
-                className="bg-[#282828] text-[12px] text-white outline-none"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              >
-                <option value="desc">Descending</option>
-                <option value="asc">Ascending</option>
-              </select>
-            </div> */}
 
             <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
               <button
@@ -280,7 +267,7 @@ const UpgradePage: FC = () => {
                 id={item.id}
                 title={item.name}
                 image={item.img}
-                amount={(item.price / 1000) * 2}
+                amount={item.price / 1000}
                 onClick={(id) => handleSelectItem(id)}
               />
             ))}
