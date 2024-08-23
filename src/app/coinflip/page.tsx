@@ -7,7 +7,7 @@ import LiveGames from "@/components/coinflip/LiveGames";
 const CoinFlip = () => {
 
   return (
-    <div className="w-full h-full p-6">
+    <div className="p-6">
       <Header />
       <MyGames />
       <LiveGames />
