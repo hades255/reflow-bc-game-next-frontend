@@ -28,15 +28,15 @@ const getTransactionIcon = (
     case "upgrader":
       return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
     default:
-      return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
+      return <GoldCoin height={16} width={16} color={"#E9AE15"} />;
   }
 };
 
 const getTransactionWinIcon = (
   type: string,
   bet: any,
-  width: number = 66,
-  height: number = 66
+  width: number = 35,
+  height: number = 35
 ) => {
   switch (type) {
     case "roulette":
@@ -159,7 +159,7 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
                 <div className="m-[10px] flex flex-col bg-[#121212] bg-opacity-[48%] rounded-lg">
                   <div className="mt-6 flex justify-center items-center">
                     {getTransactionIcon(transaction.type, 24, 24)}
-                    <span className="text-white font-[600] text-md">
+                    <span className="text-white font-[600] text-md ml-1">
                       {transaction.type.substring(0, 1).toUpperCase() +
                         transaction.type.substring(1)}
                     </span>
