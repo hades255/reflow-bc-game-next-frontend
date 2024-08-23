@@ -133,13 +133,6 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
       <div className="h-48 w-[300px] rounded-md bg-[#1E1E1E] game-card p-3 flex justify-between items-center relative">
         <div className="relative h-full w-28 flex gap-2 flex-col justify-center items-center rounded-md innerBlack bg-[#191919]">
           <Image
-            src={"/assets/images/crown.png"}
-            width={64}
-            height={64}
-            alt=""
-            className="hidden"
-          />
-          <Image
             src={"/assets/coinflip/a.png"}
             width={200}
             height={200}
