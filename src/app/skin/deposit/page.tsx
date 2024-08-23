@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import IconDeposit from "@/utils/icons/Deposit";
 import TabItem from "@/components/skin/TabItem";
 import SearchInput from "@/components/upgrade/SearchInput";
@@ -9,10 +9,50 @@ import IconCoin from "@/utils/icons/Coin";
 import SkinDepositItem from "@/components/skin/deposit/SkinDepositItem";
 import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/deposit/SelectBox";
+import { apiGetItems } from "@/services/upgrader";
+import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
+import InfiniteScroll from "react-infinite-scroller";
 
 const DepositSkin: FC = () => {
-  const [search, setSearch] = useState<string>("");
+  const [items, setItems] = useState<any[]>([]);
   const [deals, setDeals] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const [minRange, setMinRange] = useState(0);
+  const [maxRange, setMaxRange] = useState(5000);
+  const [price, setPrice] = useState<string>("desc");
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
+  const loadMore = async (page: any) => {
+    try {
+      const response = await apiGetItems(
+        page,
+        price,
+        minRange,
+        maxRange,
+        search
+      );
+      const newItems = response.data.items;
+
+      if (page === 0) {
+        setItems(newItems);
+        setHasMoreItems(true);
+      } else if (page !== 0 && newItems.length === 0) {
+        setHasMoreItems(false);
+      } else {
+        setItems((prevItems) => [...prevItems, ...newItems]);
+      }
+    } catch (err) {
+      console.log(err);
+      setHasMoreItems(false);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      loadMore(0);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price, search, minRange, maxRange]);
 
   return (
     <div className="p-6 flex flex-row gap-6">
@@ -31,38 +71,75 @@ const DepositSkin: FC = () => {
         </div>
 
         <div className="flex flex-row justify-between mt-12 items-center">
-          <div className="w-[264px]">
+          <div className="w-[264px] flex">
             <SearchInput value={search} onChange={(e) => setSearch(e)} />
           </div>
 
-          <div className="flex flex-row items-center gap-4">
-            <div className="flex flex-row gap-[6px] items-center">
-              <p className="text-[#707070] font-bold text-[12px]">
-                Total Value:
-              </p>
-              <IconCoin color="#E9AE15" width={16} height={17} />
-              <p className="text-[12px] font-medium text-[#D1D1D1]">143,24</p>
+          <div className="flex flex-row">
+            <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
+              <p className="text-white">0.00</p>
+              <MultiRangeSlider
+                min={0}
+                max={100000}
+                onChange={({ min, max }) => {
+                  setMinRange(min / 100);
+                  setMaxRange(max / 100);
+                }}
+              />
+              <p className="text-white">1000.00</p>
             </div>
 
-            <div className="flex flex-row gap-[2px] items-center">
-              <p className="text-[#707070] font-bold text-[12px]">View:</p>
-              <select className="bg-[#121212] text-[12px] outline-none">
-                <option>Hight Price First</option>
-              </select>
+            <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
+              <button
+                id="hs-dropdown-order"
+                type="button"
+                className="px-2 text-font"
+              >
+                {price == "desc" ? "Highest" : "Lowest"} Amount First
+              </button>
+              <div
+                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                aria-labelledby="hs-dropdown-order"
+              >
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("desc")}
+                >
+                  Highest Amount First
+                </button>
+                <button
+                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                  onClick={() => setPrice("asc")}
+                >
+                  Lowest Amount First
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Items */}
-        <div className="mt-6">
-          <SkinDepositItem
-            image="https://steamcommunity-a.akamaihd.net/economy/image/class/730/5932384433"
-            title="★ StatTrak™ Karambit | Gamma Doppler (Factory New)"
-            amount={19880}
-            phase="Emerald"
-            discount={-285}
-            onClick={() => console.log("item")}
-          />
+        <div className="overflow-y-scroll overflow-x-hidden max-h-[630px] mt-[40px] upgrader-list">
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMore}
+            hasMore={hasMoreItems}
+            loader={<div key={0}>Loading...</div>}
+            className="grid grid-cols-6 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
+            useWindow={false}
+          >
+            {items?.map((item, index) => (
+              <SkinDepositItem
+                key={index}
+                image={item.img}
+                title={item.name}
+                amount={item.price / 1000}
+                phase="Emerald"
+                discount={-285}
+                onClick={() => console.log("item")}
+              />
+            ))}
+          </InfiniteScroll>
         </div>
       </div>
 
