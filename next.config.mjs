@@ -9,6 +9,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.waxpeer.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'community.akamai.steamstatic.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   async redirects() {
