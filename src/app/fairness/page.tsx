@@ -2,9 +2,9 @@
 
 import React, { FC, useState } from "react";
 import InfoPage from "@/components/fairness/info";
-// import RoulettePage from "@/components/fairness/roulette";
+import RoulettePage from "@/components/fairness/roulette";
 import IconInfo from "@/utils/icons/Info";
-// import CoinflipPage from "@/components/fairness/coinflip";
+import CoinflipPage from "@/components/fairness/coinflip";
 
 const Fairness: FC = () => {
   const [tab, setTab] = useState<number>(1);
@@ -16,7 +16,7 @@ const Fairness: FC = () => {
         <p className="text-[18px] text-[#D1D1D1] font-bold">Info</p>
       </div>
 
-      {/* <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-2">
         <div
           onClick={() => setTab(1)}
           className={`${
@@ -78,10 +78,10 @@ const Fairness: FC = () => {
         >
           Bonus Cases
         </div>
-      </div> */}
+      </div>
       {tab === 1 && <InfoPage />}
-      {/* {tab === 2 && <RoulettePage />} */}
-      {/* {tab === 3 && <CoinflipPage />} */}
+      {tab === 2 && <RoulettePage />} 
+      {tab === 3 && <CoinflipPage />}
     </div>
   );
 };
