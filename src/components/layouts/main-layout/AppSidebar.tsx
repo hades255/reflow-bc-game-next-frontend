@@ -111,7 +111,7 @@ const AppSidebar: FC = () => {
   }, [room]);
 
   return (
-    <div className="w-[280px] bg-[#181818] h-auto fixed top-[84px] z-10">
+    <div className="w-[280px] bg-[#181818] h-auto z-10">
       <div className="flex flex-col relative" ref={selectRef}>
         <div
           onClick={() => setShowRooms(!showRooms)}
