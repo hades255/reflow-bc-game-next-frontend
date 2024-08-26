@@ -12,6 +12,7 @@ import SelectBox from "@/components/skin/deposit/SelectBox";
 import { apiGetItems } from "@/services/upgrader";
 import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 import InfiniteScroll from "react-infinite-scroller";
+import { apiGetInventory } from "@/services/skinDeposit";
 
 const DepositSkin: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -21,7 +22,7 @@ const DepositSkin: FC = () => {
   const [maxRange, setMaxRange] = useState(5000);
   const [price, setPrice] = useState<string>("desc");
   const [hasMoreItems, setHasMoreItems] = useState(true);
-  const [selectItems, setSelectItems] = useState<any[]>([]);
+  const [selectItem, setSelectItem] = useState<any[]>([]);
 
   const loadMore = async (page: any) => {
     try {
@@ -50,10 +51,12 @@ const DepositSkin: FC = () => {
 
   useEffect(() => {
     (async () => {
-      loadMore(0);
+      const response = await apiGetInventory();
+      setItems(response.data?.items);
     })();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [price, search, minRange, maxRange]);
+  }, []);
 
   return (
     <div className="p-6 flex flex-row gap-6">
@@ -120,34 +123,34 @@ const DepositSkin: FC = () => {
         </div>
 
         {/* Items */}
-        <div className="overflow-y-scroll overflow-x-hidden max-h-[630px] mt-[40px] upgrader-list">
-          <InfiniteScroll
+        <div className="overflow-x-hidden h-[600px] mt-[40px]">
+          {/* <InfiniteScroll
             pageStart={0}
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
             className="grid grid-cols-6 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
             useWindow={false}
-          >
-            {items?.map((item, index) => (
-              <SkinDepositItem
-                id={item.id}
-                key={index}
-                image={item.img}
-                title={item.name}
-                amount={item.price / 1000}
-                // phase="Emerald"
-                discount={-285}
-                onClick={() => console.log("item")}
-              />
-            ))}
-          </InfiniteScroll>
+          > */}
+          {items?.map((item, index) => (
+            <SkinDepositItem
+              id={item.id}
+              key={index}
+              image={item.img}
+              title={item.name}
+              amount={item.price / 1000}
+              // phase="Emerald"
+              discount={-285}
+              onClick={() => console.log("item")}
+            />
+          ))}
+          {/* </InfiniteScroll> */}
         </div>
       </div>
 
       <div>
         {/* <FilterBox /> */}
-        <SelectBox />
+        <SelectBox item={selectItem} />
       </div>
     </div>
   );

@@ -1,21 +1,70 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import IconAttention from "@/utils/icons/Attention";
 import IconCamera from "@/utils/icons/Camera";
 import IconCoin from "@/utils/icons/Coin";
 import Image from "next/image";
 import Button from "@/components/buttons/Button";
-import { apiSetTradeLink, apiBuyItem } from "@/services/skinWithdraw";
+import { setToast } from "@/redux/slices/main/toastSlice";
+import { useDispatch } from "react-redux";
+import {
+  apiSetTradeLink,
+  apiBuyItem,
+  apiCheckManySteam,
+  apiSetResult,
+} from "@/services/skinWithdraw";
 
 interface SelectBoxProps {
   item: any;
 }
 
 const SelectBox: FC<SelectBoxProps> = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const [transactionId, setTransactionId] = useState<string>("");
+
   const handleBuy = async () => {
-    await apiSetTradeLink();
-    const response = await apiBuyItem({ name: item.name });
-    console.log(response.data);
+    if (!item?.img) {
+      dispatch(
+        setToast({
+          type: 4,
+          message: "Please select the Item",
+        })
+      );
+    } else {
+      const response = await apiBuyItem({ name: item.name });
+      if (response.data?.status === "error") {
+        dispatch(
+          setToast({
+            type: 4,
+            message: response.data?.message,
+          })
+        );
+      } else if (response.data?.status === "success") {
+        setTransactionId(response.data?.transactionId);
+      }
+    }
   };
+
+  useEffect(() => {
+    if (transactionId) {
+      let intervalId = setInterval(() => {
+        apiCheckManySteam(transactionId)
+          .then(async (res) => {
+            if (res.data.trades.status === 6 || res.data.trades.status === 5) {
+              clearInterval(intervalId);
+              await apiSetResult({ transactionId });
+              dispatch(
+                setToast({
+                  type: 4,
+                  message: "Withdraw is Success",
+                })
+              );
+            }
+          })
+          .catch((err) => console.log(err));
+      }, 10000);
+    }
+  }, [transactionId]);
 
   return (
     <div className="w-[280px] bg-[#1F1F1F] rounded-[5px] overflow-hidden flex flex-col gap-[10px] h-full">
@@ -66,47 +115,50 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
           <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
             WITHDRAW ITEMS
           </p>
-
-          <div className="bg-[#232323] w-full px-3 py-[10px] h-full flex flex-col gap-1 overflow-y-scroll max-h-[calc(100vh-330px)] upgrader-list">
-            <div className="dropBlack bg-[#1A1A1A] overflow-hidden h-auto w-full rounded-[5px]">
-              <div className="pt-5 pb-4 flex flex-row justify-between px-5 gap-2">
-                {/* <Image
-                  src="/assets/images/king.png"
-                  width={70}
-                  height={52}
-                  alt="king"
-                /> */}
-                {/* eslint-disable-next-line @next/next/no-img-element*/}
-                <img src={item?.img} alt="" className="h-[60px]" />
-                <div className="flex flex-col gap-2">
-                  <p className="text-[12px] font-bold text-[#D1D1D1]">
-                    {item?.name}
-                  </p>
-                  <p className="text-[12px] font-semibold text-[#797979]">
-                    {item?.type}
-                  </p>
-                  {/* <div className="flex flex-row items-center gap-1">
-                    <IconCamera width={10} height={10} color="#E9AE15" />
-                    <p className="text-[12px] font-medium text-[#D1D1D1]">
-                      0.013
+          {item?.img ? (
+            <div className="bg-[#232323] w-full px-3 py-[10px] h-full flex flex-col gap-1 overflow-y-scroll max-h-[calc(100vh-330px)] upgrader-list">
+              <div className="dropBlack bg-[#1A1A1A] overflow-hidden h-auto w-full rounded-[5px]">
+                <div className="pt-5 pb-4 flex flex-row justify-between px-5 gap-2">
+                  {/* <Image
+                    src="/assets/images/king.png"
+                    width={70}
+                    height={52}
+                    alt="king"
+                  /> */}
+                  {/* eslint-disable-next-line @next/next/no-img-element*/}
+                  <img src={item?.img} alt="" className="h-[60px]" />
+                  <div className="flex flex-col gap-2">
+                    <p className="text-[12px] font-bold text-[#D1D1D1]">
+                      {item?.name}
                     </p>
-                  </div> */}
+                    <p className="text-[12px] font-semibold text-[#797979]">
+                      {item?.type}
+                    </p>
+                    {/* <div className="flex flex-row items-center gap-1">
+                      <IconCamera width={10} height={10} color="#E9AE15" />
+                      <p className="text-[12px] font-medium text-[#D1D1D1]">
+                        0.013
+                      </p>
+                    </div> */}
+                  </div>
                 </div>
-              </div>
 
-              <div className="bg-[#131313] w-full px-5 py-[6.5px] flex justify-between items-center">
-                <p className="text-[13px] font-semibold text-[#D1D1D1]">
-                  Price
-                </p>
-                <div className="flex gap-1 items-center">
-                  <IconCoin color="#E9AE15" width={16} height={17} />
-                  <p className="text-[#E9AE15] font-semibold text-[14px]">
-                    {item?.price / 1000}
+                <div className="bg-[#131313] w-full px-5 py-[6.5px] flex justify-between items-center">
+                  <p className="text-[13px] font-semibold text-[#D1D1D1]">
+                    Price
                   </p>
+                  <div className="flex gap-1 items-center">
+                    <IconCoin color="#E9AE15" width={16} height={17} />
+                    <p className="text-[#E9AE15] font-semibold text-[14px]">
+                      {item?.price / 1000}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
 
         <div className="bg-[#232323] w-full px-3 py-[10px] flex flex-col gap-[10px]">
