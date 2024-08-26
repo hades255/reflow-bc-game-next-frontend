@@ -56,26 +56,6 @@ const Fairness: FC = () => {
               : "border-[#212121B2] text-[#717171]"
           } w-[90px] h-[34px] bg-[#212121B2] rounded-[5px] border flex flex-row items-center justify-center text-[12px] font-semibold cursor-pointer`}
         >
-          Cases
-        </div>
-        <div
-          onClick={() => setTab(5)}
-          className={`${
-            tab === 5
-              ? "border-[#E9AE15] text-[#E9AE15]"
-              : "border-[#212121B2] text-[#717171]"
-          } w-[90px] h-[34px] bg-[#212121B2] rounded-[5px] border flex flex-row items-center justify-center text-[12px] font-semibold cursor-pointer`}
-        >
-          Case Battles
-        </div>
-        <div
-          onClick={() => setTab(6)}
-          className={`${
-            tab === 6
-              ? "border-[#E9AE15] text-[#E9AE15]"
-              : "border-[#212121B2] text-[#717171]"
-          } w-[90px] h-[34px] bg-[#212121B2] rounded-[5px] border flex flex-row items-center justify-center text-[12px] font-semibold cursor-pointer`}
-        >
           Bonus Cases
         </div>
       </div>
