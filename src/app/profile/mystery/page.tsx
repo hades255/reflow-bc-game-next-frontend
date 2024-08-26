@@ -48,6 +48,9 @@ const MysteryPage: FC = () => {
             <div className="grid xl:grid-cols-5 lg:grid-cols-3 xl:gap-6 lg:gap-4">
               {caseList
                 .filter((item) => item.case === LEVEL_SYSTEM[current].name)
+                .sort((a, b) =>
+                  a.coin > b.coin ? -1 : a.coin < b.coin ? 1 : 0
+                )
                 .map((item, index) => (
                   <CaseItem key={index} {...item} tier={tier} />
                 ))}

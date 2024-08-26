@@ -4,10 +4,21 @@ import IconCamera from "@/utils/icons/Camera";
 import IconCoin from "@/utils/icons/Coin";
 import Image from "next/image";
 import Button from "@/components/buttons/Button";
+import { apiSetTradeLink, apiBuyItem } from "@/services/skinWithdraw";
 
-const SelectBox: FC = () => {
+interface SelectBoxProps {
+  item: any;
+}
+
+const SelectBox: FC<SelectBoxProps> = ({ item }) => {
+  const handleBuy = async () => {
+    await apiSetTradeLink();
+    const response = await apiBuyItem({ name: item.name });
+    console.log(response.data);
+  };
+
   return (
-    <div className="min-w-[280px] bg-[#1F1F1F] rounded-[5px] overflow-hidden flex flex-col gap-[10px]">
+    <div className="w-[280px] bg-[#1F1F1F] rounded-[5px] overflow-hidden flex flex-col gap-[10px] h-full">
       <div className="bg-[#232323] w-full py-4 px-3">
         <div className="w-full dark-box flex items-center gap-[10px] py-[7px] justify-center">
           <IconAttention color="#D1D1D1" width={11} height={13} />
@@ -15,7 +26,7 @@ const SelectBox: FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-[2px]">
+      {/* <div className="flex flex-col gap-[2px]">
         <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
           change markup on all items
         </p>
@@ -48,52 +59,74 @@ const SelectBox: FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="flex flex-col gap-[2px]">
-        <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
-          wITHDRAW
-        </p>
+      <div className="flex flex-grow flex-col h-full">
+        <div className="flex flex-col gap-[2px] h-full">
+          <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
+            WITHDRAW ITEMS
+          </p>
 
-        <div className="bg-[#232323] w-full px-3 py-[10px]">
-          <div className="dropBlack bg-[#1A1A1A] overflow-hidden w-full rounded-[5px]">
-            <div className="pt-5 pb-4 flex flex-row justify-between px-5">
-              <Image
-                src="/assets/images/king.png"
-                width={70}
-                height={52}
-                alt="king"
-              />
-              <div className="flex flex-col gap-2">
-                <p className="text-[12px] font-bold text-[#D1D1D1]">
-                  Reflow Crown
+          <div className="bg-[#232323] w-full px-3 py-[10px] h-full flex flex-col gap-1 overflow-y-scroll max-h-[calc(100vh-330px)] upgrader-list">
+            <div className="dropBlack bg-[#1A1A1A] overflow-hidden h-auto w-full rounded-[5px]">
+              <div className="pt-5 pb-4 flex flex-row justify-between px-5 gap-2">
+                {/* <Image
+                  src="/assets/images/king.png"
+                  width={70}
+                  height={52}
+                  alt="king"
+                /> */}
+                {/* eslint-disable-next-line @next/next/no-img-element*/}
+                <img src={item?.img} alt="" className="h-[60px]" />
+                <div className="flex flex-col gap-2">
+                  <p className="text-[12px] font-bold text-[#D1D1D1]">
+                    {item?.name}
+                  </p>
+                  <p className="text-[12px] font-semibold text-[#797979]">
+                    {item?.type}
+                  </p>
+                  {/* <div className="flex flex-row items-center gap-1">
+                    <IconCamera width={10} height={10} color="#E9AE15" />
+                    <p className="text-[12px] font-medium text-[#D1D1D1]">
+                      0.013
+                    </p>
+                  </div> */}
+                </div>
+              </div>
+
+              <div className="bg-[#131313] w-full px-5 py-[6.5px] flex justify-between items-center">
+                <p className="text-[13px] font-semibold text-[#D1D1D1]">
+                  Price
                 </p>
-                <p className="text-[12px] font-semibold text-[#797979]">
-                  Minimal Wear
-                </p>
-                <div className="flex flex-row items-center gap-1">
-                  <IconCamera width={10} height={10} color="#E9AE15" />
-                  <p className="text-[12px] font-medium text-[#D1D1D1]">
-                    0.013
+                <div className="flex gap-1 items-center">
+                  <IconCoin color="#E9AE15" width={16} height={17} />
+                  <p className="text-[#E9AE15] font-semibold text-[14px]">
+                    {item?.price / 1000}
                   </p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="bg-[#131313] w-full px-5 py-[6.5px] flex justify-between items-center">
-              <p className="text-[13px] font-semibold text-[#D1D1D1]">Price</p>
-              <div className="flex gap-1 items-center">
-                <IconCoin color="#E9AE15" width={16} height={17} />
-                <p className="text-[#E9AE15] font-semibold text-[14px]">
-                  200,01
-                </p>
-              </div>
+        <div className="bg-[#232323] w-full px-3 py-[10px] flex flex-col gap-[10px]">
+          <div className="flex items-center justify-between">
+            <p className="font-bold text-[12px] text-[#D1D1D1]">
+              You Will Spend
+            </p>
+            <div className="flex flex-row gap-1 items-center">
+              <IconCoin color="#E9AE15" width={16} height={17} />
+              <p className="font-bold text-[12px] text-[#D1D1D1]">
+                {item?.price / 1000}
+              </p>
             </div>
           </div>
+
+          <Button text="Buy 1 Item" clicked={() => handleBuy()} />
         </div>
       </div>
 
-      <div className="flex flex-col gap-[2px]">
+      {/* <div className="flex flex-col gap-[2px]">
         <p className="bg-[#232323] w-full px-3 py-[10px] font-bold text-[12px] text-[#5E5E5E] uppercase">
           Seller info
         </p>
@@ -122,19 +155,7 @@ const SelectBox: FC = () => {
             <p className="text-[12px] font-bold text-[#D1D1D1]">On</p>
           </div>
         </div>
-      </div>
-
-      <div className="bg-[#232323] w-full px-3 py-[10px] flex flex-col gap-[10px]">
-        <div className="flex items-center justify-between">
-          <p className="font-bold text-[12px] text-[#D1D1D1]">You Will Spend</p>
-          <div className="flex flex-row gap-1 items-center">
-            <IconCoin color="#E9AE15" width={16} height={17} />
-            <p className="font-bold text-[12px] text-[#D1D1D1]">200.01</p>
-          </div>
-        </div>
-
-        <Button text="Buy 1 Item" clicked={() => console.log("buy 1 item")} />
-      </div>
+      </div> */}
     </div>
   );
 };

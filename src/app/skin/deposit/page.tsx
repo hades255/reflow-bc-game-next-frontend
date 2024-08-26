@@ -21,6 +21,7 @@ const DepositSkin: FC = () => {
   const [maxRange, setMaxRange] = useState(5000);
   const [price, setPrice] = useState<string>("desc");
   const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [selectItems, setSelectItems] = useState<any[]>([]);
 
   const loadMore = async (page: any) => {
     try {
@@ -130,11 +131,12 @@ const DepositSkin: FC = () => {
           >
             {items?.map((item, index) => (
               <SkinDepositItem
+                id={item.id}
                 key={index}
                 image={item.img}
                 title={item.name}
                 amount={item.price / 1000}
-                phase="Emerald"
+                // phase="Emerald"
                 discount={-285}
                 onClick={() => console.log("item")}
               />
