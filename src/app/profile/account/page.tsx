@@ -6,7 +6,7 @@ import Button from "@/components/buttons/Button";
 import { apiSetTradeLink } from "@/services/skinWithdraw";
 import { useDispatch } from "react-redux";
 import { setToast } from "@/redux/slices/main/toastSlice";
-import { useBonusCode } from "@/services/useUserInfo";
+import { apiBonusCode } from "@/services/useUserInfo";
 
 const ProfileAccount: FC = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const ProfileAccount: FC = () => {
   };
 
   const handleBonusCode = async () => {
-    const result = await useBonusCode(bonusCode);
+    const result = await apiBonusCode(bonusCode);
     console.log(result);
     if (result?.status === "success") {
       dispatch(
