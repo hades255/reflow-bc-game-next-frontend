@@ -213,13 +213,13 @@ const UpgradePage: FC = () => {
               <p className="text-white">0.00</p>
               <MultiRangeSlider
                 min={0}
-                max={100000}
+                max={200000}
                 onChange={({ min, max }) => {
                   setMinRange(min / 100);
                   setMaxRange(max / 100);
                 }}
               />
-              <p className="text-white">1000.00</p>
+              <p className="text-white">2000.00</p>
             </div>
 
             <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">

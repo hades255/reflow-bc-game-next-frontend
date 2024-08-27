@@ -38,13 +38,13 @@ const SkinDepositItem: FC<Props> = ({
           className="w-full h-[130px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
           style={{ background: "linear-gradient(#191A1900, #EAA62580)" }}
         >
-          <p className="absolute top-1 left-2">{phase}</p>
+          <p className="absolute top-1 left-2 text-white z-10">{phase}</p>
           {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img src={image} alt="" className="h-[100px]" />
         </div>
       ) : (
         <div className="w-full h-[130px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
-          <p className="absolute top-1 left-2">{phase}</p>
+          <p className="absolute top-1 left-2 text-white z-10">{phase}</p>
           {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img src={image} alt="" className="h-[100px]" />
         </div>
