@@ -11,7 +11,7 @@ export const useUserInfo = () => {
   return data;
 };
 
-export const useBonusCode = async (code: string) =>{
+export const apiBonusCode = async (code: string) =>{
   try {
     const response = await fetchAPI("/api/bonus/use", "POST", {
       code,
