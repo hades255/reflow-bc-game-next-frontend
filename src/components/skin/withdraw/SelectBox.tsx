@@ -169,7 +169,7 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
             <div className="flex flex-row gap-1 items-center">
               <IconCoin color="#E9AE15" width={16} height={17} />
               <p className="font-bold text-[12px] text-[#D1D1D1]">
-                {item?.price / 1000}
+                {item?.price / 1000 || 0}
               </p>
             </div>
           </div>
