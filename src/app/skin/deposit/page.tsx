@@ -10,7 +10,7 @@ import SkinDepositItem from "@/components/skin/deposit/SkinDepositItem";
 import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/deposit/SelectBox";
 import { apiGetItems } from "@/services/upgrader";
-import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
+// import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 import InfiniteScroll from "react-infinite-scroller";
 import { apiGetInventory } from "@/services/skinDeposit";
 
