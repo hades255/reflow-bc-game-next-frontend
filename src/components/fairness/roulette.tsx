@@ -6,30 +6,30 @@ const RoulettePage: FC = () => {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h3 className="font-semibold text-white text-[18px] uppercase">
+        <h3 className="font-semibold text-white text-[20px] uppercase">
           roulette technical details
         </h3>
 
         <div className="flex flex-col gap-3 mt-4">
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             Our system generates the result for each round by using the SHA-256
             hash of 3 separate inputs
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 1 ― </span> The `public seed` is a
             concatenation of 5 pairs of random numbers, 01 to 39, generated
             daily.
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 2 ― </span> The `server seed` is a
             SHA-256 hash of 16 cryptographically secure random bytes, generated
             at the same time as the public seed.
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 3 ― </span> Round ID
           </p>
 
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             Players can replicate any past roll by using the code below. Please
             note that you should use the unhashed (not hashed) server seed with
             the script.
@@ -54,7 +54,7 @@ const RoulettePage: FC = () => {
           />
         </div>
 
-        <p className="font-normal text-[12px] text-[#D1D1D1] leading-5 mt-10">
+        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as
           this PHP code. Simply copy and paste the above code in the window and
           replace the public seed, server seed and round number. If you have any

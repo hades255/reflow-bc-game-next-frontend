@@ -6,17 +6,17 @@ const CoinFlipPage: FC = () => {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h3 className="font-semibold text-white text-[18px] uppercase">
+        <h3 className="font-semibold text-white text-[20px] uppercase">
           Coinflip technical details
         </h3>
 
         <div className="flex flex-col gap-3 mt-4">
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             Coinflip uses a provably fair system in which the public seed is not
             known until after a coinflip game has started. The result for each
             round is generated using the SHA-256 hash of 3 separate inputs
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 1 ― </span> The `private seed` is
             a securely random value, generated when a round is created. The
             SHA-256 hash of the private seed is displayed to all players
@@ -24,7 +24,7 @@ const CoinFlipPage: FC = () => {
             private seed revealed after the coinflip result is made known
             matches this SHA-256 hash.
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 2 ― </span> The `public seed` is
             the ID of an EOS block, which is to be generated after a round is
             joined by a challenger. When a round is joined, our system chooses a
@@ -34,11 +34,11 @@ const CoinFlipPage: FC = () => {
             will be used to generate the coinflip result until after both
             players have committed their bets.
           </p>
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 3 ― </span> Round ID
           </p>
 
-          <p className="font-normal text-[12px] text-[#D1D1D1] leading-5">
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             Players can validate any past coinflip by using the code below:
           </p>
         </div>
