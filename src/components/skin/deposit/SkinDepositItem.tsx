@@ -40,13 +40,13 @@ const SkinDepositItem: FC<Props> = ({
         >
           <p className="absolute top-1 left-2 text-white z-10">{phase}</p>
           {/* eslint-disable-next-line @next/next/no-img-element*/}
-          <img src={image} alt="" className="h-[100px]" />
+          <img src={image} alt="" className="h-[100px] mt-[20px]" />
         </div>
       ) : (
         <div className="w-full h-[130px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
           <p className="absolute top-1 left-2 text-white z-10">{phase}</p>
           {/* eslint-disable-next-line @next/next/no-img-element*/}
-          <img src={image} alt="" className="h-[100px]" />
+          <img src={image} alt="" className="h-[100px] mt-[20px]" />
         </div>
       )}
 

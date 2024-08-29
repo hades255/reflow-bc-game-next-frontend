@@ -10,7 +10,7 @@ import SkinWithdrawItem from "@/components/skin/withdraw/SkinWithdrawItem";
 import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/withdraw/SelectBox";
 import { apiGetItems } from "@/services/upgrader";
-// import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
+import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 import InfiniteScroll from "react-infinite-scroller";
 
 const WithdrawSkin: FC = () => {
@@ -81,6 +81,19 @@ const WithdrawSkin: FC = () => {
           </div>
 
           <div className="flex flex-row">
+            <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
+              <p className="text-white">0.00</p>
+              <MultiRangeSlider
+                min={0}
+                max={200000}
+                onChange={({ min, max }) => {
+                  setMinRange(min / 100);
+                  setMaxRange(max / 100);
+                }}
+              />
+              <p className="text-white">2000.00</p>
+            </div>
+
             <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
               <button
                 id="hs-dropdown-order"
