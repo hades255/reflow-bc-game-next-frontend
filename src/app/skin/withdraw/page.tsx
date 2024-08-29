@@ -10,7 +10,7 @@ import SkinWithdrawItem from "@/components/skin/withdraw/SkinWithdrawItem";
 import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/withdraw/SelectBox";
 import { apiGetItems } from "@/services/upgrader";
-import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
+// import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 import InfiniteScroll from "react-infinite-scroller";
 
 const WithdrawSkin: FC = () => {
