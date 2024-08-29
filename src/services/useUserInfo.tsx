@@ -1,4 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
+import { fetchAPI } from "./fetchAPI";
 
 export const useUserInfo = () => {
 
@@ -9,3 +10,15 @@ export const useUserInfo = () => {
   
   return data;
 };
+
+export const apiBonusCode = async (code: string) =>{
+  try {
+    const response = await fetchAPI("/api/bonus/use", "POST", {
+      code,
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}

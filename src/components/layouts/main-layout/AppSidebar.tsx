@@ -49,6 +49,7 @@ const AppSidebar: FC = () => {
   });
   const [chats, setChats] = useState<any[]>([]);
   const selectRef = useRef<any>(null);
+  const lastChatItem = useRef<any>(null);
   const [textHeight, setTextHeight] = useState<number>(220);
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -72,11 +73,16 @@ const AppSidebar: FC = () => {
       try {
         const response = await fetchAPI("/api/chat", "get");
         setChats(response.data.chats.reverse());
+        setTimeout(() => {
+          if (lastChatItem.current) {
+            lastChatItem.current.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 200);
       } catch (error) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [lastChatItem]);
 
   const handleClickRoom = useCallback(
     (name: any) => {
@@ -103,12 +109,17 @@ const AppSidebar: FC = () => {
       const message = e;
       if (e.room === room.name) {
         setChats((prev) => [...prev, message]);
+        setTimeout(() => {
+          if (lastChatItem.current) {
+            lastChatItem.current.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 200);
       }
     });
     return () => {
       channel.stopListening("MessageSent");
     };
-  }, [room]);
+  }, [lastChatItem, room]);
 
   return (
     <div className="w-[280px] bg-[#181818] h-auto z-10">
@@ -166,6 +177,7 @@ const AppSidebar: FC = () => {
             {chats.map((item, index) => (
               <MessageItem key={index} chat={item} />
             ))}
+            <div ref={lastChatItem}></div>
           </div>
 
           <div className="p-3">
