@@ -2,59 +2,21 @@
 
 import React, { FC, useState, useEffect } from "react";
 import IconDeposit from "@/utils/icons/Deposit";
-import TabItem from "@/components/skin/TabItem";
 import SearchInput from "@/components/upgrade/SearchInput";
-import Switch from "@/components/buttons/Switch";
-import IconCoin from "@/utils/icons/Coin";
 import SkinDepositItem from "@/components/skin/deposit/SkinDepositItem";
-import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/deposit/SelectBox";
-import { apiGetItems } from "@/services/upgrader";
-// import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
-import InfiniteScroll from "react-infinite-scroller";
 import { apiGetInventory } from "@/services/skinDeposit";
 
 const DepositSkin: FC = () => {
-  const [items, setItems] = useState<any[]>([]);
-  const [deals, setDeals] = useState<boolean>(false);
+  const [items, setItems] = useState<any>({});
   const [search, setSearch] = useState<string>("");
-  const [minRange, setMinRange] = useState(0);
-  const [maxRange, setMaxRange] = useState(5000);
   const [price, setPrice] = useState<string>("desc");
-  const [hasMoreItems, setHasMoreItems] = useState(true);
   const [selectItem, setSelectItem] = useState<any>({});
-
-  const loadMore = async (page: any) => {
-    try {
-      const response = await apiGetItems(
-        page,
-        price,
-        minRange,
-        maxRange,
-        search
-      );
-      const newItems = response.data.items;
-
-      if (page === 0) {
-        setItems(newItems);
-        setHasMoreItems(true);
-      } else if (page !== 0 && newItems.length === 0) {
-        setHasMoreItems(false);
-      } else {
-        setItems((prevItems) => [...prevItems, ...newItems]);
-      }
-    } catch (err) {
-      console.log(err);
-      setHasMoreItems(false);
-    }
-  };
 
   useEffect(() => {
     (async () => {
       const response = await apiGetInventory();
-      console.log(response.data);
-      setItems(response.data);
-      // console.log(response.data);
+      setItems(response);
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,12 +40,6 @@ const DepositSkin: FC = () => {
             Deposit
           </p>
         </div>
-
-        {/* <div className="flex flex-row gap-2 mt-3">
-          <TabItem text="Market" />
-          <TabItem text="my inventory" />
-          <TabItem text="notifications" />
-        </div> */}
 
         <div className="flex flex-row justify-between mt-12 items-center">
           <div className="w-[264px] flex">
@@ -122,15 +78,14 @@ const DepositSkin: FC = () => {
 
         {/* Items */}
         <div className="overflow-x-hidden h-[600px] mt-[40px]">
-          {items.length > 0 &&
-            items?.map((item, index) => (
+          {items?.status === "success" &&
+            items.data?.map((item: any, index: any) => (
               <SkinDepositItem
                 select={selectItem.name === item.name ? true : false}
                 key={index}
                 image={item.steam_price.img}
                 title={item.name}
                 amount={item.steam_price.lowest_price / 1000}
-                // phase="Emerald"
                 discount={-285}
                 onClick={() => handleSelectItem(item)}
               />
