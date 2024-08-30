@@ -22,7 +22,7 @@ const DepositSkin: FC = () => {
   const [maxRange, setMaxRange] = useState(5000);
   const [price, setPrice] = useState<string>("desc");
   const [hasMoreItems, setHasMoreItems] = useState(true);
-  const [selectItem, setSelectItem] = useState<any[]>([]);
+  const [selectItem, setSelectItem] = useState<any>({});
 
   const loadMore = async (page: any) => {
     try {
@@ -52,12 +52,21 @@ const DepositSkin: FC = () => {
   useEffect(() => {
     (async () => {
       const response = await apiGetInventory();
-      setItems(response.data?.items);
-      console.log(response.data);
+      setItems(response.data);
+      // console.log(response.data);
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleSelectItem = (item: any) => {
+    console.log(item);
+    setSelectItem(item);
+  };
+
+  useEffect(() => {
+    console.log(selectItem);
+  }, [selectItem]);
 
   return (
     <div className="p-6 flex flex-row gap-6">
@@ -122,14 +131,14 @@ const DepositSkin: FC = () => {
           > */}
           {items?.map((item, index) => (
             <SkinDepositItem
-              id={item.id}
+              select={selectItem.name === item.name ? true : false}
               key={index}
-              image={item.img}
+              image={item.steam_price.img}
               title={item.name}
-              amount={item.price / 1000}
+              amount={item.steam_price.lowest_price / 1000}
               // phase="Emerald"
               discount={-285}
-              onClick={() => console.log("item")}
+              onClick={() => handleSelectItem(item)}
             />
           ))}
           {/* </InfiniteScroll> */}

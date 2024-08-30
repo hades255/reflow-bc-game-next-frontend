@@ -136,8 +136,11 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
   const [transactionId, setTransactionId] = useState<string>("");
 
   const handleSell = async () => {
-    if (item?.img) {
-      await apiListInventory({ itemId: item?.id, price: item?.price });
+    if (item?.name) {
+      await apiListInventory({
+        itemId: item?.item_id,
+        price: item?.steam_price?.lowest_price,
+      });
     } else {
       dispatch(
         setToast({
@@ -162,12 +165,16 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
           <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
             WITHDRAW ITEMS
           </p>
-          {item?.img ? (
+          {item?.name ? (
             <div className="bg-[#232323] w-full px-3 py-[10px] h-full flex flex-col gap-1 overflow-y-scroll max-h-[calc(100vh-330px)] upgrader-list">
               <div className="dropBlack bg-[#1A1A1A] overflow-hidden h-auto w-full rounded-[5px]">
                 <div className="pt-5 pb-4 flex flex-row justify-between px-5 gap-2">
                   {/* eslint-disable-next-line @next/next/no-img-element*/}
-                  <img src={item?.img} alt="" className="h-[60px]" />
+                  <img
+                    src={item?.steam_price?.img}
+                    alt=""
+                    className="h-[60px]"
+                  />
                   <div className="flex flex-col gap-2">
                     <p className="text-[12px] font-bold text-[#D1D1D1]">
                       {item?.name}
@@ -185,7 +192,7 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
                   <div className="flex gap-1 items-center">
                     <IconCoin color="#E9AE15" width={16} height={17} />
                     <p className="text-[#E9AE15] font-semibold text-[14px]">
-                      {item?.price / 1000}
+                      {item?.steam_price?.lowest_price / 1000}
                     </p>
                   </div>
                 </div>
@@ -204,7 +211,7 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
             <div className="flex flex-row gap-1 items-center">
               <IconCoin color="#E9AE15" width={16} height={17} />
               <p className="font-bold text-[12px] text-[#D1D1D1]">
-                {item?.price / 1000 || 0}
+                {item?.steam_price?.lowest_price / 1000 || 0}
               </p>
             </div>
           </div>
