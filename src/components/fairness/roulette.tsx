@@ -55,10 +55,13 @@ const RoulettePage: FC = () => {
         </div>
 
         <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
-          You can execute PHP code straight from your browser with tools such as
-          this PHP code. Simply copy and paste the above code in the window and
-          replace the public seed, server seed and round number. If you have any
-          questions about this system, feel free to contact our support team.
+          You can execute PHP code straight from your browser with tools such as{" "}
+          <a href="https://3v4l.org/GbGsM" className="underline text-[#E9AE15]">
+            this PHP code
+          </a>{" "}
+          . Simply copy and paste the above code in the window and replace the
+          public seed, server seed and round number. If you have any questions
+          about this system, feel free to contact our support team.
         </p>
 
         <div className="mt-5">
