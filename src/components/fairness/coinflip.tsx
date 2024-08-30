@@ -63,7 +63,11 @@ echo "Result: " . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');`}
 
         <p className="font-normal text-[12px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
-          <a href="https://3v4l.org/0ZYp1" className="underline text-[#E9AE15]">
+          <a
+            href="https://3v4l.org/0ZYp1"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
             this PHP code
           </a>{" "}
           . Simply copy and paste the above code in the window and replace the
