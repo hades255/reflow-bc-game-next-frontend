@@ -141,6 +141,14 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
         itemId: item?.item_id,
         price: item?.steam_price?.lowest_price,
       });
+      dispatch(
+        setToast({
+          type: 2,
+          message: "Deposit Success, This is pending now, Please wait.",
+        })
+      );
+
+      // dispatch(updateBalance({ balance: -betAmount }));
     } else {
       dispatch(
         setToast({
