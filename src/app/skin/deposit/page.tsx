@@ -52,6 +52,7 @@ const DepositSkin: FC = () => {
   useEffect(() => {
     (async () => {
       const response = await apiGetInventory();
+      console.log(response.data);
       setItems(response.data);
       // console.log(response.data);
     })();
@@ -121,27 +122,19 @@ const DepositSkin: FC = () => {
 
         {/* Items */}
         <div className="overflow-x-hidden h-[600px] mt-[40px]">
-          {/* <InfiniteScroll
-            pageStart={0}
-            loadMore={loadMore}
-            hasMore={hasMoreItems}
-            loader={<div key={0}>Loading...</div>}
-            className="grid grid-cols-6 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
-            useWindow={false}
-          > */}
-          {items?.map((item, index) => (
-            <SkinDepositItem
-              select={selectItem.name === item.name ? true : false}
-              key={index}
-              image={item.steam_price.img}
-              title={item.name}
-              amount={item.steam_price.lowest_price / 1000}
-              // phase="Emerald"
-              discount={-285}
-              onClick={() => handleSelectItem(item)}
-            />
-          ))}
-          {/* </InfiniteScroll> */}
+          {items.length > 0 &&
+            items?.map((item, index) => (
+              <SkinDepositItem
+                select={selectItem.name === item.name ? true : false}
+                key={index}
+                image={item.steam_price.img}
+                title={item.name}
+                amount={item.steam_price.lowest_price / 1000}
+                // phase="Emerald"
+                discount={-285}
+                onClick={() => handleSelectItem(item)}
+              />
+            ))}
         </div>
       </div>
 
