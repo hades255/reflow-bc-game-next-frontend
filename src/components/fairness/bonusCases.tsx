@@ -46,7 +46,11 @@ const BonusCasesPage: FC = () => {
 
         <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can replicate any past case-opening result yourself using{" "}
-          <a href="https://3v4l.org/UejUc" className="underline text-[#E9AE15]">
+          <a
+            href="https://3v4l.org/UejUc"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
             this PHP code
           </a>{" "}
           . Please note that you should use the unhashed (not hashed) server
@@ -55,16 +59,28 @@ const BonusCasesPage: FC = () => {
           Server Seed is generated, the nonce resets back to 1. Our provably
           fair code was updated on April 18th, 2024. Cases opened before April
           18th, 2024 until December 5th, 2023, should use{" "}
-          <a href="https://3v4l.org/ecFuT" className="underline text-[#E9AE15]">
+          <a
+            href="https://3v4l.org/ecFuT"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
             this PHP code
           </a>{" "}
           . Cases opened from December 5th, 2023 until December 9th, 2019,
           should use{" "}
-          <a href="https://3v4l.org/urEYG" className="underline text-[#E9AE15]">
+          <a
+            href="https://3v4l.org/urEYG"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
             this PHP code
           </a>{" "}
           . Cases opened before December 9th, 2019, should use{" "}
-          <a href="https://3v4l.org/P9Qir" className="underline text-[#E9AE15]">
+          <a
+            href="https://3v4l.org/P9Qir"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
             this PHP code
           </a>{" "}
           .
