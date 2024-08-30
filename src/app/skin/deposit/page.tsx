@@ -53,6 +53,7 @@ const DepositSkin: FC = () => {
     (async () => {
       const response = await apiGetInventory();
       setItems(response.data?.items);
+      console.log(response.data);
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,11 +69,11 @@ const DepositSkin: FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-row gap-2 mt-3">
+        {/* <div className="flex flex-row gap-2 mt-3">
           <TabItem text="Market" />
           <TabItem text="my inventory" />
           <TabItem text="notifications" />
-        </div>
+        </div> */}
 
         <div className="flex flex-row justify-between mt-12 items-center">
           <div className="w-[264px] flex">
