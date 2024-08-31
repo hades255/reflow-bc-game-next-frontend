@@ -61,7 +61,7 @@ echo "Result: " . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');`}
           />
         </div>
 
-        <p className="font-normal text-[12px] text-[#D1D1D1] leading-5 mt-10">
+        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
           <a
             href="https://3v4l.org/0ZYp1"

@@ -42,15 +42,18 @@ const RoulettePage: FC = () => {
             theme={dracula}
             showLineNumbers={true}
             text={`$server_seed = "96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0";
-                  $public_seed = "460670512935";
-                  $round = "321";
-                  $hash = hash('sha256', $server_seed . "-" . $public_seed . "-" . $round);
-                  $roll = hexdec(substr($hash, 0, 8)) % 15;
-                  if ($roll == 0) $roll_colour = 'bonus';
-                  elseif ($roll >= 1 and $roll <= 7) $roll_colour = 'orange';
-                  elseif ($roll >= 8 and $roll <= 14) $roll_colour = 'black';
-
-                  echo("Roll: $roll\nColour: $roll_colour");`}
+$public_seed = "460670512935";
+$round = "321";
+$hash = hash('sha256', $server_seed . "-" . $public_seed . "-" . $round);
+$roll = hexdec(substr($hash, 0, 8)) % 29;
+if ($roll >= 15)
+    $roll = $roll - 10;
+if ($roll >= 15)
+    $roll = $roll - 10;
+if ($roll == 0) $roll_colour = 'gold';
+elseif ($roll % 2 === 1) $roll_colour = 'black';
+elseif ($roll % 2 === 0) $roll_colour = 'red';
+echo("Roll: $roll\nColour: $roll_colour");`}
           />
         </div>
 
