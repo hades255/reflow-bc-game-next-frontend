@@ -18,7 +18,7 @@ const RoulettePage: FC = () => {
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 1 ― </span> The `public seed` is a
             concatenation of 5 pairs of random numbers, 01 to 39, generated
-            daily.
+            per roll.
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 2 ― </span> The `server seed` is a
