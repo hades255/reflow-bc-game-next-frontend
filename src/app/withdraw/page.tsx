@@ -43,7 +43,7 @@ const DepositPage: FC = () => {
   }, [user, dispatch]);
 
   const handleWithdrawClick = async (item: any) => {
-    if (amount != 0) {
+    if (amount != 0 && user) {
     const data = await apiCreateWithdraw({
       user_id: user.id,
       amount: Number(amount),
