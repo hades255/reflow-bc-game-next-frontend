@@ -81,8 +81,9 @@ const DepositPage: FC = () => {
   }, [paymentId, type]);
 
   const handlePayClick = async (item: any) => {
-    if (amount != 0) {
+    if (amount != 0 && user) {
       const data = await apiCreatePayment({
+        user_id: user.id,
         amount: Number(amount),
         pay_currency: item.currency,
       });

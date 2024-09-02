@@ -16,6 +16,7 @@ import { depositTokenList } from "@/utils";
 import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
+import { apiCreateWithdraw } from "@/services/payment";
 
 const DepositPage: FC = () => {
   const router = useRouter();
@@ -24,6 +25,7 @@ const DepositPage: FC = () => {
   const user = useUser();
   const [type, setType] = useState<any>(null);
   const [amount, setAmount] = useState<number>(0);
+  const [address, setAddress] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -40,15 +42,17 @@ const DepositPage: FC = () => {
     }
   }, [user, dispatch]);
 
-  const handlePayClick = async (item: any) => {
-    // if (amount != 0) {
-    // const data = await apiCreatePayment({
-    //   amount: Number(amount),
-    //   pay_currency: item.currency,
-    // });
+  const handleWithdrawClick = async (item: any) => {
+    if (amount != 0 && user) {
+    const data = await apiCreateWithdraw({
+      user_id: user.id,
+      amount: Number(amount),
+      address: address,
+      currency: item.currency,
+    });
 
-    console.log(item);
-    // }
+    console.log(data);
+    }
   };
 
   return (
@@ -80,6 +84,25 @@ const DepositPage: FC = () => {
             Crypto
           </p>
 
+
+          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-2 gap-6">
+            <input
+              value={amount}
+              onChange={(e: any) => setAmount(e.target.value)}
+              type="text"
+              placeholder="Withdraw Amount"
+              className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+            />
+
+            <input
+              value={address}
+              onChange={(e: any) => setAddress(e.target.value)}
+              type="text"
+              placeholder="Withdraw Address"
+              className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+            />
+          </div>
+
           <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
             {depositTokenList.map((item, index) => (
               <PaymentItem
@@ -88,7 +111,7 @@ const DepositPage: FC = () => {
                 title={item.title}
                 description={item.description}
                 type={1}
-                onClick={() => handlePayClick(item)}
+                onClick={() => handleWithdrawClick(item)}
               />
             ))}
           </div>

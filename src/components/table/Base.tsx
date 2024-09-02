@@ -3,55 +3,13 @@ import Image from "next/image";
 
 const BreakdownList = [
   {
-    date: "2024-07-08",
+    date: "2024-08-28",
     serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
+      "96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0",
+    publicSeed: "460670512935",
     rolls: "9839989 - 9842557",
   },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-  {
-    date: "2024-07-08",
-    serverSeed:
-      "20c0b8ef61136bb47b265e415bf79caccba8daf6600cee3b4b2108b0a8a3174f",
-    publicSeed: "2207183506",
-    rolls: "9839989 - 9842557",
-  },
-];
+]
 
 interface Props {
   column?: string[];
