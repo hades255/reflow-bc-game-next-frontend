@@ -39,6 +39,7 @@ export type HistoryType = {
   id: string;
   game_id: string;
   round: string | null;
+  privateSeedHash: string;
   publicSeed: string;
   serverSeed: string;
   players: PlayerType[];
