@@ -17,10 +17,23 @@ export const apiGetItems = async (
   return response.data;
 };
 
-export const apiPlayGame = async (skinId: number, betAmount: number) => {
+export const apiPlayGame = async (
+  skinId: number,
+  betAmount: number,
+  SeverSeedHash: string,
+  clientSeed: string
+) => {
   const response = await fetchAPI("/api/game/upgrader/play", "POST", {
     skinId,
     betAmount,
+    SeverSeedHash,
+    clientSeed,
   });
+  return response.data;
+};
+
+export const apiJoin = async () => {
+  const response = await fetchAPI("/api/game/upgrader/join", "POST");
+
   return response.data;
 };

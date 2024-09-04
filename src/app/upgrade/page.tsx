@@ -7,7 +7,7 @@ import SearchInput from "@/components/upgrade/SearchInput";
 import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
-import { apiGetItems, apiPlayGame } from "@/services/upgrader";
+import { apiGetItems, apiPlayGame, apiJoin } from "@/services/upgrader";
 import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
@@ -38,6 +38,8 @@ const UpgradePage: FC = () => {
   const [clientSeed, setClientSeed] = useState<string>(
     RandomString.generate(6)
   );
+  const [serverSeedHash, setServerSeedHash] = useState<string>("");
+  const [playResult, setPlayResult] = useState<any>(null);
 
   const handleClickSelectItem = () => {
     setSelectItems(null);
@@ -81,7 +83,14 @@ const UpgradePage: FC = () => {
           if (!isLoading && !btnActive) {
             dispatch(updateBalance({ balance: -betAmount }));
             setBtnActive(true);
-            const data = await apiPlayGame(selectItems?.id, betAmount);
+            const data = await apiPlayGame(
+              selectItems?.id,
+              betAmount,
+              serverSeedHash,
+              clientSeed
+            );
+
+            setPlayResult(data.data);
 
             if (data.data) {
               setIsLoading(true);
@@ -170,6 +179,13 @@ const UpgradePage: FC = () => {
       setBtnActive(true);
     }
   }, [isLoading, selectItems, betAmount]);
+
+  useEffect(() => {
+    (async () => {
+      const result = await apiJoin();
+      setServerSeedHash(result.data.serverSeedHash);
+    })();
+  }, []);
 
   return (
     <>
@@ -298,13 +314,14 @@ const UpgradePage: FC = () => {
       </div>
       {modalOpen && (
         <BaseModal>
-          <div className="w-[448px] h-auto bg-[#1E1E1E] rounded-[5px] p-2">
+          <div className="w-[600px] h-auto bg-[#1E1E1E] rounded-[5px] p-2">
             <div className="text-white text-lg p-1">Provably Fair</div>
             <div className="bg-[#1212127A] h-auto flex flex-col p-4 mt-[10px] gap-3">
               <div className="flex flex-col gap-1">
                 <p>Hashed Server Seed</p>
                 <input
                   type="text"
+                  value={serverSeedHash}
                   className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
                 />
               </div>
@@ -324,6 +341,39 @@ const UpgradePage: FC = () => {
                   </div>
                 </div>
               </div>
+
+              {playResult && (
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1">
+                    <p>Server Seed</p>
+                    <input
+                      type="text"
+                      value={playResult?.serverSeed}
+                      className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                    />
+                  </div>
+
+                  <div className="flex flex-row w-full gap-3">
+                    <div className="flex flex-col gap-1 w-full">
+                      <p>Win Rate</p>
+                      <input
+                        type="text"
+                        value={playResult?.winRate}
+                        className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1 w-full">
+                      <p>Result Rate</p>
+                      <input
+                        type="text"
+                        value={playResult?.resultRate}
+                        className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </BaseModal>
