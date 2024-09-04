@@ -28,6 +28,8 @@ export type GameType = {
   game_id: string;
   round: string | null;
   privateSeedHash: string;
+  serverSeed: string;
+  publicSeed: string;
   players: PlayerType[];
   side: boolean | null;
   bet: number;

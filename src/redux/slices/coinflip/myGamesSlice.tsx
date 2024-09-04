@@ -49,7 +49,7 @@ export const myGamesSlice = createSlice({
     },
     callHouse: (
       state,
-      action: PayloadAction<{ round: string | null, side: boolean }>
+      action: PayloadAction<{ round: string | null, side: boolean, game:GameType }>
     ) => {
       state.mygames = state.mygames.map((gm) =>
         gm.round === action.payload.round
@@ -66,6 +66,10 @@ export const myGamesSlice = createSlice({
                   budget: gm.players[0].budget,
                 },
               ],
+              serverSeed: action.payload.game?.serverSeed ?? "",
+              publicSeed: action.payload.game?.publicSeed ?? "",
+              privateSeedHash: action.payload.game?.privateSeedHash ?? "",
+              round: action.payload?.round,
               side: action.payload.side
             }
           : gm

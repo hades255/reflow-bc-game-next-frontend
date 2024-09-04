@@ -83,6 +83,8 @@ export const getNewGames = (
         game_id: data[id]?.gameId,
         round: data[id]?.round,
         privateSeedHash: data[id]?.privateSeedHash,
+        serverSeed: data[id]?.serverSeed ?? "",
+        publicSeed: data[id]?.publicSeed ?? "",
         players: [
           {
             user_id: user.id,
@@ -104,6 +106,8 @@ export const getNewGames = (
         game_id: data[id]?.gameId,
         round: data[id]?.round,
         privateSeedHash: data[id]?.privateSeedHash,
+        serverSeed: data[id]?.serverSeed ?? "",
+        publicSeed: data[id]?.publicSeed ?? "",
         players: [
           {
             user_id: user.id,
@@ -129,6 +133,8 @@ export const getNewGames = (
                 game_id: data[8 - length + idx]?.gameId,
                 round: data[8 - length + idx]?.round,
                 privateSeedHash: data[8 - length + idx]?.privateSeedHash,
+                serverSeed: data[8 - length + idx]?.serverSeed ?? "",
+                publicSeed: data[8 - length + idx]?.publicSeed ?? "",
                 players: [
                   {
                     user_id: user.id,
@@ -277,6 +283,10 @@ export const showJoinedGame = (game: GameType, data: any) => {
         budget: newd.betAmount,
       },
     ],
+    serverSeed: newd?.serverSeed ?? "",
+    publicSeed: newd?.publicSeed ?? "",
+    privateSeedHash: newd?.privateSeedHash ?? "",
+    round: newd?.round,
     side: newd.winner,
     bet: newd.betAmount,
   };
