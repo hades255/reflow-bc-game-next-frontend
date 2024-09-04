@@ -55,6 +55,10 @@ export const liveGamesSlice = createSlice({
               ...live,
               side: action.payload.data.winner,
               players: getPlayers(action.payload.data),
+              serverSeed: action.payload.data?.serverSeed ?? "",
+              publicSeed: action.payload.data?.publicSeed ?? "",
+              privateSeedHash: action.payload.data?.privateSeedHash ?? "",
+              round: action.payload?.round,
             }
           : live
       );
