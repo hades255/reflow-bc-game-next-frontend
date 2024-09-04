@@ -1,8 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import TableBase from "../table/Base";
 
+import { apiListRoulette } from "@/services/fairness";
+
 const RoulettePage: FC = () => {
+  const [tableData, setTableDa] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      const data = await apiListRoulette();
+
+      setTableDa(data);
+    })();
+  }, []);
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -17,8 +29,8 @@ const RoulettePage: FC = () => {
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 1 ― </span> The `public seed` is a
-            concatenation of 5 pairs of random numbers, 01 to 39, generated
-            per roll.
+            concatenation of 5 pairs of random numbers, 01 to 39, generated per
+            roll.
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
             <span className="text-[#E9AE15]"> 2 ― </span> The `server seed` is a
@@ -42,18 +54,18 @@ const RoulettePage: FC = () => {
             theme={dracula}
             showLineNumbers={true}
             text={`$server_seed = "96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0";
-$public_seed = "460670512935";
-$round = "321";
-$hash = hash('sha256', $server_seed . "-" . $public_seed . "-" . $round);
-$roll = hexdec(substr($hash, 0, 8)) % 29;
-if ($roll >= 15)
-    $roll = $roll - 10;
-if ($roll >= 15)
-    $roll = $roll - 10;
-if ($roll == 0) $roll_colour = 'gold';
-elseif ($roll % 2 === 1) $roll_colour = 'black';
-elseif ($roll % 2 === 0) $roll_colour = 'red';
-echo("Roll: $roll\nColour: $roll_colour");`}
+                  $public_seed = "460670512935";
+                  $round = "321";
+                  $hash = hash('sha256', $server_seed . "-" . $public_seed . "-" . $round);
+                  $roll = hexdec(substr($hash, 0, 8)) % 29;
+                  if ($roll >= 15)
+                      $roll = $roll - 10;
+                  if ($roll >= 15)
+                      $roll = $roll - 10;
+                  if ($roll == 0) $roll_colour = 'gold';
+                  elseif ($roll % 2 === 1) $roll_colour = 'black';
+                  elseif ($roll % 2 === 0) $roll_colour = 'red';
+                  echo("Roll: $roll\nColour: $roll_colour");`}
           />
         </div>
 
@@ -72,7 +84,7 @@ echo("Roll: $roll\nColour: $roll_colour");`}
         </p>
 
         <div className="mt-5">
-          <TableBase />
+          <TableBase data={tableData} />
         </div>
       </div>
     </div>

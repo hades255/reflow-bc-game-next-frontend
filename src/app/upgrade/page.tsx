@@ -7,13 +7,16 @@ import SearchInput from "@/components/upgrade/SearchInput";
 import UpgradeItem from "@/components/upgrade/Item";
 import CircularProgressBar from "@/components/upgrade/Circular-Progress";
 import Button from "@/components/buttons/Button";
-import { apiGetItems, apiPlayGame } from "@/services/upgrader";
+import { apiGetItems, apiPlayGame, apiJoin } from "@/services/upgrader";
 import { useBalance, updateBalance } from "@/redux/slices/main/balanceSlice";
 import { useToken } from "@/redux/slices/main/authSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
 import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
+import BaseModal from "@/components/Modal/BaseModal";
+import IconReload from "@/utils/icons/Reload";
+import RandomString from "randomstring";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -31,10 +34,21 @@ const UpgradePage: FC = () => {
   const balance = useBalance();
   const dispatch = useDispatch();
   const token = useToken();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [clientSeed, setClientSeed] = useState<string>(
+    RandomString.generate(6)
+  );
+  const [serverSeedHash, setServerSeedHash] = useState<string>("");
+  const [playResult, setPlayResult] = useState<any>(null);
 
   const handleClickSelectItem = () => {
     setSelectItems(null);
     setBetAmount(0);
+  };
+
+  const handleChangeClientSeed = () => {
+    const seed = RandomString.generate(6);
+    setClientSeed(seed);
   };
 
   const handleBet = async () => {
@@ -69,7 +83,14 @@ const UpgradePage: FC = () => {
           if (!isLoading && !btnActive) {
             dispatch(updateBalance({ balance: -betAmount }));
             setBtnActive(true);
-            const data = await apiPlayGame(selectItems?.id, betAmount);
+            const data = await apiPlayGame(
+              selectItems?.id,
+              betAmount,
+              serverSeedHash,
+              clientSeed
+            );
+
+            setPlayResult(data.data);
 
             if (data.data) {
               setIsLoading(true);
@@ -159,122 +180,205 @@ const UpgradePage: FC = () => {
     }
   }, [isLoading, selectItems, betAmount]);
 
+  useEffect(() => {
+    (async () => {
+      const result = await apiJoin();
+      setServerSeedHash(result.data.serverSeedHash);
+    })();
+  }, []);
+
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <div className="flex flex-col gap-6">
-        <div className="flex gap-1 items-center">
-          <IconCrown width={24} height={26} color="#E9AE15" />
-          <p className="text-[18px] text-[#D1D1D1] font-bold">Crown & King</p>
-        </div>
-        <div className="flex flex-row justify-between">
-          <BetAmount
-            value={betAmount}
-            onChangeValue={(value: any) => setBetAmount(value)}
-            allValue={selectItems?.price / 1000 || 0}
-            myValue={Number(balance)}
-          />
-          <div>
-            <CircularProgressBar
-              key={renderKey}
-              betAmount={betAmount}
-              assetValue={
-                selectItems?.price / 1000 + selectItems?.price / 18000 || 1
-              }
-              betResult={isWinner}
-              isLoading={isLoading}
+    <>
+      <div className="p-6 flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex gap-1 items-center">
+              <IconCrown width={24} height={26} color="#E9AE15" />
+              <p className="text-[18px] text-[#D1D1D1] font-bold">
+                Crown & King
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <Button text="Provably Fair" clicked={() => setModalOpen(true)} />
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-between">
+            <BetAmount
+              value={betAmount}
+              onChangeValue={(value: any) => setBetAmount(value)}
+              allValue={selectItems?.price / 1000 || 0}
+              myValue={Number(balance)}
             />
-            <div className="flex justify-center mt-[18px]">
-              <Button
-                className="!w-[250px]"
-                text="Upgrade"
-                clicked={handleBet}
-                disabled={btnActive}
-              ></Button>
-            </div>
-          </div>
-
-          <SelectItem
-            allAmount={selectItems ? selectItems?.price / 1000 : 0}
-            imgUrl={selectItems?.img}
-            title={selectItems?.name}
-            onClick={() => handleClickSelectItem()}
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col mt-6">
-        <div className="flex flex-row justify-between">
-          <div className="w-[264px] flex">
-            <SearchInput value={search} onChange={(e) => setSearch(e)} />
-          </div>
-
-          <div className="flex flex-row">
-            <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
-              <p className="text-white">0.00</p>
-              <MultiRangeSlider
-                min={0}
-                max={200000}
-                onChange={({ min, max }) => {
-                  setMinRange(min / 100);
-                  setMaxRange(max / 100);
-                }}
+            <div>
+              <CircularProgressBar
+                key={renderKey}
+                betAmount={betAmount}
+                assetValue={
+                  selectItems?.price / 1000 + selectItems?.price / 18000 || 1
+                }
+                betResult={isWinner}
+                isLoading={isLoading}
               />
-              <p className="text-white">2000.00</p>
+              <div className="flex justify-center mt-[18px]">
+                <Button
+                  className="!w-[250px]"
+                  text="Upgrade"
+                  clicked={handleBet}
+                  disabled={btnActive}
+                ></Button>
+              </div>
             </div>
 
-            <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
-              <button
-                id="hs-dropdown-order"
-                type="button"
-                className="px-2 text-font"
-              >
-                {price == "desc" ? "Highest" : "Lowest"} Amount First
-              </button>
-              <div
-                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
-                aria-labelledby="hs-dropdown-order"
-              >
+            <SelectItem
+              allAmount={selectItems ? selectItems?.price / 1000 : 0}
+              imgUrl={selectItems?.img}
+              title={selectItems?.name}
+              onClick={() => handleClickSelectItem()}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col mt-6">
+          <div className="flex flex-row justify-between">
+            <div className="w-[264px] flex">
+              <SearchInput value={search} onChange={(e) => setSearch(e)} />
+            </div>
+
+            <div className="flex flex-row">
+              <div className="flex justify-center items-center bg-[#282828] gap-4 px-4 py-2 rounded-md">
+                <p className="text-white">0.00</p>
+                <MultiRangeSlider
+                  min={0}
+                  max={200000}
+                  onChange={({ min, max }) => {
+                    setMinRange(min / 100);
+                    setMaxRange(max / 100);
+                  }}
+                />
+                <p className="text-white">2000.00</p>
+              </div>
+
+              <div className="hs-dropdown relative inline-flex !z-30 bg-transparent rounded-sm">
                 <button
-                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
-                  onClick={() => setPrice("desc")}
+                  id="hs-dropdown-order"
+                  type="button"
+                  className="px-2 text-font"
                 >
-                  Highest Amount First
+                  {price == "desc" ? "Highest" : "Lowest"} Amount First
                 </button>
-                <button
-                  className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
-                  onClick={() => setPrice("asc")}
+                <div
+                  className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                  aria-labelledby="hs-dropdown-order"
                 >
-                  Lowest Amount First
-                </button>
+                  <button
+                    className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                    onClick={() => setPrice("desc")}
+                  >
+                    Highest Amount First
+                  </button>
+                  <button
+                    className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010]"
+                    onClick={() => setPrice("asc")}
+                  >
+                    Lowest Amount First
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="overflow-y-scroll max-h-[510px] mt-[40px] upgrader-list">
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={loadMore}
-            hasMore={hasMoreItems}
-            loader={<div key={0}>Loading...</div>}
-            className="grid grid-cols-7 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
-            useWindow={false}
-          >
-            {items?.map((item, index) => (
-              <UpgradeItem
-                select={selectItems?.id === item.id}
-                key={index}
-                id={item.id}
-                title={item.name}
-                image={item.img}
-                amount={item.price / 1000}
-                onClick={(id) => handleSelectItem(id)}
-              />
-            ))}
-          </InfiniteScroll>
+          <div className="overflow-y-scroll max-h-[510px] mt-[40px] upgrader-list">
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={loadMore}
+              hasMore={hasMoreItems}
+              loader={<div key={0}>Loading...</div>}
+              className="grid grid-cols-7 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
+              useWindow={false}
+            >
+              {items?.map((item, index) => (
+                <UpgradeItem
+                  select={selectItems?.id === item.id}
+                  key={index}
+                  id={item.id}
+                  title={item.name}
+                  image={item.img}
+                  amount={item.price / 1000}
+                  onClick={(id) => handleSelectItem(id)}
+                />
+              ))}
+            </InfiniteScroll>
+          </div>
         </div>
       </div>
-    </div>
+      {modalOpen && (
+        <BaseModal>
+          <div className="w-[600px] h-auto bg-[#1E1E1E] rounded-[5px] p-2">
+            <div className="text-white text-lg p-1">Provably Fair</div>
+            <div className="bg-[#1212127A] h-auto flex flex-col p-4 mt-[10px] gap-3">
+              <div className="flex flex-col gap-1">
+                <p>Hashed Server Seed</p>
+                <input
+                  type="text"
+                  value={serverSeedHash}
+                  className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p>Client Seed</p>
+                <div className="flex flex-row gap-1">
+                  <input
+                    type="text"
+                    value={clientSeed}
+                    className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                  />
+                  <div
+                    className="w-[30px] rounded-sm cursor-pointer flex flex-col justify-center items-center bg-[#1E1E1E]"
+                    onClick={handleChangeClientSeed}
+                  >
+                    <IconReload width={20} height={20} />
+                  </div>
+                </div>
+              </div>
+
+              {playResult && (
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1">
+                    <p>Server Seed</p>
+                    <input
+                      type="text"
+                      value={playResult?.serverSeed}
+                      className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                    />
+                  </div>
+
+                  <div className="flex flex-row w-full gap-3">
+                    <div className="flex flex-col gap-1 w-full">
+                      <p>Win Rate</p>
+                      <input
+                        type="text"
+                        value={playResult?.winRate}
+                        className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1 w-full">
+                      <p>Result Rate</p>
+                      <input
+                        type="text"
+                        value={playResult?.resultRate}
+                        className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </BaseModal>
+      )}
+    </>
   );
 };
 
