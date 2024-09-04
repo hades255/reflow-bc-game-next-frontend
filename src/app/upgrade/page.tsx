@@ -17,6 +17,7 @@ import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
 import BaseModal from "@/components/Modal/BaseModal";
 import IconReload from "@/utils/icons/Reload";
 import RandomString from "randomstring";
+import IconClose from "@/utils/icons/Close";
 
 const UpgradePage: FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -315,7 +316,16 @@ const UpgradePage: FC = () => {
       {modalOpen && (
         <BaseModal>
           <div className="w-[600px] h-auto bg-[#1E1E1E] rounded-[5px] p-2">
-            <div className="text-white text-lg p-1">Provably Fair</div>
+            <div className="flex flex-row items-center justify-between">
+              <div className="text-white text-lg p-1">Provably Fair</div>
+              <div
+                className="cursor-pointer"
+                onClick={() => setModalOpen(false)}
+              >
+                <IconClose width={24} height={24} />
+              </div>
+            </div>
+
             <div className="bg-[#1212127A] h-auto flex flex-col p-4 mt-[10px] gap-3">
               <div className="flex flex-col gap-1">
                 <p>Hashed Server Seed</p>

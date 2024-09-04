@@ -48,7 +48,7 @@ const Fairness: FC = () => {
               : "border-[#212121B2] text-[#717171]"
           } w-[90px] h-[34px] bg-[#212121B2] rounded-[5px] border flex flex-row items-center justify-center text-[12px] font-semibold cursor-pointer`}
         >
-          Coinflip
+          Royalflip
         </div>
         <div
           onClick={() => setTab(4)}

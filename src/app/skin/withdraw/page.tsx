@@ -130,7 +130,7 @@ const WithdrawSkin: FC = () => {
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
-            className="grid grid-cols-6 gap-5 max-2xl:grid-cols-5 max-xl:grid-cols-4 max-[1820px]:grid-cols-6"
+            className="grid grid-cols-6 gap-5 max-[1600px]:grid-cols-4 max-[1450px]:grid-cols-3 max-[1820px]:grid-cols-5"
             useWindow={false}
           >
             {items?.map((item, index) => (
