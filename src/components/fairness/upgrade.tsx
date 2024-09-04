@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import TableBase from "../table/Base";
+import UpgraderTable from "../table/UpgraderTable";
 
 const UpgradePage: FC = () => {
   return (
@@ -29,9 +29,9 @@ const UpgradePage: FC = () => {
           </iframe>
         </div>
 
-        {/* <div className="mt-5">
-          <TableBase />
-        </div> */}
+        <div className="mt-5">
+          <UpgraderTable />
+        </div>
       </div>
     </div>
   );

@@ -186,7 +186,7 @@ const UpgradePage: FC = () => {
       const result = await apiJoin();
       setServerSeedHash(result.data.serverSeedHash);
     })();
-  }, []);
+  }, [playResult]);
 
   return (
     <>
@@ -358,7 +358,7 @@ const UpgradePage: FC = () => {
                     <p>Server Seed</p>
                     <input
                       type="text"
-                      value={playResult?.serverSeed}
+                      value={playResult?.severSeed}
                       className={`bg-[#1212127A] w-full p-1 rounded-[5px] text-white dropBlack text-[14px] font-semibold outline-none`}
                     />
                   </div>

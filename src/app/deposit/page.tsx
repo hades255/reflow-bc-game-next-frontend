@@ -88,7 +88,7 @@ const DepositPage: FC = () => {
         pay_currency: item.currency,
       });
 
-      console.log(data);
+      setPaymentData(data[0]);
     }
   };
 
