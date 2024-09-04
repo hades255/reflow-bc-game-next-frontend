@@ -75,7 +75,7 @@ export const liveGamesSlice = createSlice({
                 ...player,
                 budget:
                   player.side === game.side
-                    ? player.budget * 1.99
+                    ? game.players[1].name === "house" ? player.budget * 2 : player.budget * 1.99
                     : -player.budget,
               })),
             }

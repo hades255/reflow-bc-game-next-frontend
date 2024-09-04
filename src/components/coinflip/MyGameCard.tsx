@@ -21,6 +21,8 @@ interface Props {
   game: GameType;
 }
 const MyGameCard: React.FC<Props> = ({ game }) => {
+  console.log("game", game, game.players.length);
+
   const user = useUser();
   const dispatch = useDispatch();
   const [timer, setTimer] = useState<number>(6);

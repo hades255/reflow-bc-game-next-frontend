@@ -63,7 +63,7 @@ export const myGamesSlice = createSlice({
                   avatar: "/assets/images/crown.svg",
                   level: 0,
                   side: !gm.players[0].side,
-                  budget: gm.players[0].budget,
+                  budget: Number(gm.players[0].budget),
                 },
               ],
               serverSeed: action.payload.game?.serverSeed ?? "",
