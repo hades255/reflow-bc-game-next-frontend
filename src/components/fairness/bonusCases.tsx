@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import TableBase from "../table/Base";
+import TableBase from "../table/RouletteTable";
 
 const BonusCasesPage: FC = () => {
   return (
