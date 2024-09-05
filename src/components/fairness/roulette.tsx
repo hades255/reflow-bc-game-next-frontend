@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import TableBase from "../table/Base";
+import RouletteTable from "../table/RouletteTable";
 
 import { apiListRoulette } from "@/services/fairness";
 
@@ -74,7 +74,7 @@ const RoulettePage: FC = () => {
         </p>
 
         <div className="mt-5">
-          <TableBase data={tableData} />
+          <RouletteTable data={tableData} />
         </div>
       </div>
     </div>
