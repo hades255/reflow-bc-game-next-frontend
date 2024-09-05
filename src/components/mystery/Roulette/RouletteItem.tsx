@@ -39,6 +39,7 @@ const RouletteItem: FC<Props> = ({
           }}
           className="w-full h-[135px] bg-cover bg-no-repeat relative dropBlack flex items-center justify-center rounded-[5px] overflow-hidden"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={url} width={140} height={84} alt="logo" />
         </div>
 
