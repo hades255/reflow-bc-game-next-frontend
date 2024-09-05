@@ -25,59 +25,61 @@ const CoinflipTable: FC = () => {
 
   return (
     <div className="w-full">
-      <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
-        <thead className="">
-          <tr className="w-full h-[33px] bg-[#1F1F1F] rounded-[5px]">
-            <th className=" text-[12px] font-semibold uppercase text-left pl-[12px]">
-              Date
-            </th>
-            <th className=" text-[12px] font-semibold uppercase text-left">
-              ID
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              BET
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              SERVER SEED
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              PUBLIC SEED
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              ROUND
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              WIN
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {showData?.map((item: any, index: any) => (
-            <tr
-              className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
-              key={index}
-            >
-              <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
-                <p className={`text-[12px] font-medium capitalize`}>
-                  {moment(item.created_at).format("YYYY-MM-DD")}
-                </p>
-              </td>
-              <td className="">{item.id}</td>
-              <td className="">{item.bet_amount}</td>
-              <td className="">{item.server_seed}</td>
-              <td className="">{item.public_seed}</td>
-              <td className="">{item.round}</td>
-              <td className="">
-                {item.winner ? (
-                  <p className="text-[12px] text-green-700">Win</p>
-                ) : (
-                  <p className="text-[12px] text-red-700">Lost</p>
-                )}
-              </td>
+      <div className="overflow-x-auto overflow-y-hidden w-full">
+        <table className="w-full min-w-[1200px] bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
+          <thead className="">
+            <tr className="w-full h-[33px] bg-[#1F1F1F] rounded-[5px]">
+              <th className=" text-[12px] font-semibold uppercase text-left pl-[12px]">
+                Date
+              </th>
+              <th className=" text-[12px] font-semibold uppercase text-left">
+                ID
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                BET
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                SERVER SEED
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                PUBLIC SEED
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                ROUND
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                WIN
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {showData?.map((item: any, index: any) => (
+              <tr
+                className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
+                key={index}
+              >
+                <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
+                  <p className={`text-[12px] font-medium capitalize`}>
+                    {moment(item.created_at).format("YYYY-MM-DD")}
+                  </p>
+                </td>
+                <td className="">{item.id}</td>
+                <td className="">{item.bet_amount}</td>
+                <td className="">{item.server_seed}</td>
+                <td className="">{item.public_seed}</td>
+                <td className="">{item.round}</td>
+                <td className="">
+                  {item.winner ? (
+                    <p className="text-[12px] text-green-700">Win</p>
+                  ) : (
+                    <p className="text-[12px] text-red-700">Lost</p>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="flex flex-row mt-[20px] gap-1">
         <button
