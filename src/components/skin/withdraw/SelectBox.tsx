@@ -64,7 +64,7 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
           .catch((err) => console.log(err));
       }, 10000);
     }
-  }, [transactionId]);
+  }, [transactionId, dispatch]);
 
   return (
     <div className="w-[280px] bg-[#1F1F1F] rounded-[5px] overflow-hidden flex flex-col gap-[10px] h-full">

@@ -12,16 +12,13 @@ const CoinflipTable: FC = () => {
   useEffect(() => {
     (async () => {
       if (10 * (page - 1) < total || 10 * (page - 1) == total) {
-        const result = await apiListRoyalflip({ perPage: 10, page: page });
-
-        console.log(result);
-
+       const result = await apiListRoyalflip({ perPage: 10, page: page });
         setTotal(result?.data?.total);
         setShowData(result?.data?.items);
         setCurrent(result?.data?.current);
       }
     })();
-  }, [page]);
+  }, [page, total]);
 
   return (
     <div className="w-full">

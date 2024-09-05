@@ -13,15 +13,12 @@ const UpgraderTable: FC = () => {
     (async () => {
       if (10 * (page - 1) < total || 10 * (page - 1) == total) {
         const result = await apiListUpgrader({ perPage: 10, page: page });
-
-        console.log(result);
-
         setTotal(result?.data?.total);
         setShowData(result?.data?.items);
         setCurrent(result?.data?.current);
       }
     })();
-  }, [page]);
+  }, [page, total]);
 
   return (
     <div className="w-full">

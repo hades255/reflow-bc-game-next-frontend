@@ -4,7 +4,7 @@ import React, { FC } from "react";
 const FairnessInfo: FC = () => {
   return (
     <div className="flex flex-row gap-6">
-      <div className="flex flex-col flex-1 w-64 gap-6">
+      <div className="flex flex-col flex-1 w-64 gap-6 p-3">
         <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
         <h3 className="text-white font-semibold text-[20px]">
           What is Provably Fair?
