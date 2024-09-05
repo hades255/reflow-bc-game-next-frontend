@@ -18,13 +18,14 @@ import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import nowPayment from "@/services/nowPayments";
 import { apiCreatePayment } from "@/services/payment";
+import { setToast } from "@/redux/slices/main/toastSlice";
 
 const DepositPage: FC = () => {
   const router = useRouter();
   const params = useSearchParams();
   const type = params.get("type");
   const paymentId = params.get("paymentId");
-  const [paymentData, setPaymentData] = useState<any>();
+  const [paymentData, setPaymentData] = useState<any>(null);
   const [token, setToken] = useState<any>({});
   const dispatch = useDispatch();
   const user = useUser();
@@ -60,25 +61,13 @@ const DepositPage: FC = () => {
   // }, [paymentData, paymentId]);
 
   useEffect(() => {
-    if (type && paymentId) {
-      const foundToken = depositTokenList.find((item) => item.title === type);
+    if (paymentData !== null) {
+      const foundToken = depositTokenList.find(
+        (item) => item.currency === paymentData.pay_currency
+      );
       setToken(foundToken || {});
-
-      // let intervalId = setInterval(() => {
-      //   nowPayment({
-      //     url: `/payment/${paymentId}`,
-      //     method: "GET",
-      //   })
-      //     .then((res) => {
-      //       if (res.data.payment_status === "finished") {
-      //         clearInterval(intervalId);
-      //       }
-      //       setPaymentData(res.data);
-      //     })
-      //     .catch((err) => console.log(err));
-      // }, 2000);
     }
-  }, [paymentId, type]);
+  }, [paymentData]);
 
   const handlePayClick = async (item: any) => {
     if (amount != 0 && user) {
@@ -88,13 +77,29 @@ const DepositPage: FC = () => {
         pay_currency: item.currency,
       });
 
-      setPaymentData(data[0]);
+      if (data[0].status !== false) {
+        setPaymentData(data[0]);
+      } else {
+        dispatch(
+          setToast({
+            type: 4,
+            message: "Please input correct amount. Mim Amount is 10$",
+          })
+        );
+      }
+    } else if (amount == 0) {
+      dispatch(
+        setToast({
+          type: 4,
+          message: "Please input correct amount. Mim Amount is 10$",
+        })
+      );
     }
   };
 
   return (
     <>
-      {type === null ? (
+      {paymentData === null ? (
         <div className="p-6 flex flex-col gap-6">
           <div className="flex flex-row items-center gap-1">
             <IconDeposit color="#E9AE15" width={18} height={10} />
@@ -156,7 +161,7 @@ const DepositPage: FC = () => {
             <Button
               text="Back"
               className="!w-[100px]"
-              clicked={() => router.push("/deposit")}
+              clicked={() => setPaymentData(null)}
             />
           </div>
           <p className="font-normal text-[12px] text-[#D1D1D1]">
@@ -167,7 +172,7 @@ const DepositPage: FC = () => {
             <div className="flex flex-row items-center gap-1">
               <IconWallet color="#D1D1D1" width={16} height={14} />
               <p className="font-semibold text-[18px] text-white">
-                Wallet Address
+                {paymentData?.pay_amount + " " + token?.title}
               </p>
             </div>
 
@@ -205,14 +210,14 @@ const DepositPage: FC = () => {
                 </button>
               </div>
 
-              <div className="flex gap-[7px] items-center justify-end">
+              {/* <div className="flex gap-[7px] items-center justify-end">
                 <p className="text-[14px] font-bold text-[#D1D1D1]">Or</p>
                 <Button text="Add funds" className="!w-[90px]" />
-              </div>
+              </div> */}
             </div>
           </div>
 
-          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
+          {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
             <div className="flex gap-[5px] items-center">
               <IconCalculator color="#D1D1D1" width={18} height={18} />
               <p className="text-white font-semibold text-[18px]">
@@ -254,7 +259,7 @@ const DepositPage: FC = () => {
               The exchange rate shown above is an estimate. The final rate is
               determined by the time of the transaction.
             </p>
-          </div>
+          </div> */}
         </div>
       )}
     </>
