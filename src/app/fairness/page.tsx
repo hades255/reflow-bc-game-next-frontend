@@ -15,7 +15,7 @@ const Fairness: FC = () => {
     <div className="p-6 flex flex-col gap-6">
       <div className="flex gap-1 items-center">
         <IconInfo width={18} height={18} color="#E9AE15" />
-        <p className="text-[18px] text-[#D1D1D1] font-bold">Info</p>
+        <p className="text-[18px] text-[#D1D1D1] font-bold">Provably Fair</p>
       </div>
 
       <div className="flex flex-row gap-2">

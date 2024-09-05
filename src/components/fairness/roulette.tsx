@@ -47,32 +47,22 @@ const RoulettePage: FC = () => {
             the script.
           </p>
         </div>
-
-        <div className="mt-4">
-          <CopyBlock
-            language="php"
-            theme={dracula}
-            showLineNumbers={true}
-            text={`$server_seed = "96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0";
-                  $public_seed = "460670512935";
-                  $round = "321";
-                  $hash = hash('sha256', $server_seed . "-" . $public_seed . "-" . $round);
-                  $roll = hexdec(substr($hash, 0, 8)) % 29;
-                  if ($roll >= 15)
-                      $roll = $roll - 10;
-                  if ($roll >= 15)
-                      $roll = $roll - 10;
-                  if ($roll == 0) $roll_colour = 'gold';
-                  elseif ($roll % 2 === 1) $roll_colour = 'black';
-                  elseif ($roll % 2 === 0) $roll_colour = 'red';
-                  echo("Roll: $roll\nColour: $roll_colour");`}
-          />
-        </div>
+        <div className="mb-6 break-words rounded-lg border border-slate-dark bg-black-a p-2 text-seed md:px-4 md:py-3">
+        {"$server_seed = '96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0';"}<br />
+        {"$public_seed = '460670512935';"}<br />
+        {"$round = '321';"}<br />
+        {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
+        {"$roll = hexdec(substr($hash, 0, 8)) % 15;"}<br />
+        {"if ($roll == 0) $roll_colour = 'bonus';"}<br />
+        {"elseif ($roll >= 1 and $roll <= 7) $roll_colour = 'orange';"}<br />
+        {"elseif ($roll >= 8 and $roll <= 14) $roll_colour = 'black';"}<br /><br />
+        {"echo('Roll: $roll\\nColour: $roll_colour');"}
+      </div>
 
         <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
           <a
-            href="https://3v4l.org/GbGsM"
+            href="https://3v4l.org/Ag4DT"
             target="_blank"
             className="underline text-[#E9AE15]"
           >
