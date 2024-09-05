@@ -60,7 +60,7 @@ const WithdrawSkin: FC = () => {
   };
 
   return (
-    <div className="p-6 flex flex-row gap-6">
+    <div className="p-6 flex flex-row gap-3">
       <div className="w-full">
         <div className="flex flex-row items-center gap-1">
           <IconDeposit color="#E9AE15" width={18} height={10} />
@@ -130,7 +130,7 @@ const WithdrawSkin: FC = () => {
             loadMore={loadMore}
             hasMore={hasMoreItems}
             loader={<div key={0}>Loading...</div>}
-            className="grid grid-cols-6 gap-5 max-[1600px]:grid-cols-4 max-[1450px]:grid-cols-3 max-[1820px]:grid-cols-5"
+            className="grid grid-cols-6 gap-2 max-[1600px]:grid-cols-4 max-[1430px]:grid-cols-3 max-[1820px]:grid-cols-5"
             useWindow={false}
           >
             {items?.map((item, index) => (

@@ -17,6 +17,7 @@ import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
 import { apiCreateWithdraw } from "@/services/payment";
+import { setToast } from "@/redux/slices/main/toastSlice";
 
 const DepositPage: FC = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const DepositPage: FC = () => {
   const [type, setType] = useState<any>(null);
   const [amount, setAmount] = useState<number>(0);
   const [address, setAddress] = useState("");
+  const [token, setToken] = useState<any>(null);
 
   useEffect(() => {
     if (!user) {
@@ -43,21 +45,49 @@ const DepositPage: FC = () => {
   }, [user, dispatch]);
 
   const handleWithdrawClick = async (item: any) => {
-    if (amount != 0 && user) {
-    const data = await apiCreateWithdraw({
-      user_id: user.id,
-      amount: Number(amount),
-      address: address,
-      currency: item.currency,
-    });
+    const foundToken = depositTokenList.find(
+      (i) => i.currency === item.currency
+    );
+    setToken(foundToken);
+  };
 
-    console.log(data);
+  const handleRequestWithdraw = async () => {
+    if (amount !== 0 && user && address !== "") {
+      const data = await apiCreateWithdraw({
+        user_id: user.id,
+        amount: Number(amount),
+        address: address,
+        currency: token.currency,
+      });
+
+      if (data[0].status !== false) {
+        dispatch(
+          setToast({
+            type: 2,
+            message: "Success Withdraw Request, Please wait.",
+          })
+        );
+      }
+    } else if (amount === 0) {
+      dispatch(
+        setToast({
+          type: 4,
+          message: "Please input correct amount",
+        })
+      );
+    } else if (address === "") {
+      dispatch(
+        setToast({
+          type: 4,
+          message: "Please input correct address",
+        })
+      );
     }
   };
 
   return (
     <>
-      {type === null ? (
+      {token === null ? (
         <div className="p-6 flex flex-col gap-6">
           <div className="flex flex-row items-center gap-1">
             <IconDeposit color="#E9AE15" width={18} height={10} />
@@ -84,8 +114,7 @@ const DepositPage: FC = () => {
             Crypto
           </p>
 
-
-          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-2 gap-6">
+          {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-2 gap-6">
             <input
               value={amount}
               onChange={(e: any) => setAmount(e.target.value)}
@@ -101,7 +130,7 @@ const DepositPage: FC = () => {
               placeholder="Withdraw Address"
               className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
             />
-          </div>
+          </div> */}
 
           <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
             {depositTokenList.map((item, index) => (
@@ -118,11 +147,19 @@ const DepositPage: FC = () => {
         </div>
       ) : (
         <div className="p-6 flex flex-col gap-6">
-          <div className="flex flex-row items-center gap-1">
-            <IconWithdraw color="#E9AE15" width={18} height={10} />
-            <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
-              withdraw Arbitrum
-            </p>
+          <div className="flex flex-row items-center gap-1 justify-between">
+            <div className="flex flex-row items-center gap-1">
+              <IconWithdraw color="#E9AE15" width={18} height={10} />
+              <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
+                Withdraw {token?.title}
+              </p>
+            </div>
+
+            <Button
+              text="Back"
+              className="!w-[100px]"
+              clicked={() => setToken(null)}
+            />
           </div>
           <p className="font-normal text-[12px] text-[#D1D1D1]">
             you can typically withdraw up to 2,000 coins before KYC checks are
@@ -133,13 +170,14 @@ const DepositPage: FC = () => {
 
           <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
             <p className="text-[12px] font-normal text-[#D1D1D1]">
-              Please enter the bitcoin wallet address you want the withdrawal to
-              be sent to. all bitcoin withdraws are sent instantly.
+              Please enter the {token?.title} wallet address you want the
+              withdrawal to be sent to. all {token?.title} withdraws are sent
+              instantly.
             </p>
 
             <div className="flex gap-[5px] items-center">
               <p className="text-white font-semibold text-[18px] capitalize">
-                receiving arbitrum address
+                Receiving {token?.title} address
               </p>
             </div>
 
@@ -147,6 +185,8 @@ const DepositPage: FC = () => {
               <div className="relative flex w-full">
                 <input
                   type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
                 />
                 <div className="absolute top-[9px] left-[12px]">
@@ -161,11 +201,12 @@ const DepositPage: FC = () => {
                 <input
                   type="text"
                   className="bg-[#101010] border-[#1A1A1A] border-[1px] p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
-                  value="14324"
+                  value={amount}
+                  onChange={(e) => setAmount(Number(e.target.value))}
                 />
               </div>
 
-              <div className="min-w-[34px] h-[34px] flex justify-center items-center bg-[#1A1A1A] rounded-[2px] cursor-pointer">
+              {/* <div className="min-w-[34px] h-[34px] flex justify-center items-center bg-[#1A1A1A] rounded-[2px] cursor-pointer">
                 <IconChange color="#9C9C9C" width={12} height={10} />
               </div>
 
@@ -180,10 +221,10 @@ const DepositPage: FC = () => {
                   alt="icon"
                   className="absolute top-[9px] left-[12px]"
                 />
-              </div>
+              </div> */}
             </div>
 
-            <p className="text-white font-semibold text-[18px] capitalize">
+            {/* <p className="text-white font-semibold text-[18px] capitalize">
               Network fee
             </p>
 
@@ -216,29 +257,33 @@ const DepositPage: FC = () => {
                   <p className="font-bold text-[#707070] text-[12px]">9.23</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-between items-center">
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <p className="text-[#5D5D5D] text-[12px] font-bold">Total</p>
                 <div className="flex gap-[2px] items-center">
                   <IconCoin color="#E9AE15" width={16} height={17} />
                   <p className="text-[12px] font-bold text-[#D1D1D1]">156,65</p>
                 </div>
-              </div>
+              </div> */}
 
-              <Button text="Request Withdraw" className="!w-[143px]" />
+              <Button
+                text="Request Withdraw"
+                className="!w-[143px]"
+                clicked={handleRequestWithdraw}
+              />
             </div>
           </div>
 
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <p className="text-[12px] font-medium text-[#9C9C9C]">
               Transactions
             </p>
             <select className="bg-[#121212] text-[12px] font-medium text-[#9C9C9C] outline-none">
               <option>10 Per Page</option>
             </select>
-          </div>
+          </div> */}
         </div>
       )}
     </>

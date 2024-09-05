@@ -77,7 +77,7 @@ const DepositSkin: FC = () => {
         </div>
 
         {/* Items */}
-        <div className="overflow-x-hidden h-[600px] mt-[40px]">
+        <div className="overflow-x-hidden grid grid-cols-6 gap-2 max-[1600px]:grid-cols-4 max-[1430px]:grid-cols-3 max-[1820px]:grid-cols-5 h-[600px] mt-[40px]">
           {items?.status === "success" &&
             items.data?.map((item: any, index: any) => (
               <SkinDepositItem

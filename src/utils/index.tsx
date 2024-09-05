@@ -12,16 +12,10 @@ export const depositTokenList = [
     currency: "eth",
   },
   {
-    title: "BNB",
-    description: "Binance",
-    icon: "/assets/images/payments/bnb.png",
-    currency: "bnb",
-  },
-  {
     title: "USDT",
-    description: "Tether USDT",
+    description: "Ether USDT",
     icon: "/assets/images/payments/usdt.png",
-    currency: "usdteth",
+    currency: "tusd",
   },
   {
     title: "LTC",
