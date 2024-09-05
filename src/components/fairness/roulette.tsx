@@ -47,7 +47,7 @@ const RoulettePage: FC = () => {
             the script.
           </p>
         </div>
-        <div className="mb-6 break-words rounded-lg border border-slate-dark bg-black-a p-2 text-seed md:px-4 md:py-3">
+        <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3">
         {"$server_seed = '96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0';"}<br />
         {"$public_seed = '460670512935';"}<br />
         {"$round = '321';"}<br />
