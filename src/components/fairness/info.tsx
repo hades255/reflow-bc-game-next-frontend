@@ -5,7 +5,7 @@ const FairnessInfo: FC = () => {
   return (
     <div className="flex flex-row gap-6">
       <div className="flex flex-col flex-1 w-64 gap-6">
-        <div className="border-[#212121B2] border rounded-[5px] bg-\[\#212121B2\] p-3">
+        <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
         <h3 className="text-white font-semibold text-[20px]">
           What is Provably Fair?
         </h3>
@@ -15,7 +15,7 @@ const FairnessInfo: FC = () => {
         the outcome was indeed determined by the original seed and inputs, thus proving that the game was fair.
         </p>
         </div>
-        <div className="border-[#212121B2] border rounded-[5px] bg-\[\#212121B2\] p-3">
+        <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
         <h3 className="text-white font-semibold text-[20px]">
           HOW DO I VERIFY THE FAIRNESS OF THE GAME?
         </h3>
@@ -30,7 +30,7 @@ const FairnessInfo: FC = () => {
           the fairness and pre-determination of the results.
         </p>
         </div>
-        <div className="border-[#212121B2] border rounded-[5px] bg-\[\#212121B2\] p-3">
+        <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
         <h3 className="text-white font-semibold text-[20px]">
           Server Seed
         </h3>
@@ -41,7 +41,7 @@ const FairnessInfo: FC = () => {
         This means that the client doesn`t know the outcome, but can verify that the server is not changing the seed during the game.
         </p>
         </div>
-        <div className="border-[#212121B2] border rounded-[5px] bg-\[\#212121B2\] p-3">
+        <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
         <h3 className="text-white font-semibold text-[20px]">
           Public Seed
         </h3>
