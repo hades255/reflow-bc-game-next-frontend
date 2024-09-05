@@ -42,12 +42,12 @@ const RoulettePage: FC = () => {
           </p>
 
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-            Players can replicate any past roll by using the code below. Please
-            note that you should use the unhashed (not hashed) server seed with
-            the script.
-          </p>
+          Players can replicate any past roll by using the code below. Please
+          note that you should use the <span className="text-[#92c619]">unhashed</span> 
+          (not <span className="text-[#ff5c5c]">hashed</span>) server seed with the script.
+        </p>
         </div>
-        <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3">
+        <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3 w-[70%]">
         {"$server_seed = '96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0';"}<br />
         {"$public_seed = '460670512935';"}<br />
         {"$round = '321';"}<br />
