@@ -5,6 +5,7 @@ const FairnessInfo: FC = () => {
   return (
     <div className="flex flex-row gap-6">
       <div className="flex flex-col flex-1 w-64 gap-6">
+        <div className="border-[#212121B2] border rounded-[5px]">
         <h3 className="text-white font-semibold text-[20px]">
           What is Provably Fair?
         </h3>
@@ -13,6 +14,7 @@ const FairnessInfo: FC = () => {
         It leverages cryptography and third party input to generate random values. At the end of the game, players can verify that 
         the outcome was indeed determined by the original seed and inputs, thus proving that the game was fair.
         </p>
+        </div>
         <h3 className="text-white font-semibold text-[20px]">
           HOW DO I VERIFY THE FAIRNESS OF THE GAME?
         </h3>
