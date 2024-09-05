@@ -138,12 +138,12 @@ const AppSidebar: FC = () => {
           </div>
 
           <div className="flex items-center">
-            <div className="flex items-center justify-center w-[10px] h-[10px] bg-[#0DC5533D] rounded-full">
+            {/* <div className="flex items-center justify-center w-[10px] h-[10px] bg-[#0DC5533D] rounded-full">
               <div className="w-[6px] h-[6px] bg-[#0DC553] rounded-full"></div>
             </div>
             <span className="text-[12px] font-medium text-[#6C6C6C] ml-[2px]">
               435/999
-            </span>
+            </span> */}
             <div className="ml-[6px]">
               <Image src={arrowBottom} alt="logo" />
             </div>
