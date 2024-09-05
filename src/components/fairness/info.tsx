@@ -29,7 +29,7 @@ const FairnessInfo: FC = () => {
         />
       </div>
       <div className="flex flex-col flex-1 w-64">
-        <div className="flex flex-col gap-[26px]">
+        {/* <div className="flex flex-col gap-[26px]">
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-[21.9px]">
             In the case of every auditable bet (with the exception of roulette
             and coinflip, where distinct systems are employed), a client seed, a
@@ -58,7 +58,7 @@ const FairnessInfo: FC = () => {
             </p>
             <ServerSeed />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

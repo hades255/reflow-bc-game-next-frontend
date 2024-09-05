@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import TableBase from "../table/Base";
+import CoinflipTable from "../table/CoinflipTable";
 
 const CoinFlipPage: FC = () => {
   return (
@@ -75,9 +75,9 @@ echo "Result: " . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');`}
           about this system, feel free to contact our support team.
         </p>
 
-        {/* <div className="mt-5">
-          <TableBase />
-        </div> */}
+        <div className="mt-5">
+          <CoinflipTable />
+        </div>
       </div>
     </div>
   );

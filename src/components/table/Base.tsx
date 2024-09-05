@@ -1,15 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
-
-const BreakdownList = [
-  {
-    created_at: "2024-08-28",
-    server_seed:
-      "96f3e04d221ca1b2048cc3b3b844e479f2bd9c80a870628072ee98fd1aa83cd0",
-    public_seed: "460670512935",
-    id: "9839989 - 9842557",
-  },
-];
+import moment from "moment";
 
 interface Props {
   column?: string[];
@@ -53,7 +44,7 @@ const TableBase: FC<Props> = ({ column, data }) => {
             >
               <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
                 <p className={`text-[12px] font-medium capitalize`}>
-                  {item.created_at}
+                  {moment(item.created_at).format("YYYY-MM-DD")}
                 </p>
               </td>
               <td className="">{item.server_seed}</td>
