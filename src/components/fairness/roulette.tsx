@@ -43,7 +43,7 @@ const RoulettePage: FC = () => {
 
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
           Players can replicate any past roll by using the code below. Please
-          note that you should use the <span className="text-[#92c619]">unhashed</span> 
+          note that you should use the <span className="text-blue-200">unhashed</span> 
           (not <span className="text-[#ff5c5c]">hashed</span>) server seed with the script.
         </p>
         </div>
