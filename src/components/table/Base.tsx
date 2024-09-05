@@ -42,7 +42,7 @@ const TableBase: FC<Props> = ({ column, data }) => {
               className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
               key={index}
             >
-              <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
+              <td className="h-[41px] flex items-center gap-[6px] pl-[12px]">
                 <p className={`text-[12px] font-medium capitalize`}>
                   {moment(item.created_at).format("YYYY-MM-DD")}
                 </p>

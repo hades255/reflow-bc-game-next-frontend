@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import moment from "moment";
-import { apiListRoyalflip } from "@/services/fairness";
+import { apiListUpgrader } from "@/services/fairness";
 
 const UpgraderTable: FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -12,7 +12,7 @@ const UpgraderTable: FC = () => {
   useEffect(() => {
     (async () => {
       if (10 * (page - 1) < total || 10 * (page - 1) == total) {
-        const result = await apiListRoyalflip({ perPage: 10, page: page });
+        const result = await apiListUpgrader({ perPage: 10, page: page });
 
         console.log(result);
 
@@ -25,60 +25,61 @@ const UpgraderTable: FC = () => {
 
   return (
     <div className="w-full">
-      <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
-        <thead className="">
-          <tr className="w-full h-[33px] bg-[#1F1F1F] rounded-[5px]">
-            <th className=" text-[12px] font-semibold uppercase text-left pl-[12px]">
-              Date
-            </th>
-            <th className=" text-[12px] font-semibold uppercase text-left">
-              ID
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              BET
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              SERVER SEED
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              SERVER SEED HASH
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              PUBLIC SEED
-            </th>
-            <th className="text-[12px] font-semibold uppercase text-left">
-              WIN
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {showData?.map((item: any, index: any) => (
-            <tr
-              className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
-              key={index}
-            >
-              <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
-                <p className={`text-[12px] font-medium capitalize`}>
-                  {moment(item.created_at).format("YYYY-MM-DD")}
-                </p>
-              </td>
-              <td className="">{item.id}</td>
-              <td className="">{item.bet_amount}</td>
-              <td className="">{item.server_seed}</td>
-              <td className="">{item.server_seed_hash}</td>
-              <td className="">{item.public_seed}</td>
-              <td className="">{item.round}</td>
-              <td className="">
-                {item.winner ? (
-                  <p className="text-[12px] text-green-700">Win</p>
-                ) : (
-                  <p className="text-[12px] text-red-700">Lost</p>
-                )}
-              </td>
+      <div className="overflow-x-auto overflow-y-hidden w-full">
+        <table className="w-full bg-[#191919] text-[#727272] min-w-[1200px] rounded-[5px]">
+          <thead className="">
+            <tr className="h-[33px] bg-[#1F1F1F] rounded-[5px]">
+              <th className="text-[12px] font-semibold uppercase text-left pl-[12px]">
+                Date
+              </th>
+              <th className=" text-[12px] font-semibold uppercase text-left">
+                ID
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                BET
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                SERVER SEED
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                SERVER SEED HASH
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left">
+                PUBLIC SEED
+              </th>
+              <th className="text-[12px] font-semibold uppercase text-left pr-[12px]">
+                WIN
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {showData?.map((item: any, index: any) => (
+              <tr
+                className={`w-full ${index % 2 === 1 ? "bg-[#1F1F1F]" : ""}`}
+                key={index}
+              >
+                <td className=" h-[41px] flex items-center gap-[6px] pl-[12px]">
+                  <p className={`text-[12px] font-medium capitalize`}>
+                    {moment(item.created_at).format("YYYY-MM-DD")}
+                  </p>
+                </td>
+                <td className="">{item.id}</td>
+                <td className="">{item.bet_amount}</td>
+                <td className="">{item.server_seed}</td>
+                <td className="">{item.server_seed_hash}</td>
+                <td className="">{item.public_seed}</td>
+                <td className="flex items-center gap-[5px] pr-[12px]">
+                  {item.winner ? (
+                    <p className="text-[12px] text-green-700">Win</p>
+                  ) : (
+                    <p className="text-[12px] text-red-700">Lost</p>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="flex flex-row mt-[20px] gap-1">
         <button
