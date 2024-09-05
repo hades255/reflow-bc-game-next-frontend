@@ -194,7 +194,7 @@ const DepositPage: FC = () => {
             </div>
 
             <div className="flex flex-col gap-3">
-              <p className="text-[12px] font-normal text-[#D1D1D1 ]">
+              <p className="text-[12px] font-normal text-[#D1D1D1]">
                 Your {token?.description} Deposit Address
               </p>
 
