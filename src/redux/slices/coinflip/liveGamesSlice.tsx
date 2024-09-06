@@ -71,12 +71,19 @@ export const liveGamesSlice = createSlice({
         game.round === action.payload.round
           ? {
               ...game,
-              players: game.players.map((player) => ({
+              players: game.players.map((player, index) => ({
                 ...player,
-                budget:
-                  player.side === game.side
-                    ? game.players[1].name === "house" ? player.budget * 2 : player.budget * 1.99
-                    : -player.budget,
+                budget: game.side
+                  ? index == 0
+                    ? game.players[1].name === "house"
+                      ? player.budget * 2
+                      : player.budget * 1.99
+                    : -player.budget
+                  : index == 1
+                  ? game.players[1].name === "house"
+                    ? player.budget * 2
+                    : player.budget * 1.99
+                  : -player.budget,
               })),
             }
           : game
