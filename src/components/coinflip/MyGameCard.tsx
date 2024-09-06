@@ -21,8 +21,6 @@ interface Props {
   game: GameType;
 }
 const MyGameCard: React.FC<Props> = ({ game }) => {
-  console.log("game", game, game.players.length);
-
   const user = useUser();
   const dispatch = useDispatch();
   const [timer, setTimer] = useState<number>(6);
@@ -62,16 +60,16 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
       })
     );
     if (
-      game.bet === game.players[0].budget &&
-      game.bet === game.players[1].budget
+      Number(game.bet) === Number(game.players[0].budget) &&
+      Number(game.bet) === Number(game.players[1].budget)
     ) {
       dispatch(
         updateBalance({
           balance:
-            game.side === game.players[0].side
-              ? game.players[1].name === "house"
+            game.side
+              ? (game.players[1].name === "house"
                 ? Number(game.bet) * 2
-                : Number(game.bet) * 1.99
+                : Number(game.bet) * 1.99)
               : 0,
         })
       );
