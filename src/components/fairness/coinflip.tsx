@@ -43,28 +43,25 @@ const CoinFlipPage: FC = () => {
           </p>
         </div>
 
-        <div className="mt-4">
-          <CopyBlock
-            language="php"
-            theme={dracula}
-            showLineNumbers={true}
-            text={`$private_seed_hash = "b6ce76f966a38da31399070b0f08523d93ea202e01c3151e259b8815dda02ce8";
-$private_seed = "813ce2c0c6aae8fc071426c223ff0ce4";
-$public_seed = "04fcb0995f1a2f0c0abd17cf364800d6dee912cba412ce16c58d7241aa7365f7";
-$round = "321";
-if (hash('sha256', $private_seed) != $private_seed_hash)
-         echo "WARNING: Private seed hash does not match private seed!\n";
-}
-$hash = hash('sha256', "$private_seed-$public_seed-$round");
-$flip = (hexdec(substr($hash, 0, 8)) % 2) + 1;
-echo "Result: " . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');`}
-          />
-        </div>
+        <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3 w-[70%]">
+        {"$server_seed_hash = '18c8071420da96fc849982c85ac372d4d5b9f93d58f88faf031b882d6e4e96ef';"}<br />
+        {"$server_seed = 'd5w58aJIBRcIW1UdetDHWDMxVippQCBn';"}<br />
+        {"$public_seed = '3QwLk7LRoTdQboJ0eg3vv6XO4UVPiZENTeoYctdR7lAEB8pKs6z62PbQb28CyCxo';"}<br />
+        {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
+        {"$round ='66339473';"}<br />
+        {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
+        {"echo 'WARNING: Private seed hash does not match private "}<br />
+        {"seed!\n';"}<br />
+        {"}"}<br />
+        {"$hash = hash('sha256', '$server_seed-$public_seed-$round');"}<br />
+        {"$flip = (hexdec(substr($hash, 0, 8)) % 2) + 1;"}<br /><br />
+        {"echo 'Result: ' . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');"}
+      </div>
 
         <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
           <a
-            href="https://3v4l.org/0ZYp1"
+            href="https://3v4l.org/nU4c8"
             target="_blank"
             className="underline text-[#E9AE15]"
           >
