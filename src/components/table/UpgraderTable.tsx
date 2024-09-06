@@ -66,7 +66,7 @@ const UpgraderTable: FC = () => {
                 <td className="">{item.server_seed_hash}</td>
                 <td className="">{item.public_seed}</td>
                 <td className="flex items-center gap-[5px] pr-[12px]">
-                  {item.winner ? (
+                  {item.win ? (
                     <p className="text-[12px] text-green-700">Win</p>
                   ) : (
                     <p className="text-[12px] text-red-700">Lost</p>
