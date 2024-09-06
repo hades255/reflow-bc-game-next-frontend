@@ -203,7 +203,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
             <span
               className={
                 show
-                  ? game.side === game.players[0].side
+                  ? game.side
                     ? "text-[#15C059]"
                     : "text-[#C6363F]"
                   : "text-gold"
@@ -212,10 +212,10 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               {game.players[0].budget.toFixed(2)}
             </span>
           </div>
-          {show && game.side === game.players[0].side && (
+          {show && game.side && (
             <div className="shine border-2 border-[#15C059] rounded-md inner-green"></div>
           )}
-          {show && game.side === game.players[1].side && (
+          {show && !game.side && (
             <div className="shine border-2 border-[#C6363F] rounded-md inner-red"></div>
           )}
         </div>
@@ -226,7 +226,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           <h4 className="text-font innerBlack bg-[#191919] py-1 px-2 rounded-md">
             {timer}
           </h4>
-        ) : game.side ? (
+        ) : !(game.side !== game.players[0].side)? (
           show ? (
             <div className="white-coin-back absolute z-20"></div>
           ) : (
@@ -319,7 +319,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               <span
                 className={
                   show
-                    ? game.side === game.players[1].side
+                    ? !game.side
                       ? "text-[#15C059]"
                       : "text-[#C6363F]"
                     : "text-gold"

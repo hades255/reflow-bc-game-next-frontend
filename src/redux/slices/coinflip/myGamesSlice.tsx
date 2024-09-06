@@ -16,7 +16,7 @@ export const myGamesSlice = createSlice({
   initialState,
   reducers: {
     initialMyGames: (state, action: PayloadAction<GameType[]>) => {
-      state.mygames = action.payload
+      state.mygames = action.payload;
     },
     setMyGames: (
       state,
@@ -49,7 +49,11 @@ export const myGamesSlice = createSlice({
     },
     callHouse: (
       state,
-      action: PayloadAction<{ round: string | null, side: boolean, game:GameType }>
+      action: PayloadAction<{
+        round: string | null;
+        side: boolean;
+        game: GameType;
+      }>
     ) => {
       state.mygames = state.mygames.map((gm) =>
         gm.round === action.payload.round
@@ -70,7 +74,7 @@ export const myGamesSlice = createSlice({
               publicSeed: action.payload.game?.publicSeed ?? "",
               privateSeedHash: action.payload.game?.privateSeedHash ?? "",
               round: action.payload?.round,
-              side: action.payload.side
+              side: action.payload.side,
             }
           : gm
       );
@@ -83,31 +87,37 @@ export const myGamesSlice = createSlice({
         gm.round === action.payload.round ? action.payload.game : gm
       );
     },
-    updateBudget: (
-      state,
-      action: PayloadAction<{ round: string | null }>
-    ) => {
+    updateBudget: (state, action: PayloadAction<{ round: string | null }>) => {
       state.mygames = state.mygames.map((game) =>
         game.round === action.payload.round
           ? {
               ...game,
-              players: game.players.map((player) => ({
+              players: game.players.map((player, index) => ({
                 ...player,
-                budget:
-                  player.side === game.side
-                    ? game.players[1].name === "house" ? player.budget * 2 : player.budget * 1.99
-                    : -player.budget,
+                budget: game.side
+                  ? index == 0
+                    ? game.players[1].name === "house"
+                      ? player.budget * 2
+                      : player.budget * 1.99
+                    : -player.budget
+                  : index == 1
+                  ? game.players[1].name === "house"
+                    ? player.budget * 2
+                    : player.budget * 1.99
+                  : -player.budget,
               })),
             }
           : game
       );
     },
     dismissAllGames: (state) => {
-      state.mygames = state.mygames.map((game) => game.players.length === 1 ? ({...game, round: null}) : game);
+      state.mygames = state.mygames.map((game) =>
+        game.players.length === 1 ? { ...game, round: null } : game
+      );
     },
     deleteAGame: (state, action: PayloadAction<{ round: string | null }>) => {
-      state.mygames = state.mygames.map(
-        (game) => game.round === action.payload.round ? { ...game, round: null } : game
+      state.mygames = state.mygames.map((game) =>
+        game.round === action.payload.round ? { ...game, round: null } : game
       );
     },
     cacheDelete: (state, action: PayloadAction<{ type: boolean }>) => {
@@ -116,7 +126,7 @@ export const myGamesSlice = createSlice({
       } else {
         state.mygames = state.mygames.slice(0, 4);
       }
-    }
+    },
   },
 });
 
@@ -129,7 +139,7 @@ export const {
   updateBudget,
   dismissAllGames,
   deleteAGame,
-  cacheDelete
+  cacheDelete,
 } = myGamesSlice.actions;
 
 export const useMyGames = () =>
