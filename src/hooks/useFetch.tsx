@@ -14,10 +14,10 @@ export const useFetch = (url: string, options: AxiosRequestConfig) => {
       const response: AxiosResponse = await axios(
         `${process.env.NEXT_PUBLIC_API_HOST}${url}`,
         {
-            ...options,
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+          ...options,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setData(response.data);
@@ -25,6 +25,7 @@ export const useFetch = (url: string, options: AxiosRequestConfig) => {
       setError(error);
     }
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, url]);
 
   useEffect(() => {

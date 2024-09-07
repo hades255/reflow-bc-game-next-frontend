@@ -28,11 +28,12 @@ const LiveGames = () => {
   const getPending = async () => {
     let data = await getPendingGames(false, user);
     dispatch(initialLiveGames(data));
-  }
+  };
 
   useEffect(() => {
     getPending();
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     myEcho();
@@ -65,18 +66,21 @@ const LiveGames = () => {
   }, [dispatch, user, cards]);
 
   useEffect(() => {
-    if (games.length !== 0 && games.filter((gm) => gm.round !== null).length === 0) {
+    if (
+      games.length !== 0 &&
+      games.filter((gm) => gm.round !== null).length === 0
+    ) {
       dispatch(cacheDelete());
     }
   }, [dispatch, games]);
 
   useEffect(() => {
     dispatch(filterAmount({ condition: amount }));
-  }, [dispatch, amount])
+  }, [dispatch, amount]);
 
   useEffect(() => {
     dispatch(sortAmount({ sort: sort }));
-  }, [dispatch, sort])
+  }, [dispatch, sort]);
 
   return (
     <>

@@ -17,6 +17,7 @@ const UpgraderTable: FC = () => {
         // setCurrent(result?.data?.current);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

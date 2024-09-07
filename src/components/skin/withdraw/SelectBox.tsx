@@ -61,6 +61,7 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
           .catch((err) => console.log(err));
       }, 10000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionId]);
 
   return (
