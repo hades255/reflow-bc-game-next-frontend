@@ -9,7 +9,7 @@ import {
   useMyGames,
   setAMyGame,
   dismissAllGames,
-  cacheDelete
+  cacheDelete,
 } from "@/redux/slices/coinflip/myGamesSlice";
 import { updateBalance } from "@/redux/slices/main/balanceSlice";
 import MyGameCard from "./MyGameCard";
@@ -36,8 +36,8 @@ const MyGames = () => {
       let allBudget = 0;
       created.forEach((gm) => {
         allBudget += gm.bet;
-      })
-      dispatch(updateBalance({ balance: allBudget }))
+      });
+      dispatch(updateBalance({ balance: allBudget }));
       dispatch(dismissAllGames());
     }
   }, [dispatch, myGames]);
@@ -49,11 +49,12 @@ const MyGames = () => {
     } else {
       dispatch(initialMyGames([]));
     }
-  }
+  };
 
   useEffect(() => {
     getPending();
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     myEcho();
@@ -83,13 +84,19 @@ const MyGames = () => {
   }, [isCurrent, user]);
 
   useEffect(() => {
-    if (myGames.length !== 0 && myGames.filter((game) => game.round !== null).length === 0) {
+    if (
+      myGames.length !== 0 &&
+      myGames.filter((game) => game.round !== null).length === 0
+    ) {
       dispatch(cacheDelete({ type: true }));
     }
-    if (myGames.length > 4 && myGames.filter((game, id) => game.round !== null && id > 3).length === 0) {
+    if (
+      myGames.length > 4 &&
+      myGames.filter((game, id) => game.round !== null && id > 3).length === 0
+    ) {
       dispatch(cacheDelete({ type: false }));
     }
-  }, [dispatch, myGames])
+  }, [dispatch, myGames]);
 
   return (
     <>
@@ -98,7 +105,10 @@ const MyGames = () => {
           <span>
             <span>My Games</span>&nbsp;
             <span className="text-gold">
-              {isCurrent ? myGames && myGames.filter((game) => game.round !== null).length : historyTotal}
+              {isCurrent
+                ? myGames &&
+                  myGames.filter((game) => game.round !== null).length
+                : historyTotal}
             </span>
           </span>
           <button
