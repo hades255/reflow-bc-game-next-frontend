@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import IconAttention from "@/utils/icons/Attention";
-import IconCamera from "@/utils/icons/Camera";
 import IconCoin from "@/utils/icons/Coin";
-import Image from "next/image";
 import Button from "@/components/buttons/Button";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { useDispatch } from "react-redux";
@@ -22,8 +20,6 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const [txId, setTxId] = useState<string>("");
-
-  const [transactionId, setTransactionId] = useState<string>("");
 
   const handleSell = async () => {
     if (item?.name) {

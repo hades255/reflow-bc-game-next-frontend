@@ -2,15 +2,11 @@
 
 import React, { FC, useState, useEffect } from "react";
 import IconWithdraw from "@/utils/icons/Withdraw";
-import IconChange from "@/utils/icons/Change";
 import IconCoin from "@/utils/icons/Coin";
-import Image from "next/image";
 import Button from "@/components/buttons/Button";
-import arbitrum from "@/assets/icons/arbitrum-logo.svg";
-import Switch from "@/components/buttons/Switch";
 import IconDeposit from "@/utils/icons/Deposit";
 import PaymentItem from "@/components/deposit/PaymentItem";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { depositTokenList } from "@/utils";
 
 import { useUser } from "@/redux/slices/main/userSlice";
@@ -21,10 +17,8 @@ import { setToast } from "@/redux/slices/main/toastSlice";
 
 const DepositPage: FC = () => {
   const router = useRouter();
-  const [fee, setFee] = useState<number>(1);
   const dispatch = useDispatch();
   const user = useUser();
-  const [type, setType] = useState<any>(null);
   const [amount, setAmount] = useState<number>(0);
   const [address, setAddress] = useState("");
   const [token, setToken] = useState<any>(null);

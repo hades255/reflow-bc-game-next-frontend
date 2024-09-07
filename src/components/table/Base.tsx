@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import Image from "next/image";
 import moment from "moment";
 
 interface Props {

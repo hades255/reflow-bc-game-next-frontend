@@ -4,7 +4,6 @@ import IconCoin from "@/utils/icons/Coin";
 import IconAttention from "@/utils/icons/Attention";
 import Image from "next/image";
 import IconArrowTop from "@/assets/icons/arrow-top.svg";
-import MultiRangeSlider from "@/components/skin/withdraw/MultiRangeSlider";
 import Button from "@/components/buttons/Button";
 
 const FilterBox: FC = () => {

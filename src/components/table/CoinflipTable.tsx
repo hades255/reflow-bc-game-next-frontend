@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import Image from "next/image";
 import moment from "moment";
 import { apiListRoyalflip } from "@/services/fairness";
 
@@ -7,15 +6,15 @@ const CoinflipTable: FC = () => {
   const [page, setPage] = useState<number>(1);
   const [showData, setShowData] = useState<any | undefined>();
   const [total, setTotal] = useState<number>(0);
-  const [current, setCurrent] = useState<number>(0);
+  // const [current, setCurrent] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
       if (10 * (page - 1) < total || 10 * (page - 1) == total) {
-       const result = await apiListRoyalflip({ perPage: 10, page: page });
+        const result = await apiListRoyalflip({ perPage: 10, page: page });
         setTotal(result?.data?.total);
         setShowData(result?.data?.items);
-        setCurrent(result?.data?.current);
+        // setCurrent(result?.data?.current);
       }
     })();
   }, [page, total]);
