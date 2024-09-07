@@ -25,8 +25,7 @@ const UpgradePage: FC = () => {
         {"$skin_price = 2000000;"}<br />
         {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
         {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
-        {"echo 'WARNING: Private seed hash does not match private "}<br />
-        {"seed!\n';"}<br />
+        {"echo 'WARNING: Private seed hash does not match private seed!';"}<br />
         {"}"}<br />
         {"$hash = hash('sha256', '$server_seed-$public_seed');"}<br />
         {"$result = (hexdec(substr($hash, 0, 8)) % 100) +1;"}<br />

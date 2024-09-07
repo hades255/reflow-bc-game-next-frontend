@@ -50,8 +50,7 @@ const CoinFlipPage: FC = () => {
         {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
         {"$round ='66339473';"}<br />
         {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
-        {"echo 'WARNING: Private seed hash does not match private "}<br />
-        {"seed!\n';"}<br />
+        {"echo 'WARNING: Private seed hash does not match private seed!\n';"}<br />
         {"}"}<br />
         {"$hash = hash('sha256', '$server_seed-$public_seed-$round');"}<br />
         {"$flip = (hexdec(substr($hash, 0, 8)) % 2) + 1;"}<br /><br />
@@ -64,8 +63,7 @@ const CoinFlipPage: FC = () => {
         {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
         {"$round ='56346182';"}<br />
         {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
-        {"echo 'WARNING: Private seed hash does not match private "}<br />
-        {"seed!\n';"}<br />
+        {"echo 'WARNING: Private seed hash does not match private seed!\n';"}<br />
         {"}"}<br />
         {"$hash = hash('sha256', '$server_seed-$public_seed-$round');"}<br />
         {"$flip = (hexdec(substr($hash, 0, 8)) % 100) + 1;"}<br />
