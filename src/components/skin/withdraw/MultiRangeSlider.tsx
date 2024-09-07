@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState, useRef, FC } from "react";
-import PropTypes from "prop-types";
 
 interface Props {
   min: number;

@@ -1,13 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import IconAttention from "@/utils/icons/Attention";
-import IconCamera from "@/utils/icons/Camera";
 import IconCoin from "@/utils/icons/Coin";
-import Image from "next/image";
 import Button from "@/components/buttons/Button";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { useDispatch } from "react-redux";
 import {
-  apiSetTradeLink,
   apiBuyItem,
   apiCheckManySteam,
   apiSetResult,

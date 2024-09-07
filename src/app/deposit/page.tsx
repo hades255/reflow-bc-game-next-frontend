@@ -3,34 +3,25 @@
 import React, { FC, useState, useEffect } from "react";
 import IconDeposit from "@/utils/icons/Deposit";
 import IconWallet from "@/utils/icons/Wallet";
-import IconCalculator from "@/utils/icons/Calculator";
-import IconChange from "@/utils/icons/Change";
-import IconCoin from "@/utils/icons/Coin";
-import Image from "next/image";
 import Button from "@/components/buttons/Button";
 import PaymentItem from "@/components/deposit/PaymentItem";
 import { depositTokenList } from "@/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import QRCode from "react-qr-code";
 
 import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
-import nowPayment from "@/services/nowPayments";
 import { apiCreatePayment } from "@/services/payment";
 import { setToast } from "@/redux/slices/main/toastSlice";
 
 const DepositPage: FC = () => {
   const router = useRouter();
-  const params = useSearchParams();
-  const type = params.get("type");
-  const paymentId = params.get("paymentId");
   const [paymentData, setPaymentData] = useState<any>(null);
   const [token, setToken] = useState<any>({});
   const dispatch = useDispatch();
   const user = useUser();
   const [amount, setAmount] = useState<number>(0);
-  const [currency, setCurrency] = useState<string>("usd");
 
   useEffect(() => {
     if (!user) {

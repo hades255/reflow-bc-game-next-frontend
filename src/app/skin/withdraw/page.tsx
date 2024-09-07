@@ -2,12 +2,8 @@
 
 import React, { FC, useState, useEffect } from "react";
 import IconDeposit from "@/utils/icons/Deposit";
-import TabItem from "@/components/skin/TabItem";
 import SearchInput from "@/components/upgrade/SearchInput";
-import Switch from "@/components/buttons/Switch";
-import IconCoin from "@/utils/icons/Coin";
 import SkinWithdrawItem from "@/components/skin/withdraw/SkinWithdrawItem";
-import FilterBox from "@/components/skin/withdraw/FilterBox";
 import SelectBox from "@/components/skin/withdraw/SelectBox";
 import { apiGetItems } from "@/services/upgrader";
 import MultiRangeSlider from "@/components/upgrade/MultiRangeSlider";
@@ -15,7 +11,6 @@ import InfiniteScroll from "react-infinite-scroller";
 
 const WithdrawSkin: FC = () => {
   const [items, setItems] = useState<any[]>([]);
-  const [deals, setDeals] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [minRange, setMinRange] = useState(0);
   const [maxRange, setMaxRange] = useState(5000);
