@@ -21,19 +21,23 @@ const UpgradePage: FC = () => {
         {"$server_seed_hash = '18c8071420da96fc849982c85ac372d4d5b9f93d58f88faf031b882d6e4e96ef';"}<br />
         {"$server_seed = 'd5w58aJIBRcIW1UdetDHWDMxVippQCBn';"}<br />
         {"$public_seed = 'D9YGuK';"}<br />
+        {"$bet_amount = 1000;"}<br />
+        {"$skin_price = 2000000;"}<br />
         {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
         {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
         {"echo 'WARNING: Private seed hash does not match private "}<br />
         {"seed!\n';"}<br />
         {"}"}<br />
         {"$hash = hash('sha256', '$server_seed-$public_seed');"}<br />
-        {"$result = (hexdec(substr($hash, 0, 8)) % 100) +1;"}<br /><br />
-        {"echo 'Result: ' . $result;"}
+        {"$result = (hexdec(substr($hash, 0, 8)) % 100) +1;"}<br />
+        {"$edge = 10; // house edge = 10%"}<br />
+        {"$win_rate = $bet_amount / $skin_price * (100 - $edge);"}<br /><br />
+        {"echo 'Result: ' . ($result < $win_rate ? 'You win' : 'House win');"}
       </div>
       <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
           <a
-            href="https://3v4l.org/R95as"
+            href="https://3v4l.org/G6C0r"
             target="_blank"
             className="underline text-[#E9AE15]"
           >

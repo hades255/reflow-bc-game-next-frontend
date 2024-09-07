@@ -57,7 +57,21 @@ const CoinFlipPage: FC = () => {
         {"$flip = (hexdec(substr($hash, 0, 8)) % 2) + 1;"}<br /><br />
         {"echo 'Result: ' . ($flip == 1 ? 'Heads (T)' : 'Tails (CT)');"}
       </div>
-
+      <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3 w-[70%]">
+        {"$server_seed_hash = '56bee5010e2cfa042ff316831424c9587012b9ce0eca35eb78dbef834f76cb54';"}<br />
+        {"$server_seed = '2oxzg8A8wrxWU0TURolKJwze8DeypwXh';"}<br />
+        {"$public_seed = 'aINHRvYDkZiO9M8woxNF0MuLGVE52vUNG9QGenDJsGaYpzeqMmjlrwvL01tcDDlO';"}<br />
+        {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
+        {"$round ='56346182';"}<br />
+        {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
+        {"echo 'WARNING: Private seed hash does not match private "}<br />
+        {"seed!\n';"}<br />
+        {"}"}<br />
+        {"$hash = hash('sha256', '$server_seed-$public_seed-$round');"}<br />
+        {"$flip = (hexdec(substr($hash, 0, 8)) % 100) + 1;"}<br />
+        {"$edge = 1; // house edge = 1%"}<br /><br />
+        {"echo 'Result: ' . ($flip <= 50-$edge ? 'You win' : 'House win');"}
+      </div>  
         <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
           You can execute PHP code straight from your browser with tools such as{" "}
           <a
@@ -67,7 +81,13 @@ const CoinFlipPage: FC = () => {
           >
             this PHP code
           </a>{" "}
-          . Simply copy and paste the above code in the window and replace the
+          . And House Game is <a
+            href="https://3v4l.org/d2qIE"
+            target="_blank"
+            className="underline text-[#E9AE15]"
+          >
+            this PHP code
+          </a>{" "}. Simply copy and paste the above code in the window and replace the
           public seed, server seed and round number. If you have any questions
           about this system, feel free to contact our support team.
         </p>
