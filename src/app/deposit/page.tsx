@@ -38,19 +38,6 @@ const DepositPage: FC = () => {
     }
   }, [user, dispatch]);
 
-  // useEffect(() => {
-  //   if (!paymentData && paymentId) {
-  //     nowPayment({
-  //       url: `/payment/${paymentId}`,
-  //       method: "GET",
-  //     })
-  //       .then((res) => {
-  //         setPaymentData(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }, [paymentData, paymentId]);
-
   useEffect(() => {
     if (paymentData !== null) {
       const foundToken = depositTokenList.find(

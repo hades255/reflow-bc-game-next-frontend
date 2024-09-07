@@ -17,18 +17,35 @@ const UpgradePage: FC = () => {
             }
           </p>
         </div>
-
-        <div className="mt-4">
-          <iframe
-            title="Clash.gg Upgrader v2"
-            src="https://codepen.io/mjchal/embed/eYeEWGQ?default-tab=js%2Cresult"
-            loading="lazy"
-            className="h-[500px] w-full"
+        <div className="mb-6 break-words rounded-lg border text-blue-200 mt-3 md:px-4 md:py-3 w-[70%]">
+        {"$server_seed_hash = '18c8071420da96fc849982c85ac372d4d5b9f93d58f88faf031b882d6e4e96ef';"}<br />
+        {"$server_seed = 'd5w58aJIBRcIW1UdetDHWDMxVippQCBn';"}<br />
+        {"$public_seed = 'D9YGuK';"}<br />
+        {"$bet_amount = 1000;"}<br />
+        {"$skin_price = 2000000;"}<br />
+        {"$hash = hash('sha256', $server_seed . '-' . $public_seed . '-' . $round);"}<br />
+        {"if (hash('sha256', $server_seed) != $server_seed_hash){"}<br />
+        {"echo 'WARNING: Private seed hash does not match private seed!';"}<br />
+        {"}"}<br />
+        {"$hash = hash('sha256', '$server_seed-$public_seed');"}<br />
+        {"$result = (hexdec(substr($hash, 0, 8)) % 100) +1;"}<br />
+        {"$edge = 10; // house edge = 10%"}<br />
+        {"$win_rate = $bet_amount / $skin_price * (100 - $edge);"}<br /><br />
+        {"echo 'Result: ' . ($result < $win_rate ? 'You win' : 'House win');"}
+      </div>
+      <p className="font-normal text-[16px] text-[#D1D1D1] leading-5 mt-10">
+          You can execute PHP code straight from your browser with tools such as{" "}
+          <a
+            href="https://3v4l.org/G6C0r"
+            target="_blank"
+            className="underline text-[#E9AE15]"
           >
-            See the Pen Clash.gg Upgrader v2 by mjchal
-          </iframe>
-        </div>
-
+            this PHP code
+          </a>{" "}
+          . Simply copy and paste the above code in the window and replace the
+          public seed, server seed and round number. If you have any questions
+          about this system, feel free to contact our support team.
+        </p>
         <div className="mt-5">
           <UpgraderTable />
         </div>

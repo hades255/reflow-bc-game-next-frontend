@@ -17,7 +17,7 @@ const CoinflipTable: FC = () => {
         // setCurrent(result?.data?.current);
       }
     })();
-  }, [page, total]);
+  }, [page]);
 
   return (
     <div className="w-full">

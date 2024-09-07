@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import TableBase from "../table/Base";
+import TableBase from "../table/RouletteTable";
 
 const BonusCasesPage: FC = () => {
   return (
@@ -53,37 +53,9 @@ const BonusCasesPage: FC = () => {
           >
             this PHP code
           </a>{" "}
-          . Please note that you should use the unhashed (not hashed) server
-          seed with the script. You can get the unhashed server seed by going to
-          the Info tab and clicking `Regenerate` under Server Seed. When a new
-          Server Seed is generated, the nonce resets back to 1. Our provably
-          fair code was updated on April 18th, 2024. Cases opened before April
-          18th, 2024 until December 5th, 2023, should use{" "}
-          <a
-            href="https://3v4l.org/ecFuT"
-            target="_blank"
-            className="underline text-[#E9AE15]"
-          >
-            this PHP code
-          </a>{" "}
-          . Cases opened from December 5th, 2023 until December 9th, 2019,
-          should use{" "}
-          <a
-            href="https://3v4l.org/urEYG"
-            target="_blank"
-            className="underline text-[#E9AE15]"
-          >
-            this PHP code
-          </a>{" "}
-          . Cases opened before December 9th, 2019, should use{" "}
-          <a
-            href="https://3v4l.org/P9Qir"
-            target="_blank"
-            className="underline text-[#E9AE15]"
-          >
-            this PHP code
-          </a>{" "}
-          .
+          . Please note that you should use the <span className="text-blue-200">unhashed</span> 
+          (not <span className="text-[#ff5c5c]">hashed</span>) server
+          seed with the script.
         </p>
 
         {/* <div className="mt-5">
