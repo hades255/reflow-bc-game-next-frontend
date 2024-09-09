@@ -328,7 +328,7 @@ const UpgradePage: FC = () => {
 
             <div className="bg-[#1212127A] h-auto flex flex-col p-4 mt-[10px] gap-3">
               <div className="flex flex-col gap-1">
-                <p>Hashed Server Seed</p>
+                <p className="text-white">Hashed Server Seed</p>
                 <input
                   type="text"
                   value={serverSeedHash}
@@ -336,7 +336,7 @@ const UpgradePage: FC = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <p>Client Seed</p>
+                <p className="text-white">Client Seed</p>
                 <div className="flex flex-row gap-1">
                   <input
                     type="text"
@@ -355,7 +355,7 @@ const UpgradePage: FC = () => {
               {playResult && (
                 <div className="flex flex-col gap-1">
                   <div className="flex flex-col gap-1">
-                    <p>Server Seed</p>
+                    <p className="text-white">Server Seed</p>
                     <input
                       type="text"
                       value={playResult?.severSeed}
@@ -365,7 +365,7 @@ const UpgradePage: FC = () => {
 
                   <div className="flex flex-row w-full gap-3">
                     <div className="flex flex-col gap-1 w-full">
-                      <p>Win Rate</p>
+                      <p className="text-white">Win Rate</p>
                       <input
                         type="text"
                         value={playResult?.winRate}
@@ -374,7 +374,7 @@ const UpgradePage: FC = () => {
                     </div>
 
                     <div className="flex flex-col gap-1 w-full">
-                      <p>Result Rate</p>
+                      <p className="text-white">Result Rate</p>
                       <input
                         type="text"
                         value={playResult?.resultRate}
