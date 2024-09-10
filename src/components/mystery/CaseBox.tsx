@@ -84,11 +84,11 @@ const CaseBox: FC<Props> = ({
             />
             <p className="text-[12px] font-medium text-[#D1D1D1]">{keyCount}</p>
           </div>
-          <p className="text-[12px] font-semibold text-[#484848]">2 Key Needed</p>
+          <p className="text-[12px] font-semibold text-[#484848]">1 Key Needed</p>
         </div>
 
         <div className="w-[120px] mt-6">
-          <Button text="Open Case" clicked={onClick} disabled={keyCount < 2} />
+          <Button text="Open Case" clicked={onClick} disabled={keyCount < 1} />
         </div>
       </div>
 

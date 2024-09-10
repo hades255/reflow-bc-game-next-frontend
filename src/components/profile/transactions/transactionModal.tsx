@@ -14,6 +14,8 @@ import CoinBlack from "@/utils/icons/CoinBlack";
 import CoinRed from "@/utils/icons/CoinRed";
 import CoinYellow from "@/utils/icons/CoinYellow";
 import { useRouter } from "next/navigation";
+import IconMysteryBox from "@/utils/icons/MysteryBox";
+import IconMystery from "@/utils/icons/Mystery";
 
 const getTransactionIcon = (
   type: string,
@@ -27,6 +29,8 @@ const getTransactionIcon = (
       return <RoyalflipCoin height={height} width={width} color={"#E9AE15"} />;
     case "upgrader":
       return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
+    case "mystery bonus":
+      return <IconMystery height={20} width={width} color={"#E9AE15"} />;
     default:
       return <GoldCoin height={16} width={16} color={"#E9AE15"} />;
   }
@@ -55,6 +59,8 @@ const getTransactionWinIcon = (
       );
     case "upgrader":
       return <UpgradeGame height={height} width={width} color={"#E9AE15"} />;
+    case "mystery bonus":
+      return <IconMysteryBox height={height} width={width} color={"#E9AE15"} />;
     default:
       return <GoldCoin height={height} width={width} color={"#E9AE15"} />;
   }
