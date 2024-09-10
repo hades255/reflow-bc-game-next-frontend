@@ -12,15 +12,18 @@ import ItemsList from "@/utils/icons/ItemsList";
 import ItemsBox from "@/utils/icons/ItemsBox";
 import SearchIcon from "@/utils/icons/SearchIcon";
 import UpDownArrow from "@/utils/icons/UpDownArrow";
+import IconMystery from "@/utils/icons/Mystery";
 
 const getTransactionIcon = (type: string) => {
   switch (type) {
     case "roulette":
       return <IconRoulette height={16} width={18} color={"#E9AE15"} />;
     case "royalflip":
-      return <RoyalflipCoin height={20} width={22} color={"#E9AE15"} />;
+      return <RoyalflipCoin height={22} width={24} color={"#E9AE15"} />;
     case "upgrader":
       return <UpgradeGame height={20} width={22} color={"#E9AE15"} />;
+    case "mystery bonus":
+      return <IconMystery height={12} width={22} color={"#E9AE15"} />;
     default:
       return <GoldCoin height={16} width={18} color={"#E9AE15"} />;
   }
@@ -113,8 +116,12 @@ export default function History() {
                   <div
                     className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
                   >
-                    <div className="w-[35%] max-w-[320px] flex-none flex">Game</div>
-                    <div className="w-[22%] max-w-[300px] flex-none">Number</div>
+                    <div className="w-[35%] max-w-[320px] flex-none flex">
+                      Game
+                    </div>
+                    <div className="w-[22%] max-w-[300px] flex-none">
+                      Number
+                    </div>
                     <div className="flex items-center gap-1 w-[22%] max-w-[300px]">
                       Profits
                       <UpDownArrow />

@@ -48,6 +48,8 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
   const [winner, setWinner] = useState<weaponAttributes>();
   const [playFlag, setPlayFlag] = useState(false);
 
+  const [finished, setFinished] = useState(0);
+
   const rouletteContainerRef = useRef<HTMLDivElement>(null);
   const weaponsRef = useRef<HTMLDivElement>(null);
 
@@ -89,6 +91,8 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
           level: current + 1,
           tier,
         });
+        if (response.data.msg === "OK") setFinished(1);
+        else setFinished(2);
         reLoadKeys();
       } catch (error) {
         console.log(error);
@@ -109,9 +113,10 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
   }, [load]);
 
   const handleClaim = useCallback(() => {
-    dispatch(updateBalance({ balance: Number(winner?.coin || 0) }));
+    if (finished === 1)
+      dispatch(updateBalance({ balance: Number(winner?.coin || 0) }));
     onClose();
-  }, [onClose, winner, dispatch]);
+  }, [onClose, winner, dispatch, finished]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -134,7 +139,7 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
           className="relative w-[1920px] h-[300px] m-[0_auto]"
         >
           <div
-            className="w-[18px] h-[290px] absolute z-[51] -top-[33px] left-[calc(50%_-_50px)]"
+            className="w-[18px] h-[290px] absolute z-[51] -top-[33px] left-[calc(50%_-_9px)]"
             style={{ backgroundImage: "url(/assets/images/line.png)" }}
           ></div>
           <div
@@ -153,9 +158,13 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
           </div>
         </div>
 
-        <div className="flex justify-center mt-[10px] -ml-[70px]">
+        <div className="flex justify-center mt-[10px]">
           <div className="w-[127px]">
-            <Button clicked={handleClaim} text="Claim" />
+            <Button
+              clicked={handleClaim}
+              text="Claim"
+              disabled={finished === 0}
+            />
           </div>
         </div>
       </div>
