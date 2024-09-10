@@ -26,7 +26,6 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   const [timer, setTimer] = useState<number>(6);
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [showFairness, setShowFairness] = useState(false);
   const handleCall = async () => {
     if (user && !loading) {
       setLoading((prev) => !prev);
@@ -329,25 +328,6 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
               </span>
             </div>
           </div>
-        )}
-        {showFairness ? (
-          <div className="absolute w-full h-full bg-opacity-70 bg-[#191919] mr-[42px] top-0 left-0 z-50">
-            <div className=" w-3 border-2 top-3 right-3 text-font border-solid absolute cursor-pointer" onClick={() => setShowFairness(false)}>
-            </div>
-            <div className="w-full h-full p-6 text-center flex-nowrap flex justify-center flex-col">
-              {game.privateSeedHash && <p className="text-font text-[12px] break-words">Private Seed Hash : {game.privateSeedHash}</p>}
-              {game.serverSeed && <p className="text-font text-[12px] break-words">Private Seed : {game.serverSeed}</p>}
-              {game.publicSeed && <p className="text-font text-[12px] break-words">Public Seed : {game.publicSeed}</p>}
-              {game.round && <p className="text-font text-[12px] break-words">Round Id : {game.round}</p>}
-            </div>
-          </div>
-        ) : (
-          <p
-            className=" absolute bottom-3 text-font text-center text-[10px] cursor-pointer w-full pr-[22px] z-50"
-            onClick={() => setShowFairness(true)}
-          >
-            Fairness
-          </p>
         )}
       </div>
     )
