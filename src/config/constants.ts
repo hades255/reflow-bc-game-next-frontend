@@ -1579,8 +1579,8 @@ export const caseList: weaponAttributes[] = [
   {
     case: "platinum",
     coin: 750,
-    title: "M4A1-S | Printstream",
-    url: "https://images.waxpeer.com/i/730-m4a1-s-printstream-field-tested.webp",
+    title: "Sport Gloves | Vice",
+    url: "https://images.waxpeer.com/i/730-sport-gloves-vice-battle-scarred.webp",
     percent: {
       BS: 0.1,
       MW: 0.3,
