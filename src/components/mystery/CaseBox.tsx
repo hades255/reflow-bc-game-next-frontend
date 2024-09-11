@@ -3,11 +3,11 @@
 import React, { FC, useCallback, useMemo } from "react";
 import Image from "next/image";
 import lock from "@/assets/icons/lock.svg";
-import Button from "../buttons/Button";
 
 import caseLeft from "@/assets/icons/case-arrow-left.svg";
 import caseRight from "@/assets/icons/case-arrow-right.svg";
 import { LEVEL_SYSTEM } from "@/config/constants";
+import OpenCaseButton from "./OpenCaseButton";
 
 interface Props {
   current: number;
@@ -84,11 +84,18 @@ const CaseBox: FC<Props> = ({
             />
             <p className="text-[12px] font-medium text-[#D1D1D1]">{keyCount}</p>
           </div>
-          <p className="text-[12px] font-semibold text-[#484848]">1 Key Needed</p>
+          <p className="text-[12px] font-semibold text-[#484848]">
+            1 Key Needed
+          </p>
         </div>
 
         <div className="w-[120px] mt-6">
-          <Button text="Open Case" clicked={onClick} disabled={keyCount < 1} />
+          {onClick && (
+            <OpenCaseButton
+              clicked={onClick}
+              disabled={!onClick || keyCount < 1}
+            />
+          )}
         </div>
       </div>
 
