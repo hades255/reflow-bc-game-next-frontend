@@ -118,12 +118,12 @@ export class Roulette {
   };
 
   spin = () => {
-    let el_weapon_width_1_2 = Math.floor(this.itemWidth / 2);
     let el_weapon_width_1_20 = Math.floor(this.itemWidth / 20);
 
     const randStop =
+      10 +
       (this.weaponPrizeId - 5) * this.itemWidth +
-      el_weapon_width_1_2 +
+      el_weapon_width_1_20 * 2 +
       this.randomRange(el_weapon_width_1_20, 16 * el_weapon_width_1_20);
 
     // @ts-ignore

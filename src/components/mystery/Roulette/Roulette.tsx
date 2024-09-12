@@ -145,7 +145,7 @@ const RoulettePage: FC<Props> = ({ onClose, reLoadKeys, tier, current }) => {
           <div
             ref={weaponsRef}
             onTransitionEnd={transitionEndHandler}
-            className="relative h-[200px] left-0 whitespace-nowrap"
+            className="relative h-[200px] left-[10px] whitespace-nowrap"
           >
             {rouletteWeapons.map((item, index) => (
               <RouletteItem
