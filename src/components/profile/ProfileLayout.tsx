@@ -18,7 +18,7 @@ const ProfileLayout: FC<PropsWithChildren<Props>> = ({ select, children }) => {
         <div>
           <TabBar select={select} />
         </div>
-        <div className="flex w-full">{children}</div>
+        <div className="flex w-[calc(100%_-_264px)]">{children}</div>
       </div>
     </div>
   );
