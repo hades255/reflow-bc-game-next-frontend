@@ -61,8 +61,16 @@ const ProfitLoss: FC = () => {
         "/api/profile/profitloss?selection=" + selectItem,
         "GET"
       );
-      console.log(data);
-      setGraphdata(data.data);
+      console.log(data.data);
+      if (data.data && data.data.length > 0) {
+        if (selectItem === 2 || selectItem === 3 || selectItem === 5)
+          setGraphdata(
+            data.data.map((item: any, index: any) =>
+              index % 2 ? { ...item, name: "" } : { ...item }
+            )
+          );
+        else setGraphdata(data.data);
+      }
       setWinCount(data.wins);
       setLoseCount(data.lose);
     })();

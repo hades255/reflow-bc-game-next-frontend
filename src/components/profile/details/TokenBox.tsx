@@ -83,9 +83,10 @@ const TokenBox: FC<Props> = ({ tokens }) => {
                     alt="bronze"
                   />
                   <div
-                    className={`absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center bg-[${
-                      tokenColors[item.token_level - 1]
-                    }] top-0 right-0`}
+                    className={`absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center top-0 right-0`}
+                    style={{
+                      backgroundColor: tokenColors[item.token_level - 1],
+                    }}
                   >
                     {item.count}
                   </div>
