@@ -69,31 +69,30 @@ const KeyBox: FC<Props> = ({ keys }) => {
             swiperRef.current = swiper;
           }}
         >
-        {keys &&
-          keys
-            .sort((a, b) => (a > b ? 1 : -1))
-            .map((item, index) => (
-              <SwiperSlide
-                className="!flex items-center justify-center min-w-12"
-                key={index}
-              >
-                <div className="w-[48px] h-[48px] p-[5px] text-black relative">
-                  <Image
-                    src={`/assets/images/keys/${item.key_icon}.png`}
-                    width={38}
-                    height={38}
-                    alt="bronze"
-                  />
-                  <div
-                    className={`absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center bg-[${
-                      keyColors[item.key_level - 1]
-                    }] top-0 left-0`}
-                  >
-                    {item.count.toString()}
+          {keys &&
+            keys
+              .sort((a, b) => (a > b ? 1 : -1))
+              .map((item, index) => (
+                <SwiperSlide
+                  className="!flex items-center justify-center min-w-12"
+                  key={index}
+                >
+                  <div className="w-[48px] h-[48px] p-[5px] text-black relative">
+                    <Image
+                      src={`/assets/images/keys/${item.key_icon}.png`}
+                      width={38}
+                      height={38}
+                      alt="bronze"
+                    />
+                    <div
+                      className={`absolute w-[14px] h-[14px] rounded-full text-white text-[10px] font-bold text-center top-0 left-0`}
+                      style={{ backgroundColor: keyColors[item.key_level - 1] }}
+                    >
+                      {item.count.toString()}
+                    </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              ))}
         </Swiper>
         <Image
           src={arrowRight}
