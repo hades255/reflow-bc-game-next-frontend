@@ -109,7 +109,7 @@ const ProfitLoss: FC = () => {
           ))}
         </div>
       </div>
-      <div className="w-full h-[300px] bg-[#161616] relative">
+      <div className="w-full h-[295px] bg-[#161616] relative">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             width={500}
@@ -123,7 +123,12 @@ const ProfitLoss: FC = () => {
             }}
           >
             <ReferenceLine y={0} stroke="#292929" />
-            <XAxis dataKey="name" />
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 8 }}
+            />
             <Tooltip content={<CustomTooltip />} />
             <defs>
               <linearGradient id="strokeColor" x1="0" y1="0" x2="0" y2="1">
@@ -151,19 +156,21 @@ const ProfitLoss: FC = () => {
           </AreaChart>
         </ResponsiveContainer>
 
-        <div className="flex flex-row gap-3 absolute bottom-[40px] right-[10px]">
-          <div className="border border-[#8787877A] py-2 px-3 flex rounded-[5px] border-dashed bg-[#191919AD]">
+        <div className="flex flex-row gap-3 absolute bottom-3 right-4">
+          <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
             <p className="font-normal text-[10px] text-[#878787]">
               Total Wins:
             </p>
-            <p className="font-normal text-[10px] text-[#CAFE35]">{winCount}</p>
+            <p className="ml-1 font-normal text-[10px] text-[#CAFE35]">
+              {winCount}
+            </p>
           </div>
 
-          <div className="border border-[#8787877A] py-2 px-3 flex rounded-[5px] border-dashed bg-[#191919AD]">
+          <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
             <p className="font-normal text-[10px] text-[#878787]">
               Total Lose:
             </p>
-            <p className="font-normal text-[10px] text-[#EF4D59]">
+            <p className="ml-1 font-normal text-[10px] text-[#EF4D59]">
               {loseCount}
             </p>
           </div>
