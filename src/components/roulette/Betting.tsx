@@ -38,14 +38,6 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
 
   const changeBet = (betted: number) => {
     if (user) {
-      if (start) {
-        dispatch(
-          setToast({
-            type: 4,
-            message: "Bets cannot be placed while rolling.",
-          })
-        );
-      } else {
         let sum = bet + betted;
         if (sum <= balance && sum <= 250) {
           setBet(sum);
@@ -56,7 +48,6 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
             setBet(balance);
           }
         }
-      }
     } else {
       dispatch(
         setModal({
