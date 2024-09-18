@@ -99,9 +99,12 @@ const UpgradePage: FC = () => {
 
               setTimeout(() => {
                 setIsLoading(false);
-                setBtnActive(false);
                 setRenderKey((prevKey) => prevKey + 1);
               }, 5500);
+
+              setTimeout(() => {
+                setBtnActive(false);
+              }, 9500);
 
               if (data.data.win) {
                 setTimeout(() => {
@@ -174,12 +177,12 @@ const UpgradePage: FC = () => {
   }, [price, search, minRange, maxRange]);
 
   useEffect(() => {
-    if (isLoading === false && selectItems && Number(betAmount) !== Number(0)) {
+    if (selectItems && Number(betAmount) !== Number(0)) {
       setBtnActive(false);
     } else {
       setBtnActive(true);
     }
-  }, [isLoading, selectItems, betAmount]);
+  }, [selectItems, betAmount]);
 
   useEffect(() => {
     (async () => {
