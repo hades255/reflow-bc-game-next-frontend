@@ -19,18 +19,9 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (user) {
-      if (start) {
-        dispatch(
-          setToast({
-            type: 4,
-            message: "Bets cannot be placed while rolling.",
-          })
-        );
-      } else {
-        let val = parseFloat(e.target.value);
-        if (0.1 < val && val <= 250 )
-          setBet(val);
-      }
+      let val = parseFloat(e.target.value);
+      if (0.1 < val && val <= 250)
+        setBet(val);
     } else {
       dispatch(
         setModal({
@@ -58,7 +49,7 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
         let sum = bet + betted;
         if (sum <= balance && sum <= 250) {
           setBet(sum);
-        } else  {
+        } else {
           if (balance > 250) {
             setBet(250);
           } else {
