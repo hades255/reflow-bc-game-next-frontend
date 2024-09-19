@@ -136,11 +136,6 @@ const UpgradePage: FC = () => {
     } else {
       setSelectItems(index);
       setBetAmount(0);
-      // if (betAmount === 0) {
-      //   if (token !== "") {
-      //     setBetAmount(0.01);
-      //   }
-      // }
     }
   };
 
@@ -177,12 +172,16 @@ const UpgradePage: FC = () => {
   }, [price, search, minRange, maxRange]);
 
   useEffect(() => {
-    if (selectItems && Number(betAmount) !== Number(0)) {
+    if (
+      selectItems &&
+      Number(betAmount) !== Number(0) &&
+      Number(balance.balance) > Number(betAmount)
+    ) {
       setBtnActive(false);
     } else {
       setBtnActive(true);
     }
-  }, [selectItems, betAmount]);
+  }, [selectItems, betAmount, balance]);
 
   useEffect(() => {
     (async () => {
