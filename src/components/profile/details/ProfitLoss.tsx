@@ -156,25 +156,27 @@ const ProfitLoss: FC = () => {
           </AreaChart>
         </ResponsiveContainer>
 
-        <div className="flex flex-row gap-3 absolute bottom-3 right-4">
-          <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
-            <p className="font-normal text-[10px] text-[#878787]">
-              Total Wins:
-            </p>
-            <p className="ml-1 font-normal text-[10px] text-[#CAFE35]">
-              {winCount}
-            </p>
-          </div>
+        {false && (
+          <div className="flex flex-row gap-3 absolute bottom-3 right-4">
+            <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
+              <p className="font-normal text-[10px] text-[#878787]">
+                Total Wins:
+              </p>
+              <p className="ml-1 font-normal text-[10px] text-[#CAFE35]">
+                {winCount}
+              </p>
+            </div>
 
-          <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
-            <p className="font-normal text-[10px] text-[#878787]">
-              Total Lose:
-            </p>
-            <p className="ml-1 font-normal text-[10px] text-[#EF4D59]">
-              {loseCount}
-            </p>
+            <div className="border border-[#8787877A] border-dashed py-2 px-3 flex rounded-[5px] bg-[#191919AD] relative">
+              <p className="font-normal text-[10px] text-[#878787]">
+                Total Lose:
+              </p>
+              <p className="ml-1 font-normal text-[10px] text-[#EF4D59]">
+                {loseCount}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
