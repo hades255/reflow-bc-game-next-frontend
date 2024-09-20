@@ -181,7 +181,8 @@ const UpgradePage: FC = () => {
     } else {
       setBtnActive(true);
     }
-  }, [selectItems, betAmount, balance]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectItems, betAmount]);
 
   useEffect(() => {
     (async () => {
