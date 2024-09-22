@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
+import moment from "moment";
 import Button from "../buttons/Button";
 
 const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
@@ -10,24 +11,21 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
 
   const checkBtnstatus = useCallback(() => {
     const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
-    let diff = Date.now() - Number(lastget) - 1000 * 60 * 3;
+    let diff = Date.now() - Number(lastget) - 1000 * 60 * 1;
     if (diff >= 0) {
       setbtndisabled(false);
     } else {
       setbtndisabled(true);
       let remainingTime = Math.abs(diff);
       const timerFunc = () => {
+        console.log(remainingTime);
         if (remainingTime <= 0) {
           setbtndisabled(false);
+          localStorage.setItem("MYSTERY_BONUS", "");
           return;
         }
-        const date = new Date(remainingTime);
-        const hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-        const seconds = date.getUTCSeconds();
-        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-          .toString()
-          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        const time = moment(remainingTime);
+        const formattedTime = time.format("00:mm:ss");
         setCounter(formattedTime);
         remainingTime = remainingTime - 1000;
         setTimeout(() => {
@@ -35,14 +33,6 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
         }, 1000);
       };
       timerFunc();
-      const timer = setTimeout(() => {
-        localStorage.setItem("MYSTERY_BONUS", "");
-        setbtndisabled(false);
-      }, Math.abs(diff));
-      return () => {
-        console.log("remove timeout");
-        clearTimeout(timer);
-      };
     }
   }, []);
 
@@ -50,8 +40,7 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
 
   const handleClickOpen = useCallback(() => {
     const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
-    console.log(lastget);
-    if (Date.now() - Number(lastget) > 1000 * 60 * 3) {
+    if (Date.now() - Number(lastget) > 1000 * 60 * 1) {
       localStorage.setItem("MYSTERY_BONUS", Date.now().toString());
       checkBtnstatus();
       clicked();
