@@ -11,7 +11,7 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
 
   const checkBtnstatus = useCallback(() => {
     const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
-    let diff = Date.now() - Number(lastget) - 1000 * 60 * 1;
+    let diff = Date.now() - Number(lastget) - 1000 * 60 * 3;
     if (diff >= 0) {
       setbtndisabled(false);
     } else {
@@ -40,7 +40,7 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
 
   const handleClickOpen = useCallback(() => {
     const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
-    if (Date.now() - Number(lastget) > 1000 * 60 * 1) {
+    if (Date.now() - Number(lastget) > 1000 * 60 * 3) {
       localStorage.setItem("MYSTERY_BONUS", Date.now().toString());
       checkBtnstatus();
       clicked();
