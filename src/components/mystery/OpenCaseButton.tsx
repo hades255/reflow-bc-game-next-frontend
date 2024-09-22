@@ -59,7 +59,7 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
   }, [clicked, checkBtnstatus]);
 
   return (
-    <div className="w-full mt-6">
+    <div className="mt-6" style={{ width: btndisabled ? 160 : 120 }}>
       <Button
         text={btndisabled ? `Open again in ${counter}` : "Open Case"}
         clicked={handleClickOpen}
