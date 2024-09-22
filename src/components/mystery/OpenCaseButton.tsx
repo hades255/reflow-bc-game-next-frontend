@@ -6,32 +6,52 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
   disabled,
 }) => {
   const [btndisabled, setbtndisabled] = useState(true);
+  const [counter, setCounter] = useState("");
 
   const checkBtnstatus = useCallback(() => {
-    if (disabled) {
-      setbtndisabled(true);
-      return;
-    }
-    const lastget = localStorage.getItem("MYSTERY_BONUS") || "0";
-    const diff = Date.now() - Number(lastget) - 1000 * 60 * 30;
+    const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
+    let diff = Date.now() - Number(lastget) - 1000 * 60 * 3;
     if (diff >= 0) {
-      setbtndisabled(false || disabled);
+      setbtndisabled(false);
     } else {
       setbtndisabled(true);
+      let remainingTime = Math.abs(diff);
+      const timerFunc = () => {
+        if (remainingTime <= 0) {
+          setbtndisabled(false);
+          return;
+        }
+        const date = new Date(remainingTime);
+        const hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
+        const seconds = date.getUTCSeconds();
+        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        setCounter(formattedTime);
+        remainingTime = remainingTime - 1000;
+        setTimeout(() => {
+          timerFunc();
+        }, 1000);
+      };
+      timerFunc();
       const timer = setTimeout(() => {
-        setbtndisabled(false || disabled);
+        localStorage.setItem("MYSTERY_BONUS", "");
+        setbtndisabled(false);
       }, Math.abs(diff));
       return () => {
+        console.log("remove timeout");
         clearTimeout(timer);
       };
     }
-  }, [disabled]);
+  }, []);
 
   useEffect(() => checkBtnstatus(), [checkBtnstatus]);
 
   const handleClickOpen = useCallback(() => {
-    const lastget = localStorage.getItem("MYSTERY_BONUS") || "0";
-    if (Date.now() - Number(lastget) > 1000 * 60 * 30) {
+    const lastget = Number(localStorage.getItem("MYSTERY_BONUS") || "0");
+    console.log(lastget);
+    if (Date.now() - Number(lastget) > 1000 * 60 * 3) {
       localStorage.setItem("MYSTERY_BONUS", Date.now().toString());
       checkBtnstatus();
       clicked();
@@ -39,13 +59,13 @@ const OpenCaseButton: FC<{ clicked: Function; disabled: boolean }> = ({
   }, [clicked, checkBtnstatus]);
 
   return (
-    <>
+    <div className="w-full mt-6">
       <Button
-        text="Open Case"
+        text={btndisabled ? `Open again in ${counter}` : "Open Case"}
         clicked={handleClickOpen}
-        disabled={btndisabled}
+        disabled={btndisabled || disabled}
       />
-    </>
+    </div>
   );
 };
 

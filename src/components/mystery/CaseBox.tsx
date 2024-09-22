@@ -89,14 +89,12 @@ const CaseBox: FC<Props> = ({
           </p>
         </div>
 
-        <div className="w-[120px] mt-6">
-          {onClick && (
-            <OpenCaseButton
-              clicked={onClick}
-              disabled={!onClick || keyCount < 1}
-            />
-          )}
-        </div>
+        {onClick && (
+          <OpenCaseButton
+            clicked={onClick}
+            disabled={!onClick || keyCount < 1}
+          />
+        )}
       </div>
 
       <div className="flex flex-row items-center gap-0">
