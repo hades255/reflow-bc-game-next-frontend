@@ -29,7 +29,7 @@ const UpgradeGame: React.FC<Props> = ({ width, height, color }) => {
           width="22"
           height="22"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood flood-opacity="0" result="BackgroundImageFix" />
           <feColorMatrix
