@@ -48,7 +48,6 @@ const DepositPage: FC = () => {
   const handleRequestWithdraw = async () => {
     if (amount !== 0 && user && address !== "") {
       const data = await apiCreateWithdraw({
-        user_id: user.id,
         amount: Number(amount),
         address: address,
         currency: token.currency,
