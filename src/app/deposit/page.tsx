@@ -12,7 +12,7 @@ import QRCode from "react-qr-code";
 import { useUser } from "@/redux/slices/main/userSlice";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { useDispatch } from "react-redux";
-import { apiCreatePayment } from "@/services/payment";
+import { apiCreatePayment, apiCheckMiniDeposit } from "@/services/payment";
 import { setToast } from "@/redux/slices/main/toastSlice";
 
 const DepositPage: FC = () => {
@@ -48,30 +48,37 @@ const DepositPage: FC = () => {
   }, [paymentData]);
 
   const handlePayClick = async (item: any) => {
-    if (amount != 0 && user) {
+    // if (amount != 0 && user) {
+    //   const data = await apiCreatePayment({
+    //     user_id: user.id,
+    //     amount: Number(amount),
+    //     pay_currency: item.currency,
+    //   });
+    //   if (data[0].status !== false) {
+    //     setPaymentData(data[0]);
+    //   } else {
+    //     dispatch(
+    //       setToast({
+    //         type: 4,
+    //         message: "Please input correct amount. Mim Amount is 10$",
+    //       })
+    //     );
+    //   }
+    // } else if (amount == 0) {
+    //   dispatch(
+    //     setToast({
+    //       type: 4,
+    //       message: "Please input correct amount. Mim Amount is 10$",
+    //     })
+    //   );
+    // }
+
+    if (user) {
       const data = await apiCreatePayment({
-        user_id: user.id,
-        amount: Number(amount),
         pay_currency: item.currency,
       });
 
-      if (data[0].status !== false) {
-        setPaymentData(data[0]);
-      } else {
-        dispatch(
-          setToast({
-            type: 4,
-            message: "Please input correct amount. Mim Amount is 10$",
-          })
-        );
-      }
-    } else if (amount == 0) {
-      dispatch(
-        setToast({
-          type: 4,
-          message: "Please input correct amount. Mim Amount is 10$",
-        })
-      );
+      setPaymentData(data[0]);
     }
   };
 
@@ -117,14 +124,14 @@ const DepositPage: FC = () => {
             ))}
           </div>
 
-          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
+          {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] grid grid-cols-8 gap-6">
             <input
               value={amount}
               onChange={(e: any) => setAmount(e.target.value)}
               type="text"
               className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
             />
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="p-6 flex flex-col gap-6">
@@ -148,10 +155,10 @@ const DepositPage: FC = () => {
           </p>
           <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
             <div className="flex flex-row items-center gap-1">
-              <IconWallet color="#D1D1D1" width={16} height={14} />
+              {/* <IconWallet color="#D1D1D1" width={16} height={14} />
               <p className="font-semibold text-[18px] text-white">
                 {paymentData?.pay_amount + " " + token?.title}
-              </p>
+              </p> */}
             </div>
 
             <div className="flex flex-row justify-center">
@@ -193,6 +200,12 @@ const DepositPage: FC = () => {
                 <Button text="Add funds" className="!w-[90px]" />
               </div> */}
             </div>
+
+            <p className="text-[12px] text-[#D1D1D1] font-normal">
+              The minimum deposit is{" "}
+              <span className="text-green-500">{paymentData?.pay_amount}</span>
+              {" " + token?.title}.
+            </p>
           </div>
 
           {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
@@ -200,7 +213,7 @@ const DepositPage: FC = () => {
               <IconCalculator color="#D1D1D1" width={18} height={18} />
               <p className="text-white font-semibold text-[18px]">
                 Coin Rate Calculator
-              </p>
+              </p>['/////////'/[-]]
             </div>
 
             <div className="flex items-center gap-[5px]">
