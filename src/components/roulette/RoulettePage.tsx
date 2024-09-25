@@ -73,17 +73,17 @@ const RoulettePage = () => {
     bet: number
   ) => {
     if (val === "red") {
-      setRedBetters((prev) =>
-        [...prev, { user_id, name, level, avatar, bet }]
-      );
+      setRedBetters((prev) => [...prev, { user_id, name, level, avatar, bet }]);
     } else if (val === "gold") {
-      setGoldBetters((prev) =>
-        [...prev, { user_id, name, level, avatar, bet }]
-      );
+      setGoldBetters((prev) => [
+        ...prev,
+        { user_id, name, level, avatar, bet },
+      ]);
     } else {
-      setBlackBetters((prev) =>
-        [...prev, { user_id, name, level, avatar, bet }]
-      );
+      setBlackBetters((prev) => [
+        ...prev,
+        { user_id, name, level, avatar, bet },
+      ]);
     }
   };
 
@@ -235,6 +235,16 @@ const RoulettePage = () => {
             .reverse()
             .map((game: any) => game.winning_color);
           dispatch(setLatestWinning({ hundred: hundred(), ten }));
+          data.bets.forEach((bet: any) => {
+            pushBetter(
+              bet.color,
+              bet.user.id,
+              bet.user.name,
+              Number(bet.user.player_level),
+              bet.user.avatar,
+              Number(bet.amount)
+            );
+          });
         } else {
           setActed(22 - sec);
           setSecond(15);
@@ -287,7 +297,7 @@ const RoulettePage = () => {
               bet.user.name,
               Number(bet.user.player_level),
               bet.user.avatar,
-              bet.user.amount
+              Number(bet.amount)
             );
           });
         }
@@ -305,7 +315,6 @@ const RoulettePage = () => {
       setSecond(14);
     });
     channel.listen(".GameUpdate", (data: any) => {
-      console.log("update")
       dispatch(
         setWinning({
           index: data.game.winning_number,

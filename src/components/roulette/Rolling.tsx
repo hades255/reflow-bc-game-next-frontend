@@ -79,7 +79,7 @@ const Rolling: FC<Props> = ({
       />
       <RoulettePro
         prizes={coinsTemplate}
-        prizeIndex={((66 + (winning.index || 0)) * 108) / 206}
+        prizeIndex={((66 + (winning.index>14?winning.index-14:winning.index)) * 108) / 206}
         start={start}
         spinningTime={acted === -1 ? 5 : acted}
         onPrizeDefined={finish}
