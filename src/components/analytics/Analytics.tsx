@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import SettingAdmin from "./SetAdmin";
 import SettingWhiteList from "./SetWhiteList";
 import BonusSystem from "./BonusSystem";
+import WithdrawTable from "./WithdrawTable";
 import { MdOutlineAnalytics } from "react-icons/md";
 
 const AnalyticsPage = () => {
@@ -19,6 +20,10 @@ const AnalyticsPage = () => {
       </div>
       <div className="w-full my-8">
         <BonusSystem />
+      </div>
+
+      <div className="w-full my-8">
+        <WithdrawTable />
       </div>
     </div>
   );
