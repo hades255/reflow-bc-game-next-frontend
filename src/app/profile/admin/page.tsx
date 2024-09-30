@@ -9,7 +9,6 @@ import ProfileLayout from "@/components/profile/ProfileLayout";
 import AnalyticsPage from "@/components/analytics/Analytics";
 
 const ProfileAdmin: FC = () => {
-
   const user = useUser();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -20,17 +19,19 @@ const ProfileAdmin: FC = () => {
     } else {
       if (!user.is_admin) {
         router.push("/profile/details");
-        dispatch(setToast({
-          type: 4,
-          message: "You can not access the administrator page."
-        }));
-      } 
+        dispatch(
+          setToast({
+            type: 4,
+            message: "You can not access the administrator page.",
+          })
+        );
+      }
     }
   }, [user, router, dispatch]);
 
   return (
     <ProfileLayout select={6}>
-      <div className="w-full space-x-8">
+      <div className="w-full h-full">
         <AnalyticsPage />
       </div>
     </ProfileLayout>
