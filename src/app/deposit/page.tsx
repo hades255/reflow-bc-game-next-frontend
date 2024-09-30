@@ -147,7 +147,7 @@ const DepositPage: FC = () => {
               clicked={() => handleBackClick()}
             />
           </div>
-          <p className="font-normal text-[12px] text-[#D1D1D1]">
+          <p className="font-normal text-[16px] text-[#D1D1D1]">
             You will receive balance automatically after sending ARB to the
             address displayed below. (1 confirmation required).
           </p>
