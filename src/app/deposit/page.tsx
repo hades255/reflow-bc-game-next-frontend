@@ -22,6 +22,7 @@ const DepositPage: FC = () => {
   const dispatch = useDispatch();
   const user = useUser();
   const [amount, setAmount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user) {
@@ -47,14 +48,36 @@ const DepositPage: FC = () => {
     }
   }, [paymentData]);
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   const handlePayClick = async (item: any) => {
-    if (user) {
+    if (user && !loading) {
+      setLoading(true);
       const data = await apiCreatePayment({
         pay_currency: item.currency,
       });
 
       setPaymentData(data[0]);
     }
+  };
+
+  const handleBackClick = async () => {
+    setPaymentData(null);
+    setLoading(false);
+  };
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(paymentData?.pay_address).then(() => {
+      console.log(paymentData?.pay_address);
+      dispatch(
+        setToast({
+          type: 2,
+          message: "Address Copy Success",
+        })
+      );
+    });
   };
 
   return (
@@ -121,7 +144,7 @@ const DepositPage: FC = () => {
             <Button
               text="Back"
               className="!w-[100px]"
-              clicked={() => setPaymentData(null)}
+              clicked={() => handleBackClick()}
             />
           </div>
           <p className="font-normal text-[12px] text-[#D1D1D1]">
@@ -165,7 +188,10 @@ const DepositPage: FC = () => {
                   value={paymentData?.pay_address}
                 />
 
-                <button className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]">
+                <button
+                  onClick={handleCopyClick}
+                  className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]"
+                >
                   Copy
                 </button>
               </div>
