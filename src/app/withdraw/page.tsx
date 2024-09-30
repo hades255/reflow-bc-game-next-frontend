@@ -47,30 +47,40 @@ const DepositPage: FC = () => {
 
   const handleRequestWithdraw = async () => {
     if (amount !== "" && user && address !== "") {
-      const data = await apiCreateWithdraw({
-        amount: Number(amount),
-        address: address,
-        currency: token.currency,
-      });
+      try {
+        const data = await apiCreateWithdraw({
+          amount: Number(amount),
+          address: address,
+          currency: token.currency,
+        });
 
-      console.log(data);
+        console.log(data);
 
-      if (data.data.status === "error") {
+        if (data.data.status === "error") {
+          dispatch(
+            setToast({
+              type: 1,
+              message: data.data.message,
+            })
+          );
+        } else if (
+          data.data.status === "success" ||
+          data.data.status === "waiting" ||
+          data.data.status === "pending"
+        ) {
+          dispatch(
+            setToast({
+              type: 2,
+              message: "Success Withdraw Request, Please wait.",
+            })
+          );
+        }
+      } catch (e) {
+        console.log(e);
         dispatch(
           setToast({
             type: 1,
-            message: data.data.message,
-          })
-        );
-      } else if (
-        data.data.status === "success" ||
-        data.data.status === "waiting" ||
-        data.data.status === "pending"
-      ) {
-        dispatch(
-          setToast({
-            type: 2,
-            message: "Success Withdraw Request, Please wait.",
+            message: "There is some error",
           })
         );
       }
