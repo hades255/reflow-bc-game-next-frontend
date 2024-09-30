@@ -7,7 +7,7 @@ import { MdOutlineAnalytics } from "react-icons/md";
 
 const AnalyticsPage = () => {
   return (
-    <div className="overflow-y-scroll max-h-[750px] pr-2">
+    <div className="">
       <div className="flex gap-1 items-center">
         <MdOutlineAnalytics width={24} height={24} color="#E9AE15" />
         <p className="text-[18px] font-bold text-[#D1D1D1]">Dashboard</p>
