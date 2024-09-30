@@ -29,7 +29,12 @@ const BonusSystem = () => {
   const [openModal, setOpenModal] = useState<number>(-1);
   const dispatch = useDispatch();
 
-  const getInfo = async (_page: number = page, _search: string = search, _valid: boolean = valid, _whitelist: boolean = whitelist) => {
+  const getInfo = async (
+    _page: number = page,
+    _search: string = search,
+    _valid: boolean = valid,
+    _whitelist: boolean = whitelist
+  ) => {
     let { data, status } = await getBonuses({
       perPage,
       page: _page,
@@ -41,7 +46,7 @@ const BonusSystem = () => {
       setBonuses(data.data.items);
       setTotal(data.data.total);
     }
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -139,11 +144,11 @@ const BonusSystem = () => {
         })
       );
     }
-  }
+  };
 
   const deleteBonus = async (id: number) => {
     let { data, status } = await removeBonus(id);
-    if ( status === 200) {
+    if (status === 200) {
       setOpenModal(-1);
       dispatch(
         setToast({
@@ -160,12 +165,12 @@ const BonusSystem = () => {
         })
       );
     }
-  }
+  };
 
   const clickPage = async (_page: number) => {
     setPage(_page);
     await getInfo(_page);
-  }
+  };
 
   return (
     <>
@@ -244,7 +249,7 @@ const BonusSystem = () => {
             />
           </div>
         </div>
-        <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden my-2">
+        <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
           <thead className="">
             <tr className="w-full !h-[48px] bg-[#1F1F1F] rounded-[5px]">
               <th className="!w-20 text-sm font-semibold text-left pl-[12px] py-3">
@@ -269,49 +274,54 @@ const BonusSystem = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              bonuses.length === 0 ?
+            {bonuses.length === 0 ? (
               <tr className="w-full">
-                <td colSpan={7} className="text-sm text-center p-2">Empty Data</td>
-              </tr>
-            : bonuses.map((bo, id) => (
-              <tr
-                className={`w-full !h-[48px] ${
-                  id % 2 === 1 ? "bg-[#1F1F1F]" : ""
-                }`}
-                key={`admin-${id}`}
-              >
-                <td className="!w-20 text-sm text-left pl-[16px] py-1">
-                  {(page - 1) * perPage + id + 1}
-                </td>
-                <td className="text-sm w-[25%] text-left">{bo.name}</td>
-                <td className="text-sm text-center w-[15%] py-1">{bo.code}</td>
-                <td className="text-sm w-[10%] text-center py-1">
-                  <div className="w-full h-full flex justify-center items-center gap-2">
-                    <span className="text-[#e9ae15]">
-                      <PiCoinsLight />
-                    </span>{" "}
-                    {bo.reward}
-                  </div>
-                </td>
-                <td className="text-sm w-[15%] text-center py-1">
-                  + {bo.limit_level} Lvl.
-                </td>
-                <td className="text-sm w-[20%] text-center py-1">
-                  {`${bo.limit_usage} / ${bo.current_usage}`}
-                </td>
-                <td className="text-sm py-3 px-2">
-                  <div className="h-full flex justify-center text-lg gap-3 text-gold">
-                    <button onClick={() => setOpenModal(Number(bo.id))}>
-                      <MdOutlineEdit />
-                    </button>
-                    <button onClick={() => deleteBonus(Number(bo.id))}>
-                      <MdDeleteOutline />
-                    </button>
-                  </div>
+                <td colSpan={7} className="text-sm text-center p-2">
+                  Empty Data
                 </td>
               </tr>
-            ))}
+            ) : (
+              bonuses.map((bo, id) => (
+                <tr
+                  className={`w-full !h-[48px] ${
+                    id % 2 === 1 ? "bg-[#1F1F1F]" : ""
+                  }`}
+                  key={`admin-${id}`}
+                >
+                  <td className="!w-20 text-sm text-left pl-[16px] py-1">
+                    {(page - 1) * perPage + id + 1}
+                  </td>
+                  <td className="text-sm w-[25%] text-left">{bo.name}</td>
+                  <td className="text-sm text-center w-[15%] py-1">
+                    {bo.code}
+                  </td>
+                  <td className="text-sm w-[10%] text-center py-1">
+                    <div className="w-full h-full flex justify-center items-center gap-2">
+                      <span className="text-[#e9ae15]">
+                        <PiCoinsLight />
+                      </span>{" "}
+                      {bo.reward}
+                    </div>
+                  </td>
+                  <td className="text-sm w-[15%] text-center py-1">
+                    + {bo.limit_level} Lvl.
+                  </td>
+                  <td className="text-sm w-[20%] text-center py-1">
+                    {`${bo.limit_usage} / ${bo.current_usage}`}
+                  </td>
+                  <td className="text-sm py-3 px-2">
+                    <div className="h-full flex justify-center text-lg gap-3 text-gold">
+                      <button onClick={() => setOpenModal(Number(bo.id))}>
+                        <MdOutlineEdit />
+                      </button>
+                      <button onClick={() => deleteBonus(Number(bo.id))}>
+                        <MdDeleteOutline />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <Pagination

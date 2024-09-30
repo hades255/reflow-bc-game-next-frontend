@@ -94,7 +94,7 @@ const WithdrawSystem = () => {
             Withdraw Pending System
           </span>
         </div>
-        <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden my-2">
+        <table className="w-full bg-[#191919] text-[#727272] rounded-[5px] overflow-hidden">
           <thead className="">
             <tr className="w-full !h-[48px] bg-[#1F1F1F] rounded-[5px]">
               <th className="!w-20 text-sm font-semibold text-left pl-[12px] py-3">
