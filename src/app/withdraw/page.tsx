@@ -167,10 +167,10 @@ const DepositPage: FC = () => {
               clicked={() => setToken(null)}
             />
           </div>
-          <p className="font-normal text-[12px] text-[#D1D1D1]">
-            you can typically withdraw up to 2,000 coins before KYC checks are
+          <p className="font-normal text-[16px] text-[#D1D1D1]">
+            You can typically withdraw up to 2,000 coins before KYC checks are
             required, but sometimes our security system will trigger these
-            checks before this limit is reached. you can view more information
+            checks before this limit is reached. You can view more information
             on this here
           </p>
 
