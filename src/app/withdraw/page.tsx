@@ -53,7 +53,7 @@ const DepositPage: FC = () => {
         currency: token.currency,
       });
 
-      console.log(data);
+      console.log(data.data);
 
       if (data.data.status === "error") {
         dispatch(
