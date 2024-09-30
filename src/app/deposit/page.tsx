@@ -48,31 +48,6 @@ const DepositPage: FC = () => {
   }, [paymentData]);
 
   const handlePayClick = async (item: any) => {
-    // if (amount != 0 && user) {
-    //   const data = await apiCreatePayment({
-    //     user_id: user.id,
-    //     amount: Number(amount),
-    //     pay_currency: item.currency,
-    //   });
-    //   if (data[0].status !== false) {
-    //     setPaymentData(data[0]);
-    //   } else {
-    //     dispatch(
-    //       setToast({
-    //         type: 4,
-    //         message: "Please input correct amount. Mim Amount is 10$",
-    //       })
-    //     );
-    //   }
-    // } else if (amount == 0) {
-    //   dispatch(
-    //     setToast({
-    //       type: 4,
-    //       message: "Please input correct amount. Mim Amount is 10$",
-    //     })
-    //   );
-    // }
-
     if (user) {
       const data = await apiCreatePayment({
         pay_currency: item.currency,
