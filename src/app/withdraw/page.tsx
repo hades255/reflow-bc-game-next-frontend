@@ -19,7 +19,7 @@ const DepositPage: FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useUser();
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<string>("");
   const [address, setAddress] = useState("");
   const [token, setToken] = useState<any>(null);
 
@@ -46,14 +46,27 @@ const DepositPage: FC = () => {
   };
 
   const handleRequestWithdraw = async () => {
-    if (amount !== 0 && user && address !== "") {
+    if (amount !== "" && user && address !== "") {
       const data = await apiCreateWithdraw({
         amount: Number(amount),
         address: address,
         currency: token.currency,
       });
 
-      if (data[0].status !== false) {
+      console.log(data);
+
+      if (data.data.status === "error") {
+        dispatch(
+          setToast({
+            type: 1,
+            message: data.data.message,
+          })
+        );
+      } else if (
+        data.data.status === "success" ||
+        data.data.status === "waiting" ||
+        data.data.status === "pending"
+      ) {
         dispatch(
           setToast({
             type: 2,
@@ -61,7 +74,7 @@ const DepositPage: FC = () => {
           })
         );
       }
-    } else if (amount === 0) {
+    } else if (amount === "") {
       dispatch(
         setToast({
           type: 4,
@@ -180,11 +193,8 @@ const DepositPage: FC = () => {
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+                  className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
                 />
-                <div className="absolute top-[9px] left-[12px]">
-                  <IconCoin color="#E9AE15" width={16} height={17} />
-                </div>
               </div>
 
               <div className="relative flex w-[120px]">
@@ -195,7 +205,7 @@ const DepositPage: FC = () => {
                   type="text"
                   className="bg-[#101010] border-[#1A1A1A] border-[1px] p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
                   value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value))}
+                  onChange={(e) => setAmount(String(e.target.value))}
                 />
               </div>
 
