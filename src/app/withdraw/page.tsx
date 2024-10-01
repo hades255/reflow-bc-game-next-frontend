@@ -35,6 +35,17 @@ const DepositPage: FC = () => {
           parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
         })
       );
+    } else if (!user.is_whitelist) {
+      dispatch(
+        setModal({
+          status: true,
+          title: "You are not Whitelisted",
+          content: "Please contact to support team",
+          name: "Steam Sign In",
+          type: 2,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
     }
   }, [user, dispatch]);
 

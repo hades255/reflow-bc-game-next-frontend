@@ -40,11 +40,11 @@ const ProfileAccount: FC = () => {
       dispatch(
         setToast({
           type: 3,
-          message: result?.message,
+          message: "There is Server Error",
         })
       );
     }
-  }
+  };
 
   return (
     <ProfileLayout select={2}>
