@@ -218,9 +218,7 @@ const UpgradePage: FC = () => {
               <CircularProgressBar
                 key={renderKey}
                 betAmount={betAmount}
-                assetValue={
-                  selectItems?.price / 1000 + selectItems?.price / 18000 || 1
-                }
+                assetValue={selectItems?.price / 1000 || 1}
                 betResult={isWinner}
                 isLoading={isLoading}
               />

@@ -15,7 +15,8 @@ const CircularProgressBar: React.FC<{
   const strokeWidth = 3;
   const circumference = 2 * Math.PI * radius;
   const fontSize = 12 * 3;
-  const percentage = Math.min(Math.max(betAmount / assetValue, 0), 0.95);
+  const percentage =
+    betAmount / assetValue - (betAmount / assetValue / 100) * 7;
   const offset = circumference - percentage * circumference;
   const [visibleCircle, setVisibleCircle] = useState(false);
   const [renderKey, setRenderKey] = useState(1);
@@ -23,6 +24,8 @@ const CircularProgressBar: React.FC<{
   const circleRef = useRef<SVGCircleElement | null>(null);
   const activeStrokeLengthInDegrees = percentage * 360;
   const [spinStopDegree, setSpinStopDegree] = useState(0);
+
+  console.log(percentage);
 
   const getRandom = (min: number, max: number) => {
     min = Math.ceil(min);
@@ -231,8 +234,8 @@ const CircularProgressBar: React.FC<{
         fontSize={fontSize * 1.2}
         fontWeight="bold"
       >
-        <tspan x="130" fill="#fff" textAnchor="middle">
-          {Math.round(percentage * 100)}
+        <tspan x="120" fill="#fff" textAnchor="middle">
+          {Number(percentage * 100).toFixed(1)}
         </tspan>
         <tspan x="160" fill="#E9AE15" textAnchor="start">
           %
