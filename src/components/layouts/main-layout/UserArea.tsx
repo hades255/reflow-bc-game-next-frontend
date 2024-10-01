@@ -13,6 +13,7 @@ import { PiCoinsLight } from "react-icons/pi";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { signout } from "@/redux/slices/main/authSlice";
 import { XP_SYSTEM } from "@/config/constants";
+import { setModal } from "@/redux/slices/main/modalSlice";
 
 const UserArea = () => {
   const router = useRouter();
@@ -27,8 +28,21 @@ const UserArea = () => {
   };
 
   const gotoWithdraw = () => {
-    dispatch(changePage("/withdraw"));
-    router.push("/withdraw");
+    if (!user?.is_whitelist) {
+      dispatch(
+        setModal({
+          status: true,
+          title: "You are not whitelisted",
+          content: "Please contact support team",
+          name: "Steam Sign In",
+          type: 3,
+          parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
+        })
+      );
+    } else {
+      dispatch(changePage("/withdraw"));
+      router.push("/withdraw");
+    }
   };
 
   useEffect(() => {

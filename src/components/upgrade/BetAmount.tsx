@@ -48,7 +48,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     } else if (id === 3) {
       onChangeValue((allValue / 2).toFixed(3));
     } else if (id === 4) {
-      onChangeValue(allValue.toFixed(3));
+      onChangeValue(((allValue / 1000) * 999).toFixed(3));
     }
   };
 
@@ -66,7 +66,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     let temp = (allValue / 100) * p;
     onChangeValue(temp.toFixed(3));
     if (temp.toFixed(3) === allValue.toFixed(3)) {
-      onChangeValue(Number(allValue).toFixed(3));
+      onChangeValue(((allValue / 1000) * 999).toFixed(3));
     }
   };
 
