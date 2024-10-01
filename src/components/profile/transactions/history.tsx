@@ -13,6 +13,7 @@ import ItemsBox from "@/utils/icons/ItemsBox";
 import SearchIcon from "@/utils/icons/SearchIcon";
 import UpDownArrow from "@/utils/icons/UpDownArrow";
 import IconMystery from "@/utils/icons/Mystery";
+import { FaChevronDown } from "react-icons/fa";
 
 const getTransactionIcon = (type: string) => {
   switch (type) {
@@ -29,6 +30,17 @@ const getTransactionIcon = (type: string) => {
   }
 };
 
+const transactionTypes = [
+  "roulette",
+  "royalflip",
+  "upgrader",
+  "mystery bonus",
+  "bonus code",
+  "crypto_withdraw",
+];
+
+const sortByItems = ["type", "number", "profits", "time"];
+
 interface Transaction {
   id: number;
   type: string;
@@ -40,13 +52,22 @@ interface Transaction {
 
 export default function History() {
   const [transactions, setTransactions] = useState<Transaction[] | null>(null);
+  const [filteredtransactions, setFilteredTransactions] = useState<
+    Transaction[] | null
+  >(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [page, setPage] = useState(0);
   const [itemtheme, setItemTheme] = useState<boolean>(true);
+  const [filterType, setFilterType] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<number>(0);
+  const [sortByDirection, setSortByDirection] = useState<number>(1);
+
   const totalPages = useMemo(
     () =>
-      transactions ? Math.ceil(transactions.length / (itemtheme ? 12 : 15)) : 0,
-    [transactions, itemtheme]
+      filteredtransactions
+        ? Math.ceil(filteredtransactions.length / (itemtheme ? 12 : 15))
+        : 0,
+    [filteredtransactions, itemtheme]
   );
 
   const { data } = useFetch("/api/profile/transactions", {
@@ -56,6 +77,7 @@ export default function History() {
   useEffect(() => {
     if (data && data.transactions) {
       setTransactions(data.transactions);
+      setFilteredTransactions(data.transactions);
     }
   }, [data, page]);
 
@@ -72,6 +94,98 @@ export default function History() {
     setItemTheme(false);
     setPage(0);
   }, []);
+
+  const handleClickTypeFilter = useCallback(
+    (id: string) => {
+      setFilterType(id);
+      if (transactions) {
+        console.log(transactions.filter((item) => item.type === id));
+        if (id === "All") {
+          setFilteredTransactions(transactions);
+          return;
+        }
+        setFilteredTransactions(
+          transactions.filter((item) => item.type === id)
+        );
+      }
+    },
+    [transactions]
+  );
+
+  const handleClickSortBy = useCallback(
+    (id: string) => {
+      const index = sortByItems.indexOf(id);
+      if (filteredtransactions) {
+        setFilteredTransactions(
+          filteredtransactions.sort((a: Transaction, b: Transaction) => {
+            let x1, x2;
+            switch (index) {
+              case 0:
+                x2 = a.type;
+                x1 = b.type;
+                break;
+              case 1:
+                x1 = Number(a.game_id);
+                x2 = Number(b.game_id);
+                break;
+              case 2:
+                x1 = Number(a.amount);
+                x2 = Number(b.amount);
+                break;
+              case 3:
+                x1 = a.created_at;
+                x2 = b.created_at;
+                break;
+              default:
+                return 0;
+            }
+            if (x1 > x2) return -1 * sortByDirection;
+            if (x1 < x2) return 1 * sortByDirection;
+            return 0;
+          })
+        );
+      }
+      setSortBy(index);
+      setSortByDirection(1);
+    },
+    [filteredtransactions, sortByDirection]
+  );
+
+  const handleSortByProfit = useCallback(() => {
+    const newSortByDirection = -1 * sortByDirection;
+    if (filteredtransactions) {
+      setFilteredTransactions(
+        filteredtransactions.sort((a: Transaction, b: Transaction) => {
+          let x1, x2;
+          x1 = Number(a.amount);
+          x2 = Number(b.amount);
+          if (x1 > x2) return -1 * newSortByDirection;
+          if (x1 < x2) return 1 * newSortByDirection;
+          return 0;
+        })
+      );
+    }
+    setSortBy(2);
+    setSortByDirection(newSortByDirection);
+  }, [filteredtransactions, sortByDirection, sortBy]);
+
+  const handleSortByCreatedat = useCallback(() => {
+    const newSortByDirection = -1 * sortByDirection;
+    if (filteredtransactions) {
+      setFilteredTransactions(
+        filteredtransactions.sort((a: Transaction, b: Transaction) => {
+          let x1, x2;
+          x1 = a.created_at;
+          x2 = b.created_at;
+          if (x1 > x2) return -1 * newSortByDirection;
+          if (x1 < x2) return 1 * newSortByDirection;
+          return 0;
+        })
+      );
+    }
+    setSortBy(3);
+    setSortByDirection(newSortByDirection);
+  }, [filteredtransactions, sortByDirection, sortBy]);
 
   return (
     <div className="w-full flex flex-col">
@@ -94,9 +208,54 @@ export default function History() {
               </div>
             </div>
             <span className="ml-4 mr-1 text-[#727272]">Type:</span>
-            <span className="text-white">All</span>
+            <div className="hs-dropdown relative inline-flex !z-30 h-8 bg-transparent rounded-sm">
+              <button
+                id="hs-dropdown-type"
+                type="button"
+                className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
+              >
+                <span className="text-white capitalize">{filterType}</span>
+                <FaChevronDown className="s-dropdown-open:rotate-180" />
+              </button>
+              <div
+                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                aria-labelledby="hs-dropdown-type"
+              >
+                <FilterDropItem title="All" onClick={handleClickTypeFilter} />
+                {transactionTypes.map((item) => (
+                  <FilterDropItem
+                    key={item}
+                    title={item}
+                    onClick={handleClickTypeFilter}
+                  />
+                ))}
+              </div>
+            </div>
             <span className="ml-4 mr-1 text-[#727272]">Sort By:</span>
-            <span className="text-white">All</span>
+            <div className="hs-dropdown relative inline-flex !z-30 h-8 bg-transparent rounded-sm">
+              <button
+                id="hs-dropdown-sort-by"
+                type="button"
+                className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
+              >
+                <span className="text-white capitalize">
+                  {sortByItems[sortBy]}
+                </span>
+                <FaChevronDown className="s-dropdown-open:rotate-180" />
+              </button>
+              <div
+                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
+                aria-labelledby="hs-dropdown-sort-by"
+              >
+                {sortByItems.map((item) => (
+                  <FilterDropItem
+                    key={item}
+                    title={item}
+                    onClick={handleClickSortBy}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           <div className="mb-5 relative">
             <input
@@ -108,31 +267,33 @@ export default function History() {
             </span>
           </div>
         </div>
-        {transactions ? (
-          transactions.length ? (
-            <>
-              <div className={`flex ${itemtheme ? "flex-col" : "flex-wrap"}`}>
-                {itemtheme && (
-                  <div
-                    className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
-                  >
-                    <div className="w-[35%] max-w-[320px] flex-none flex">
-                      Game
-                    </div>
-                    <div className="w-[22%] max-w-[300px] flex-none">
-                      Number
-                    </div>
-                    <div className="flex items-center gap-1 w-[22%] max-w-[300px]">
-                      Profits
-                      <UpDownArrow />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      Time
-                      <UpDownArrow />
-                    </div>
-                  </div>
-                )}
-                {transactions
+        <div className={`flex ${itemtheme ? "flex-col" : "flex-wrap"}`}>
+          {itemtheme && (
+            <div
+              className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+            >
+              <div className="w-[35%] max-w-[320px] flex-none flex">Game</div>
+              <div className="w-[22%] max-w-[300px] flex-none">Number</div>
+              <div
+                className="flex items-center gap-1 w-[22%] max-w-[300px]"
+                onClick={handleSortByProfit}
+              >
+                Profits
+                <UpDownArrow />
+              </div>
+              <div
+                className="flex items-center gap-1"
+                onClick={handleSortByCreatedat}
+              >
+                Time
+                <UpDownArrow />
+              </div>
+            </div>
+          )}
+          {filteredtransactions ? (
+            filteredtransactions.length ? (
+              <>
+                {filteredtransactions
                   .filter(
                     (_: any, index: any) =>
                       index >= page * (itemtheme ? 12 : 15) &&
@@ -142,114 +303,120 @@ export default function History() {
                     <HistoryTab
                       key={index}
                       transaction={item}
-                      last={index === transactions.length - 1}
+                      last={index === filteredtransactions.length - 1}
                       odd={index % 2}
                       setSelected={setSelected}
                       itemtheme={itemtheme}
                     />
                   ))}
-              </div>
-              <div className="pt-4 flex justify-end space-x-1">
-                {page > 2 && (
-                  <button
-                    className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
-                  >
-                    ...
-                  </button>
+                {totalPages > 1 && (
+                  <div className="pt-4 flex justify-end space-x-1">
+                    {page > 2 && (
+                      <button
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
+                      >
+                        ...
+                      </button>
+                    )}
+                    {page < 2 && (
+                      <>
+                        <button
+                          className={`bg-[#282828] hover:bg-[#494d5e] ${
+                            page === 0 ? "text-white" : "text-[#7E7E7E]"
+                          } font-bold w-7 h-7 rounded-2xl text-xs`}
+                          onClick={() => handleClickPage(0)}
+                        >
+                          {1}
+                        </button>
+                        {totalPages > 1 && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] ${
+                              page === 1 ? "text-white" : "text-[#7E7E7E]"
+                            } font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(1)}
+                          >
+                            {2}
+                          </button>
+                        )}
+                        {totalPages > 2 && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(2)}
+                          >
+                            {3}
+                          </button>
+                        )}
+                        {totalPages > 3 && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(3)}
+                          >
+                            {4}
+                          </button>
+                        )}
+                      </>
+                    )}
+                    {page - 1 > 0 && (
+                      <>
+                        <button
+                          className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                          onClick={() => handleClickPage(page - 2)}
+                        >
+                          {page - 1}
+                        </button>
+                        <button
+                          className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                          onClick={() => handleClickPage(page - 1)}
+                        >
+                          {page}
+                        </button>
+                        {page < totalPages && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] text-white font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(page)}
+                          >
+                            {page + 1}
+                          </button>
+                        )}
+                        {page + 1 < totalPages && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(page + 1)}
+                          >
+                            {page + 2}
+                          </button>
+                        )}
+                        {page + 2 < totalPages && (
+                          <button
+                            className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
+                            onClick={() => handleClickPage(page + 2)}
+                          >
+                            {page + 3}
+                          </button>
+                        )}
+                      </>
+                    )}
+                    {page + 3 < totalPages && (
+                      <button
+                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
+                      >
+                        ...
+                      </button>
+                    )}
+                  </div>
                 )}
-                {page < 2 && (
-                  <>
-                    <button
-                      className={`bg-[#282828] hover:bg-[#494d5e] ${
-                        page === 0 ? "text-white" : "text-[#7E7E7E]"
-                      } font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(0)}
-                    >
-                      {1}
-                    </button>
-                    {totalPages > 1 && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] ${
-                          page === 1 ? "text-white" : "text-[#7E7E7E]"
-                        } font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(1)}
-                      >
-                        {2}
-                      </button>
-                    )}
-                    {totalPages > 2 && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(2)}
-                      >
-                        {3}
-                      </button>
-                    )}
-                    {totalPages > 3 && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(3)}
-                      >
-                        {4}
-                      </button>
-                    )}
-                  </>
-                )}
-                {page - 1 > 0 && (
-                  <>
-                    <button
-                      className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(page - 2)}
-                    >
-                      {page - 1}
-                    </button>
-                    <button
-                      className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                      onClick={() => handleClickPage(page - 1)}
-                    >
-                      {page}
-                    </button>
-                    {page < totalPages && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] text-white font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(page)}
-                      >
-                        {page + 1}
-                      </button>
-                    )}
-                    {page + 1 < totalPages && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(page + 1)}
-                      >
-                        {page + 2}
-                      </button>
-                    )}
-                    {page + 2 < totalPages && (
-                      <button
-                        className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E] font-bold w-7 h-7 rounded-2xl text-xs`}
-                        onClick={() => handleClickPage(page + 2)}
-                      >
-                        {page + 3}
-                      </button>
-                    )}
-                  </>
-                )}
-                {page + 3 < totalPages && (
-                  <button
-                    className={`bg-[#282828] hover:bg-[#494d5e] text-[#7E7E7E+] font-bold w-7 h-7 rounded-2xl text-xs`}
-                  >
-                    ...
-                  </button>
-                )}
-              </div>
-            </>
+              </>
+            ) : (
+              <p className="text-[#a8871a] flex justify-center">
+                No Transactions
+              </p>
+            )
           ) : (
-            <p className="text-[#a8871a]">No Transactions</p>
-          )
-        ) : (
-          <IconLoading width={12} height={12} color="#E9AE15" />
-        )}
+            <div className="flex justify-center">
+              <IconLoading width={12} height={12} color="#E9AE15" />
+            </div>
+          )}
+        </div>
       </div>
       {selected !== null && (
         <TransactionModal selected={selected} setSelected={setSelected} />
@@ -357,5 +524,21 @@ const HistoryTab: FC<HistoryTabProps> = ({
         </div>
       </div>
     </div>
+  );
+};
+
+const FilterDropItem: FC<{
+  onClick: Function;
+  title: string;
+}> = ({ title, onClick }) => {
+  const handleClick = useCallback(() => onClick(title), [title, onClick]);
+
+  return (
+    <button
+      className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010] capitalize"
+      onClick={handleClick}
+    >
+      {title.replace("_", " ")}
+    </button>
   );
 };
