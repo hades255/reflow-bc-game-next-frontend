@@ -177,7 +177,7 @@ const BonusSystem = () => {
       <div className="w-full">
         <div className="w-full flex justify-between items-center">
           <span className="text-[#717171] font-bold">Bonus Coins System</span>
-          <div className="flex gap-2 items-center">
+          <div className="my-2 flex gap-2 items-center">
             <input
               type="text"
               className="bg-transparent w-36 h-8 px-1 black-input border border-[#252525] rounded-sm placeholder:text-sm placeholder:text-[#707070] placeholder:pl-1"
