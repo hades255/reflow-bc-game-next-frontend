@@ -28,19 +28,25 @@ const ProfileAccount: FC = () => {
 
   const handleBonusCode = async () => {
     const result = await apiBonusCode(bonusCode);
-    console.log(result);
-    if (result?.status === "success") {
+    if (result?.status === 200) {
       dispatch(
         setToast({
           type: 2,
           message: "Get Bonus From Code",
         })
       );
+    } else if (result?.status != 400){
+      dispatch(
+        setToast({
+          type: 3,
+          message: result.data.message,
+        })
+      );
     } else {
       dispatch(
         setToast({
           type: 3,
-          message: "There is Server Error",
+          message: "Internal server error.",
         })
       );
     }
