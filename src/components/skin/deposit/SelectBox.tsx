@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import IconAttention from "@/utils/icons/Attention";
 import IconCoin from "@/utils/icons/Coin";
+import IconSkinSelected from "@/utils/icons/SkinSelected";
 import Button from "@/components/buttons/Button";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { useDispatch } from "react-redux";
@@ -70,17 +71,28 @@ const SelectBox: FC<SelectBoxProps> = ({ item }) => {
 
   return (
     <div className="w-[280px] bg-[#1F1F1F] rounded-[5px] overflow-hidden flex flex-col gap-[10px] h-full">
-      <div className="bg-[#232323] w-full py-4 px-3">
-        <div className="w-full dark-box flex items-center gap-[10px] py-[7px] justify-center">
-          <IconAttention color="#D1D1D1" width={11} height={13} />
-          <p className="font-semibold text-[12px] text-[#D1D1D1]">Attention</p>
+      <div>
+        <div className="flex flex-row py-[11px] gap-1 items-center justify-center bg-[#232323]">
+          <IconSkinSelected />
+          <p className="font-semibold text-[12px] text-[#E9AE15]">
+            Selected Item
+          </p>
+        </div>
+
+        <div className="bg-[#232323] w-full py-4 px-3">
+          <div className="w-full dark-box flex items-center gap-[10px] py-[7px] justify-center">
+            <IconAttention color="#D1D1D1" width={11} height={13} />
+            <p className="font-semibold text-[12px] text-[#D1D1D1]">
+              Attention
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="flex flex-grow flex-col h-full">
         <div className="flex flex-col gap-[2px] h-full">
           <p className="bg-[#232323] w-full px-3 py-[10px] font-bold capitalize text-[12px] text-[#5E5E5E]">
-            WITHDRAW ITEMS
+            DEPOSIT ITEMS
           </p>
           {item?.name ? (
             <div className="bg-[#232323] w-full px-3 py-[10px] h-full flex flex-col gap-1 overflow-y-scroll max-h-[calc(100vh-330px)] upgrader-list">
