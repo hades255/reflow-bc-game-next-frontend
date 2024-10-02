@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback, FC } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import moment from "moment";
-import { withdrawGetPending, withdrawApprove } from "@/services/analytics";
+import { withdrawGetPending, withdrawApprove, withdrawCancel } from "@/services/analytics";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import Pagination from "./Pagination";
 import { ADMIN_TABLE_ITEMS_PER_PAGE, ADMIN_TABLE_SHOW_PAGES } from "@/utils";
 
-import { MdOutlineCheck } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineCheck } from "react-icons/md";
 import IconTransactions from "@/utils/icons/Transactions";
 
 const WithdrawSystem = () => {
@@ -58,6 +58,29 @@ const WithdrawSystem = () => {
     }
     setPage((prev) => prev - 1);
     await getInfo(page - 1);
+  };
+
+  const handleCancel = async (id: any) => {
+    let { data, status } = await withdrawCancel({
+      withdrawId: String(id),
+    });
+
+    if (status === 200) {
+      dispatch(
+        setToast({
+          type: 2,
+          message: "Withdraw canceled.",
+        })
+      );
+      await getInfo();
+    } else {
+      dispatch(
+        setToast({
+          type: 3,
+          message: "Internal server error.",
+        })
+      );
+    }
   };
 
   const handleApprove = async (id: any) => {
@@ -135,12 +158,13 @@ const WithdrawSystem = () => {
             ) : (
               withdrawList.map((item, id) => (
                 <WithdrawListItem
-                  key={`admin-${id}`}
+                  key={`admin-${id}-${item.amount}-${item.user_id}`}
                   item={item}
                   id={id}
                   page={page}
                   perPage={perPage}
                   onApprove={handleApprove}
+                  onCancel={handleCancel}
                 />
               ))
             )}
@@ -169,12 +193,17 @@ const WithdrawListItem: FC<{
   page: number;
   perPage: number;
   onApprove: Function;
-}> = ({ item, id, page, perPage, onApprove }) => {
+  onCancel: Function;
+}> = ({ item, id, page, perPage, onApprove, onCancel }) => {
   const router = useRouter();
 
   const handleApprove = useCallback(() => {
     onApprove(item.id);
   }, [onApprove, item]);
+
+  const handleCancel = useCallback(() => {
+    onCancel(item.id);
+  }, [onCancel, item]);
 
   const handleViewTransaction = useCallback(() => {
     router.push(`/profile/admin/transaction/${item.user_id}`);
@@ -204,9 +233,9 @@ const WithdrawListItem: FC<{
           <button onClick={handleApprove}>
             <MdOutlineCheck />
           </button>
-          {/* <button onClick={() => deleteBonus(Number(bo.id))}>
+          <button onClick={handleCancel}>
             <MdDeleteOutline />
-          </button> */}
+          </button>
         </div>
       </td>
     </tr>

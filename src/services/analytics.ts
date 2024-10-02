@@ -57,6 +57,11 @@ export const withdrawApprove = async (params: any) => {
   return data;
 };
 
+export const withdrawCancel = async (params: any) => {
+  const data = await fetchAPI("/api/admin/withdraw/cancel", "POST", params);
+  return data;
+};
+
 export const getBalances = [
   { name: "Ethereum", token: "ETH", balance: 26788.55 },
   { name: "BSC", token: "BNB", balance: 26788.55 },

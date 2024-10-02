@@ -14,7 +14,7 @@ interface Props {
 const Pagination: FC<Props> = ({ page, total, perPage, showPages, firstPage, handlePrevPage, handleNextPage, setPage }) => {
   return (
     <nav
-      className="flex justify-end items-center -space-x-px text-[#727272]"
+      className="flex justify-end items-center -space-x-px text-[#727272] my-2"
       aria-label="Pagination"
     >
       <button
