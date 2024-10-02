@@ -35,7 +35,7 @@ const DepositPage: FC = () => {
           parameter: `${process.env.NEXT_PUBLIC_API_HOST}/api/auth/login`,
         })
       );
-    } else if (!user.is_whitelist) {
+    } else if (user.is_whitelist) {
       dispatch(
         setModal({
           status: true,
