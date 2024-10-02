@@ -48,6 +48,7 @@ export interface Transaction {
   amount: number;
   status: string;
   created_at: string;
+  updated_at: string;
   before: number;
   after: number;
 }
@@ -81,7 +82,7 @@ export default function History() {
       setTransactions(data.transactions);
       setFilteredTransactions(data.transactions);
     }
-  }, [data, page]);
+  }, [data]);
 
   const handleClickPage = useCallback((value: any) => {
     setPage(value);

@@ -2,13 +2,13 @@
 
 import React, { FC } from "react";
 import ProfileLayout from "@/components/profile/ProfileLayout";
-import AdminTransactionHistory from "@/components/profile/transactions/admin";
+import BankRoll from "@/components/profile/bankroll/bankroll";
 
 const ProfileAdminTransaction: FC = () => {
   return (
     <ProfileLayout select={6} isadmin={true}>
       <div className="w-full h-full">
-        <AdminTransactionHistory />
+        <BankRoll />
       </div>
     </ProfileLayout>
   );

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { FC } from "react";
+import AdminTransactionHistory from "@/components/profile/bankroll/depositandwithdrawadmin";
 import ProfileLayout from "@/components/profile/ProfileLayout";
-import AdminTransactionHistory from "@/components/profile/transactions/admin";
+import React, { FC } from "react";
 
 const ProfileAdminTransaction: FC = () => {
   return (
