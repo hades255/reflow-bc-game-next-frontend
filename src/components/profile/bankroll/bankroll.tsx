@@ -149,14 +149,17 @@ export default function BankRoll() {
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
+        <div className="py-2">
+          <span className="text-white font-bold text-[18px]">Bankroll</span>
+        </div>
         <div className={`flex flex-col`}>
           <div
-            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+            className={`text-[12px] font-semibold w-full max-w-[800px] h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
             <div className="w-[35%]">User</div>
-            <div className="w-[25%] pl-3">Deposit</div>
-            <div className="w-[25%] pl-3">Withdraw</div>
-            <div className="flex justify-end"></div>
+            <div className="w-[20%] pl-3">Deposit</div>
+            <div className="w-[20%] pl-3">Withdraw</div>
+            <div className="w-[20%] pl-3">Bankroll</div>
           </div>
           {filteredtransactions ? (
             filteredtransactions.length ? (
@@ -281,19 +284,33 @@ export default function BankRoll() {
             </div>
           )}
           <div
-            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+            className={`text-[12px] font-semibold w-full max-w-[800px] h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] border-t border-t-[#5D5D5D]`}
           >
-            <div className="w-[35%] flex justify-end">Total</div>
-            <div className="w-[25%]">
+            <div className="w-[35%] flex justify-end pr-2">Total</div>
+            <div className="w-[20%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
                 <span className="ml-[6px]">{fixed2(totalDeposit)}</span>
               </div>
             </div>
-            <div className="w-[25%]">
+            <div className="w-[20%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
                 <span className="ml-[6px]">{fixed2(totalWithdraw)}</span>
+              </div>
+            </div>
+            <div className="w-[20%]">
+              <div className="ml-3 flex items-center">
+                <IconCoin width={14} height={14} color="#E9AE15" />
+                <span
+                  className={`ml-[6px] ${
+                    totalDeposit - totalWithdraw > 0
+                      ? "text-[#B9FD3F]"
+                      : "text-[#FF3148]"
+                  }`}
+                >
+                  {fixed2(totalDeposit - totalWithdraw)}
+                </span>
               </div>
             </div>
           </div>
@@ -317,9 +334,10 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
 
   return (
     <div
-      className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
+      className={`text-[12px] w-full max-w-[800px] h-[50px] flex items-center flex-nowrap cursor-pointer ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
       } py-1 px-4 hover:bg-[#3E3E3E] text-xs`}
+      onClick={handleViewTransaction}
     >
       <div className="flex items-center w-[35%]">
         <Image
@@ -333,7 +351,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
           {transaction.user.name}
         </span>
       </div>
-      <div className="w-[25%]">
+      <div className="w-[20%]">
         <div className="flex flex-col">
           <div className="ml-3 flex">
             <IconCoin width={14} height={14} color="#E9AE15" />
@@ -341,13 +359,13 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
               {fixed2(transaction.deposit.total_amount)}
             </span>
           </div>
-          <hr className="border-[#333]" />
+          {/* <hr className="border-[#333]" />
           <span className="ml-8 text-[#7D7D7D]">
             {transaction.deposit.total_count} Times
-          </span>
+          </span> */}
         </div>
       </div>
-      <div className="w-[25%]">
+      <div className="w-[20%]">
         <div className="flex flex-col">
           <div className="ml-3 flex">
             <IconCoin width={14} height={14} color="#E9AE15" />
@@ -355,16 +373,30 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
               {transaction.withdraw.total_amount}
             </span>
           </div>
-          <hr className="border-[#333]" />
+          {/* <hr className="border-[#333]" />
           <span className="ml-8 text-[#7D7D7D]">
             {transaction.withdraw.total_count} Times
-          </span>
+          </span> */}
         </div>
       </div>
-      <div className="text-[#5D5D5D] w-[15%] flex justify-end">
-        <button onClick={handleViewTransaction}>
-          <IconDetails width={30} height={30} color="#EEA917" />
-        </button>
+      <div className="w-[20%] text-white">
+        <div className="ml-3 flex">
+          <IconCoin width={14} height={14} color="#E9AE15" />
+          <span
+            className={`ml-[6px] ${
+              transaction.deposit.total_amount -
+                transaction.withdraw.total_amount >
+              0
+                ? "text-[#B9FD3F]"
+                : "text-[#FF3148]"
+            }`}
+          >
+            {fixed2(
+              transaction.deposit.total_amount -
+                transaction.withdraw.total_amount
+            )}
+          </span>
+        </div>
       </div>
     </div>
   );

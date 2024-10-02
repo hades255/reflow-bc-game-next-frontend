@@ -11,6 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { User } from "./bankroll";
 import { fixed2 } from "../details/ProfitLoss";
+import Button from "@/components/buttons/Button";
 
 interface Transaction {
   id: number;
@@ -149,41 +150,42 @@ export default function AdminTransactionHistory() {
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
-        <div className="flex">
+        <div className="flex justify-between">
           <div>
-            <button
-              onClick={handleClickBack}
-              className="mr-4 p-1 text-[#AAA] border border-[#aaa] rounded-lg hover:border-gold hover:text-gold transition-all text-sm"
-            >
-              Back
-            </button>
-          </div>
-          {selectedUser && (
-            <>
-              <div className="mr-4">
-                <Image
-                  src={selectedUser.avatar}
-                  width={80}
-                  height={80}
-                  className="rounded-[40px] border-2 border-[#5D5D5D]"
-                  alt="icon"
-                />
-              </div>
-              <div className="flex items-center">
-                <div className="flex flex-col">
-                  <span className="text-[#CCC] font-semibold">
-                    {selectedUser.name}
-                  </span>
-                  <span className="text-[#5D5D5D] text-sm font-semibold">
-                    Deposit: {fixed2(totalDeposit)}
-                  </span>
-                  <span className="text-[#5D5D5D] text-sm font-semibold">
-                    Withdraw: {fixed2(totalWithdraw)}
-                  </span>
+            {selectedUser && (
+              <div className="flex">
+                <div className="mr-4">
+                  <Image
+                    src={selectedUser.avatar}
+                    width={80}
+                    height={80}
+                    className="rounded-[40px] border-2 border-[#5D5D5D]"
+                    alt="icon"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <div className="flex flex-col">
+                    <span className="text-[#CCC] font-semibold">
+                      {selectedUser.name}
+                    </span>
+                    <span className="text-[#5D5D5D] text-sm font-semibold">
+                      Deposit: {fixed2(totalDeposit)}
+                    </span>
+                    <span className="text-[#5D5D5D] text-sm font-semibold">
+                      Withdraw: {fixed2(totalWithdraw)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </>
-          )}
+            )}
+          </div>
+          <div>
+            <Button
+              text="Back"
+              className="!w-[100px] mb-2"
+              clicked={handleClickBack}
+            />
+          </div>
         </div>
         <div className="w-full flex justify-between flex-wrap">
           <div className="text-sm flex items-center mb-2">
