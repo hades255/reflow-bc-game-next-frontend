@@ -28,7 +28,7 @@ const UserArea = () => {
   };
 
   const gotoWithdraw = () => {
-    if (!user?.is_whitelist) {
+    if (user?.is_whitelist) {
       dispatch(
         setModal({
           status: true,
