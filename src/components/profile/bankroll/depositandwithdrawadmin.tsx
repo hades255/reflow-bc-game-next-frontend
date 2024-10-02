@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import IconLoading from "@/utils/icons/Loading";
-import SearchIcon from "@/utils/icons/SearchIcon";
 import UpDownArrow from "@/utils/icons/UpDownArrow";
 import { FaChevronDown } from "react-icons/fa";
 import { FilterDropItem, getTransactionIcon } from "../transactions/history";
@@ -214,30 +213,17 @@ export default function AdminTransactionHistory() {
               </div>
             </div>
           </div>
-          <div className="mb-2 relative">
-            <input
-              className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
-              placeholder="Search..."
-            ></input>
-            <span className="absolute left-0 top-0 w-10 h-[30px] flex justify-center items-center">
-              <SearchIcon />
-            </span>
-          </div>
         </div>
         <div className={`flex flex-col`}>
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
+            <div className="w-6">No</div>
             <div className="w-[15%] max-w-[300px]"></div>
-            <div className="w-[15%] max-w-[200px]">Amount</div>
-            <div className="w-[10%] max-w-[200px] flex justify-center">
-              Type
-            </div>
-            <div className="w-[10%] max-w-[200px] flex justify-center">
-              Currency
-            </div>
-            <div className="w-[20%] max-w-[400px]">Address</div>
-            <div className="w-[13%] max-w-[200px]">Txid</div>
+            <div className="w-[10%] max-w-[200px]">Amount</div>
+            <div className="w-[10%] max-w-[200px]">Type</div>
+            <div className="w-[10%] max-w-[200px]">Currency</div>
+            <div className="w-[35%] max-w-[400px]">Address</div>
             <div
               className="flex items-center gap-1"
               onClick={handleSortByCreatedat}
@@ -259,6 +245,7 @@ export default function AdminTransactionHistory() {
                       key={index}
                       transaction={item}
                       odd={index % 2}
+                      index={index}
                     />
                   ))}
                 {totalPages > 1 && (
@@ -377,9 +364,10 @@ export default function AdminTransactionHistory() {
 interface HistoryTabProps {
   transaction: Transaction;
   odd: number;
+  index: number;
 }
 
-const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
+const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
   const getDateFormat = useCallback(() => {
     const currentYear = new Date().getFullYear();
     const year = moment(transaction.updated_at).year();
@@ -398,13 +386,14 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
       } py-1 px-4 hover:bg-[#3E3E3E] text-xs`}
       onClick={handleSelect}
     >
+      <div className="w-6 text-[#5D5D5D]">{index + 1}</div>
       <div className="text-[#D1D1D1] flex items-center w-[15%] max-w-[200px]">
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
         <span className="font-bold capitalize">{transaction.roll}</span>
       </div>
-      <div className="flex flex-row items-center gap-1 w-[15%] max-w-[200px]">
+      <div className="flex flex-row items-center gap-1 w-[10%] max-w-[200px]">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
           className={`${
@@ -414,22 +403,14 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
           {fixed2(transaction.amount)}
         </p>
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize flex justify-center">
+      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize">
         {transaction.type}
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize flex justify-center">
+      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize">
         {transaction.currency}
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[20%] max-w-[400px]">
-        {transaction.address
-          ? `${transaction.address.substring(
-              0,
-              6
-            )} ... ${transaction.address.substring(38)}`
-          : ""}
-      </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[13%] max-w-[200px]">
-        {transaction.txid}
+      <div className="flex-none text-[#5D5D5D] font-semibold w-[35%] max-w-[400px]">
+        {transaction.address}
       </div>
       <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
     </div>

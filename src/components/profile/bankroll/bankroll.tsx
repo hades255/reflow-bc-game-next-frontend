@@ -6,6 +6,7 @@ import Image from "next/image";
 import IconDetails from "@/utils/icons/Details";
 import { useRouter } from "next/navigation";
 import { fixed2 } from "../details/ProfitLoss";
+import SearchIcon from "@/utils/icons/SearchIcon";
 
 export interface User {
   id: number;
@@ -40,9 +41,9 @@ interface TransactionData {
 }
 
 export default function BankRoll() {
-  // const [transactions, setTransactions] = useState<
-  // TransformedTransaction[] | null
-  // >(null);
+  const [transactions, setTransactions] = useState<
+    TransformedTransaction[] | null
+  >(null);
   const [filteredtransactions, setFilteredTransactions] = useState<
     TransformedTransaction[] | null
   >(null);
@@ -135,7 +136,7 @@ export default function BankRoll() {
   useEffect(() => {
     if (data && data.deposit && data.withdraw) {
       const updatedData = transformData(data);
-      // setTransactions(updatedData);
+      setTransactions(updatedData.result);
       setFilteredTransactions(updatedData.result);
       setTotalDeposit(updatedData.totaldeposit);
       setTotalWithdraw(updatedData.totalwithdraw);
@@ -146,15 +147,50 @@ export default function BankRoll() {
     setPage(value);
   }, []);
 
+  const handleSearchInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (transactions) {
+        if (event.target.value) {
+          setFilteredTransactions(
+            transactions.filter((item: TransformedTransaction) => {
+              if (
+                item.user.name
+                  .toLowerCase()
+                  .indexOf(event.target.value.toLowerCase()) >= 0
+              )
+                return true;
+              return false;
+            })
+          );
+        } else {
+          setFilteredTransactions(transactions);
+        }
+      }
+    },
+    [transactions]
+  );
+
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
-        <div className="py-2">
-          <span className="text-white font-bold text-[18px]">Bankroll</span>
+        <div className="flex justify-between">
+          <div className="py-2">
+            <span className="text-white font-bold text-[18px]">Bankroll</span>
+          </div>
+          <div className="mb-2 relative">
+            <input
+              className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
+              placeholder="Search name..."
+              onChange={handleSearchInputChange}
+            ></input>
+            <span className="absolute left-0 top-0 w-10 h-[30px] flex justify-center items-center">
+              <SearchIcon />
+            </span>
+          </div>
         </div>
         <div className={`flex flex-col`}>
           <div
-            className={`text-[12px] font-semibold w-full max-w-[800px] h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
             <div className="w-[35%]">User</div>
             <div className="w-[20%] pl-3">Deposit</div>
@@ -284,7 +320,7 @@ export default function BankRoll() {
             </div>
           )}
           <div
-            className={`text-[12px] font-semibold w-full max-w-[800px] h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] border-t border-t-[#5D5D5D]`}
+            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] border-t border-t-[#5D5D5D]`}
           >
             <div className="w-[35%] flex justify-end pr-2">Total</div>
             <div className="w-[20%]">
@@ -334,7 +370,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
 
   return (
     <div
-      className={`text-[12px] w-full max-w-[800px] h-[50px] flex items-center flex-nowrap cursor-pointer ${
+      className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap cursor-pointer ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
       } py-1 px-4 hover:bg-[#3E3E3E] text-xs`}
       onClick={handleViewTransaction}
