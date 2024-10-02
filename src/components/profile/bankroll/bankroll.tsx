@@ -27,7 +27,7 @@ interface Transaction {
   user: any;
 }
 
-export default function AdminTransactionHistory() {
+export default function BankRoll() {
   const [transactions, setTransactions] = useState<Transaction[] | null>(null);
   const [filteredtransactions, setFilteredTransactions] = useState<
     Transaction[] | null
