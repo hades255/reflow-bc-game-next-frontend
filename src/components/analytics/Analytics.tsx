@@ -20,7 +20,7 @@ const AnalyticsPage = () => {
       <div className="flex gap-1 items-center">
         <MdOutlineAnalytics width={24} height={24} color="#E9AE15" />
         <p className="text-[18px] font-bold text-[#D1D1D1]">Dashboard</p>
-        <div className="ml-4">
+        <div className="ml-4 py-2">
           <Button
             text={"BankRoll"}
             className="!w-28"

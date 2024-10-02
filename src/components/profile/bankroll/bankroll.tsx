@@ -1,41 +1,54 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
-import TransactionModal from "../transactions/transactionModal";
 import IconLoading from "@/utils/icons/Loading";
-import SearchIcon from "@/utils/icons/SearchIcon";
-import UpDownArrow from "@/utils/icons/UpDownArrow";
-import { FaChevronDown } from "react-icons/fa";
-import {
-  FilterDropItem,
-  getTransactionIcon,
-  sortByItems,
-  transactionTypes,
-} from "../transactions/history";
-import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
+import Image from "next/image";
+import IconDetails from "@/utils/icons/Details";
+import { useRouter } from "next/navigation";
+import { fixed2 } from "../details/ProfitLoss";
+
+export interface User {
+  id: number;
+  name: string;
+  avatar: string;
+  player_level: number;
+}
 
 interface Transaction {
-  id: number;
-  type: string;
-  amount: number;
-  updated_at: string;
-  roll: string;
-  txid: string;
-  address: string;
-  currency: string;
   user_id: number;
-  user: any;
+  total_amount: number;
+  total_count: number;
+  user: User;
+}
+
+interface TransformedTransaction {
+  user_id: number;
+  user: User;
+  deposit: {
+    total_amount: number;
+    total_count: number;
+  };
+  withdraw: {
+    total_amount: number;
+    total_count: number;
+  };
+}
+
+interface TransactionData {
+  deposit: Transaction[];
+  withdraw: Transaction[];
 }
 
 export default function BankRoll() {
-  const [transactions, setTransactions] = useState<Transaction[] | null>(null);
+  // const [transactions, setTransactions] = useState<
+  // TransformedTransaction[] | null
+  // >(null);
   const [filteredtransactions, setFilteredTransactions] = useState<
-    Transaction[] | null
+    TransformedTransaction[] | null
   >(null);
   const [page, setPage] = useState(0);
-  const [filterType, setFilterType] = useState<string>("All");
-  const [sortBy, setSortBy] = useState<number>(0);
-  const [sortByDirection, setSortByDirection] = useState<number>(1);
+  const [totalDeposit, setTotalDeposit] = useState(0);
+  const [totalWithdraw, setTotalWithdraw] = useState(0);
 
   const totalPages = useMemo(
     () =>
@@ -47,230 +60,103 @@ export default function BankRoll() {
     method: "GET",
   });
 
+  const transformData = useCallback(
+    (
+      data: TransactionData
+    ): {
+      result: TransformedTransaction[];
+      totaldeposit: number;
+      totalwithdraw: number;
+    } => {
+      const result: TransformedTransaction[] = [];
+
+      const userMap: { [key: number]: TransformedTransaction } = {};
+
+      // Process deposits
+      data.deposit.forEach((deposit) => {
+        if (!userMap[deposit.user_id]) {
+          userMap[deposit.user_id] = {
+            user_id: deposit.user_id,
+            user: deposit.user,
+            deposit: {
+              total_amount: Number(deposit.total_amount),
+              total_count: deposit.total_count,
+            },
+            withdraw: {
+              total_amount: 0,
+              total_count: 0,
+            },
+          };
+        } else {
+          userMap[deposit.user_id].deposit = {
+            total_amount: Number(deposit.total_amount),
+            total_count: deposit.total_count,
+          };
+        }
+      });
+
+      // Process withdraws
+      data.withdraw.forEach((withdraw) => {
+        if (!userMap[withdraw.user_id]) {
+          userMap[withdraw.user_id] = {
+            user_id: withdraw.user_id,
+            user: withdraw.user,
+            deposit: {
+              total_amount: 0,
+              total_count: 0,
+            },
+            withdraw: {
+              total_amount: Number(withdraw.total_amount),
+              total_count: withdraw.total_count,
+            },
+          };
+        } else {
+          userMap[withdraw.user_id].withdraw = {
+            total_amount: Number(withdraw.total_amount),
+            total_count: withdraw.total_count,
+          };
+        }
+      });
+
+      // Convert userMap to result array
+      let totaldeposit = 0;
+      let totalwithdraw = 0;
+      for (const userId in userMap) {
+        totaldeposit += userMap[userId].deposit.total_amount;
+        totalwithdraw += userMap[userId].withdraw.total_amount;
+        result.push(userMap[userId]);
+      }
+
+      return { result, totaldeposit, totalwithdraw };
+    },
+    []
+  );
+
   useEffect(() => {
     if (data && data.deposit && data.withdraw) {
-      const updatedData = [
-        ...data.deposit.map((item: any) => ({
-          roll: "deposit",
-          updated_at: item.updated_at,
-          amount: item.amount,
-          txid: item.txid,
-          user_id: item.user_id,
-          type: item.type,
-          user: item.user,
-          address:
-            item.type === "crypto" && item.note
-              ? JSON.parse(item.note).pay_address
-              : "",
-          currency:
-            item.type === "crypto" && item.note
-              ? JSON.parse(item.note).pay_currency
-              : "",
-        })),
-        ...data.withdraw.map((item: any) => ({
-          roll: "withdraw",
-          updated_at: item.updated_at,
-          amount: item.amount,
-          txid: item.txid,
-          user_id: item.user_id,
-          type: item.type,
-          user: item.user,
-          address: item.address,
-          currency: item.currency,
-        })),
-      ].sort((a: any, b: any) => {
-        if (a.updated_at > b.updated_at) return -1;
-        if (a.updated_at < b.updated_at) return 1;
-        return 0;
-      });
-      setTransactions(updatedData);
-      setFilteredTransactions(updatedData);
+      const updatedData = transformData(data);
+      // setTransactions(updatedData);
+      setFilteredTransactions(updatedData.result);
+      setTotalDeposit(updatedData.totaldeposit);
+      setTotalWithdraw(updatedData.totalwithdraw);
     }
-  }, [data]);
+  }, [data, transformData]);
 
   const handleClickPage = useCallback((value: any) => {
     setPage(value);
   }, []);
 
-  const handleClickTypeFilter = useCallback(
-    (id: string) => {
-      setFilterType(id);
-      setSortByDirection(1);
-      if (transactions) {
-        if (id === "All") {
-          setFilteredTransactions(transactions);
-          return;
-        }
-        setFilteredTransactions(
-          transactions.filter((item) => item.type === id)
-        );
-      }
-    },
-    [transactions]
-  );
-
-  const handleClickSortBy = useCallback(
-    (id: string) => {
-      const index = sortByItems.indexOf(id);
-      if (filteredtransactions) {
-        setFilteredTransactions(
-          filteredtransactions.sort((a: Transaction, b: Transaction) => {
-            let x1, x2;
-            switch (index) {
-              case 0:
-                x2 = a.type;
-                x1 = b.type;
-                break;
-              case 1:
-                x1 = Number(a.txid);
-                x2 = Number(b.txid);
-                break;
-              case 2:
-                x1 = Number(a.amount);
-                x2 = Number(b.amount);
-                break;
-              case 3:
-                x1 = a.updated_at;
-                x2 = b.updated_at;
-                break;
-              default:
-                return 0;
-            }
-            if (x1 > x2) return -1 * sortByDirection;
-            if (x1 < x2) return 1 * sortByDirection;
-            return 0;
-          })
-        );
-      }
-      setSortBy(index);
-      setSortByDirection(1);
-    },
-    [filteredtransactions, sortByDirection]
-  );
-
-  const handleSortByProfit = useCallback(() => {
-    const newSortByDirection = -1 * sortByDirection;
-    if (filteredtransactions) {
-      setFilteredTransactions(
-        filteredtransactions.sort((a: Transaction, b: Transaction) => {
-          let x1, x2;
-          x1 = Number(a.amount);
-          x2 = Number(b.amount);
-          if (x1 > x2) return -1 * newSortByDirection;
-          if (x1 < x2) return 1 * newSortByDirection;
-          return 0;
-        })
-      );
-    }
-    setSortBy(2);
-    setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
-
-  const handleSortByCreatedat = useCallback(() => {
-    const newSortByDirection = -1 * sortByDirection;
-    if (filteredtransactions) {
-      setFilteredTransactions(
-        filteredtransactions.sort((a: Transaction, b: Transaction) => {
-          let x1, x2;
-          x1 = a.updated_at;
-          x2 = b.updated_at;
-          if (x1 > x2) return -1 * newSortByDirection;
-          if (x1 < x2) return 1 * newSortByDirection;
-          return 0;
-        })
-      );
-    }
-    setSortBy(3);
-    setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
-
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
-        <div className="w-full flex justify-between flex-wrap">
-          <div className="text-sm flex items-center mb-2">
-            <span className="ml-4 mr-1 text-[#727272]">Type:</span>
-            <div className="hs-dropdown relative inline-flex !z-30 h-8 bg-transparent rounded-sm">
-              <button
-                id="hs-dropdown-type"
-                type="button"
-                className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
-              >
-                <span className="text-white capitalize">{filterType}</span>
-                <FaChevronDown className="s-dropdown-open:rotate-180" />
-              </button>
-              <div
-                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
-                aria-labelledby="hs-dropdown-type"
-              >
-                <FilterDropItem title="All" onClick={handleClickTypeFilter} />
-                {transactionTypes.map((item) => (
-                  <FilterDropItem
-                    key={item}
-                    title={item}
-                    onClick={handleClickTypeFilter}
-                  />
-                ))}
-              </div>
-            </div>
-            <span className="ml-4 mr-1 text-[#727272]">Sort By:</span>
-            <div className="hs-dropdown relative inline-flex !z-30 h-8 bg-transparent rounded-sm">
-              <button
-                id="hs-dropdown-sort-by"
-                type="button"
-                className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
-              >
-                <span className="text-white capitalize">
-                  {sortByItems[sortBy]}
-                </span>
-                <FaChevronDown className="s-dropdown-open:rotate-180" />
-              </button>
-              <div
-                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
-                aria-labelledby="hs-dropdown-sort-by"
-              >
-                {sortByItems.map((item) => (
-                  <FilterDropItem
-                    key={item}
-                    title={item}
-                    onClick={handleClickSortBy}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="mb-2 relative">
-            <input
-              className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
-              placeholder="Search..."
-            ></input>
-            <span className="absolute left-0 top-0 w-10 h-[30px] flex justify-center items-center">
-              <SearchIcon />
-            </span>
-          </div>
-        </div>
         <div className={`flex flex-col`}>
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
-            <div className="w-[20%] max-w-[300px] flex-none flex">Game</div>
-            <div className="w-[15%] max-w-[200px] flex-none">Number</div>
-            <div className="w-[15%] max-w-[200px] flex-none">Before</div>
-            <div
-              className="flex items-center gap-1 w-[15%] max-w-[200px]"
-              onClick={handleSortByProfit}
-            >
-              Profits
-              <UpDownArrow />
-            </div>
-            <div className="w-[15%] max-w-[200px] flex-none">After</div>
-            <div
-              className="flex items-center gap-1"
-              onClick={handleSortByCreatedat}
-            >
-              Time
-              <UpDownArrow />
-            </div>
+            <div className="w-[35%]">User</div>
+            <div className="w-[25%] pl-3">Deposit</div>
+            <div className="w-[25%] pl-3">Withdraw</div>
+            <div className="flex justify-end"></div>
           </div>
           {filteredtransactions ? (
             filteredtransactions.length ? (
@@ -284,9 +170,7 @@ export default function BankRoll() {
                     <HistoryTab
                       key={index}
                       transaction={item}
-                      last={index === filteredtransactions.length - 1}
                       odd={index % 2}
-                      itemtheme={true}
                     />
                   ))}
                 {totalPages > 1 && (
@@ -396,6 +280,23 @@ export default function BankRoll() {
               <IconLoading width={12} height={12} color="#E9AE15" />
             </div>
           )}
+          <div
+            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+          >
+            <div className="w-[35%] flex justify-end">Total</div>
+            <div className="w-[25%]">
+              <div className="ml-3 flex items-center">
+                <IconCoin width={14} height={14} color="#E9AE15" />
+                <span className="ml-[6px]">{fixed2(totalDeposit)}</span>
+              </div>
+            </div>
+            <div className="w-[25%]">
+              <div className="ml-3 flex items-center">
+                <IconCoin width={14} height={14} color="#E9AE15" />
+                <span className="ml-[6px]">{fixed2(totalWithdraw)}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -403,53 +304,68 @@ export default function BankRoll() {
 }
 
 interface HistoryTabProps {
-  transaction: Transaction;
-  last: boolean;
-  itemtheme: boolean;
+  transaction: TransformedTransaction;
   odd: number;
 }
 
-const HistoryTab: FC<HistoryTabProps> = ({ transaction, last, odd }) => {
-  const getDateFormat = useCallback(() => {
-    const currentYear = new Date().getFullYear();
-    const year = moment(transaction.updated_at).year();
-    if (currentYear === Number(year)) {
-      return moment(transaction.updated_at).format("ddd DD MMM hh:mm A");
-    }
-    return moment(transaction.updated_at).format("ddd DD MMM, YYYY hh:mm A");
-  }, [transaction]);
+const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
+  const router = useRouter();
 
-  const handleSelect = useCallback(() => {}, []);
+  const handleViewTransaction = useCallback(() => {
+    router.push(`/profile/admin/bankroll/${transaction.user_id}`);
+  }, [transaction, router]);
 
   return (
     <div
       className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
-      } ${
-        last ? "rounded-b" : ""
       } py-1 px-4 hover:bg-[#3E3E3E] text-xs`}
-      onClick={handleSelect}
     >
-      <div className="text-[#D1D1D1] flex items-center">
-        <div className="w-6 mr-1 flex justify-center">
-          {getTransactionIcon(transaction.type)}
+      <div className="flex items-center w-[35%]">
+        <Image
+          src={transaction.user.avatar}
+          width={40}
+          height={40}
+          className="rounded-[20px] border border-[#5D5D5D]"
+          alt="icon"
+        />
+        <span className="ml-3 text-[#D1D1D1] font-semibold">
+          {transaction.user.name}
+        </span>
+      </div>
+      <div className="w-[25%]">
+        <div className="flex flex-col">
+          <div className="ml-3 flex">
+            <IconCoin width={14} height={14} color="#E9AE15" />
+            <span className="ml-[6px] text-white">
+              {fixed2(transaction.deposit.total_amount)}
+            </span>
+          </div>
+          <hr className="border-[#333]" />
+          <span className="ml-8 text-[#7D7D7D]">
+            {transaction.deposit.total_count} Times
+          </span>
         </div>
-        <span className="font-bold capitalize">{transaction.type}</span>
       </div>
-      <div className="flex-none text-white">#{transaction.txid}</div>
-      <div className="flex-none text-[#5D5D5D]"></div>
-      <div className="flex flex-row items-center gap-1 w-[15%]">
-        <IconCoin width={14} height={14} color="#E9AE15" />
-        <p
-          className={`${
-            transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
-          } font-medium]`}
-        >
-          {transaction.amount}
-        </p>
+      <div className="w-[25%]">
+        <div className="flex flex-col">
+          <div className="ml-3 flex">
+            <IconCoin width={14} height={14} color="#E9AE15" />
+            <span className="ml-[6px] text-white">
+              {transaction.withdraw.total_amount}
+            </span>
+          </div>
+          <hr className="border-[#333]" />
+          <span className="ml-8 text-[#7D7D7D]">
+            {transaction.withdraw.total_count} Times
+          </span>
+        </div>
       </div>
-      <div className="flex-none text-[#5D5D5D]"></div>
-      <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
+      <div className="text-[#5D5D5D] w-[15%] flex justify-end">
+        <button onClick={handleViewTransaction}>
+          <IconDetails width={30} height={30} color="#EEA917" />
+        </button>
+      </div>
     </div>
   );
 };

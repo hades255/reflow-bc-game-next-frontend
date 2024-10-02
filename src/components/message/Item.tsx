@@ -1,21 +1,21 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import bnbLogo from "@/assets/logos/bnb.png";
+// import bnbLogo from "@/assets/logos/bnb.png";
+
+export const levelColors = [
+  { name: "bronze", color: "#DF8E44" },
+  { name: "silver", color: "#9F9F9F" },
+  { name: "gold", color: "#FFD375" },
+  { name: "platinum", color: "#65ABCF" },
+  { name: "diamond", color: "#FD91FF" },
+  { name: "sapphire", color: "#DCDCDC" },
+  { name: "warden", color: "#07CBFF" },
+  { name: "prince", color: "#B0F215" },
+  { name: "monarch", color: "#FE4A45" },
+];
 
 const MessageItem: FC<{ chat: any }> = ({ chat }) => {
   const [levelItem, setLevelItem] = useState(0);
-
-  const levels = [
-    { name: "bronze", color: "#DF8E44" },
-    { name: "silver", color: "#9F9F9F" },
-    { name: "gold", color: "#FFD375" },
-    { name: "platinum", color: "#65ABCF" },
-    { name: "diamond", color: "#FD91FF" },
-    { name: "sapphire", color: "#DCDCDC" },
-    { name: "warden", color: "#07CBFF" },
-    { name: "prince", color: "#B0F215" },
-    { name: "monarch", color: "#FE4A45" },
-  ];
 
   useEffect(() => {
     if (chat) {
@@ -51,17 +51,17 @@ const MessageItem: FC<{ chat: any }> = ({ chat }) => {
           </div>
           <div
             className={`flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border-[#DF8E44] border bg-[#020202]`}
-            style={{ borderColor: `${levels[levelItem].color}` }}
+            style={{ borderColor: `${levelColors[levelItem].color}` }}
           >
             <Image
-              src={`/assets/icons/${levels[levelItem].name}.png`}
+              src={`/assets/icons/${levelColors[levelItem].name}.png`}
               width={8}
               height={8}
               alt="cup"
             />
             <span
               className="text-[9px] font-bold"
-              style={{ color: `${levels[levelItem].color}` }}
+              style={{ color: `${levelColors[levelItem].color}` }}
             >
               {chat.user.player_level}
             </span>

@@ -15,7 +15,7 @@ interface CustomProps {
   payload?: any;
 }
 
-const fixed2 = (param: any) => {
+export const fixed2 = (param: any) => {
   return Math.round(param * 100) / 100;
 };
 
@@ -61,7 +61,6 @@ const ProfitLoss: FC = () => {
         "/api/profile/profitloss?selection=" + selectItem,
         "GET"
       );
-      console.log(data.data);
       if (data.data && data.data.length > 0) {
         if (selectItem === 2 || selectItem === 3 || selectItem === 5)
           setGraphdata(
