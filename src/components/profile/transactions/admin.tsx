@@ -46,7 +46,7 @@ export default function AdminTransactionHistory() {
       setTransactions(data.transactions);
       setFilteredTransactions(data.transactions);
     }
-  }, [data, page]);
+  }, [data]);
 
   const handleClickPage = useCallback((value: any) => {
     setPage(value);

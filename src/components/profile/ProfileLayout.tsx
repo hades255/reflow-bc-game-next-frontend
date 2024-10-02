@@ -1,13 +1,42 @@
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, useEffect } from "react";
 import TabBar from "@/components/profile/TabBar";
 import IconCrown from "@/utils/icons/Crown";
 import withAuth from "@/hoc/WithAuth";
+import { useUser } from "@/redux/slices/main/userSlice";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setToast } from "@/redux/slices/main/toastSlice";
 
 interface Props {
   select?: number;
+  isadmin?: boolean;
 }
 
-const ProfileLayout: FC<PropsWithChildren<Props>> = ({ select, children }) => {
+const ProfileLayout: FC<PropsWithChildren<Props>> = ({
+  select,
+  isadmin,
+  children,
+}) => {
+  const user = useUser();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/roulette");
+    } else {
+      if (isadmin && !user.is_admin) {
+        router.push("/profile/details");
+        dispatch(
+          setToast({
+            type: 4,
+            message: "You can not access the administrator page.",
+          })
+        );
+      }
+    }
+  }, [isadmin, user, router, dispatch]);
+
   return (
     <div className="p-6">
       <div className="flex gap-1 items-center">

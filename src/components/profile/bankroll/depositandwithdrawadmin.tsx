@@ -1,101 +1,96 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
-import IconCoin from "@/utils/icons/Coin";
-import moment from "moment";
-import RoyalflipCoin from "@/utils/icons/Royalfilp";
-import TransactionModal from "./transactionModal";
+import TransactionModal from "../transactions/transactionModal";
 import IconLoading from "@/utils/icons/Loading";
-import IconRoulette from "@/utils/icons/Roulette";
-import UpgradeGame from "@/utils/icons/UpgradeGame";
-import GoldCoin from "@/utils/icons/GoldCoin";
-import ItemsList from "@/utils/icons/ItemsList";
-import ItemsBox from "@/utils/icons/ItemsBox";
 import SearchIcon from "@/utils/icons/SearchIcon";
 import UpDownArrow from "@/utils/icons/UpDownArrow";
-import IconMystery from "@/utils/icons/Mystery";
 import { FaChevronDown } from "react-icons/fa";
+import {
+  FilterDropItem,
+  getTransactionIcon,
+  sortByItems,
+  transactionTypes,
+} from "../transactions/history";
+import moment from "moment";
+import IconCoin from "@/utils/icons/Coin";
 
-export const getTransactionIcon = (type: string) => {
-  switch (type) {
-    case "roulette":
-      return <IconRoulette height={16} width={18} color={"#E9AE15"} />;
-    case "royalflip":
-      return <RoyalflipCoin height={22} width={24} color={"#E9AE15"} />;
-    case "upgrader":
-      return <UpgradeGame height={20} width={22} color={"#E9AE15"} />;
-    case "mystery bonus":
-      return <IconMystery height={12} width={22} color={"#E9AE15"} />;
-    default:
-      return <GoldCoin height={16} width={18} color={"#E9AE15"} />;
-  }
-};
-
-export const transactionTypes = [
-  "roulette",
-  "royalflip",
-  "upgrader",
-  "mystery bonus",
-  "bonus code",
-  "crypto_withdraw",
-];
-
-export const sortByItems = ["type", "number", "profits", "time"];
-
-export interface Transaction {
+interface Transaction {
   id: number;
   type: string;
-  game_id: number;
   amount: number;
-  status: string;
-  created_at: string;
   updated_at: string;
-  before: number;
-  after: number;
+  roll: string;
+  txid: string;
+  address: string;
+  currency: string;
+  user_id: number;
+  user: any;
 }
 
-export default function History() {
+export default function AdminTransactionHistory() {
   const [transactions, setTransactions] = useState<Transaction[] | null>(null);
   const [filteredtransactions, setFilteredTransactions] = useState<
     Transaction[] | null
   >(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [page, setPage] = useState(0);
-  const [itemtheme, setItemTheme] = useState<boolean>(true);
   const [filterType, setFilterType] = useState<string>("All");
   const [sortBy, setSortBy] = useState<number>(0);
   const [sortByDirection, setSortByDirection] = useState<number>(1);
 
   const totalPages = useMemo(
     () =>
-      filteredtransactions
-        ? Math.ceil(filteredtransactions.length / (itemtheme ? 12 : 15))
-        : 0,
-    [filteredtransactions, itemtheme]
+      filteredtransactions ? Math.ceil(filteredtransactions.length / 12) : 0,
+    [filteredtransactions]
   );
 
-  const { data } = useFetch("/api/profile/transactions", {
+  const { data } = useFetch(`/api/admin/users/bankroll`, {
     method: "GET",
   });
 
   useEffect(() => {
-    if (data && data.transactions) {
-      setTransactions(data.transactions);
-      setFilteredTransactions(data.transactions);
+    if (data && data.deposit && data.withdraw) {
+      const updatedData = [
+        ...data.deposit.map((item: any) => ({
+          roll: "deposit",
+          updated_at: item.updated_at,
+          amount: item.amount,
+          txid: item.txid,
+          user_id: item.user_id,
+          type: item.type,
+          user: item.user,
+          address:
+            item.type === "crypto" && item.note
+              ? JSON.parse(item.note).pay_address
+              : "",
+          currency:
+            item.type === "crypto" && item.note
+              ? JSON.parse(item.note).pay_currency
+              : "",
+        })),
+        ...data.withdraw.map((item: any) => ({
+          roll: "withdraw",
+          updated_at: item.updated_at,
+          amount: item.amount,
+          txid: item.txid,
+          user_id: item.user_id,
+          type: item.type,
+          user: item.user,
+          address: item.address,
+          currency: item.currency,
+        })),
+      ].sort((a: any, b: any) => {
+        if (a.updated_at > b.updated_at) return -1;
+        if (a.updated_at < b.updated_at) return 1;
+        return 0;
+      });
+      setTransactions(updatedData);
+      setFilteredTransactions(updatedData);
     }
   }, [data]);
 
   const handleClickPage = useCallback((value: any) => {
     setPage(value);
-  }, []);
-
-  const handleClickItemList = useCallback(() => {
-    setItemTheme(true);
-    setPage(0);
-  }, []);
-
-  const handleClickItemBox = useCallback(() => {
-    setItemTheme(false);
-    setPage(0);
   }, []);
 
   const handleClickTypeFilter = useCallback(
@@ -128,16 +123,16 @@ export default function History() {
                 x1 = b.type;
                 break;
               case 1:
-                x1 = Number(a.game_id);
-                x2 = Number(b.game_id);
+                x1 = Number(a.txid);
+                x2 = Number(b.txid);
                 break;
               case 2:
                 x1 = Number(a.amount);
                 x2 = Number(b.amount);
                 break;
               case 3:
-                x1 = a.created_at;
-                x2 = b.created_at;
+                x1 = a.updated_at;
+                x2 = b.updated_at;
                 break;
               default:
                 return 0;
@@ -178,8 +173,8 @@ export default function History() {
       setFilteredTransactions(
         filteredtransactions.sort((a: Transaction, b: Transaction) => {
           let x1, x2;
-          x1 = a.created_at;
-          x2 = b.created_at;
+          x1 = a.updated_at;
+          x2 = b.updated_at;
           if (x1 > x2) return -1 * newSortByDirection;
           if (x1 < x2) return 1 * newSortByDirection;
           return 0;
@@ -195,21 +190,6 @@ export default function History() {
       <div className="space-y-[1px] w-full">
         <div className="w-full flex justify-between flex-wrap">
           <div className="text-sm flex items-center mb-2">
-            <span className="text-[#727272]">View:</span>
-            <div className="ml-1 space-x-1 flex">
-              <div
-                className="hover:cursor-pointer flex items-center"
-                onClick={handleClickItemList}
-              >
-                <ItemsList color={itemtheme ? "#E9AE15" : "#707070"} />
-              </div>
-              <div
-                className="hover:cursor-pointer flex items-center"
-                onClick={handleClickItemBox}
-              >
-                <ItemsBox color={itemtheme ? "#707070" : "#E9AE15"} />
-              </div>
-            </div>
             <span className="ml-4 mr-1 text-[#727272]">Type:</span>
             <div className="hs-dropdown relative inline-flex !z-30 h-8 bg-transparent rounded-sm">
               <button
@@ -270,37 +250,36 @@ export default function History() {
             </span>
           </div>
         </div>
-        <div className={`flex ${itemtheme ? "flex-col" : "flex-wrap"}`}>
-          {itemtheme && (
+        <div className={`flex flex-col`}>
+          <div
+            className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+          >
+            <div className="w-[20%] max-w-[300px] flex-none flex">Game</div>
+            <div className="w-[15%] max-w-[200px] flex-none">Number</div>
+            <div className="w-[15%] max-w-[200px] flex-none">Before</div>
             <div
-              className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
+              className="flex items-center gap-1 w-[15%] max-w-[200px]"
+              onClick={handleSortByProfit}
             >
-              <div className="w-[35%] max-w-[320px] flex-none flex">Game</div>
-              <div className="w-[22%] max-w-[300px] flex-none">Number</div>
-              <div
-                className="flex items-center gap-1 w-[22%] max-w-[300px]"
-                onClick={handleSortByProfit}
-              >
-                Profits
-                <UpDownArrow />
-              </div>
-              <div
-                className="flex items-center gap-1"
-                onClick={handleSortByCreatedat}
-              >
-                Time
-                <UpDownArrow />
-              </div>
+              Profits
+              <UpDownArrow />
             </div>
-          )}
+            <div className="w-[15%] max-w-[200px] flex-none">After</div>
+            <div
+              className="flex items-center gap-1"
+              onClick={handleSortByCreatedat}
+            >
+              Time
+              <UpDownArrow />
+            </div>
+          </div>
           {filteredtransactions ? (
             filteredtransactions.length ? (
               <>
                 {filteredtransactions
                   .filter(
                     (_: any, index: any) =>
-                      index >= page * (itemtheme ? 12 : 15) &&
-                      index < (page + 1) * (itemtheme ? 12 : 15)
+                      index >= page * 12 && index < (page + 1) * 12
                   )
                   .map((item, index) => (
                     <HistoryTab
@@ -309,7 +288,7 @@ export default function History() {
                       last={index === filteredtransactions.length - 1}
                       odd={index % 2}
                       setSelected={setSelected}
-                      itemtheme={itemtheme}
+                      itemtheme={true}
                     />
                   ))}
                 {totalPages > 1 && (
@@ -428,7 +407,7 @@ export default function History() {
   );
 }
 
-export interface HistoryTabProps {
+interface HistoryTabProps {
   transaction: Transaction;
   last: boolean;
   itemtheme: boolean;
@@ -441,22 +420,21 @@ const HistoryTab: FC<HistoryTabProps> = ({
   last,
   odd,
   setSelected,
-  itemtheme,
 }) => {
   const getDateFormat = useCallback(() => {
     const currentYear = new Date().getFullYear();
-    const year = moment(transaction.created_at).year();
+    const year = moment(transaction.updated_at).year();
     if (currentYear === Number(year)) {
-      return moment(transaction.created_at).format("ddd DD MMM hh:mm A");
+      return moment(transaction.updated_at).format("ddd DD MMM hh:mm A");
     }
-    return moment(transaction.created_at).format("ddd DD MMM, YYYY hh:mm A");
+    return moment(transaction.updated_at).format("ddd DD MMM, YYYY hh:mm A");
   }, [transaction]);
 
   const handleSelect = useCallback(() => {
     setSelected(transaction.id);
   }, [setSelected, transaction]);
 
-  return itemtheme ? (
+  return (
     <div
       className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
@@ -465,16 +443,17 @@ const HistoryTab: FC<HistoryTabProps> = ({
       } py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] text-xs`}
       onClick={handleSelect}
     >
-      <div className="w-[35%] max-w-[320px] text-[#D1D1D1] flex items-center">
+      <div className="w-[20%] max-w-[320px] text-[#D1D1D1] flex items-center">
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
         <span className="font-bold capitalize">{transaction.type}</span>
       </div>
-      <div className="w-[22%] max-w-[300px] flex-none text-white">
-        #{transaction.game_id}
+      <div className="w-[15%] max-w-[300px] flex-none text-white">
+        #{transaction.txid}
       </div>
-      <div className="flex flex-row items-center gap-1 w-[22%] max-w-[300px]">
+      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D]"></div>
+      <div className="flex flex-row items-center gap-1 w-[15%] max-w-[300px]">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
           className={`${
@@ -484,64 +463,8 @@ const HistoryTab: FC<HistoryTabProps> = ({
           {transaction.amount}
         </p>
       </div>
+      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D]"></div>
       <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
     </div>
-  ) : (
-    <div className="w-full md:w-[50%] lg:w-[33.3%] xl:w-[20%] p-2">
-      <div
-        onClick={handleSelect}
-        className="hover:cursor-pointer w-full bg-[#1E1E1E] p-3 rounded text-xs dropBlack"
-      >
-        <div className="flex justify-between mb-2">
-          <div className="text-white flex items-center text-[12px] font-bold">
-            <div>{getTransactionIcon(transaction.type)}</div>
-            <span>
-              {transaction.type.substring(0, 1).toUpperCase() +
-                transaction.type.substring(1)}
-            </span>
-          </div>
-          <div className="flex-none text-[#717171] pt-1 text-[10px] font-bold">
-            #{transaction.game_id}
-          </div>
-        </div>
-        <div className="bg-[#0303034C] rounded py-4 px-3 flex flex-col dropBlack">
-          <div className="flex justify-between">
-            <span className="text-[#5D5D5D] my-1 text-[12px] font-bold">
-              Profit:
-            </span>
-            <div className="flex items-center">
-              <IconCoin width={18} height={18} color="#E9AE15" />
-              <p
-                className={`${
-                  transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
-                } ml-1 font-bold text-[16px]`}
-              >
-                {transaction.amount > 0 && "+"}
-                {transaction.amount}
-              </p>
-            </div>
-          </div>
-          <div className="text-[#5D5D5D] my-1 text-[12px] font-medium">
-            {getDateFormat()}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const FilterDropItem: FC<{
-  onClick: Function;
-  title: string;
-}> = ({ title, onClick }) => {
-  const handleClick = useCallback(() => onClick(title), [title, onClick]);
-
-  return (
-    <button
-      className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-font hover:bg-[#101010] capitalize"
-      onClick={handleClick}
-    >
-      {title.replace("_", " ")}
-    </button>
   );
 };

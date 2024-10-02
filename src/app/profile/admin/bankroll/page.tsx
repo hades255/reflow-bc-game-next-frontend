@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import ProfileLayout from "@/components/profile/ProfileLayout";
-import AdminTransactionHistory from "@/components/profile/transactions/admin";
+import AdminTransactionHistory from "@/components/profile/bankroll/depositandwithdrawadmin";
 
 const ProfileAdminTransaction: FC = () => {
   return (
