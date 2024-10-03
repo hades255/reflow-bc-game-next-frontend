@@ -213,9 +213,9 @@ export default function AdminTransactionHistory() {
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
-            <div className="w-[20%] max-w-[300px] flex-none flex">Game</div>
-            <div className="w-[15%] max-w-[200px] flex-none">Number</div>
-            <div className="w-[15%] max-w-[200px] flex-none">Before</div>
+            <div className="w-[20%] max-w-[300px] flex-none flex justify-center">Game</div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Number</div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Before</div>
             <div
               className="flex items-center gap-1 w-[15%] max-w-[200px]"
               onClick={handleSortByProfit}
@@ -223,9 +223,9 @@ export default function AdminTransactionHistory() {
               Profits
               <UpDownArrow />
             </div>
-            <div className="w-[15%] max-w-[200px] flex-none">After</div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">After</div>
             <div
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 flex justify-center"
               onClick={handleSortByCreatedat}
             >
               Time
@@ -400,13 +400,13 @@ const HistoryTab: FC<HistoryTabProps> = ({
         </div>
         <span className="font-bold capitalize">{transaction.type}</span>
       </div>
-      <div className="w-[15%] max-w-[300px] flex-none text-white">
+      <div className="w-[15%] max-w-[300px] flex-none text-white flex justify-center">
         #{transaction.game_id}
       </div>
-      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D]">
+      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D] flex justify-center">
         {transaction.before}
       </div>
-      <div className="flex flex-row items-center gap-1 w-[15%] max-w-[300px]">
+      <div className="flex flex-row items-center gap-1 w-[15%] max-w-[300px] justify-center">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
           className={`${
@@ -416,10 +416,10 @@ const HistoryTab: FC<HistoryTabProps> = ({
           {transaction.amount}
         </p>
       </div>
-      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D]">
+      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D] flex justify-center">
         {transaction.after}
       </div>
-      <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
+      <div className="text-[#5D5D5D] font-semibold flex justify-center">{getDateFormat()}</div>
     </div>
   );
 };
