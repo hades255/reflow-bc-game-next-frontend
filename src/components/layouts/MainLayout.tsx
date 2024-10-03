@@ -17,7 +17,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <AppHeader />
         <div className="flex w-full h-[calc(100vh-84px)]">
           <AppSidebar />
-          <div className="w-[calc(100%-280px)] bg-[#121212] h-full overflow-y-auto overflow-x-hidden">
+          <div className="sticky top-0 w-[calc(100%-280px)] bg-[#121212] h-full overflow-y-auto overflow-x-hidden">
             {children}
           </div>
         </div>
