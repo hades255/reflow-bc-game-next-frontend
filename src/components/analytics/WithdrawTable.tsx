@@ -132,7 +132,7 @@ const WithdrawSystem = () => {
                 Amount
               </th>
               <th className="text-sm font-semibold w-[10%] py-3 text-center">
-                Type
+                Currency
               </th>
               <th className="text-sm font-semibold w-[15%] py-3 text-center">
                 Status
@@ -141,7 +141,7 @@ const WithdrawSystem = () => {
                 Transaction
               </th>
               <th className="text-sm font-semibold py-3 !w-20 text-center">
-                Created At
+                Created
               </th>
               <th className="text-sm font-semibold py-3 px-2 text-center">
                 Action
