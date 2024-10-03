@@ -147,66 +147,71 @@ const DepositPage: FC = () => {
               clicked={() => handleBackClick()}
             />
           </div>
-          <p className="font-normal text-[16px] text-[#D1D1D1]">
-            You will receive balance automatically after sending ARB to the
-            address displayed below. (1 confirmation required).
-          </p>
-          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
-            <div className="flex flex-row items-center gap-1">
-              {/* <IconWallet color="#D1D1D1" width={16} height={14} />
+
+          <div className="flex flex-col items-center w-full gap-6">
+            <p className="font-normal text-[16px] text-center text-[#D1D1D1] max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+              You will receive balance automatically after sending ARB to the
+              address displayed below. (1 confirmation required).
+            </p>
+            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+              <div className="flex flex-row items-center gap-1">
+                {/* <IconWallet color="#D1D1D1" width={16} height={14} />
               <p className="font-semibold text-[18px] text-white">
                 {paymentData?.pay_amount + " " + token?.title}
               </p> */}
-            </div>
-
-            <div className="flex flex-row justify-center">
-              {
-                <QRCode
-                  size={256}
-                  style={{
-                    height: "auto",
-                    maxWidth: "200px",
-                    width: "200px",
-                    borderRadius: "15px",
-                    border: "10px solid white",
-                  }}
-                  value={paymentData?.pay_address ?? ""}
-                  viewBox={`0 0 256 256`}
-                />
-              }
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <p className="text-[12px] font-normal text-[#D1D1D1]">
-                Your {token?.description} Deposit Address
-              </p>
-
-              <div className="relative">
-                <input
-                  type="text"
-                  className="bg-[#1A1A1A] dropBlack p-[8px_10px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
-                  value={paymentData?.pay_address}
-                />
-
-                <button
-                  onClick={handleCopyClick}
-                  className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]"
-                >
-                  Copy
-                </button>
               </div>
 
-              {/* <div className="flex gap-[7px] items-center justify-end">
+              <div className="flex flex-row justify-center">
+                {
+                  <QRCode
+                    size={256}
+                    style={{
+                      height: "auto",
+                      maxWidth: "200px",
+                      width: "200px",
+                      borderRadius: "15px",
+                      border: "10px solid white",
+                    }}
+                    value={paymentData?.pay_address ?? ""}
+                    viewBox={`0 0 256 256`}
+                  />
+                }
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <p className="text-[12px] font-normal text-[#D1D1D1]">
+                  Your {token?.description} Deposit Address
+                </p>
+
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="bg-[#1A1A1A] dropBlack p-[8px_10px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+                    value={paymentData?.pay_address}
+                  />
+
+                  <button
+                    onClick={handleCopyClick}
+                    className="!w-[54px] h-[28px] !absolute !top-[3px] rounded-[2px] !right-[4px] text-[12px] font-bold text-[#9C9C9C] bg-[#6060601F]"
+                  >
+                    Copy
+                  </button>
+                </div>
+
+                {/* <div className="flex gap-[7px] items-center justify-end">
                 <p className="text-[14px] font-bold text-[#D1D1D1]">Or</p>
                 <Button text="Add funds" className="!w-[90px]" />
               </div> */}
-            </div>
+              </div>
 
-            <p className="text-[12px] text-[#D1D1D1] font-normal">
-              The minimum deposit is{" "}
-              <span className="text-green-500">{paymentData?.pay_amount}</span>
-              {" " + token?.title}.
-            </p>
+              <p className="text-[12px] text-[#D1D1D1] font-normal">
+                The minimum deposit is{" "}
+                <span className="text-green-500">
+                  {paymentData?.pay_amount}
+                </span>
+                {" " + token?.title}.
+              </p>
+            </div>
           </div>
 
           {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
