@@ -133,27 +133,27 @@ const DepositPage: FC = () => {
         </div>
       ) : (
         <div className="p-6 flex flex-col gap-6">
-          <div className="flex flex-row items-center gap-1 justify-between">
-            <div className="flex flex-row items-center gap-1">
-              <IconDeposit color="#E9AE15" width={18} height={10} />
-              <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
-                Deposit with {token?.description}
-              </p>
-            </div>
-
-            <Button
-              text="Back"
-              className="!w-[100px]"
-              clicked={() => handleBackClick()}
-            />
-          </div>
-
           <div className="flex flex-col items-center w-full gap-6">
-            <p className="font-normal text-[16px] text-center text-[#D1D1D1] max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+            <div className="flex flex-row items-center w-10/12 gap-1 justify-between">
+              <div className="flex flex-row items-center gap-1">
+                <IconDeposit color="#E9AE15" width={18} height={10} />
+                <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
+                  Deposit with {token?.description}
+                </p>
+              </div>
+
+              <Button
+                text="Back"
+                className="!w-[100px]"
+                clicked={() => handleBackClick()}
+              />
+            </div>
+            <p className="font-normal text-[16px] w-8/12 text-center text-[#D1D1D1] mt-[50px]">
               You will receive balance automatically after sending ARB to the
-              address displayed below. (1 confirmation required).
+              address displayed below
+              <br /> (1 confirmation required).
             </p>
-            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+            <div className="dropBlack bg-[#0000001F] h-auto w-8/12 p-6 rounded-[5px] flex flex-col gap-6">
               <div className="flex flex-row items-center gap-1">
                 {/* <IconWallet color="#D1D1D1" width={16} height={14} />
               <p className="font-semibold text-[18px] text-white">

@@ -164,30 +164,29 @@ const DepositPage: FC = () => {
         </div>
       ) : (
         <div className="p-6 flex flex-col gap-6">
-          <div className="flex flex-row items-center gap-1 justify-between">
-            <div className="flex flex-row items-center gap-1">
-              <IconWithdraw color="#E9AE15" width={18} height={10} />
-              <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
-                Withdraw {token?.title}
-              </p>
-            </div>
-
-            <Button
-              text="Back"
-              className="!w-[100px]"
-              clicked={() => setToken(null)}
-            />
-          </div>
-
           <div className="flex flex-col items-center w-full gap-6">
-            <p className="font-normal text-[16px] text-[#D1D1D1] max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+            <div className="flex flex-row items-center gap-1 justify-between w-10/12">
+              <div className="flex flex-row items-center gap-1">
+                <IconWithdraw color="#E9AE15" width={18} height={10} />
+                <p className="font-bold text-[18px] text-[#D1D1D1] capitalize">
+                  Withdraw {token?.title}
+                </p>
+              </div>
+
+              <Button
+                text="Back"
+                className="!w-[100px]"
+                clicked={() => setToken(null)}
+              />
+            </div>
+            <p className="font-normal text-[16px] text-[#D1D1D1] w-8/12">
               You can typically withdraw up to 2,000 coins before KYC checks are
               required, but sometimes our security system will trigger these
               checks before this limit is reached. You can view more information
               on this here
             </p>
 
-            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 w-8/12">
               <p className="text-[12px] font-normal text-[#D1D1D1]">
                 Please enter the {token?.title} wallet address you want the
                 withdrawal to be sent to. all {token?.title} withdraws are sent
