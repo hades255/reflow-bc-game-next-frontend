@@ -148,13 +148,12 @@ const DepositPage: FC = () => {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full gap-6">
-            <p className="font-normal text-[16px] text-center text-[#D1D1D1] max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
-              You will receive balance automatically after sending ARB to the
-              address displayed below. (1 confirmation required).
-            </p>
-            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
-              <div className="flex flex-row items-center gap-1">
+          <p className="font-normal text-[16px] text-[#D1D1D1]">
+            You will receive balance automatically after sending ARB to the
+            address displayed below. (1 confirmation required).
+          </p>
+          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
+            <div className="flex flex-row items-center gap-1">
                 {/* <IconWallet color="#D1D1D1" width={16} height={14} />
               <p className="font-semibold text-[18px] text-white">
                 {paymentData?.pay_amount + " " + token?.title}
@@ -205,13 +204,10 @@ const DepositPage: FC = () => {
               </div>
 
               <p className="text-[12px] text-[#D1D1D1] font-normal">
-                The minimum deposit is{" "}
-                <span className="text-green-500">
-                  {paymentData?.pay_amount}
-                </span>
-                {" " + token?.title}.
+              The minimum deposit is{" "}
+              <span className="text-green-500">{paymentData?.pay_amount}</span>
+              {" " + token?.title}.
               </p>
-            </div>
           </div>
 
           {/* <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
