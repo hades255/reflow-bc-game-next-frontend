@@ -178,49 +178,50 @@ const DepositPage: FC = () => {
               clicked={() => setToken(null)}
             />
           </div>
-          <p className="font-normal text-[16px] text-[#D1D1D1]">
-            You can typically withdraw up to 2,000 coins before KYC checks are
-            required, but sometimes our security system will trigger these
-            checks before this limit is reached. You can view more information
-            on this here
-          </p>
 
-          <div className="dropBlack bg-[#0000001F] h-auto w-full p-6 rounded-[5px] flex flex-col gap-6">
-            <p className="text-[12px] font-normal text-[#D1D1D1]">
-              Please enter the {token?.title} wallet address you want the
-              withdrawal to be sent to. all {token?.title} withdraws are sent
-              instantly.
+          <div className="flex flex-col items-center w-full gap-6">
+            <p className="font-normal text-[16px] text-[#D1D1D1] max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+              You can typically withdraw up to 2,000 coins before KYC checks are
+              required, but sometimes our security system will trigger these
+              checks before this limit is reached. You can view more information
+              on this here
             </p>
 
-            <div className="flex gap-[5px] items-center">
-              <p className="text-white font-semibold text-[18px] capitalize">
-                Receiving {token?.title} address
+            <div className="dropBlack bg-[#0000001F] h-auto p-6 rounded-[5px] flex flex-col gap-6 max-2xl:w-5/12 max-xl:w-8/12 max-[1820px]:w-4/12">
+              <p className="text-[12px] font-normal text-[#D1D1D1]">
+                Please enter the {token?.title} wallet address you want the
+                withdrawal to be sent to. all {token?.title} withdraws are sent
+                instantly.
               </p>
-            </div>
 
-            <div className="flex items-center gap-[5px]">
-              <div className="relative flex w-full">
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
-                />
+              <div className="flex gap-[5px] items-center">
+                <p className="text-white font-semibold text-[18px] capitalize">
+                  Receiving {token?.title} address
+                </p>
               </div>
-
-              <div className="relative flex w-[120px]">
-                <div className="absolute top-[9px] left-[12px]">
-                  <IconCoin color="#E9AE15" width={16} height={17} />
+              <div className="flex flex-col gap-[20px]">
+                <div className="relative flex w-full">
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="bg-[#1A1A1A] dropBlack p-[8px_12px_8px_12px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+                  />
                 </div>
-                <input
-                  type="text"
-                  className="bg-[#101010] border-[#1A1A1A] border-[1px] p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
-                  value={amount}
-                  onChange={(e) => setAmount(String(e.target.value))}
-                />
-              </div>
 
-              {/* <div className="min-w-[34px] h-[34px] flex justify-center items-center bg-[#1A1A1A] rounded-[2px] cursor-pointer">
+                <div className="relative flex w-full">
+                  <div className="absolute top-[9px] left-[12px]">
+                    <IconCoin color="#E9AE15" width={16} height={17} />
+                  </div>
+                  <input
+                    type="text"
+                    className="bg-[#101010] border-[#1A1A1A] border-[1px] p-[8px_12px_8px_32px] rounded-[5px] w-full outline-none text-[12px] font-semibold text-[#D1D1D1]"
+                    value={amount}
+                    onChange={(e) => setAmount(String(e.target.value))}
+                  />
+                </div>
+
+                {/* <div className="min-w-[34px] h-[34px] flex justify-center items-center bg-[#1A1A1A] rounded-[2px] cursor-pointer">
                 <IconChange color="#9C9C9C" width={12} height={10} />
               </div>
 
@@ -236,9 +237,9 @@ const DepositPage: FC = () => {
                   className="absolute top-[9px] left-[12px]"
                 />
               </div> */}
-            </div>
+              </div>
 
-            {/* <p className="text-white font-semibold text-[18px] capitalize">
+              {/* <p className="text-white font-semibold text-[18px] capitalize">
               Network fee
             </p>
 
@@ -273,8 +274,8 @@ const DepositPage: FC = () => {
               </div>
             </div> */}
 
-            <div className="flex justify-between items-center">
-              {/* <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                {/* <div className="flex flex-col">
                 <p className="text-[#5D5D5D] text-[12px] font-bold">Total</p>
                 <div className="flex gap-[2px] items-center">
                   <IconCoin color="#E9AE15" width={16} height={17} />
@@ -282,11 +283,12 @@ const DepositPage: FC = () => {
                 </div>
               </div> */}
 
-              <Button
-                text="Request Withdraw"
-                className="!w-[143px]"
-                clicked={handleRequestWithdraw}
-              />
+                <Button
+                  text="Request Withdraw"
+                  className="!w-[143px]"
+                  clicked={handleRequestWithdraw}
+                />
+              </div>
             </div>
           </div>
 
