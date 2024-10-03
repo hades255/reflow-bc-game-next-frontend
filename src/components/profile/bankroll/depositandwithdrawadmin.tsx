@@ -391,7 +391,9 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
-        <span className="font-bold capitalize">{transaction.roll}</span>
+        <span className={`font-bold capitalize ${transaction.roll === 'withdraw' ? 'text-red-500' : ''}`}>
+        {transaction.roll}
+      </span>
       </div>
       <div className="flex flex-row items-center gap-1 w-[10%] max-w-[200px] justify-center">
         <IconCoin width={14} height={14} color="#E9AE15" />
