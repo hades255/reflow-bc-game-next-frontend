@@ -403,16 +403,16 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
           {fixed2(transaction.amount)}
         </p>
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
+      <div className="flex text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
         {transaction.type}
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
+      <div className="flex text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
         {transaction.currency}
       </div>
-      <div className="flex-none text-[#5D5D5D] font-semibold w-[35%] max-w-[400px] justify-center">
+      <div className="flex text-[#5D5D5D] font-semibold w-[35%] max-w-[400px] justify-center">
         {transaction.address}
       </div>
-      <div className="text-[#5D5D5D] font-semibold justify-center">{getDateFormat()}</div>
+      <div className="flex text-[#5D5D5D] font-semibold justify-center">{getDateFormat()}</div>
     </div>
   );
 };
