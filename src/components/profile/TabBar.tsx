@@ -87,7 +87,7 @@ const TabBar: FC<Props> = ({ select }) => {
         text="Mystery Box"
         onClick={() => handleClickActiveTab("mystery")}
       />
-      <TabItem
+      {/* <TabItem
         select={activeTab === 5}
         hoverIcon={<IconSocials color={`#E9AE15`} width={12} height={14} />}
         icon={
@@ -99,7 +99,7 @@ const TabBar: FC<Props> = ({ select }) => {
         }
         text="Socials"
         onClick={() => handleClickActiveTab("socials")}
-      />
+      /> */}
       {user?.is_admin && (
         <TabItem
           select={activeTab === 6}

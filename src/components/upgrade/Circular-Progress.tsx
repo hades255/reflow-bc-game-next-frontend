@@ -234,10 +234,10 @@ const CircularProgressBar: React.FC<{
         fontSize={fontSize * 1.2}
         fontWeight="bold"
       >
-        <tspan x="120" fill="#fff" textAnchor="middle">
+        <tspan x="130" fill="#fff" textAnchor="middle">
           {Number(percentage * 100).toFixed(1)}
         </tspan>
-        <tspan x="160" fill="#E9AE15" textAnchor="start">
+        <tspan x="175" fill="#E9AE15" textAnchor="start">
           %
         </tspan>
       </text>

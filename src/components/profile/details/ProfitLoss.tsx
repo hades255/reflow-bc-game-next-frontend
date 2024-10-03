@@ -32,7 +32,7 @@ const CustomTooltip: FC<CustomProps> = ({ active, payload }) => {
           borderRadius: "5px",
         }}
       >
-        <p>{`${uv >= 0 ? "Profit" : "Lose"}: $${fixed2(uv)}`}</p>
+        <p>{`${uv >= 0 ? "Profit" : "Lose"}: ${fixed2(uv)}`}</p>
       </div>
     );
   }
