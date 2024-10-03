@@ -61,7 +61,7 @@ const Account: FC<Props> = ({ user }) => {
 
         <div className="flex flex-col gap-3 mt-3">
           <div className="flex flex-row justify-between">
-            <p className="text-[#484848] text-[10px] font-medium">Level</p>
+            <p className="text-[#C8C8C8] text-[10px] font-medium">Level</p>
             <div
               className="flex flex-row gap-[2px] items-center justify-center w-[48px] h-[12px] rounded-[2px] border bg-[#020202]"
               style={{ borderColor: `${levels[levelItem].color}` }}
@@ -81,7 +81,7 @@ const Account: FC<Props> = ({ user }) => {
             </div>
           </div>
           <div className="flex flex-row justify-between">
-            <p className="text-[#484848] text-[10px] font-medium">Rank</p>
+            <p className="text-[#C8C8C8] text-[10px] font-medium">Rank</p>
             <p className="text-[10px] text-[#D1D1D1] font-bold">#{rank}</p>
           </div>
         </div>
