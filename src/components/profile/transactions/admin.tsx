@@ -217,7 +217,7 @@ export default function AdminTransactionHistory() {
             <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Number</div>
             <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Before</div>
             <div
-              className="flex items-center gap-1 w-[15%] max-w-[200px]"
+              className="flex items-center gap-1 w-[15%] max-w-[200px] flex justify-center"
               onClick={handleSortByProfit}
             >
               Profits
