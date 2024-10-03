@@ -14,13 +14,13 @@ const Breakdown: FC = () => {
               <th className="w-[22%] text-[12px] font-semibold uppercase text-left pl-5">
                 Tier
               </th>
-              <th className="w-[22%] text-[12px] font-semibold uppercase text-left">
+              <th className="w-[16%] text-[12px] font-semibold uppercase text-left">
                 level
               </th>
-              <th className="w-[22%] text-[12px] font-semibold uppercase text-left">
+              <th className="w-[24%] text-[12px] font-semibold uppercase text-left">
                 total xp
               </th>
-              <th className="text-right text-[12px] font-semibold uppercase pr-5">
+              <th className="text-left text-[12px] font-semibold uppercase pr-5">
                 Keys
               </th>
             </tr>
@@ -52,7 +52,7 @@ const Breakdown: FC = () => {
                 </td>
                 <td className="w-[200px]">{item.level}</td>
                 <td className="w-[200px]">{item.xp}</td>
-                <td className="justify-end flex items-center gap-[5px] pr-5">
+                <td className="justify-center flex items-center gap-[5px] pr-5">
                   <Image
                     width={21}
                     height={21}
