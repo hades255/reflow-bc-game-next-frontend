@@ -11,13 +11,13 @@ const Breakdown: FC = () => {
         <table className="w-full bg-[#191919] text-[#727272] font-semibold rounded-[5px] overflow-hidden h-[33px]">
           <thead className="">
             <tr className="w-full h-[33px] bg-[#1F1F1F] rounded-[5px]">
-              <th className="w-[22%] text-[12px] font-semibold uppercase text-left pl-5">
+              <th className="w-[28%] text-[12px] font-semibold uppercase text-left pl-5">
                 Tier
               </th>
               <th className="w-[20%] text-[12px] font-semibold uppercase text-left">
                 level
               </th>
-              <th className="w-[26%] text-[12px] font-semibold uppercase text-left">
+              <th className="w-[28%] text-[12px] font-semibold uppercase text-left">
                 total xp
               </th>
               <th className="text-left text-[12px] font-semibold uppercase pr-5">
