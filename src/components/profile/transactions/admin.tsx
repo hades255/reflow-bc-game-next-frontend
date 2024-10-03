@@ -394,7 +394,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
       } py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] text-xs`}
       onClick={handleSelect}
     >
-      <div className="w-[20%] max-w-[320px] text-[#D1D1D1] flex items-center">
+      <div className="w-[20%] max-w-[320px] text-[#D1D1D1] flex items-center justify-center">
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
