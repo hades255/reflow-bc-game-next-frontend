@@ -413,9 +413,13 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
     router.push(`/profile/admin/bankroll/${transaction.user_id}`);
   }, [transaction, router]);
 
-  const handleViewTransaction = useCallback(() => {
-    router.push(`/profile/admin/transaction/${transaction.user_id}`);
-  }, [transaction, router]);
+  const handleViewTransaction = useCallback(
+    (e: any) => {
+      e.stopPropagation();
+      router.push(`/profile/admin/transaction/${transaction.user_id}`);
+    },
+    [transaction, router]
+  );
 
   return (
     <div
