@@ -140,7 +140,7 @@ export default function AdminTransactionHistory() {
     }
     setSortBy(3);
     setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
+  }, [filteredtransactions, sortByDirection]);
 
   const handleClickBack = useCallback(() => {
     router.push("/profile/admin/bankroll");

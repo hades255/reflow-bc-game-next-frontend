@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback, FC } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import moment from "moment";
-import { withdrawGetPending, withdrawApprove, withdrawCancel } from "@/services/analytics";
+import {
+  withdrawGetPending,
+  withdrawApprove,
+  withdrawCancel,
+} from "@/services/analytics";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import Pagination from "./Pagination";
 import { ADMIN_TABLE_ITEMS_PER_PAGE, ADMIN_TABLE_SHOW_PAGES } from "@/utils";
@@ -220,7 +224,11 @@ const WithdrawListItem: FC<{
       <td className="text-sm text-center py-1 capitalize">{item.status}</td>
       <td className="px-2">
         <div className="w-full h-full flex justify-center items-center">
-          <button onClick={handleViewTransaction}>
+          <button
+            onClick={handleViewTransaction}
+            className="w-8 h-6 flex justify-center items-center rounded hover:bg-[#E9AE1530] transition-colors"
+            title="Show Transaction History"
+          >
             <IconTransactions color={`#E9AE15`} width={12} height={14} />
           </button>
         </div>
