@@ -9,6 +9,9 @@ import { fixed2 } from "../details/ProfitLoss";
 import SearchIcon from "@/utils/icons/SearchIcon";
 import IconTransactions from "@/utils/icons/Transactions";
 import Button from "@/components/buttons/Button";
+import LabelItem from "../details/LabelItem";
+import { fetchAPI } from "@/services/fetchAPI";
+import moment from "moment";
 
 export interface User {
   id: number;
@@ -42,6 +45,8 @@ interface TransactionData {
   withdraw: Transaction[];
 }
 
+const selectItems = ["This Week", "This Month", "This Year"];
+
 export default function BankRoll() {
   const [transactions, setTransactions] = useState<
     TransformedTransaction[] | null
@@ -52,16 +57,14 @@ export default function BankRoll() {
   const [page, setPage] = useState(0);
   const [totalDeposit, setTotalDeposit] = useState(0);
   const [totalWithdraw, setTotalWithdraw] = useState(0);
+  const [selectItem, setSelectItem] = useState(0);
+  const [startDate, setStartDate] = useState("");
 
   const totalPages = useMemo(
     () =>
       filteredtransactions ? Math.ceil(filteredtransactions.length / 12) : 0,
     [filteredtransactions]
   );
-
-  const { data } = useFetch(`/api/admin/users/bankroll`, {
-    method: "GET",
-  });
 
   const transformData = useCallback(
     (
@@ -136,14 +139,21 @@ export default function BankRoll() {
   );
 
   useEffect(() => {
-    if (data && data.deposit && data.withdraw) {
-      const updatedData = transformData(data);
-      setTransactions(updatedData.result);
-      setFilteredTransactions(updatedData.result);
-      setTotalDeposit(updatedData.totaldeposit);
-      setTotalWithdraw(updatedData.totalwithdraw);
-    }
-  }, [data, transformData]);
+    (async () => {
+      const { data } = await fetchAPI(
+        "/api/admin/users/bankroll?selected=" + selectItem,
+        "GET"
+      );
+      if (data && data.deposit && data.withdraw) {
+        const updatedData = transformData(data);
+        setTransactions(updatedData.result);
+        setFilteredTransactions(updatedData.result);
+        setTotalDeposit(updatedData.totaldeposit);
+        setTotalWithdraw(updatedData.totalwithdraw);
+        setStartDate(data.startDate);
+      }
+    })();
+  }, [selectItem, transformData]);
 
   const handleClickPage = useCallback((value: any) => {
     setPage(value);
@@ -172,12 +182,43 @@ export default function BankRoll() {
     [transactions]
   );
 
+  const handleClickLabelItem = useCallback((index: number) => {
+    setSelectItem(index);
+    setTransactions(null);
+    setFilteredTransactions(null);
+    setTotalDeposit(0);
+    setTotalWithdraw(0);
+    setStartDate("");
+  }, []);
+
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
         <div className="flex justify-between">
-          <div className="py-2">
-            <span className="text-white font-bold text-[18px]">Bankroll</span>
+          <div className="py-2 flex items-baseline">
+            <span className="text-white mr-4 font-bold text-[18px]">
+              Bankroll
+            </span>
+            <div className="flex flex-row gap-1">
+              {selectItems.map((item, index) => (
+                <LabelItem
+                  key={index}
+                  text={item}
+                  onClick={() => handleClickLabelItem(index)}
+                  active={selectItem === index}
+                />
+              ))}
+            </div>
+            {startDate && (
+              <div className="ml-4 font-semibold">
+                <span className="text-[#8D8D8D] text-[10px] mr-1">From</span>
+                <span className="text-[#DDDDDD] text-xs mr-1">
+                  {moment(startDate).format("MMM D, YYYY")}
+                </span>
+                <span className="text-[#8D8D8D] text-[10px] mr-1">To</span>
+                <span className="text-[#DDDDDD] text-xs mr-1">Today</span>
+              </div>
+            )}
           </div>
           <div className="mb-2 relative">
             <input
