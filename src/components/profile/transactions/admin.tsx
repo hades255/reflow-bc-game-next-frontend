@@ -124,7 +124,7 @@ export default function AdminTransactionHistory() {
     }
     setSortBy(2);
     setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
+  }, [filteredtransactions, sortByDirection]);
 
   const handleSortByCreatedat = useCallback(() => {
     const newSortByDirection = -1 * sortByDirection;
@@ -142,7 +142,7 @@ export default function AdminTransactionHistory() {
     }
     setSortBy(3);
     setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
+  }, [filteredtransactions, sortByDirection]);
 
   return (
     <div className="w-full flex flex-col">
@@ -213,9 +213,15 @@ export default function AdminTransactionHistory() {
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
-            <div className="w-[20%] max-w-[300px] flex-none flex justify-center">Game</div>
-            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Number</div>
-            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">Before</div>
+            <div className="w-[20%] max-w-[300px] flex-none flex justify-center">
+              Game
+            </div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">
+              Number
+            </div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">
+              Before
+            </div>
             <div
               className="flex items-center gap-1 w-[15%] max-w-[200px] flex justify-center"
               onClick={handleSortByProfit}
@@ -223,7 +229,9 @@ export default function AdminTransactionHistory() {
               Profits
               <UpDownArrow />
             </div>
-            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">After</div>
+            <div className="w-[15%] max-w-[200px] flex-none flex justify-center">
+              After
+            </div>
             <div
               className="flex items-center gap-1 flex justify-center"
               onClick={handleSortByCreatedat}
@@ -419,7 +427,9 @@ const HistoryTab: FC<HistoryTabProps> = ({
       <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D] flex justify-center">
         {transaction.after}
       </div>
-      <div className="text-[#5D5D5D] font-semibold flex justify-center">{getDateFormat()}</div>
+      <div className="text-[#5D5D5D] font-semibold flex justify-center">
+        {getDateFormat()}
+      </div>
     </div>
   );
 };

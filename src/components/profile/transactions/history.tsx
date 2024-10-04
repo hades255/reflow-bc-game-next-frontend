@@ -170,7 +170,7 @@ export default function History() {
     }
     setSortBy(2);
     setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
+  }, [filteredtransactions, sortByDirection]);
 
   const handleSortByCreatedat = useCallback(() => {
     const newSortByDirection = -1 * sortByDirection;
@@ -188,7 +188,7 @@ export default function History() {
     }
     setSortBy(3);
     setSortByDirection(newSortByDirection);
-  }, [filteredtransactions, sortByDirection, sortBy]);
+  }, [filteredtransactions, sortByDirection]);
 
   return (
     <div className="w-full flex flex-col">
