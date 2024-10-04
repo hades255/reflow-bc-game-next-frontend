@@ -53,9 +53,27 @@ const BetterTable: FC<Props> = ({
         start ? (show && win ? "" : "opacity-50") : ""
       }`}
     >
-      <Image src={"/assets/roulette/red.png?v=1"} width={28} height={28} alt="" className="hidden" />
-      <Image src={"/assets/roulette/black.png?v=1"} width={28} height={28} alt="" className="hidden" />
-      <Image src={"/assets/roulette/gold.png?v=1"} width={28} height={28} alt="" className="hidden" />
+      <Image
+        src={"/assets/roulette/red.png?v=1"}
+        width={28}
+        height={28}
+        alt=""
+        className="hidden"
+      />
+      <Image
+        src={"/assets/roulette/black.png?v=1"}
+        width={28}
+        height={28}
+        alt=""
+        className="hidden"
+      />
+      <Image
+        src={"/assets/roulette/gold.png?v=1"}
+        width={28}
+        height={28}
+        alt=""
+        className="hidden"
+      />
       <div
         className={`w-full text-white rounded-md h-12 p-2 px-4 shine-gray flex justify-between cursor-pointer items-center font-bold ${
           betted.includes(type)
@@ -77,7 +95,7 @@ const BetterTable: FC<Props> = ({
               <span className="text-gold">
                 <PiCoinsLight />
               </span>
-              &nbsp;{amount}
+              &nbsp;{Math.round(amount * 100) / 100}
             </span>
           ) : (
             <span>Place Bet</span>
@@ -102,12 +120,19 @@ const BetterTable: FC<Props> = ({
                 {show
                   ? win
                     ? `+ ${
-                        type === "gold"
-                          ? 14 * betters.reduce((t, n) => t + n.bet, 0)
-                          : 2 * betters.reduce((t, n) => t + n.bet, 0)
+                        Math.round(
+                          type === "gold"
+                            ? 14 * betters.reduce((t, n) => t + n.bet, 0) * 100
+                            : 2 * betters.reduce((t, n) => t + n.bet, 0) * 100
+                        ) / 100
                       }`
-                    : `- ${betters.reduce((t, n) => t + n.bet, 0)}`
-                  : betters.reduce((t, n) => t + n.bet, 0)}
+                    : `- ${
+                        Math.round(
+                          betters.reduce((t, n) => t + n.bet, 0) * 100
+                        ) / 100
+                      }`
+                  : Math.round(betters.reduce((t, n) => t + n.bet, 0) * 100) /
+                    100}
               </span>
             </span>
           </div>
@@ -163,9 +188,15 @@ const BetterTable: FC<Props> = ({
                 >
                   {show
                     ? win
-                      ? `+${type === "gold" ? 14 * better.bet : 2 * better.bet}`
-                      : `-${better.bet}`
-                    : better.bet}
+                      ? `+${
+                          Math.round(
+                            type === "gold"
+                              ? 14 * better.bet * 100
+                              : 2 * better.bet * 100
+                          ) / 100
+                        }`
+                      : `-${Math.round(better.bet * 100) / 100}`
+                    : Math.round(better.bet * 100) / 100}
                 </span>
               </div>
             ))}
