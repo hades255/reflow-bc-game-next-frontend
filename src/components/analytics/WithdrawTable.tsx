@@ -229,7 +229,7 @@ const WithdrawListItem: FC<{
             className="w-8 h-6 flex justify-center items-center rounded hover:bg-[#E9AE1530] transition-colors"
             title="Show Transaction History"
           >
-            <IconTransactions color={`#E9AE15`} width={12} height={14} />
+            <IconTransactions color={`#E9AE15`} width={16} height={16} />
           </button>
         </div>
       </td>
