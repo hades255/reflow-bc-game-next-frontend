@@ -195,10 +195,11 @@ export default function BankRoll() {
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
             <div className="w-8 flex justify-center">No</div>
-            <div className="w-[35%] pl-2">User</div>
+            <div className="w-[30%] pl-2">User</div>
             <div className="w-[18%] pl-3">Deposit</div>
             <div className="w-[18%] pl-3">Withdraw</div>
             <div className="w-[18%] pl-3">Bankroll</div>
+            <div className="">Transactions</div>
           </div>
           {filteredtransactions ? (
             filteredtransactions.length ? (
@@ -327,7 +328,7 @@ export default function BankRoll() {
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] border-t border-t-[#5D5D5D]`}
           >
             <div className="w-8 px-2"></div>
-            <div className="w-[35%] flex justify-end pr-2">Total</div>
+            <div className="w-[30%] flex justify-end pr-2">Total</div>
             <div className="w-[18%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
@@ -386,7 +387,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
       onClick={handleViewBankroll}
     >
       <div className="w-8 flex justify-center text-[#5D5D5D]">{index + 1}</div>
-      <div className="flex items-center w-[35%]">
+      <div className="flex items-center w-[30%]">
         <Image
           src={transaction.user.avatar}
           width={40}
@@ -451,10 +452,10 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
           </span>
         </div>
       </div>
-      <div>
+      <div className="pl-3">
         <Button
           clicked={handleViewTransaction}
-          text={<IconTransactions color={`#CFF`} width={12} height={14} />}
+          text={<IconTransactions color={`#CFF`} width={16} height={16} />}
         ></Button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import TransactionModal from "./transactionModal";
 import IconLoading from "@/utils/icons/Loading";
 import SearchIcon from "@/utils/icons/SearchIcon";
@@ -16,8 +16,10 @@ import {
 } from "./history";
 import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
+import Button from "@/components/buttons/Button";
 
 export default function AdminTransactionHistory() {
+  const router = useRouter();
   const params = useParams();
   const { id } = params;
 
@@ -144,6 +146,10 @@ export default function AdminTransactionHistory() {
     setSortByDirection(newSortByDirection);
   }, [filteredtransactions, sortByDirection]);
 
+  const handleClickBack = useCallback(() => {
+    router.back();
+  }, [router]);
+
   return (
     <div className="w-full flex flex-col">
       <div className="space-y-[1px] w-full">
@@ -198,6 +204,13 @@ export default function AdminTransactionHistory() {
                 ))}
               </div>
             </div>
+          </div>
+          <div>
+            <Button
+              text="Back"
+              className="!w-[100px] mb-2"
+              clicked={handleClickBack}
+            />
           </div>
         </div>
         <div className={`flex flex-col`}>

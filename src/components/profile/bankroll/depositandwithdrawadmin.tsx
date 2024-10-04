@@ -143,7 +143,7 @@ export default function AdminTransactionHistory() {
   }, [filteredtransactions, sortByDirection]);
 
   const handleClickBack = useCallback(() => {
-    router.push("/profile/admin/bankroll");
+    router.back();
   }, [router]);
 
   return (
@@ -219,11 +219,21 @@ export default function AdminTransactionHistory() {
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
             <div className="w-6 flex justify-center">No.</div>
-            <div className="w-[15%] max-w-[300px] flex justify-center">Type</div>
-            <div className="w-[10%] max-w-[200px] flex justify-center">Amount</div>
-            <div className="w-[10%] max-w-[200px] flex justify-center">Currency</div>
-            <div className="w-[10%] max-w-[200px] flex justify-center">Network</div>
-            <div className="w-[35%] max-w-[400px] flex justify-center">Address</div>
+            <div className="w-[15%] max-w-[300px] flex justify-center">
+              Type
+            </div>
+            <div className="w-[10%] max-w-[200px] flex justify-center">
+              Amount
+            </div>
+            <div className="w-[10%] max-w-[200px] flex justify-center">
+              Currency
+            </div>
+            <div className="w-[10%] max-w-[200px] flex justify-center">
+              Network
+            </div>
+            <div className="w-[35%] max-w-[400px] flex justify-center">
+              Address
+            </div>
             <div
               className="flex items-center gap-1"
               onClick={handleSortByCreatedat}
@@ -391,23 +401,27 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
-        <span className={`font-bold capitalize ${transaction.roll === 'withdraw' ? 'text-red-500' : ''}`}>
-        {transaction.roll}
-      </span>
+        <span
+          className={`font-bold capitalize ${
+            transaction.roll === "withdraw" ? "text-red-500" : ""
+          }`}
+        >
+          {transaction.roll}
+        </span>
       </div>
       <div className="flex flex-row items-center gap-1 w-[10%] max-w-[200px] justify-center">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
-      className={`${
-        transaction.roll === "withdraw"
-          ? "text-[#FF3148]" // Red for withdraw
-          : transaction.amount > 0
-          ? "text-[#B9FD3F]" // Green for positive amount
-          : "text-[#FF3148]" // Red for negative or zero amount
-      } font-medium`}
-    >
-      {fixed2(transaction.amount)}
-    </p>
+          className={`${
+            transaction.roll === "withdraw"
+              ? "text-[#FF3148]" // Red for withdraw
+              : transaction.amount > 0
+              ? "text-[#B9FD3F]" // Green for positive amount
+              : "text-[#FF3148]" // Red for negative or zero amount
+          } font-medium`}
+        >
+          {fixed2(transaction.amount)}
+        </p>
       </div>
       <div className="flex text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
         {transaction.type}
@@ -418,7 +432,9 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
       <div className="flex text-[#5D5D5D] font-semibold w-[35%] max-w-[400px] justify-center">
         {transaction.address}
       </div>
-      <div className="flex text-[#5D5D5D] font-semibold justify-center">{getDateFormat()}</div>
+      <div className="flex text-[#5D5D5D] font-semibold justify-center">
+        {getDateFormat()}
+      </div>
     </div>
   );
 };
