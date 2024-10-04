@@ -1,14 +1,11 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { useFetch } from "@/hooks/useFetch";
 import IconLoading from "@/utils/icons/Loading";
 import IconCoin from "@/utils/icons/Coin";
 import Image from "next/image";
-import IconDetails from "@/utils/icons/Details";
 import { useRouter } from "next/navigation";
 import { fixed2 } from "../details/ProfitLoss";
 import SearchIcon from "@/utils/icons/SearchIcon";
 import IconTransactions from "@/utils/icons/Transactions";
-import Button from "@/components/buttons/Button";
 import LabelItem from "../details/LabelItem";
 import { fetchAPI } from "@/services/fetchAPI";
 import moment from "moment";
@@ -45,7 +42,7 @@ interface TransactionData {
   withdraw: Transaction[];
 }
 
-const selectItems = ["This Week", "This Month", "This Year"];
+const selectItems = ["All", "This Week", "This Month", "This Year"];
 
 export default function BankRoll() {
   const [transactions, setTransactions] = useState<
@@ -209,7 +206,7 @@ export default function BankRoll() {
                 />
               ))}
             </div>
-            {startDate && (
+            {selectItem > 0 && startDate && (
               <div className="ml-4 font-semibold">
                 <span className="text-[#8D8D8D] text-[10px] mr-1">From</span>
                 <span className="text-[#DDDDDD] text-xs mr-1">
@@ -494,10 +491,13 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
         </div>
       </div>
       <div className="pl-3">
-        <Button
-          clicked={handleViewTransaction}
-          text={<IconTransactions color={`#CFF`} width={16} height={16} />}
-        ></Button>
+        <button
+          onClick={handleViewTransaction}
+          className="w-8 h-6 flex justify-center items-center rounded hover:bg-[#E9AE1530] transition-colors"
+          title="Show Transaction History"
+        >
+          <IconTransactions color={`#E9AE15`} width={16} height={16} />
+        </button>
       </div>
     </div>
   );
