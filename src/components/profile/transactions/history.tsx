@@ -260,15 +260,6 @@ export default function History() {
               </div>
             </div>
           </div>
-          <div className="mb-2 relative">
-            <input
-              className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
-              placeholder="Search..."
-            ></input>
-            <span className="absolute left-0 top-0 w-10 h-[30px] flex justify-center items-center">
-              <SearchIcon />
-            </span>
-          </div>
         </div>
         <div className={`flex ${itemtheme ? "flex-col" : "flex-wrap"}`}>
           {itemtheme && (

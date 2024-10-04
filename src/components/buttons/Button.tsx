@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import clsx from "clsx";
 
 interface Props {
-  text: string;
+  text: any;
   disabled?: boolean;
   active?: boolean;
   clicked?: () => void;
@@ -19,10 +19,14 @@ const Button: React.FC<Props> = ({
 }) => {
   const [hover, setHover] = useState<boolean>(false);
 
-  const handleClick = useCallback(() => {
-    setHover(false);
-    clicked && clicked();
-  }, [clicked]);
+  const handleClick = useCallback(
+    (e: any) => {
+      e.stopPropagation();
+      setHover(false);
+      clicked && clicked();
+    },
+    [clicked]
+  );
 
   return disabled ? (
     <button

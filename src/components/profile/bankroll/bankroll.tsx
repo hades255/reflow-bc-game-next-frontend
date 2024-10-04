@@ -7,6 +7,8 @@ import IconDetails from "@/utils/icons/Details";
 import { useRouter } from "next/navigation";
 import { fixed2 } from "../details/ProfitLoss";
 import SearchIcon from "@/utils/icons/SearchIcon";
+import IconTransactions from "@/utils/icons/Transactions";
+import Button from "@/components/buttons/Button";
 
 export interface User {
   id: number;
@@ -192,10 +194,11 @@ export default function BankRoll() {
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-t py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E]`}
           >
-            <div className="w-[35%]">User</div>
-            <div className="w-[20%] pl-3">Deposit</div>
-            <div className="w-[20%] pl-3">Withdraw</div>
-            <div className="w-[20%] pl-3">Bankroll</div>
+            <div className="w-8 flex justify-center">No</div>
+            <div className="w-[35%] pl-2">User</div>
+            <div className="w-[18%] pl-3">Deposit</div>
+            <div className="w-[18%] pl-3">Withdraw</div>
+            <div className="w-[18%] pl-3">Bankroll</div>
           </div>
           {filteredtransactions ? (
             filteredtransactions.length ? (
@@ -208,6 +211,7 @@ export default function BankRoll() {
                   .map((item, index) => (
                     <HistoryTab
                       key={index}
+                      index={index}
                       transaction={item}
                       odd={index % 2}
                     />
@@ -322,20 +326,21 @@ export default function BankRoll() {
           <div
             className={`text-[12px] font-semibold w-full h-10 flex items-center flex-nowrap text-[#727272] bg-[#282828] bg-opacity-[58%] rounded-b py-1 px-4 hover:cursor-pointer hover:bg-[#3E3E3E] border-t border-t-[#5D5D5D]`}
           >
+            <div className="w-8 px-2"></div>
             <div className="w-[35%] flex justify-end pr-2">Total</div>
-            <div className="w-[20%]">
+            <div className="w-[18%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
                 <span className="ml-[6px]">{fixed2(totalDeposit)}</span>
               </div>
             </div>
-            <div className="w-[20%]">
+            <div className="w-[18%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
                 <span className="ml-[6px]">{fixed2(totalWithdraw)}</span>
               </div>
             </div>
-            <div className="w-[20%]">
+            <div className="w-[18%]">
               <div className="ml-3 flex items-center">
                 <IconCoin width={14} height={14} color="#E9AE15" />
                 <span
@@ -359,13 +364,18 @@ export default function BankRoll() {
 interface HistoryTabProps {
   transaction: TransformedTransaction;
   odd: number;
+  index: number;
 }
 
-const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
+const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
   const router = useRouter();
 
-  const handleViewTransaction = useCallback(() => {
+  const handleViewBankroll = useCallback(() => {
     router.push(`/profile/admin/bankroll/${transaction.user_id}`);
+  }, [transaction, router]);
+
+  const handleViewTransaction = useCallback(() => {
+    router.push(`/profile/admin/transaction/${transaction.user_id}`);
   }, [transaction, router]);
 
   return (
@@ -373,8 +383,9 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
       className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap cursor-pointer ${
         odd ? "bg-[#1E1E1E]" : "bg-[#191919]"
       } py-1 px-4 hover:bg-[#3E3E3E] text-xs`}
-      onClick={handleViewTransaction}
+      onClick={handleViewBankroll}
     >
+      <div className="w-8 flex justify-center text-[#5D5D5D]">{index + 1}</div>
       <div className="flex items-center w-[35%]">
         <Image
           src={transaction.user.avatar}
@@ -387,11 +398,14 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
           {transaction.user.name}
         </span>
       </div>
-      <div className="w-[20%]">
+      <div className="w-[18%]">
         <div className="flex flex-col">
           <div className="ml-3 flex">
             <IconCoin width={14} height={14} color="#E9AE15" />
-            <span className="ml-[6px] text-white">
+            <span
+              className="ml-[6px] text-white"
+              title={`Total Deposit Count: ${transaction.deposit.total_count}`}
+            >
               {fixed2(transaction.deposit.total_amount)}
             </span>
           </div>
@@ -401,11 +415,14 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
           </span> */}
         </div>
       </div>
-      <div className="w-[20%]">
+      <div className="w-[18%]">
         <div className="flex flex-col">
           <div className="ml-3 flex">
             <IconCoin width={14} height={14} color="#E9AE15" />
-            <span className="ml-[6px] text-white">
+            <span
+              className="ml-[6px] text-white"
+              title={`Total Withdraw Count: ${transaction.withdraw.total_count}`}
+            >
               {transaction.withdraw.total_amount}
             </span>
           </div>
@@ -415,7 +432,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
           </span> */}
         </div>
       </div>
-      <div className="w-[20%] text-white">
+      <div className="w-[18%] text-white">
         <div className="ml-3 flex">
           <IconCoin width={14} height={14} color="#E9AE15" />
           <span
@@ -433,6 +450,12 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd }) => {
             )}
           </span>
         </div>
+      </div>
+      <div>
+        <Button
+          clicked={handleViewTransaction}
+          text={<IconTransactions color={`#CFF`} width={12} height={14} />}
+        ></Button>
       </div>
     </div>
   );

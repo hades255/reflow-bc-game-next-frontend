@@ -199,15 +199,6 @@ export default function AdminTransactionHistory() {
               </div>
             </div>
           </div>
-          <div className="mb-2 relative">
-            <input
-              className="border-2 border-[#cdcdcd2c] rounded w-[270px] h-[30px] pl-10 bg-transparent text-[#727272] text-sm"
-              placeholder="Search..."
-            ></input>
-            <span className="absolute left-0 top-0 w-10 h-[30px] flex justify-center items-center">
-              <SearchIcon />
-            </span>
-          </div>
         </div>
         <div className={`flex flex-col`}>
           <div
@@ -223,7 +214,7 @@ export default function AdminTransactionHistory() {
               Before
             </div>
             <div
-              className="flex items-center gap-1 w-[15%] max-w-[200px] flex justify-center"
+              className="flex items-center gap-1 w-[15%] max-w-[200px] justify-center"
               onClick={handleSortByProfit}
             >
               Profits
@@ -233,7 +224,7 @@ export default function AdminTransactionHistory() {
               After
             </div>
             <div
-              className="flex items-center gap-1 flex justify-center"
+              className="flex items-center gap-1 justify-center"
               onClick={handleSortByCreatedat}
             >
               Time
