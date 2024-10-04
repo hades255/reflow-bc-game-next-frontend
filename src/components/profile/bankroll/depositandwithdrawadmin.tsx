@@ -398,12 +398,16 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
       <div className="flex flex-row items-center gap-1 w-[10%] max-w-[200px] justify-center">
         <IconCoin width={14} height={14} color="#E9AE15" />
         <p
-          className={`${
-            transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
-          } font-medium]`}
-        >
-          {fixed2(transaction.amount)}
-        </p>
+      className={`${
+        transaction.roll === "withdraw"
+          ? "text-[#FF3148]" // Red for withdraw
+          : transaction.amount > 0
+          ? "text-[#B9FD3F]" // Green for positive amount
+          : "text-[#FF3148]" // Red for negative or zero amount
+      } font-medium`}
+    >
+      {fixed2(transaction.amount)}
+    </p>
       </div>
       <div className="flex text-[#5D5D5D] font-semibold w-[10%] max-w-[200px] capitalize justify-center">
         {transaction.type}
