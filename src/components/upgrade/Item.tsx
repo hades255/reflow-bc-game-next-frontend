@@ -30,14 +30,14 @@ const UpgradeItem: FC<Props> = ({
     >
       {select ? (
         <div
-          className="w-full h-[130px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
+          className="w-full h-[97px] relative flex items-center justify-center border border-[#EAA62580] rounded-[5px] overflow-hidden bg-[#1212127A]"
           style={{ background: "linear-gradient(#191A1900, #EAA62580)" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img src={image} alt="" className="h-[100px]" />
         </div>
       ) : (
-        <div className="w-full h-[130px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
+        <div className="w-full h-[97px] relative flex items-center justify-center dropBlack rounded-[5px] overflow-hidden bg-[#1212127A]">
           {/* eslint-disable-next-line @next/next/no-img-element*/}
           <img src={image} alt="" className="h-[100px]" />
         </div>
