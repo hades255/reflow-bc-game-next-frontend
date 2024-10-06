@@ -25,7 +25,7 @@ const CaseItem: FC<Props> = ({ title, url, coin, percent, tier }) => {
       </div>
 
       <div className="w-full h-[49px] flex flex-col gap-1 bg-[#1212127A] dropBlack rounded-[5px] py-[6px] px-3">
-        <div className="text-[14px] font-semibold text-white uppercase w-full overflow-hidden">
+        <div className="text-[13px] font-semibold text-white uppercase w-full overflow-hidden">
           {title}
         </div>
         <div className="flex flex-row items-center justify-between">
