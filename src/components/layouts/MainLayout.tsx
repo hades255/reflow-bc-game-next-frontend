@@ -7,10 +7,12 @@ import AppSidebar from "./main-layout/AppSidebar";
 import ModernModal from "../Modal/ModernModal";
 import Toast from "../Modal/Toast";
 import AppFooter from "./main-layout/AppFooter";
+import { useSettingContext } from "@/providers/SiteSettingProvider";
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const modal = useModal();
   const toast = useToast();
+  const { showSidebar } = useSettingContext();
 
   return (
     <>
@@ -18,7 +20,10 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <AppHeader />
         <div className="flex w-full h-[calc(100vh-84px)]">
           <AppSidebar />
-          <div className="sticky top-0 w-[calc(100%-280px)] bg-[#121212] h-full overflow-y-auto overflow-x-hidden">
+          <div
+            className={`sticky top-0 w-[calc(100%-280px)] bg-[#121212] h-full overflow-y-auto overflow-x-hidden`}
+            style={{ width: showSidebar ? "calc(100%-280px" : "100%" }}
+          >
             {children}
             <AppFooter />
           </div>

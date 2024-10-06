@@ -7,6 +7,7 @@ import manage from "@/assets/icons/manage.svg";
 import rule from "@/assets/icons/rule.svg";
 import close from "@/assets/icons/close.svg";
 import { fetchAPI } from "@/services/fetchAPI";
+import { useSettingContext } from "@/providers/SiteSettingProvider";
 
 const SendInput: FC<{ room: any; setTextHeight: any }> = ({
   room,
@@ -97,30 +98,43 @@ const SendInput: FC<{ room: any; setTextHeight: any }> = ({
       >
         <Image src={icon} alt="icon" />
       </div>
-      {showOption && (
-        <div className="absolute left-[0px] top-[-165px] w-[255px] h-[160px] bg-[#1E1E1E] border border-[#333541]">
-          <div className="p-3 flex flex-col items-start">
-            <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
-              <Image src={tip} className="w-[12px] h-[12px]" alt="logo" />
-              Send a tip
-            </button>
-            <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
-              <Image src={rule} className="w-[12px] h-[12px]" alt="logo" />
-              Chat rules
-            </button>
-            <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
-              <Image src={manage} className="w-[12px] h-[12px]" alt="logo" />
-              Manage blocked users
-            </button>
-            <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
-              <Image src={close} className="w-[12px] h-[12px]" alt="logo" />
-              Close chat
-            </button>
-          </div>
-        </div>
-      )}
+      {showOption && <Options />}
     </div>
   );
 };
 
 export default SendInput;
+
+const Options = () => {
+  const { setShowSidebar } = useSettingContext();
+
+  const handleClickCloseSidebar = useCallback(() => {
+    setShowSidebar(false);
+  }, [setShowSidebar]);
+
+  return (
+    <div className="absolute left-[0px] top-[-165px] w-[255px] h-[160px] bg-[#1E1E1E] border border-[#333541]">
+      <div className="p-3 flex flex-col items-start">
+        <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
+          <Image src={tip} className="w-[12px] h-[12px]" alt="logo" />
+          Send a tip
+        </button>
+        <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
+          <Image src={rule} className="w-[12px] h-[12px]" alt="logo" />
+          Chat rules
+        </button>
+        <button className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1">
+          <Image src={manage} className="w-[12px] h-[12px]" alt="logo" />
+          Manage blocked users
+        </button>
+        <button
+          className="hover:bg-[#181818] text-white text-[12px] w-full text-start p-2 rounded-sm flex items-center gap-1"
+          onClick={handleClickCloseSidebar}
+        >
+          <Image src={close} className="w-[12px] h-[12px]" alt="logo" />
+          Close chat
+        </button>
+      </div>
+    </div>
+  );
+};

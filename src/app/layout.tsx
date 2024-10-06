@@ -6,6 +6,7 @@ import ReduxProvider from "@/providers/ReduxProvider";
 import "@fontsource/quicksand";
 import "@fontsource/quicksand/400.css";
 import "./globals.css";
+import { SiteSettingProvider } from "@/providers/SiteSettingProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <PrelineScript />
-      <body className={inter.className}>
-        <ReduxProvider>
-          <MainLayout>{children}</MainLayout>
-        </ReduxProvider>
-      </body>
+      <SiteSettingProvider>
+        <PrelineScript />
+        <body className={inter.className}>
+          <ReduxProvider>
+            <MainLayout>{children}</MainLayout>
+          </ReduxProvider>
+        </body>
+      </SiteSettingProvider>
     </html>
   );
 }
