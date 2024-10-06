@@ -6,6 +6,7 @@ import AppHeader from "./main-layout/AppHeader";
 import AppSidebar from "./main-layout/AppSidebar";
 import ModernModal from "../Modal/ModernModal";
 import Toast from "../Modal/Toast";
+import AppFooter from "./main-layout/AppFooter";
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const modal = useModal();
@@ -19,6 +20,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           <AppSidebar />
           <div className="sticky top-0 w-[calc(100%-280px)] bg-[#121212] h-full overflow-y-auto overflow-x-hidden">
             {children}
+            <AppFooter />
           </div>
         </div>
       </div>
