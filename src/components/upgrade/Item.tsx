@@ -20,7 +20,7 @@ const UpgradeItem: FC<Props> = ({
 }) => {
   return (
     <div
-      className="h-[210px] w-[180x] bg-[#1E1E1E] rounded-[5px] p-2 flex flex-col gap-2 cursor-pointer"
+      className="h-[240px] w-[180x] bg-[#1E1E1E] rounded-[5px] p-2 flex flex-col gap-2 cursor-pointer"
       style={{ background: "linear-gradient(#28282894, #1E1E1E" }}
       onClick={() => {
         if (id) {
