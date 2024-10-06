@@ -1,19 +1,19 @@
 import type { Config } from "tailwindcss";
 
-const colors = require('tailwindcss/colors');
+const colors = require("tailwindcss/colors");
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/preline/preline.js"
+    "./node_modules/preline/preline.js",
   ],
   theme: {
     backgroundImage: {
       gold: "linear-gradient(var(--gold-grad-start),var(--gold-grad-end))",
       disabled: "linear-gradient(var(--dis-grad-start),var(--dis-grad-end))",
-      shine: "radial-gradient(var(--shine-grad-start),var(--shine-grad-end))"
+      shine: "radial-gradient(var(--shine-grad-start),var(--shine-grad-end))",
     },
     colors: {
       transparent: colors.transparent,
@@ -31,9 +31,12 @@ const config: Config = {
       innerBlack: "#0D0D0D",
       font: "#D1D1D1",
       brown: "#50350B",
-      gold: "#E9AE15"
+      gold: "#E9AE15",
     },
     extend: {
+      screens: {
+        mobile: { max: "1000px" },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -43,27 +46,27 @@ const config: Config = {
         toast: {
           "0%": {
             right: "-32px",
-            opacity: "0"
+            opacity: "0",
           },
           "20%": {
             right: "32px",
-            opacity: "1"
+            opacity: "1",
           },
           "80%": {
             right: "32px",
-            opacity: "1"
+            opacity: "1",
           },
           "100%": {
             right: "-32px",
-            opacity: "0"
-          }
-        }
+            opacity: "0",
+          },
+        },
       },
       animation: {
-        "toast-animation": "toast 5s 1"
-      }
+        "toast-animation": "toast 5s 1",
+      },
     },
   },
-  plugins: [require('preline/plugin')],
+  plugins: [require("preline/plugin")],
 };
 export default config;

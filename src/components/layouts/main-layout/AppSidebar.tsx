@@ -23,6 +23,8 @@ import MessageItem from "@/components/message/Item";
 import SendInput from "@/components/message/SendInput";
 import { fetchAPI } from "@/services/fetchAPI";
 import myEcho from "@/hooks/myEcho";
+import { useSettingContext } from "@/providers/SiteSettingProvider";
+import OpenChat from "@/components/message/OpenChat";
 
 const flags = [
   { name: "English", icon: uk },
@@ -42,6 +44,8 @@ const flags = [
 ];
 
 const AppSidebar: FC = () => {
+  const { showSidebar } = useSettingContext();
+
   const [showRooms, setShowRooms] = useState(false);
   const [room, setRoom] = useState({
     name: "English",
@@ -122,70 +126,79 @@ const AppSidebar: FC = () => {
   }, [lastChatItem, room]);
 
   return (
-    <div className="w-[280px] bg-[#181818] h-auto z-10">
-      <div className="flex flex-col relative" ref={selectRef}>
-        <div
-          onClick={() => setShowRooms(!showRooms)}
-          className="m-[18px_12px_13px_12px] cursor-pointer bg-[#6060600D] h-[37px] w-[250px] shadow-[0_1px_3px_-1px_#0000006E,_0_2px_0_-1px_#0000003D] rounded-[2px] p-3 flex justify-between items-center"
-        >
-          <div className="flex items-center gap-1">
-            {room?.icon && (
-              <Image src={room.icon} className="w-[12px] h-[12px]" alt="logo" />
-            )}
-            <span className="text-[12px] font-medium text-[#D1D1D1]">
-              {room.name} Room
-            </span>
-          </div>
+    <>
+      {showSidebar && (
+        <div className="w-[280px] bg-[#181818] h-auto z-10">
+          <div className="flex flex-col relative" ref={selectRef}>
+            <div
+              onClick={() => setShowRooms(!showRooms)}
+              className="m-[18px_12px_13px_12px] cursor-pointer bg-[#6060600D] h-[37px] w-[250px] shadow-[0_1px_3px_-1px_#0000006E,_0_2px_0_-1px_#0000003D] rounded-[2px] p-3 flex justify-between items-center"
+            >
+              <div className="flex items-center gap-1">
+                {room?.icon && (
+                  <Image
+                    src={room.icon}
+                    className="w-[12px] h-[12px]"
+                    alt="logo"
+                  />
+                )}
+                <span className="text-[12px] font-medium text-[#D1D1D1]">
+                  {room.name} Room
+                </span>
+              </div>
 
-          <div className="flex items-center">
-            {/* <div className="flex items-center justify-center w-[10px] h-[10px] bg-[#0DC5533D] rounded-full">
+              <div className="flex items-center">
+                {/* <div className="flex items-center justify-center w-[10px] h-[10px] bg-[#0DC5533D] rounded-full">
               <div className="w-[6px] h-[6px] bg-[#0DC553] rounded-full"></div>
             </div>
             <span className="text-[12px] font-medium text-[#6C6C6C] ml-[2px]">
               435/999
             </span> */}
-            <div className="ml-[6px]">
-              <Image src={arrowBottom} alt="logo" />
+                <div className="ml-[6px]">
+                  <Image src={arrowBottom} alt="logo" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {showRooms && (
-          <div>
-            <div className="absolute left-[12px] top-[60px] z-[11] w-[250px] h-[500px] bg-[#1E1E1E] border border-[#333541]">
-              <div className="p-3 flex flex-col items-start">
-                {flags.map((item, index) => (
-                  <RoomItem
-                    key={index}
-                    name={item.name}
-                    icon={item.icon}
-                    online={50}
-                    users={100}
-                    onClick={handleClickRoom}
-                  />
+            {showRooms && (
+              <div>
+                <div className="absolute left-[12px] top-[60px] z-[11] w-[250px] h-[500px] bg-[#1E1E1E] border border-[#333541]">
+                  <div className="p-3 flex flex-col items-start">
+                    {flags.map((item, index) => (
+                      <RoomItem
+                        key={index}
+                        name={item.name}
+                        icon={item.icon}
+                        online={50}
+                        users={100}
+                        onClick={handleClickRoom}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="relative">
+              <div
+                className={`pl-3 gap-3 flex flex-col overflow-y-scroll message-list`}
+                style={{ height: `calc(100vh - ${textHeight}px)` }}
+              >
+                {chats.map((item, index) => (
+                  <MessageItem key={index} chat={item} />
                 ))}
+                <div ref={lastChatItem}></div>
+              </div>
+
+              <div className="p-3">
+                <SendInput room={room.name} setTextHeight={setTextHeight} />
               </div>
             </div>
           </div>
-        )}
-
-        <div className="relative">
-          <div
-            className={`pl-3 gap-3 flex flex-col overflow-y-scroll message-list`}
-            style={{ height: `calc(100vh - ${textHeight}px)` }}
-          >
-            {chats.map((item, index) => (
-              <MessageItem key={index} chat={item} />
-            ))}
-            <div ref={lastChatItem}></div>
-          </div>
-
-          <div className="p-3">
-            <SendInput room={room.name} setTextHeight={setTextHeight} />
-          </div>
         </div>
-      </div>
-    </div>
+      )}
+      {!showSidebar && <OpenChat />}
+    </>
   );
 };
 

@@ -17,6 +17,7 @@ import {
 import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
 import Button from "@/components/buttons/Button";
+import { fixed2 } from "../details/ProfitLoss";
 
 export default function AdminTransactionHistory() {
   const router = useRouter();
@@ -407,16 +408,18 @@ const HistoryTab: FC<HistoryTabProps> = ({
       onClick={handleSelect}
     >
       <div className="w-[20%] max-w-[320px] text-[#D1D1D1] flex items-center justify-center">
-        <div className="w-6 mr-1 flex justify-center">
-          {getTransactionIcon(transaction.type)}
+        <div className="w-[130px] max-w-[130px] flex items-start">
+          <div className="w-6 mr-1 flex justify-center">
+            {getTransactionIcon(transaction.type)}
+          </div>
+          <span className="font-bold capitalize">{transaction.type}</span>
         </div>
-        <span className="font-bold capitalize">{transaction.type}</span>
       </div>
       <div className="w-[15%] max-w-[300px] flex-none text-white flex justify-center">
         #{transaction.game_id}
       </div>
-      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D] flex justify-center">
-        {transaction.before}
+      <div className="w-[15%] max-w-[200px] flex-none text-[#6D6D6D] font-semibold flex justify-center">
+        {fixed2(transaction.before)}
       </div>
       <div className="flex flex-row items-center gap-1 w-[15%] max-w-[300px] justify-center">
         <IconCoin width={14} height={14} color="#E9AE15" />
@@ -425,11 +428,11 @@ const HistoryTab: FC<HistoryTabProps> = ({
             transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
           } font-medium]`}
         >
-          {transaction.amount}
+          {fixed2(transaction.amount)}
         </p>
       </div>
-      <div className="w-[15%] max-w-[200px] flex-none text-[#5D5D5D] flex justify-center">
-        {transaction.after}
+      <div className="w-[15%] max-w-[200px] flex-none text-[#6D6D6D] font-semibold flex justify-center">
+        {fixed2(transaction.after)}
       </div>
       <div className="text-[#5D5D5D] font-semibold flex justify-center">
         {getDateFormat()}
