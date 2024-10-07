@@ -8,8 +8,11 @@ import ModernModal from "../Modal/ModernModal";
 import Toast from "../Modal/Toast";
 import AppFooter from "./main-layout/AppFooter";
 import { useSettingContext } from "@/providers/SiteSettingProvider";
+import { usePathname } from "next/navigation";
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
+  const pathname = usePathname();
+  const isProfilePage = pathname.includes("profile");
   const modal = useModal();
   const toast = useToast();
   const { showSidebar } = useSettingContext();
@@ -25,7 +28,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
             style={{ width: showSidebar ? "calc(100%-280px" : "100%" }}
           >
             {children}
-            <AppFooter />
+            {!isProfilePage && <AppFooter />}
           </div>
         </div>
       </div>

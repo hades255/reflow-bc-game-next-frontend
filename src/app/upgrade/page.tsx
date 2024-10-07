@@ -193,7 +193,7 @@ const UpgradePage: FC = () => {
 
   return (
     <>
-      <div className="p-6 flex flex-col gap-6">
+      <div className="min-h-[calc(100vh_-_130px)] p-6 flex flex-col gap-6">
         <div className="flex flex-col gap-6">
           <div className="flex flex-row justify-between items-center">
             <div className="flex gap-1 items-center">
