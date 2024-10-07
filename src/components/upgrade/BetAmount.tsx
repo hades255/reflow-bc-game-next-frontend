@@ -52,9 +52,12 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
     }
   };
 
-  const handleChange = (amount: number) => {
+  const handleChange = (amount: any) => {
     setBtnTab(0);
-    if (amount > allValue || amount.toFixed(3) === allValue.toFixed(3)) {
+    if (
+      Number(amount) > allValue ||
+      Number(amount).toFixed(3) === allValue.toFixed(3)
+    ) {
       onChangeValue(allValue);
     } else {
       onChangeValue(amount);
@@ -92,7 +95,13 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
             type="text"
             value={value}
             disabled={disable}
-            onChange={(e: any) => handleChange(Number(e.target.value))}
+            onChange={(e: any) => {
+              const inputValue = e.target.value;
+              // Using a regex pattern to validate only numbers and decimal points
+              if (/^\d*\.?\d*$/.test(inputValue)) {
+                handleChange(inputValue); // Pass the string value and convert later
+              }
+            }}
             className={`bg-[#1212127A] w-[253px] py-[6px] pl-[34px] rounded-[5px] dropBlack text-[14px] font-semibold ${
               disable ? "text-[#808080]" : "text-[#D1D1D1]"
             } outline-none`}
