@@ -27,7 +27,7 @@ const AppFooter: FC = () => {
               />
             </div>
             <span className="text-lg">© 2024 REFLOW </span>
-            <p className="text-xs max-[1000px]:text-center leading-[14px] text-md">
+            <p className="text-xs font-semibold max-[1000px]:text-center leading-[14px] text-md">
               REFLOW is owned and operated by RUNITUP LTD located at Avlonos, 1
               Maria house 1075, Nicosia, Cyprus.
             </p>
@@ -37,14 +37,14 @@ const AppFooter: FC = () => {
                   18+
                 </div>
               </div>
-              <span className="text-xs leading-[14px] text-md">
+              <span className="text-xs font-semibold leading-[14px] text-md">
                 By using this site, you confirm that you are 18 years old or
                 older.
               </span>
             </div>
           </div>
           <div className="flex flex-col gap-[20px] max-w-[360px] max-[1000px]:w-full">
-            <div className="max-w-[520px] text-xs leading-[18px] text-md max-[1000px]:w-full max-[1000px]:text-center">
+            <div className="max-w-[520px] text-xs leading-[18px] text-md font-semibold max-[1000px]:w-full max-[1000px]:text-center">
               At Reflow, we{"’"}re committed to providing the fairest and most
               thrilling gaming experience, featuring the industry{"’"}s best
               house edge. Join us today and play with confidence, knowing that
@@ -72,22 +72,22 @@ const AppFooter: FC = () => {
         </div>
         <div className="flex justify-between gap-[30px] ml-[10px] max-[1000px]:flex-wrap max-[1000px]:gap-[20px]">
           <div className="flex flex-col gap-[6px] min-w-[150px] max-[1000px]:w-[calc(50%_-_25px)]">
-            <div className="text-white text-sm">About:</div>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
+            <div className="text-white text-sm font-semibold">About:</div>
+            <span className="text-sm font-semibold select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               Fairness
             </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
+            <span className="text-sm font-semibold select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               Terms and Conditions
             </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
+            <span className="text-sm font-semibold select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               Privacy Policy
             </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
+            <span className="text-sm font-semibold select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               AML Policy
             </span>
           </div>
           <div className="flex flex-col gap-[10px] max-[1000px]:w-[_40%] max-[1000px]:items-start">
-            <div className="text-white text-xs text-center">Community</div>
+            <div className="text-white text-xs font-semibold text-center">Community</div>
             <div className="select-none flex justify-center gap-[10px] items-center">
               <div className="flex max-[1000px]:flex-col items-center gap-[10px]">
                 <a href="https://discord.gg/reflow" target="_blank">
