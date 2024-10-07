@@ -89,7 +89,7 @@ const BetAmount: FC<Props> = ({ value, allValue, myValue, onChangeValue }) => {
           </div>
 
           <input
-            type="number"
+            type="text"
             value={value}
             disabled={disable}
             onChange={(e: any) => handleChange(Number(e.target.value))}

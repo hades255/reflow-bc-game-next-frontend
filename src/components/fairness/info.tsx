@@ -1,65 +1,69 @@
 import React, { FC } from "react";
 
-
 const FairnessInfo: FC = () => {
   return (
     <div className="flex flex-row gap-6">
       <div className="flex flex-col flex-1 w-64 gap-6 p-3">
         <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
-        <h3 className="text-white font-semibold text-[20px]">
-          What is Provably Fair?
-        </h3>
-        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-        Provably Fair is a system allowing players to verify that the site operates legitimately and doesn`t tamper game results. 
-        It leverages cryptography and third party input to generate random values. At the end of the game, players can verify that 
-        the outcome was indeed determined by the original seed and inputs, thus proving that the game was fair.
-        </p>
+          <h3 className="text-white font-semibold text-[20px]">
+            What is Provably Fair?
+          </h3>
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
+            Provably Fair is a system allowing players to verify that the site
+            operates legitimately and doesn`t tamper game results. It leverages
+            cryptography and third party input to generate random values. At the
+            end of the game, players can verify that the outcome was indeed
+            determined by the original seed and inputs, thus proving that the
+            game was fair.
+          </p>
         </div>
         <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
-        <h3 className="text-white font-semibold text-[20px]">
-          HOW DO I VERIFY THE FAIRNESS OF THE GAME?
-        </h3>
-        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-          The game outcomes are predetermined BEFORE you make your bet, and,
-          importantly, we have the means to substantiate this claim. Before each
-          round commences, we provide you with the round`s outcome in a hashed
-          form. Prior to the round`s start, we furnish you with the hash of the
-          concealed seed upon which the round`s result hinges. Once the round
-          concludes, we disclose the hidden seed for you to cross-verify with
-          the hash, ensuring their congruence. This system empowers us to affirm
-          the fairness and pre-determination of the results.
-        </p>
+          <h3 className="text-white font-semibold text-[20px]">
+            HOW DO I VERIFY THE FAIRNESS OF THE GAME?
+          </h3>
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
+            The game outcomes are predetermined BEFORE you make your bet, and,
+            importantly, we have the means to substantiate this claim. Before
+            each round commences, we provide you with the round`s outcome in a
+            hashed form. Prior to the round`s start, we furnish you with the
+            hash of the concealed seed upon which the round`s result hinges.
+            Once the round concludes, we disclose the hidden seed for you to
+            cross-verify with the hash, ensuring their congruence. This system
+            empowers us to affirm the fairness and pre-determination of the
+            results.
+          </p>
         </div>
         <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
-        <h3 className="text-white font-semibold text-[20px]">
-          Server Seed
-        </h3>
-        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-        Server Seed is a randomly generated hexadecimal string created before each PvE game by the server. 
-        The seed is stored privately in our database, and its SHA256 hash is sent to the client.
-        Every time a string is hashed, it produces the same result. The process cannot be reversed. 
-        This means that the client doesn`t know the outcome, but can verify that the server is not changing the seed during the game.
-        </p>
+          <h3 className="text-white font-semibold text-[20px]">Server Seed</h3>
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
+            Server Seed is a randomly generated hexadecimal string created
+            before each PvE game by the server. The seed is stored privately in
+            our database, and its SHA256 hash is sent to the client. Every time
+            a string is hashed, it produces the same result. The process cannot
+            be reversed. This means that the client doesn`t know the outcome,
+            but can verify that the server is not changing the seed during the
+            game.
+          </p>
         </div>
         <div className="border-[#212121B2] border rounded-[5px] bg-[#212121B2] p-3">
-        <h3 className="text-white font-semibold text-[20px]">
-          Public Seed
-        </h3>
-        <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-        Public Seed is a random string of characters generated by your browser. It is shared with the server the moment a PvE game takes place, 
-        after a Server Hash is shared and Server Seed is set in stone. 
-        It`s possible to change the seed however you want, but we recommend enabling client seed rotation for increased security.
-        </p>
+          <h3 className="text-white font-semibold text-[20px]">Public Seed</h3>
+          <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
+            Public Seed is a random string of characters generated by your
+            browser. It is shared with the server the moment a PvE game takes
+            place, after a Server Hash is shared and Server Seed is set in
+            stone. It`s possible to change the seed however you want, but we
+            recommend enabling client seed rotation for increased security.
+          </p>
         </div>
       </div>
-      <div className="flex flex-col flex-1 w-64">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      {/* <div className="flex flex-col flex-1 w-64"> */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {/* <img
           src={"/assets/images/fairness/info.png"}
           alt="info"
           className="-ml-3"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
