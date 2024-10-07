@@ -34,9 +34,6 @@ const config: Config = {
       gold: "#E9AE15",
     },
     extend: {
-      screens: {
-        mobile: { max: "1000px" },
-      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
