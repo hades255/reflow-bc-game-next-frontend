@@ -208,15 +208,14 @@ const AppFooter: FC = () => {
                 <span className="text-white select-none text-sm">ENG</span>
               </div>
               <div className="language_shape__YoCxZ cursor-pointer">
-                <img
-                  alt="Arrow icon"
-                  loading="lazy"
-                  width="18"
-                  height="18"
-                  decoding="async"
-                  className="transition-all"
-                  src="/icons/arrow-down.svg"
-                />
+              <Image
+                alt="Arrow icon"
+                loading="lazy"
+                width={18}
+                height={18}
+                src="/icons/arrow-down.svg"
+                className="transition-all"
+              />
               </div>
             </div>
             <div
