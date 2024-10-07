@@ -98,42 +98,9 @@ const AppFooter: FC = () => {
         </div>
         <div className="flex justify-between md:gap-[90px] gap-[30px] ml-[10px] mobile:flex-wrap mobile:gap-[20px]">
           <div className="flex flex-col gap-[10px] mobile:w-[calc(50%_-_25px)]">
-            <div className="text-white text-sm">House edge::</div>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Roulette: 2%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Bait: 6.66%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Jackpot: 2%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Dice: 4%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Coinflip: 2%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Cases: 5%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Battles: 5%
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Crash: 6.66%
-            </span>
-          </div>
-          <div className="flex flex-col gap-[10px] mobile:w-[calc(50%_-_25px)]">
             <div className="text-white text-sm">About:</div>
             <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               Fairness
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              free to play
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              Affiliate Program
             </span>
             <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               Terms and Conditions
@@ -143,9 +110,6 @@ const AppFooter: FC = () => {
             </span>
             <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
               AML Policy
-            </span>
-            <span className="text-sm select-none transition-all overflow-hidden overflow-ellipsis capitalize cursor-pointer hover:text-white">
-              About Rewards
             </span>
           </div>
           <div className="flex flex-col gap-[10px] mobile:w-[_40%] mobile:items-start">
