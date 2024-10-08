@@ -555,3 +555,15 @@ header {
 .dropdown-collapse {
   z-index: 1100 !important;
 }
+
+/* For Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Hides the spin buttons */
+    margin: 0; /* Removes margin */
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield; /* Changes appearance to textfield */
+}
