@@ -20,8 +20,15 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (user) {
       let val = parseFloat(e.target.value);
-      if (0.1 < val && val <= 250)
-        setBet(val);
+      const decimalRegEx = /^\d*\.?\d{0,2}$/;
+      if (0.1 <= val && val <= 250) {
+        if (decimalRegEx.test(e.target.value)) {
+          setBet(val);
+        }
+      }
+      if (Number.isNaN(val) || val == 0 ) {
+        setBet(0);
+      }
     } else {
       dispatch(
         setModal({
@@ -38,16 +45,16 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
 
   const changeBet = (betted: number) => {
     if (user) {
-        let sum = bet + betted;
-        if (sum <= balance && sum <= 250) {
-          setBet(sum);
+      let sum = bet + betted;
+      if (sum <= balance && sum <= 250) {
+        setBet(sum);
+      } else {
+        if (balance > 250) {
+          setBet(250);
         } else {
-          if (balance > 250) {
-            setBet(250);
-          } else {
-            setBet(balance);
-          }
+          setBet(balance);
         }
+      }
     } else {
       dispatch(
         setModal({
@@ -68,9 +75,10 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
         <PiCoinsLight />
         <input
           type="number"
-          value={bet}
-          className="bg-transparent w-24 black-input"
-          min={0.1}
+          min="0.1"
+          step="0.1"
+          value={bet === 0 ? undefined : bet}
+          className="bg-transparent w-24 black-input no-spinner"
           max={balance > 250 ? 250 : balance}
           onChange={handleChange}
         />

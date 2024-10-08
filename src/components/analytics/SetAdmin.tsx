@@ -112,7 +112,7 @@ const SettingAdmin = () => {
         <div className="flex gap-2 items-center">
           <input
             type="text"
-            className="bg-transparent w-36 h-8 px-1 black-input border border-[#252525] rounded-sm placeholder:text-sm placeholder:text-[#707070] placeholder:pl-1"
+            className="bg-transparent w-36 h-8 px-1 black-input border border-[#252525] rounded-sm placeholder:text-sm placeholder:text-[#707070] placeholder:pl-1 text-white"
             placeholder="Search..."
             value={search}
             onChange={handleSearch}

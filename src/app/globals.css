@@ -556,6 +556,20 @@ header {
   z-index: 1100 !important;
 }
 
+
+.no-spinner {
+  /* Hide the spinners on WebKit browsers (Chrome, Safari, etc.) */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    @apply appearance-none;
+    margin: 0;
+  }
+
+  /* Hide the spinners for Firefox */
+  & {
+    @apply appearance-none;
+  }
+}
 /* For Chrome, Safari, Edge, and Opera */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

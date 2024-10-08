@@ -98,12 +98,12 @@ export const myGamesSlice = createSlice({
                   ? index == 0
                     ? game.players[1].name === "house"
                       ? player.budget * 2
-                      : player.budget * 1.99
+                      : player.budget * 1.98
                     : -player.budget
                   : index == 1
                   ? game.players[1].name === "house"
                     ? player.budget * 2
-                    : player.budget * 1.99
+                    : player.budget * 1.98
                   : -player.budget,
               })),
             }

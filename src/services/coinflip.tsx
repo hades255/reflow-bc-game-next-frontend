@@ -156,10 +156,10 @@ export const getNewGames = (
   return [...games];
 };
 
-export const getHistory = async (user: any) => {
+export const getHistory = async (user: any, page: number) => {
   const data = await fetchAPI("/api/game/royalflip/mygame", "POST", {
     perPage: 20,
-    page: 1,
+    page: page,
     sort: "ASC",
   });
 
@@ -179,7 +179,7 @@ export const getHistory = async (user: any) => {
           avatar: user.avatar,
           level: user.player_level,
           side: game.user_color,
-          budget: game.competitor.id == 1 ? (game.winner ? game.bet_amount * 2 : -game.bet_amount) :  (game.winner ? game.bet_amount * 1.99 : -game.bet_amount),
+          budget: game.competitor.id == 1 ? (game.winner ? game.bet_amount * 2 : -game.bet_amount) :  (game.winner ? game.bet_amount * 1.98 : -game.bet_amount),
         },
         {
           user_id: game.competitor.id,
@@ -190,7 +190,7 @@ export const getHistory = async (user: any) => {
               : game.competitor.avatar,
           level: game.competitor.player_level,
           side: !game.user_color,
-          budget: game.competitor.id == 1 ? ( !game.winner ? game.bet_amount * 2 : -game.bet_amount): (!game.winner ? game.bet_amount * 1.99 : -game.bet_amount),
+          budget: game.competitor.id == 1 ? ( !game.winner ? game.bet_amount * 2 : -game.bet_amount): (!game.winner ? game.bet_amount * 1.98 : -game.bet_amount),
         },
       ],
       side: game.winner,
