@@ -23,7 +23,7 @@ export const SupportImg: React.FC<{ color: string }> = ({ color }) => {
 export const DiscordImg: React.FC<{ color: string }> = ({ color }) => {
   return (
     <svg
-      width="20"
+      width="15"
       height="16"
       viewBox="0 0 20 16"
       fill="none"
@@ -41,8 +41,8 @@ export const TwitchImg: React.FC<{ color: string }> = ({ color }) => {
   return (
     <svg
       fill="none"
-      width="20"
-      height="20"
+      width="15"
+      height="16"
       viewBox="0 0 256 256"
       id="Flat"
       xmlns="http://www.w3.org/2000/svg"
@@ -66,8 +66,8 @@ export const TwitchImg: React.FC<{ color: string }> = ({ color }) => {
 export const TwitterImg: React.FC<{ color: string }> = ({ color }) => {
   return (
     <svg
-      width="20"
-      height="17"
+      width="15"
+      height="16"
       viewBox="0 0 20 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
