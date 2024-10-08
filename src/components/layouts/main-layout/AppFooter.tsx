@@ -12,7 +12,7 @@ import ukIcon from "@/assets/logos/flags/uk.png";
 const AppFooter: FC = () => {
   return (
     <footer className="w-full p-12 pb-4 text-[#5D5D5D]">
-      <div className="px-6 pt-6 pb-4 flex justify-between min-h-max max-[1000px]:flex-col max-[1000px]:gap-[20px] max-[1000px]:px-[20px] max-[1000px]:py-[30px] max-[1000px]:mb-[26px] rounded-lg innerBlack">
+      <div className="pl-[5.5rem] pr-[7.5rem] pt-6 pb-4 flex justify-between min-h-max max-[1000px]:flex-col max-[1000px]:gap-[20px] max-[1000px]:px-[20px] max-[1000px]:py-[30px] max-[1000px]:mb-[26px] rounded-lg innerBlack">
         <div className="flex justify-between md:gap-[57px] gap-[30px] max-[1000px]:flex-col max-[1000px]:gap-[15px] max-[1000px]:justify-start max-[1000px]:items-center">
           <div className="flex flex-col gap-[12px] max-w-[340px] max-[1000px]:max-w-full max-[1000px]:w-full max-[1000px]:items-center items-start">
             <div className="max-[1000px]:!p-[0px]">
