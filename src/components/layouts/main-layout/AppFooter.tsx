@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import Image from "next/image";
 import {
   DiscordImg,
-  SupportImg,
   TwitchImg,
   TwitterImg,
 } from "@/assets/icons/footer/Footer";
@@ -21,7 +20,7 @@ const AppFooter: FC = () => {
                 src={logo}
                 alt="logo"
                 loading="lazy"
-                height={50}
+                height={40}
                 decoding="async"
                 className="medium:min-w-[40px] min-w-[50px]"
               />
@@ -55,19 +54,8 @@ const AppFooter: FC = () => {
               target="_blank"
               className="h-fit w-fit mb-[15px] mt-[7px] select-none max-[1000px]:hidden"
             >
-              <div className="text-white text-lg">support@reflow.im</div>
+              <div className="text-white">support@reflow.im</div>
             </a>
-            <div
-              className="group/support w-fit cursor-pointer max-[1000px]:hidden"
-              rel="noopener noreferrer"
-            >
-              <div className="w-[160px] flex justify-center items-center text-xl gap-[8px] p-[10px] bg-raisin-black rounded-[8px] text-white border border-[#5D5D5D]">
-                <SupportImg color="white" />
-                <span className="footer_support__gb0LW group-hover/support:text-cool-grey transition duration-300">
-                  Support
-                </span>
-              </div>
-            </div>
           </div>
         </div>
         <div className="flex justify-between gap-[30px] ml-[10px] max-[1000px]:flex-wrap max-[1000px]:gap-[20px]">
@@ -122,19 +110,8 @@ const AppFooter: FC = () => {
               target="_blank"
               className="h-fit w-fit mb-[15px] mt-[7px] select-none"
             >
-              <div className="text-white text-lg">support@reflow.im</div>
+              <div className="text-white">support@reflow.im</div>
             </a>
-            <div
-              className="group/support w-fit cursor-pointer hidden max-[1000px]:flex"
-              rel="noopener noreferrer"
-            >
-              <div className="flex justify-center items-center text-[14px] text-xl gap-[5px] p-[10px] bg-raisin-black rounded-[8px] text-white border border-[#5D5D5D]">
-                <SupportImg color="white" />
-                <span className="footer_support__gb0LW group-hover/support:text-cool-grey">
-                  Live chat
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
