@@ -75,7 +75,7 @@ const AppFooter: FC = () => {
             </span>
           </div>
           <div className="flex flex-col gap-[10px] max-[1000px]:w-[_40%] max-[1000px]:items-start">
-            <div className="text-white text-xs font-semibold text-center">
+            <div className="text-white text-sm font-semibold text-center">
               Community
             </div>
             <div className="select-none flex justify-center gap-[10px] items-center">
