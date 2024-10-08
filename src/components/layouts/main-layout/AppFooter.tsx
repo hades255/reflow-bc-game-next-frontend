@@ -26,8 +26,8 @@ const AppFooter: FC = () => {
                 className="medium:min-w-[40px] min-w-[50px]"
               />
             </div>
-            <span className="text-lg">© 2024 REFLOW </span>
-            <p className="text-sm max-[1000px]:text-center leading-[14px]">
+            <span className="text-sm font-semibold">© 2024 REFLOW </span>
+            <p className="text-xs font-semibold max-[1000px]:text-center leading-[14px]">
               REFLOW is owned and operated by RUNITUP LTD located at Avlonos, 1
               Maria house 1075, Nicosia, Cyprus.
             </p>
@@ -37,14 +37,14 @@ const AppFooter: FC = () => {
                   18+
                 </div>
               </div>
-              <span className="text-sm leading-[14px]">
+              <span className="text-xs font-semibold leading-[14px]">
                 By using this site, you confirm that you are 18 years old or
                 older.
               </span>
             </div>
           </div>
           <div className="flex flex-col gap-[20px] max-w-[360px] max-[1000px]:w-full">
-            <div className="max-w-[520px] text-sm leading-[18px]  max-[1000px]:w-full max-[1000px]:text-center">
+            <div className="max-w-[520px] text-xs font-semibold leading-[18px]  max-[1000px]:w-full max-[1000px]:text-center">
               At Reflow, we{"’"}re committed to providing the fairest and most
               thrilling gaming experience, featuring the industry{"’"}s best
               house edge. Join us today and play with confidence, knowing that
