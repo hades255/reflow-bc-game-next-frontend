@@ -16,14 +16,20 @@ import MyGameCard from "./MyGameCard";
 import BlankCard from "./BlankCard";
 import HistoryCard from "./HistoryCard";
 import { HistoryType } from "@/utils/types";
+import Pagination from "../analytics/Pagination";
 
 const MyGames = () => {
   const [isCurrent, setIsCurrent] = useState<boolean>(true);
   const [historyList, setHistoryList] = useState([]);
-  const [historyTotal, setHistoryTotal] = useState(0);
   const user = useUser();
   const myGames = useMyGames();
   const dispatch = useDispatch();
+
+  const perPage = 20;
+  const showPages = 3;
+  const [total, setTotal] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [firstPage, setFirstPage] = useState<number>(1);
 
   const changePeriod = (current: boolean) => {
     setIsCurrent(current);
@@ -76,9 +82,9 @@ const MyGames = () => {
   useEffect(() => {
     (async () => {
       if (!isCurrent && user) {
-        let { total, data } = await getHistory(user);
+        let { total, data } = await getHistory(user, page);
         setHistoryList(data);
-        setHistoryTotal(total);
+        setTotal(total);
       }
     })();
   }, [isCurrent, user]);
@@ -98,6 +104,33 @@ const MyGames = () => {
     }
   }, [dispatch, myGames]);
 
+  const handleNextPage = async () => {
+    if (firstPage + showPages - 1 === page) {
+      setFirstPage((prev) => prev + 1);
+    }
+    setPage((prev) => prev + 1);
+    let { total, data } = await getHistory(user, page + 1);
+    setHistoryList(data);
+    setTotal(total);
+  };
+
+  const handlePrevPage = async () => {
+    if (firstPage === page) {
+      setFirstPage((prev) => prev - 1);
+    }
+    setPage((prev) => prev - 1);
+    let { total, data } = await getHistory(user, page - 1);
+    setHistoryList(data);
+    setTotal(total);
+  };
+
+  const clickPage = async (_page: number) => {
+    setPage(_page);
+    let { total, data } = await getHistory(user, _page);
+    setHistoryList(data);
+    setTotal(total);
+  };
+
   return (
     <>
       <div className="flex w-full justify-between mt-8 mx-2">
@@ -108,7 +141,7 @@ const MyGames = () => {
               {isCurrent
                 ? myGames &&
                   myGames.filter((game) => game.round !== null).length
-                : historyTotal}
+                : total}
             </span>
           </span>
           <button
@@ -159,6 +192,20 @@ const MyGames = () => {
           ))
         )}
       </div>
+      {!isCurrent && user ? (
+        <Pagination
+          page={page}
+          total={total}
+          perPage={perPage}
+          showPages={showPages}
+          firstPage={firstPage}
+          handlePrevPage={handlePrevPage}
+          handleNextPage={handleNextPage}
+          setPage={clickPage}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

@@ -68,7 +68,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
             game.side
               ? (game.players[1].name === "house"
                 ? Number(game.bet) * 2
-                : Number(game.bet) * 1.99)
+                : Number(game.bet) * 1.98)
               : 0,
         })
       );
