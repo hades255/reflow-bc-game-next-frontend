@@ -26,20 +26,25 @@ const Header = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = parseFloat(e.target.value);
-    if (0.1 < val && val <= 500 )
-      setBet(val);
+    const decimalRegEx = /^\d*\.?\d{0,2}$/;
+    if (0.1 <= val && val <= 500) {
+        setBet(Number(val.toFixed(2)));
+    }
+    if (Number.isNaN(val) || val == 0) {
+      setBet(0);
+    }
   };
 
   const changeBet = (betted: number) => {
     if (user) {
       let sum = bet + betted;
       if (sum <= balance && sum <= 500) {
-        setBet(sum);
+        setBet(Number(sum.toFixed(2)));
       } else  {
         if (balance > 500) {
           setBet(500);
         } else {
-          setBet(balance);
+          setBet(Number(balance.toFixed(2)));
         }
       }
     } else {
@@ -191,7 +196,7 @@ const Header = () => {
             <PiCoinsLight />
             <input
               type="number"
-              value={bet}
+              value={bet == undefined || bet == 0 ? "" : bet}
               className="bg-transparent w-24 black-input"
               onChange={handleChange}
             />

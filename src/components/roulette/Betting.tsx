@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setModal } from "@/redux/slices/main/modalSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
@@ -16,17 +16,13 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
   const user = useUser();
   const balance = useBalance().balance;
   const dispatch = useDispatch();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (user) {
       let val = parseFloat(e.target.value);
-      const decimalRegEx = /^\d*\.?\d{0,2}$/;
       if (0.1 <= val && val <= 250) {
-        if (decimalRegEx.test(e.target.value)) {
-          setBet(val);
-        }
+        setBet(Number(val.toFixed(2)));
       }
-      if (Number.isNaN(val) || val == 0 ) {
+      if (Number.isNaN(val) || val == 0) {
         setBet(0);
       }
     } else {
@@ -47,12 +43,12 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
     if (user) {
       let sum = bet + betted;
       if (sum <= balance && sum <= 250) {
-        setBet(sum);
+        setBet(Number(sum.toFixed(2)));
       } else {
         if (balance > 250) {
           setBet(250);
         } else {
-          setBet(balance);
+          setBet(Number(balance.toFixed(2)));
         }
       }
     } else {
@@ -77,7 +73,7 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
           type="number"
           min="0.1"
           step="0.1"
-          value={bet === 0 ? undefined : bet}
+          value={bet == undefined || bet == 0 ? "" : bet}
           className="bg-transparent w-24 black-input no-spinner"
           max={balance > 250 ? 250 : balance}
           onChange={handleChange}
@@ -85,7 +81,12 @@ const Betting: FC<Props> = ({ bet, setBet, start }) => {
       </div>
 
       <div className="flex gap-1">
-        <button className="small-btn" onClick={() => setBet(0.0)}>
+        <button
+          className="small-btn"
+          onClick={() => {
+            setBet(0);
+          }}
+        >
           CLEAR
         </button>
         <button className="small-btn" onClick={() => changeBet(0.5)}>
