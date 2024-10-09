@@ -87,7 +87,7 @@ const MyGames = () => {
         setTotal(total);
       }
     })();
-  }, [isCurrent, user]);
+  }, [isCurrent, user, page]);
 
   useEffect(() => {
     if (
@@ -109,9 +109,6 @@ const MyGames = () => {
       setFirstPage((prev) => prev + 1);
     }
     setPage((prev) => prev + 1);
-    let { total, data } = await getHistory(user, page + 1);
-    setHistoryList(data);
-    setTotal(total);
   };
 
   const handlePrevPage = async () => {
@@ -119,16 +116,10 @@ const MyGames = () => {
       setFirstPage((prev) => prev - 1);
     }
     setPage((prev) => prev - 1);
-    let { total, data } = await getHistory(user, page - 1);
-    setHistoryList(data);
-    setTotal(total);
   };
 
   const clickPage = async (_page: number) => {
     setPage(_page);
-    let { total, data } = await getHistory(user, _page);
-    setHistoryList(data);
-    setTotal(total);
   };
 
   return (
