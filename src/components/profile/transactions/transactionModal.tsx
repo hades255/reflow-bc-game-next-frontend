@@ -23,7 +23,7 @@ const getTransactionIcon = (
   height: number = 66
 ) => {
   switch (type) {
-    case "roulette":
+    case "king's roll":
       return <IconRoulette height={height} width={width} color={"#E9AE15"} />;
     case "royalflip":
       return <RoyalflipCoin height={height} width={width} color={"#E9AE15"} />;
@@ -43,7 +43,7 @@ const getTransactionWinIcon = (
   height: number = 35
 ) => {
   switch (type) {
-    case "roulette":
+    case "king's roll":
       return bet.color === "black" ? (
         <CoinBlack width={35} height={35} />
       ) : bet.color === "red" ? (
@@ -68,7 +68,7 @@ const getTransactionWinIcon = (
 
 const getbetText = (type: string, bet: any) => {
   switch (type) {
-    case "roulette":
+    case "king's roll":
       return bet.color === "black"
         ? "T"
         : bet.color === "red"

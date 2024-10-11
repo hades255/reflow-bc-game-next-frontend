@@ -17,7 +17,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 export const getTransactionIcon = (type: string) => {
   switch (type) {
-    case "roulette":
+    case "king's roll":
       return <IconRoulette height={16} width={18} color={"#E9AE15"} />;
     case "royalflip":
       return <RoyalflipCoin height={22} width={24} color={"#E9AE15"} />;
@@ -31,7 +31,7 @@ export const getTransactionIcon = (type: string) => {
 };
 
 export const transactionTypes = [
-  "roulette",
+  "king's roll",
   "royalflip",
   "upgrader",
   "mystery bonus",
