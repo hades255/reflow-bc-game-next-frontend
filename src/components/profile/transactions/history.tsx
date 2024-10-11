@@ -32,7 +32,7 @@ export const getTransactionIcon = (type: string) => {
 
 export const transactionTypes = [
   "king's roll",
-  "Royal Flip",
+  "royal Flip",
   "upgrader",
   "mystery bonus",
   "bonus code",
@@ -109,7 +109,7 @@ export default function History() {
         }
         let type = id;
         if (id === "king's roll") type = "roulette";
-        if (id === "Crown & King") type = "royalflip";
+        if (id === "royal Flip") type = "royalflip";
         setFilteredTransactions(
           transactions.filter((item) => item.type === type)
         );
