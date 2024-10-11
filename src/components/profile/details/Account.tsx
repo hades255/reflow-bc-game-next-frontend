@@ -126,7 +126,7 @@ const Account: FC<Props> = ({ user }) => {
           <div className="flex flex-row items-center gap-1">
             <IconCoin width={14} height={14} color="#E9AE15" />
             <p className="text-[#D1D1D1] font-medium text-[12px]">
-              {user.totalBet}
+              {user.totalBet.toFixed(3)}
             </p>
           </div>
         </div>
