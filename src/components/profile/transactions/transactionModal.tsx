@@ -135,6 +135,7 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
       let type = transaction.type;
       if (transaction.type === "roulette") type = "king's roll";
       if (transaction.type === "royalflip") type = "royal Flip";
+      if (transaction.type === "upgrader") type = "crown & King";
       return type;
     }
     return "";
