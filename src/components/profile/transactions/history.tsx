@@ -32,7 +32,7 @@ export const getTransactionIcon = (type: string) => {
 
 export const transactionTypes = [
   "king's roll",
-  "Crown & King",
+  "Royal Flip",
   "upgrader",
   "mystery bonus",
   "bonus code",

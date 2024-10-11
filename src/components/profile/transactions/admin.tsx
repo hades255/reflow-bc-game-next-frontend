@@ -65,8 +65,8 @@ export default function AdminTransactionHistory() {
           return;
         }
         let type = id;
-        if (id === "king's roll") type = "roulette";
-        if (id === "Crown & King") type = "royalflip";
+        if (id === "king's Roll") type = "roulette";
+        if (id === "royal Flip") type = "royalflip";
         setFilteredTransactions(
           transactions.filter((item) => item.type === type)
         );
@@ -406,7 +406,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
   const transactionType = useMemo(() => {
     let type = transaction.type;
     if (transaction.type === "roulette") type = "king's roll";
-    if (transaction.type === "royalflip") type = "Crown & King";
+    if (transaction.type === "royalflip") type = "royal Flip";
     return type;
   }, [transaction]);
 
