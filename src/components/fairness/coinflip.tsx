@@ -12,7 +12,7 @@ const CoinFlipPage: FC = () => {
 
         <div className="flex flex-col gap-3 mt-4">
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-            Roaylflip uses a provably fair system in which the public seed is not
+            Royalflip uses a provably fair system in which the public seed is not
             known until after a roaylflip game has started. The result for each
             round is generated using the SHA-256 hash of 3 separate inputs
           </p>
