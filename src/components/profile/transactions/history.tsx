@@ -455,7 +455,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
   const transactionType = useMemo(() => {
     let type = transaction.type;
     if (transaction.type === "roulette") type = "king's roll";
-    if (transaction.type === "royalflip") type = "Crown & King";
+    if (transaction.type === "royalflip") type = "royal Flip";
     return type;
   }, [transaction]);
 
