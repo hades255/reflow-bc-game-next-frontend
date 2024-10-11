@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import IconCoin from "@/utils/icons/Coin";
 import RoyalflipCoin from "@/utils/icons/Royalfilp";
@@ -16,6 +16,7 @@ import CoinYellow from "@/utils/icons/CoinYellow";
 import { useRouter } from "next/navigation";
 import IconMysteryBox from "@/utils/icons/MysteryBox";
 import IconMystery from "@/utils/icons/Mystery";
+import { fixed2 } from "../details/ProfitLoss";
 
 const getTransactionIcon = (
   type: string,
@@ -23,7 +24,7 @@ const getTransactionIcon = (
   height: number = 66
 ) => {
   switch (type) {
-    case "king's roll":
+    case "roulette":
       return <IconRoulette height={height} width={width} color={"#E9AE15"} />;
     case "royalflip":
       return <RoyalflipCoin height={height} width={width} color={"#E9AE15"} />;
@@ -43,7 +44,7 @@ const getTransactionWinIcon = (
   height: number = 35
 ) => {
   switch (type) {
-    case "king's roll":
+    case "roulette":
       return bet.color === "black" ? (
         <CoinBlack width={35} height={35} />
       ) : bet.color === "red" ? (
@@ -68,7 +69,7 @@ const getTransactionWinIcon = (
 
 const getbetText = (type: string, bet: any) => {
   switch (type) {
-    case "king's roll":
+    case "roulette":
       return bet.color === "black"
         ? "T"
         : bet.color === "red"
@@ -129,6 +130,16 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
     router.push(`/fairness`);
   }, [router]);
 
+  const transactionType = useMemo(() => {
+    if (transaction) {
+      let type = transaction.type;
+      if (transaction.type === "roulette") type = "king's roll";
+      if (transaction.type === "royalflip") type = "Crown & King";
+      return type;
+    }
+    return "";
+  }, [transaction]);
+
   return (
     <div
       className="relative z-30"
@@ -165,9 +176,8 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
                 <div className="m-[10px] flex flex-col bg-[#121212] bg-opacity-[48%] rounded-lg">
                   <div className="mt-6 flex justify-center items-center">
                     {getTransactionIcon(transaction.type, 24, 24)}
-                    <span className="text-white font-[600] text-md ml-1">
-                      {transaction.type.substring(0, 1).toUpperCase() +
-                        transaction.type.substring(1)}
+                    <span className="text-white font-[600] text-md ml-1 capitalize">
+                      {transactionType}
                     </span>
                   </div>
                   <div className="flex justify-center items-center text-[#5D5D5D] text-xs">
@@ -196,7 +206,7 @@ const TransactionModal: React.FC<Props> = ({ selected, setSelected }) => {
                             : "text-[#FF3148]"
                         }`}
                       >
-                        {transaction.amount}
+                        {fixed2(transaction.amount)}
                       </span>
                     </div>
                   </div>

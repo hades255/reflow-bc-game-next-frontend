@@ -64,8 +64,11 @@ export default function AdminTransactionHistory() {
           setFilteredTransactions(transactions);
           return;
         }
+        let type = id;
+        if (id === "king's roll") type = "roulette";
+        if (id === "Crown & King") type = "royalflip";
         setFilteredTransactions(
-          transactions.filter((item) => item.type === id)
+          transactions.filter((item) => item.type === type)
         );
       }
     },
@@ -163,7 +166,9 @@ export default function AdminTransactionHistory() {
                 type="button"
                 className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
               >
-                <span className="text-white capitalize">{filterType}</span>
+                <span className="text-white capitalize">
+                  {filterType.replace("_", " ")}
+                </span>
                 <FaChevronDown className="s-dropdown-open:rotate-180" />
               </button>
               <div
@@ -398,6 +403,13 @@ const HistoryTab: FC<HistoryTabProps> = ({
     setSelected(transaction.id);
   }, [setSelected, transaction]);
 
+  const transactionType = useMemo(() => {
+    let type = transaction.type;
+    if (transaction.type === "roulette") type = "king's roll";
+    if (transaction.type === "royalflip") type = "Crown & King";
+    return type;
+  }, [transaction]);
+
   return (
     <div
       className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
@@ -412,7 +424,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
           <div className="w-6 mr-1 flex justify-center">
             {getTransactionIcon(transaction.type)}
           </div>
-          <span className="font-bold capitalize">{transaction.type}</span>
+          <span className="font-bold capitalize">{transactionType}</span>
         </div>
       </div>
       <div className="w-[15%] max-w-[300px] flex-none text-white flex justify-center">
