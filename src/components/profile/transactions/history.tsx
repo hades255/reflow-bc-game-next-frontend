@@ -10,14 +10,14 @@ import UpgradeGame from "@/utils/icons/UpgradeGame";
 import GoldCoin from "@/utils/icons/GoldCoin";
 import ItemsList from "@/utils/icons/ItemsList";
 import ItemsBox from "@/utils/icons/ItemsBox";
-import SearchIcon from "@/utils/icons/SearchIcon";
 import UpDownArrow from "@/utils/icons/UpDownArrow";
 import IconMystery from "@/utils/icons/Mystery";
 import { FaChevronDown } from "react-icons/fa";
+import { fixed2 } from "../details/ProfitLoss";
 
 export const getTransactionIcon = (type: string) => {
   switch (type) {
-    case "king's roll":
+    case "roulette":
       return <IconRoulette height={16} width={18} color={"#E9AE15"} />;
     case "royalflip":
       return <RoyalflipCoin height={22} width={24} color={"#E9AE15"} />;
@@ -32,7 +32,7 @@ export const getTransactionIcon = (type: string) => {
 
 export const transactionTypes = [
   "king's roll",
-  "royalflip",
+  "Crown & King",
   "upgrader",
   "mystery bonus",
   "bonus code",
@@ -107,8 +107,11 @@ export default function History() {
           setFilteredTransactions(transactions);
           return;
         }
+        let type = id;
+        if (id === "king's roll") type = "roulette";
+        if (id === "Crown & King") type = "royalflip";
         setFilteredTransactions(
-          transactions.filter((item) => item.type === id)
+          transactions.filter((item) => item.type === type)
         );
       }
     },
@@ -217,7 +220,9 @@ export default function History() {
                 type="button"
                 className="py-[6px] px-2 text-[#707070] flex items-center gap-2 text-sm"
               >
-                <span className="text-white capitalize">{filterType}</span>
+                <span className="text-white capitalize">
+                  {filterType.replace("_", " ")}
+                </span>
                 <FaChevronDown className="s-dropdown-open:rotate-180" />
               </button>
               <div
@@ -447,6 +452,13 @@ const HistoryTab: FC<HistoryTabProps> = ({
     setSelected(transaction.id);
   }, [setSelected, transaction]);
 
+  const transactionType = useMemo(() => {
+    let type = transaction.type;
+    if (transaction.type === "roulette") type = "king's roll";
+    if (transaction.type === "royalflip") type = "Crown & King";
+    return type;
+  }, [transaction]);
+
   return itemtheme ? (
     <div
       className={`text-[12px] w-full h-[50px] flex items-center flex-nowrap ${
@@ -460,7 +472,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
         <div className="w-6 mr-1 flex justify-center">
           {getTransactionIcon(transaction.type)}
         </div>
-        <span className="font-bold capitalize">{transaction.type}</span>
+        <span className="font-bold capitalize">{transactionType}</span>
       </div>
       <div className="w-[22%] max-w-[300px] flex-none text-white">
         #{transaction.game_id}
@@ -472,7 +484,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
             transaction.amount > 0 ? "text-[#B9FD3F]" : "text-[#FF3148]"
           } font-medium]`}
         >
-          {transaction.amount}
+          {fixed2(transaction.amount)}
         </p>
       </div>
       <div className="text-[#5D5D5D] font-semibold">{getDateFormat()}</div>
@@ -486,10 +498,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
         <div className="flex justify-between mb-2">
           <div className="text-white flex items-center text-[12px] font-bold">
             <div>{getTransactionIcon(transaction.type)}</div>
-            <span>
-              {transaction.type.substring(0, 1).toUpperCase() +
-                transaction.type.substring(1)}
-            </span>
+            <span className="font-bold capitalize">{transactionType}</span>
           </div>
           <div className="flex-none text-[#717171] pt-1 text-[10px] font-bold">
             #{transaction.game_id}
@@ -508,7 +517,7 @@ const HistoryTab: FC<HistoryTabProps> = ({
                 } ml-1 font-bold text-[16px]`}
               >
                 {transaction.amount > 0 && "+"}
-                {transaction.amount}
+                {fixed2(transaction.amount)}
               </p>
             </div>
           </div>

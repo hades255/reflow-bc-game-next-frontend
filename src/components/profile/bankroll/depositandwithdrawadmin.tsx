@@ -402,7 +402,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
           {getTransactionIcon(transaction.type)}
         </div>
         <span
-          className={`font-bold capitalize ${
+          className={`font-bold capitalize w-12 ${
             transaction.roll === "withdraw" ? "text-red-500" : ""
           }`}
         >
@@ -418,7 +418,7 @@ const HistoryTab: FC<HistoryTabProps> = ({ transaction, odd, index }) => {
               : transaction.amount > 0
               ? "text-[#B9FD3F]" // Green for positive amount
               : "text-[#FF3148]" // Red for negative or zero amount
-          } font-medium`}
+          } font-medium w-8`}
         >
           {fixed2(transaction.amount)}
         </p>
