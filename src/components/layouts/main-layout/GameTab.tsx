@@ -56,7 +56,7 @@ const GameTab = () => {
   };
 
   const [tabs, setTabs] = useState<TabType[]>([
-    { active: false, text: "King's Roll", Icon: IconRoulette },
+    { active: false, text: "KING'S Roll", Icon: IconRoulette },
     { active: false, text: "", Icon: IconSportsBet },
     { active: false, text: "ROYAL FLIP", Icon: IconCoinFlip },
     { active: false, text: "CROWN & KING", Icon: IconCrown },
