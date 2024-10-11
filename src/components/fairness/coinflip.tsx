@@ -7,13 +7,13 @@ const CoinFlipPage: FC = () => {
     <div className="flex flex-col gap-6">
       <div>
         <h3 className="font-semibold text-white text-[20px] uppercase">
-          Coinflip technical details
+          Royalflip technical details
         </h3>
 
         <div className="flex flex-col gap-3 mt-4">
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-            Coinflip uses a provably fair system in which the public seed is not
-            known until after a coinflip game has started. The result for each
+            Roaylflip uses a provably fair system in which the public seed is not
+            known until after a roaylflip game has started. The result for each
             round is generated using the SHA-256 hash of 3 separate inputs
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
@@ -21,7 +21,7 @@ const CoinFlipPage: FC = () => {
             a securely random value, generated when a round is created. The
             SHA-256 hash of the private seed is displayed to all players
             immediately after a round is created. Players can check that the
-            private seed revealed after the coinflip result is made known
+            private seed revealed after the royalflip result is made known
             matches this SHA-256 hash.
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
@@ -31,7 +31,7 @@ const CoinFlipPage: FC = () => {
             block number on the EOS blockchain that will be generated in the
             near future. The ID of this block is what will be used as the public
             seed. This way, neither the players nor our system know what data
-            will be used to generate the coinflip result until after both
+            will be used to generate the royalflip result until after both
             players have committed their bets.
           </p>
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
@@ -39,7 +39,7 @@ const CoinFlipPage: FC = () => {
           </p>
 
           <p className="font-normal text-[16px] text-[#D1D1D1] leading-5">
-            Players can validate any past coinflip by using the code below:
+            Players can validate any past royalflip by using the code below:
           </p>
         </div>
 

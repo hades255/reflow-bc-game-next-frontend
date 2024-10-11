@@ -19,7 +19,7 @@ const RoulettePage: FC = () => {
     <div className="flex flex-col gap-6">
       <div>
         <h3 className="font-semibold text-white text-[20px] uppercase">
-          roulette technical details
+          king's roll technical details
         </h3>
 
         <div className="flex flex-col gap-3 mt-4">
