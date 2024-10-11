@@ -42,7 +42,7 @@ const GameTab = () => {
         router.push("/sports");
         break;
       case 2:
-        router.push("/coinflip");
+        router.push("/royalflip");
         break;
       case 3:
         router.push("/upgrade");
@@ -74,7 +74,7 @@ const GameTab = () => {
         setStatus(1);
         break;
       case "/coinflip":
-        dispatch(changePage("/coinflip"));
+        dispatch(changePage("/royallip"));
         setStatus(2);
         break;
       case "/upgrade":
