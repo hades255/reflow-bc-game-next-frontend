@@ -246,7 +246,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
             text={"Play Now"}
             disabled={false}
             clicked={handlePlay}
-            className="!w-24"
+            className="!w-20 !px-2"
           />
           <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
             <PiCoinsLight />
