@@ -5,9 +5,11 @@ import { RootState } from "../../store";
 import { GameType } from "@/utils/types";
 
 const livegames: GameType[] = [];
+const selectedlivegames:GameType[] = [];
 
 const initialState = {
   livegames,
+  selectedlivegames,
 };
 
 export const liveGamesSlice = createSlice({
@@ -109,7 +111,7 @@ export const liveGamesSlice = createSlice({
       state.livegames = state.livegames.filter((game) => game.round !== null);
     },
     filterAmount: (state, action: PayloadAction<{ condition: number[] }>) => {
-      state.livegames =
+      state.selectedlivegames =
         action.payload.condition[1] === -1
           ? state.livegames.filter(
               (game) => game.bet && game.bet > action.payload.condition[0]
@@ -122,9 +124,9 @@ export const liveGamesSlice = createSlice({
             );
     },
     sortAmount: (state, action: PayloadAction<{ sort: boolean }>) => {
-      state.livegames = action.payload.sort
-        ? state.livegames.sort((a, b) => b.bet - a.bet)
-        : state.livegames.sort((a, b) => b.bet - a.bet);
+      state.selectedlivegames = action.payload.sort
+        ? state.selectedlivegames.sort((a, b) => b.bet - a.bet)
+        : state.selectedlivegames.sort((a, b) => a.bet - b.bet);
     },
   },
 });
@@ -146,5 +148,7 @@ export const {
 
 export const useLiveGames = () =>
   useSelector((state: RootState) => state.liveGames.livegames);
+export const useSelectedLiveGames = () =>
+  useSelector((state: RootState) => state.liveGames.selectedlivegames);
 
 export default liveGamesSlice.reducer;
