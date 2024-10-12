@@ -110,7 +110,7 @@ export default function History() {
         let type = id;
         if (id === "king's roll") type = "roulette";
         if (id === "royal flip") type = "royalflip";
-        if (id === "crown & king") type = "crown & king";
+        if (id === "crown & king") type = "upgrader";
         setFilteredTransactions(
           transactions.filter((item) => item.type === type)
         );
