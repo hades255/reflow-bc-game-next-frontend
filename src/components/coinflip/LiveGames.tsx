@@ -5,6 +5,7 @@ import { getPendingGames } from "@/services/coinflip";
 import { useUser } from "@/redux/slices/main/userSlice";
 import {
   useLiveGames,
+  useSelectedLiveGames,
   setLiveGames,
   setALiveGame,
   deleteALiveGameById,
@@ -23,8 +24,9 @@ const LiveGames = () => {
   const [sort, setSort] = useState<boolean>(true);
   const user = useUser();
   const games = useLiveGames();
+  const selectedGames = useSelectedLiveGames();
   const dispatch = useDispatch();
-
+  const [amountDisplay, setAmountDisplay] = useState<string>('All');
   const getPending = async () => {
     let data = await getPendingGames(false, user);
     dispatch(initialLiveGames(data));
@@ -76,7 +78,7 @@ const LiveGames = () => {
 
   useEffect(() => {
     dispatch(filterAmount({ condition: amount }));
-  }, [dispatch, amount]);
+  }, [dispatch, amount, games]);
 
   useEffect(() => {
     dispatch(sortAmount({ sort: sort }));
@@ -99,7 +101,7 @@ const LiveGames = () => {
               type="button"
               className="px-2 text-font"
             >
-              All
+              {amountDisplay}
             </button>
             <div
               className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
@@ -107,43 +109,43 @@ const LiveGames = () => {
             >
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([0, -1])}
+                onClick={() => {setAmount([0, -1]); setAmountDisplay('All')}}
               >
                 <PiCoinsLight /> All
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([0, 5])}
+                onClick={() => {setAmount([0, 5]); setAmountDisplay('0.00 - 5.00')}}
               >
                 <PiCoinsLight /> 0.00 - 5.00
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([5, 20])}
+                onClick={() => {setAmount([5, 20]); setAmountDisplay('5.00 - 20.00')}}
               >
                 <PiCoinsLight /> 5.00 - 20.00
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([20, 50])}
+                onClick={() => {setAmount([20, 50]); setAmountDisplay('20.00 - 50.00')}}
               >
                 <PiCoinsLight /> 20.00 - 50.00
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([50, 100])}
+                onClick={() => {setAmount([50, 100]); setAmountDisplay('50.00 - 100.00')}}
               >
                 <PiCoinsLight /> 50.00 - 100.00
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([100, 250])}
+                onClick={() => {setAmount([100, 250]); setAmountDisplay('100.00 - 250.00')}}
               >
                 <PiCoinsLight /> 100.00 - 250.00
               </button>
               <button
                 className="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gold hover:bg-[#101010]"
-                onClick={() => setAmount([250, -1])}
+                onClick={() => {setAmount([250, -1]); setAmountDisplay('250.00 -')} }
               >
                 <PiCoinsLight /> 250.00 -
               </button>
@@ -191,7 +193,7 @@ const LiveGames = () => {
               type="button"
               className="px-2 text-font"
             >
-              Highest Amount First
+              {sort? "Highest Amount First" : "Lowest Amount First"}
             </button>
             <div
               className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-12 bg-main shadow-md rounded-md p-2 mt-2 !z-30"
@@ -214,8 +216,8 @@ const LiveGames = () => {
         </div>
       </div>
       <div className="w-full mt-4 grid 2xl:grid-cols-4 grid-cols-3 justify-items-center gap-y-8">
-        {games.length !== 0 &&
-          games.map((game, id) =>
+        {selectedGames.length !== 0 &&
+          selectedGames.map((game, id) =>
             id < cards && game.round === null ? (
               <BlankCard key={`livegames-no-${game.id}`} />
             ) : (
@@ -225,8 +227,8 @@ const LiveGames = () => {
               />
             )
           )}
-        {games.length < cards &&
-          [...Array(cards - games.length)].map((card, index) => (
+        {selectedGames.length < cards &&
+          [...Array(cards - selectedGames.length)].map((card, index) => (
             <BlankCard key={`livegames-no-${index}`} />
           ))}
       </div>
