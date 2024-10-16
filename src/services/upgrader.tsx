@@ -20,13 +20,13 @@ export const apiGetItems = async (
 export const apiPlayGame = async (
   skinId: number,
   betAmount: number,
-  SeverSeedHash: string,
+  ServerSeedHash: string,
   clientSeed: string
 ) => {
   const response = await fetchAPI("/api/game/upgrader/play", "POST", {
     skinId,
     betAmount,
-    SeverSeedHash,
+    ServerSeedHash,
     clientSeed,
   });
   return response.data;
