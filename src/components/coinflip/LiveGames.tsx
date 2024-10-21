@@ -237,7 +237,8 @@ const LiveGames = () => {
         </div>
       </div>
       <div className="w-full mt-4 grid 2xl:grid-cols-4 grid-cols-3 justify-items-center gap-y-8">
-        {selectedGames?.length !== 0 &&
+        {selectedGames &&
+          selectedGames.length !== 0 &&
           selectedGames.map((game, id) =>
             id < cards && game.round === null ? (
               <BlankCard key={`livegames-no-${game.id}`} />
@@ -248,7 +249,8 @@ const LiveGames = () => {
               />
             )
           )}
-        {selectedGames?.length < cards &&
+        {selectedGames &&
+          selectedGames.length < cards &&
           [...Array(cards - selectedGames.length)].map((card, index) => (
             <BlankCard key={`livegames-no-${index}`} />
           ))}

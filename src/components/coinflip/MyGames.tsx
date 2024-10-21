@@ -178,6 +178,8 @@ const MyGames = () => {
                 )))}
           </>
         ) : (
+          historyList &&
+          historyList.length &&
           historyList.map((history: HistoryType) => (
             <HistoryCard key={`history-${history.round}`} game={history} />
           ))
