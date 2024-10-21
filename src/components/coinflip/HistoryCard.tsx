@@ -67,7 +67,7 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
             )}
           </div>
         </div>
-        <h5 className="text-center text-md text-font mt-1">
+        <h5 className="text-center text-md text-font mt-1 truncate w-20">
           {game["players"][0]["name"]}
         </h5>
         <div className="flex items-center justify-center px-2 py-1 gap-2 text-gold text-sm bg-[#121212] rounded-md text-bold">
@@ -145,7 +145,7 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
             )}
           </div>
         </div>
-        <h5 className="text-center text-md text-font mt-1">
+        <h5 className="text-center text-md text-font mt-1 truncate w-20">
           {game["players"][1]["name"]}
         </h5>
         <div className="flex items-center justify-center px-2 py-1 gap-2 text-sm bg-[#121212] rounded-md text-gold">
@@ -162,24 +162,42 @@ const HistoryCard: React.FC<Props> = ({ game }) => {
         </div>
       </div>
       {showFairness ? (
-          <div className="absolute w-full h-full bg-opacity-70 bg-[#191919] mr-[42px] top-0 left-0 z-50">
-            <div className=" w-3 border-2 top-3 right-3 text-font border-solid absolute cursor-pointer" onClick={() => setShowFairness(false)}>
-            </div>
-            <div className="w-full h-full p-6 text-center flex-nowrap flex justify-center flex-col">
-              {game.privateSeedHash && <p className="text-font text-[12px] break-words">Private Seed Hash : {game.privateSeedHash}</p>}
-              {game.serverSeed && <p className="text-font text-[12px] break-words">Private Seed : {game.serverSeed}</p>}
-              {game.publicSeed && <p className="text-font text-[12px] break-words">Public Seed : {game.publicSeed}</p>}
-              {game.round && <p className="text-font text-[12px] break-words">Round Id : {game.round}</p>}
-            </div>
+        <div className="absolute w-full h-full bg-opacity-70 bg-[#191919] mr-[42px] top-0 left-0 z-50">
+          <div
+            className=" w-3 border-2 top-3 right-3 text-font border-solid absolute cursor-pointer"
+            onClick={() => setShowFairness(false)}
+          ></div>
+          <div className="w-full h-full p-6 text-center flex-nowrap flex justify-center flex-col">
+            {game.privateSeedHash && (
+              <p className="text-font text-[12px] break-words">
+                Private Seed Hash : {game.privateSeedHash}
+              </p>
+            )}
+            {game.serverSeed && (
+              <p className="text-font text-[12px] break-words">
+                Private Seed : {game.serverSeed}
+              </p>
+            )}
+            {game.publicSeed && (
+              <p className="text-font text-[12px] break-words">
+                Public Seed : {game.publicSeed}
+              </p>
+            )}
+            {game.round && (
+              <p className="text-font text-[12px] break-words">
+                Round Id : {game.round}
+              </p>
+            )}
           </div>
-        ) : (
-          <p
-            className=" absolute bottom-3 text-font text-center text-[10px] cursor-pointer w-full pr-[22px] z-50"
-            onClick={() => setShowFairness(true)}
-          >
-            Fairness
-          </p>
-        )}
+        </div>
+      ) : (
+        <p
+          className=" absolute bottom-3 text-font text-center text-[10px] cursor-pointer w-full pr-[22px] z-50"
+          onClick={() => setShowFairness(true)}
+        >
+          Fairness
+        </p>
+      )}
     </div>
   );
 };
