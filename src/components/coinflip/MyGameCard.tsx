@@ -8,7 +8,7 @@ import {
   updateBudget,
   deleteAGame,
 } from "@/redux/slices/coinflip/myGamesSlice";
-import { updateBalance } from "@/redux/slices/main/balanceSlice";
+import { updateBalance, setBalance, useBalance } from "@/redux/slices/main/balanceSlice";
 import { setToast } from "@/redux/slices/main/toastSlice";
 import { joinGame, cancelGames } from "@/services/coinflip";
 import { PiCoinsLight } from "react-icons/pi";
@@ -16,6 +16,7 @@ import { LEVEL_SYSTEM } from "@/config/constants";
 import WhiteCoin from "@/utils/icons/WhiteCoin";
 import BlackCoin from "@/utils/icons/BlackCoin";
 import { GameType } from "@/utils/types";
+import { getUserInfo } from "@/services/main";
 
 interface Props {
   game: GameType;
@@ -26,10 +27,16 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   const [timer, setTimer] = useState<number>(6);
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [userBalance, setUserBalance] = useState<number>(0);
+  const currentBalance = useBalance();
   const handleCall = async () => {
     if (user && !loading) {
       setLoading((prev) => !prev);
       let data = await joinGame(Number(game.game_id));
+      let datainfo = await getUserInfo();
+      if (datainfo.status === 200) {
+        setUserBalance(datainfo.data.balance);
+      }
       if (data.status === 200) {
         setLoading((prev) => !prev);
         dispatch(
@@ -51,7 +58,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
     }
   };
 
-  const showResult = useCallback(() => {
+  const showResult = useCallback(async () => {
     if (show === false) {
       setShow((prev) => !prev);
       dispatch(
@@ -63,18 +70,15 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
         Number(game.bet) === Number(game.players[0].budget) &&
         Number(game.bet) === Number(game.players[1].budget)
       ) {
-        dispatch(
-          updateBalance({
-            balance: game.side
-              ? game.players[1].name === "house"
-                ? Number(game.bet) * 2
-                : Number(game.bet) * 1.98
-              : 0,
-          })
-        );
+          dispatch(
+            setBalance({
+              balance: Number(userBalance),
+              prev: currentBalance.balance,
+            })
+          );
       }
     }
-  }, [dispatch, game.bet, game.round, game.side, game.players]);
+  }, [dispatch, game.bet, game.round, game.side, game.players, userBalance]);
 
   const cancelMyGame = async () => {
     if (!loading) {
@@ -120,6 +124,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
 
   useEffect(() => {
     if (timer === 0 && show === false) {
+      console.log("useeffect", game.game_id, timer, );
       setTimeout(() => {
         showResult();
       }, 2000);

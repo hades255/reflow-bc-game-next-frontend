@@ -20,10 +20,10 @@ export const balanceSlice = createSlice({
   name: "balance",
   initialState,
   reducers: {
-    setBalance: (state, action: PayloadAction<{ balance: number}>) => {
+    setBalance: (state, action: PayloadAction<{ balance: number, prev?: number}>) => {
       state.balance = {
         ...state.balance,
-        prev_balance: 0,
+        prev_balance: action.payload.prev? Number(action.payload.prev) : 0,
         balance: Number(action.payload.balance)
       }
     },
