@@ -36,7 +36,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           callHouse({
             round: game.round,
             side: data.data.game.winner,
-            game:data.data.game,
+            game: data.data.game,
           })
         );
       } else {
@@ -52,26 +52,27 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   };
 
   const showResult = useCallback(() => {
-    setShow((prev) => !prev);
-    dispatch(
-      updateBudget({
-        round: game.round,
-      })
-    );
-    if (
-      Number(game.bet) === Number(game.players[0].budget) &&
-      Number(game.bet) === Number(game.players[1].budget)
-    ) {
+    if (show === false) {
+      setShow((prev) => !prev);
       dispatch(
-        updateBalance({
-          balance:
-            game.side
-              ? (game.players[1].name === "house"
-                ? Number(game.bet) * 2
-                : Number(game.bet) * 1.98)
-              : 0,
+        updateBudget({
+          round: game.round,
         })
       );
+      if (
+        Number(game.bet) === Number(game.players[0].budget) &&
+        Number(game.bet) === Number(game.players[1].budget)
+      ) {
+        dispatch(
+          updateBalance({
+            balance: game.side
+              ? game.players[1].name === "house"
+                ? Number(game.bet) * 2
+                : Number(game.bet) * 1.98
+              : 0,
+          })
+        );
+      }
     }
   }, [dispatch, game.bet, game.round, game.side, game.players]);
 
@@ -118,7 +119,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   }, [timer, game]);
 
   useEffect(() => {
-    if (timer === 0) {
+    if (timer === 0 && show === false) {
       setTimeout(() => {
         showResult();
       }, 2000);
@@ -225,7 +226,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
           <h4 className="text-font innerBlack bg-[#191919] py-1 px-2 rounded-md">
             {timer}
           </h4>
-        ) : !(game.side !== game.players[0].side)? (
+        ) : !(game.side !== game.players[0].side) ? (
           show ? (
             <div className="white-coin-back absolute z-20"></div>
           ) : (
