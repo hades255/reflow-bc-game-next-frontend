@@ -27,7 +27,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
   const [timer, setTimer] = useState<number>(6);
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [userBalance, setUserBalance] = useState<number>(0);
+  const [userBalance, setUserBalance] = useState<number | undefined>(undefined);
   const currentBalance = useBalance();
   const handleCall = async () => {
     if (user && !loading) {
@@ -68,7 +68,7 @@ const MyGameCard: React.FC<Props> = ({ game }) => {
       );
       if (
         Number(game.bet) === Number(game.players[0].budget) &&
-        Number(game.bet) === Number(game.players[1].budget)
+        Number(game.bet) === Number(game.players[1].budget) && userBalance !== undefined
       ) {
           dispatch(
             setBalance({
