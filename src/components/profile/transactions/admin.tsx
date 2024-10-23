@@ -31,7 +31,7 @@ export default function AdminTransactionHistory() {
   const [selected, setSelected] = useState<number | null>(null);
   const [page, setPage] = useState(0);
   const [filterType, setFilterType] = useState<string>("All");
-  const [sortBy, setSortBy] = useState<number>(0);
+  const [sortBy, setSortBy] = useState<number>(3);
   const [sortByDirection, setSortByDirection] = useState<number>(1);
 
   const totalPages = useMemo(
@@ -46,8 +46,15 @@ export default function AdminTransactionHistory() {
 
   useEffect(() => {
     if (data && data.transactions) {
-      setTransactions(data.transactions);
-      setFilteredTransactions(data.transactions);
+      const sorted = data.transactions.sort(
+        (a: Transaction, b: Transaction) => {
+          if (a.id > b.id) return -1;
+          if (a.id < b.id) return 1;
+          return 0;
+        }
+      );
+      setTransactions(sorted);
+      setFilteredTransactions(sorted);
     }
   }, [data]);
 
